@@ -39,21 +39,21 @@
 /* Side Tab Styles */
 .side-tab {
   position: fixed;
-  right: -40px; /* Adjust as needed to show part of the tab */
+  left: -40px; /* Adjust as needed to show part of the tab */
   top: 50%;
   transform: translateY(-50%) rotate(-90deg);
   background-color: #D4AF37; /* Gold metallic color */
   color: white;
   padding: 0.5rem 1rem;
-  border-radius: 0.5rem 0.5rem 0 0; /* Rounded top corners */
+  border-radius: 0 0.5rem 0.5rem 0; /* Rounded right corners when rotated */
   cursor: pointer;
   z-index: 999;
   font-weight: bold;
-  transition: right 0.3s ease-in-out;
+  transition: left 0.3s ease-in-out;
 }
 
 .side-tab:hover {
-  right: 0; /* Slide in on hover */
+  left: 0; /* Slide in on hover */
 }
 
 /* Specific positioning for policy tab */
