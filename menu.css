@@ -65,7 +65,10 @@
 .side-name-right {
   position: fixed;
   right: 1rem;
-  top: 1rem;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  transform-origin: right center;
+  white-space: nowrap;
   font-family: 'Allura', cursive; /* Assuming this font is intended */
   font-size: 1.5rem;
   color: #D4AF37;
@@ -76,9 +79,6 @@
 @media (max-width: 768px) {
   .side-tab {
     display: none;
-  }
-  .side-name-right {
-    display: none; /* Hide side name on mobile too */
   }
   .modal-content {
     max-width: 100%;
