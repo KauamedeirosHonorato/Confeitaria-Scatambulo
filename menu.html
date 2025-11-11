@@ -28,7 +28,7 @@
           <a href="#sabores" class="hover:text-[#D4AF37] transition-colors"
             >Sabores</a
           >
-          <a href="#embalagens" class="hover:text-[#D4AF37] transition-colors"
+          <a href="#" id="nav-embalagens" class="hover:text-[#D4AF37] transition-colors"
             >Embalagens</a
           >
           <a href="#informacoes" class="hover:text-[#D4AF37] transition-colors"
@@ -65,7 +65,8 @@
           >Sabores</a
         >
         <a
-          href="#embalagens"
+          href="#"
+          id="mobile-nav-embalagens"
           class="block py-3 px-6 text-gray-700 hover:bg-gray-50 transition-colors"
           >Embalagens</a
         >
@@ -85,6 +86,7 @@
     <!-- Abas Laterais -->
     <div id="info-tab" class="side-tab">Informações</div>
     <div id="policy-tab" class="side-tab" style="top: 62%">Políticas</div>
+    <div id="packaging-tab" class="side-tab" style="top: 72%">Embalagens</div>
 
     <!-- Nome na Lateral Direita -->
     <div class="side-name-right">Angela Scatambulo</div>
@@ -164,6 +166,34 @@
               </li>
             </ul>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de Embalagens -->
+    <div id="packaging-modal" class="modal-overlay hidden">
+      <div class="modal-content">
+        <button id="close-packaging-modal" class="close-button">&times;</button>
+        <h2 class="text-2xl font-bold mb-4 !text-[#D4AF37]">
+          Escolha sua Embalagem
+        </h2>
+        <div class="video-container">
+          <video id="packaging-video" controls class="w-full rounded-lg shadow-lg">
+            <source src="./VideoEmbalagens/VideoAngela.mp4" type="video/mp4" />
+            Seu navegador não suporta o elemento de vídeo.
+          </video>
+          <div id="video-overlays" class="video-overlay">
+            <!-- Overlays will be dynamically added here -->
+          </div>
+        </div>
+
+        <div id="packaging-info" class="mt-8 hidden packaging-details">
+          <h3 class="text-2xl font-bold mb-4">Detalhes da Embalagem: <span id="packaging-name"></span></h3>
+          <p id="packaging-description" class="text-gray-700 mb-4"></p>
+          <p class="font-semibold">Preço Adicional: <span id="packaging-price"></span></p>
+          <button id="select-packaging-btn" class="mt-4 bg-[#D4AF37] text-white py-2 px-4 rounded-lg hover:bg-[#f5e6b3] transition-colors">
+            Selecionar Embalagem
+          </button>
         </div>
       </div>
     </div>
@@ -1112,97 +1142,7 @@
         </div>
       </section>
 
-      <section id="embalagens" class="mb-12">
-        <h2 class="text-3xl font-bold mb-6 text-center">Embalagens</h2>
-        <div
-          class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-xl border border-gray-200"
-        >
-          <p class="text-center text-gray-600 mb-4">
-            Assista ao vídeo interativo para escolher a embalagem perfeita para o seu bolo!
-          </p>
-          <div class="text-center mb-6">
-            <a href="packaging_customizer.html" class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm text-center">
-              Ver Embalagens Interativas
-            </a>
-          </div>
-          <ul class="space-y-3 text-gray-700">
-            <li class="font-semibold text-lg text-gray-800">
-              Embalagens de 500g
-            </li>
-            <li>
-              <span class="font-semibold">Oval 500g:</span> Sem custo adicional.
-            </li>
-            <li>
-              <span class="font-semibold">Taça 500g:</span> R$ 15,00 + quilo do
-              bolo.
-            </li>
-            <li>
-              <span class="font-semibold">Box 500g:</span> R$ 15,00 + quilo do
-              bolo.
-            </li>
-            <li class="border-t pt-3 font-semibold text-lg text-gray-800">
-              Embalagens de 1kg
-            </li>
-            <li>
-              <span class="font-semibold">Oval 1kg:</span> Sem custo adicional.
-            </li>
-            <li class="border-t pt-3">
-              <span class="font-semibold">Taça 1kg:</span> R$ 20,00 + quilo do
-              bolo.
-            </li>
-            <li>
-              <span class="font-semibold">Box 1kg:</span> R$ 20,00 + quilo do
-              bolo.
-            </li>
-            <li>
-              <span class="font-semibold">Caixa 1kg:</span> R$ 36,00 + quilo do
-              bolo.
-            </li>
-            <li class="border-t pt-3 font-semibold text-lg text-gray-800">
-              Embalagens de 1,5kg
-            </li>
-            <li>
-              <span class="font-semibold">Oval 1,5kg:</span> Sem custo
-              adicional.
-            </li>
-            <li>
-              <span class="font-semibold">Taça 1,5kg:</span> R$ 25,00 + quilo do
-              bolo.
-            </li>
-            <li>
-              <span class="font-semibold">Box 1,5kg:</span> R$ 25,00 + quilo do
-              bolo.
-            </li>
-            <li class="border-t pt-3 font-semibold text-lg text-gray-800">
-              Outras Embalagens
-            </li>
-            <li>
-              <span class="font-semibold">Taça 2kg:</span> R$ 25,00 + quilo do
-              bolo.
-            </li>
-            <li>
-              <span class="font-semibold">Caixa 2kg:</span> R$ 44,00 + quilo do
-              bolo.
-            </li>
-            <li>
-              <span class="font-semibold">Taça 3kg:</span> R$ 40,00 + quilo do
-              bolo.
-            </li>
-            <li>
-              <span class="font-semibold">Caixa 3kg:</span> R$ 62,00 + quilo do
-              bolo.
-            </li>
-            <li>
-              <span class="font-semibold">Caixa 4kg:</span> R$ 72,00 + quilo do
-              bolo.
-            </li>
-            <li>
-              <span class="font-semibold">Caixa 5kg:</span> R$ 87,00 + quilo do
-              bolo.
-            </li>
-          </ul>
-        </div>
-      </section>
+
 
       <section
         id="informacoes"
@@ -1311,6 +1251,131 @@
         document
           .getElementById("close-policy-modal")
           .addEventListener("click", () => policyModal.classList.add("hidden"));
+      });
+
+      // Event listeners for packaging navigation links
+      document.addEventListener("DOMContentLoaded", () => {
+        const navEmbalagens = document.getElementById('nav-embalagens');
+        const mobileNavEmbalagens = document.getElementById('mobile-nav-embalagens');
+        const packagingModal = document.getElementById('packaging-modal');
+
+        if (navEmbalagens) {
+          navEmbalagens.addEventListener('click', (e) => {
+            e.preventDefault();
+            packagingModal.classList.remove('hidden');
+            // Optionally play video here if it's not auto-playing on modal open
+          });
+        }
+
+        if (mobileNavEmbalagens) {
+          mobileNavEmbalagens.addEventListener('click', (e) => {
+            e.preventDefault();
+            packagingModal.classList.remove('hidden');
+            // Optionally play video here if it's not auto-playing on modal open
+          });
+        }
+      });
+
+      // Lógica para o modal de Embalagens
+      document.addEventListener("DOMContentLoaded", () => {
+        const packagingModal = document.getElementById('packaging-modal');
+        const packagingTab = document.getElementById('packaging-tab');
+        const closePackagingModal = document.getElementById('close-packaging-modal');
+        const video = document.getElementById('packaging-video');
+        const videoOverlays = document.getElementById('video-overlays');
+        const packagingInfo = document.getElementById('packaging-info');
+        const packagingName = document.getElementById('packaging-name');
+        const packagingDescription = document.getElementById('packaging-description');
+        const packagingPrice = document.getElementById('packaging-price');
+        const selectPackagingBtn = document.getElementById('select-packaging-btn');
+
+        packagingTab.addEventListener('click', () => {
+          packagingModal.classList.remove('hidden');
+          video.play(); // Start video when modal opens
+        });
+
+        closePackagingModal.addEventListener('click', () => {
+          packagingModal.classList.add('hidden');
+          video.pause(); // Pause video when modal closes
+          video.currentTime = 0; // Reset video
+          packagingInfo.classList.add('hidden'); // Hide details
+          if (currentOverlay) {
+            const prevOverlay = document.getElementById(`overlay-${currentOverlay.replace(/\s/g, '-')}`);
+            if (prevOverlay) prevOverlay.remove();
+            currentOverlay = null;
+          }
+        });
+
+        // Define packaging data with video timestamps and overlay positions
+        const packagingData = [
+          {
+            name: 'Oval 500g',
+            description: 'Embalagem oval de 500g, ideal para pequenas celebrações.',
+            price: 'Sem custo adicional',
+            time: 5, // seconds
+            position: { top: '30%', left: '10%', width: '20%', height: '15%' }
+          },
+          {
+            name: 'Taça 1kg',
+            description: 'Embalagem em formato de taça de 1kg, elegante e prática.',
+            price: 'R$ 20,00',
+            time: 10,
+            position: { top: '40%', left: '40%', width: '20%', height: '15%' }
+          },
+          {
+            name: 'Caixa 2kg',
+            description: 'Caixa de 2kg, perfeita para transporte seguro e apresentação.',
+            price: 'R$ 44,00',
+            time: 15,
+            position: { top: '50%', left: '70%', width: '20%', height: '15%' }
+          }
+          // Add more packaging options as needed
+        ];
+
+        let currentOverlay = null;
+
+        video.addEventListener('timeupdate', () => {
+          packagingData.forEach(data => {
+            if (video.currentTime >= data.time && video.currentTime < data.time + 3 && currentOverlay !== data.name) {
+              // Show overlay
+              if (currentOverlay) {
+                const prevOverlay = document.getElementById(`overlay-${currentOverlay.replace(/\s/g, '-')}`);
+                if (prevOverlay) prevOverlay.remove();
+              }
+              const overlay = document.createElement('div');
+              overlay.id = `overlay-${data.name.replace(/\s/g, '-')}`;
+              overlay.classList.add('overlay-item');
+              overlay.classList.add('active');
+              overlay.style.top = data.position.top;
+              overlay.style.left = data.position.left;
+              overlay.style.width = data.position.width;
+              overlay.style.height = data.position.height;
+              overlay.textContent = data.name;
+              overlay.addEventListener('click', () => showPackagingDetails(data));
+              videoOverlays.appendChild(overlay);
+              currentOverlay = data.name;
+            } else if (video.currentTime >= data.time + 3 && currentOverlay === data.name) {
+              // Hide overlay
+              const currentActiveOverlay = document.getElementById(`overlay-${data.name.replace(/\s/g, '-')}`);
+              if (currentActiveOverlay) currentActiveOverlay.remove();
+              currentOverlay = null;
+            }
+          });
+        });
+
+        function showPackagingDetails(data) {
+          video.pause();
+          packagingName.textContent = data.name;
+          packagingDescription.textContent = data.description;
+          packagingPrice.textContent = data.price;
+          packagingInfo.classList.remove('hidden');
+          selectPackagingBtn.onclick = () => {
+            alert(`Embalagem "${data.name}" selecionada!`);
+            // Here you would integrate with your cart/ordering system
+            packagingInfo.classList.add('hidden');
+            video.play();
+          };
+        }
       });
     </script>
     <!-- Ícone do Chatbot Flutuante -->
