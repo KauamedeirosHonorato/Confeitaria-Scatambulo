@@ -28,9 +28,7 @@
           <a href="#sabores" class="hover:text-[#D4AF37] transition-colors"
             >Sabores</a
           >
-          <a href="#" id="nav-embalagens" class="hover:text-[#D4AF37] transition-colors"
-            >Embalagens</a
-          >
+
           <a href="#informacoes" class="hover:text-[#D4AF37] transition-colors"
             >Informações</a
           >
@@ -64,12 +62,7 @@
           class="block py-3 px-6 text-gray-700 hover:bg-gray-50 transition-colors"
           >Sabores</a
         >
-        <a
-          href="#"
-          id="mobile-nav-embalagens"
-          class="block py-3 px-6 text-gray-700 hover:bg-gray-50 transition-colors"
-          >Embalagens</a
-        >
+
         <a
           href="#informacoes"
           class="block py-3 px-6 text-gray-700 hover:bg-gray-50 transition-colors"
@@ -86,7 +79,6 @@
     <!-- Abas Laterais -->
     <div id="info-tab" class="side-tab">Informações</div>
     <div id="policy-tab" class="side-tab" style="top: 62%">Políticas</div>
-    <div id="packaging-tab" class="side-tab" style="top: 72%">Embalagens</div>
 
     <!-- Nome na Lateral Direita -->
     <div class="side-name-right">Angela Scatambulo</div>
@@ -170,36 +162,7 @@
       </div>
     </div>
 
-    <!-- Modal de Embalagens -->
-    <div id="packaging-modal" class="modal-overlay hidden">
-      <div class="modal-content max-w-7xl h-[80vh] max-h-[600px]"> <!-- Increased max-w to 7xl -->
-        <button id="close-packaging-modal" class="close-button">&times;</button>
-        <h2 class="text-2xl font-bold mb-4 !text-[#D4AF37] text-center">
-          Escolha sua Embalagem
-        </h2>
-        <div class="flex flex-col md:flex-row gap-8">
-          <div class="md:w-5/12 p-4 bg-gray-100 rounded-lg shadow-inner"> <!-- Adjusted width for video -->
-            <div class="video-container">
-              <video id="packaging-video" controls class="w-full rounded-lg shadow-lg">
-                <source src="./VideoEmbalagens/VideoAngela.mp4" type="video/mp4" />
-                Seu navegador não suporta o elemento de vídeo.
-              </video>
-            </div>
-          </div>
-          <div class="md:w-7/12"> <!-- Adjusted width for info card -->
-            <div id="packaging-static-info" class="packaging-details h-full overflow-y-auto p-4"> <!-- Added padding to info card -->
-              <h3 class="text-2xl font-bold mb-4">Resumo das Opções de Embalagens:</h3>
-              <ul class="list-disc list-inside text-gray-700 space-y-2">
-                <li><span class="font-semibold">Embalagens Descartáveis (500g, 1kg, 1.5kg):</span> Sem custo adicional.</li>
-                <li><span class="font-semibold">Taças (1kg, 1.5kg, 2kg, 3kg):</span> Custos adicionais de R$ 20,00 a R$ 40,00.</li>
-                <li><span class="font-semibold">Caixas (1kg, 2kg, 3kg, 4kg, 5kg):</span> Custos adicionais de R$ 36,00 a R$ 87,00.</li>
-                <li><span class="font-semibold">Bolo em taça/refratário próprio:</span> Taxa de coleta de R$ 10,00.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
 
     <main class="container mx-auto p-4 md:p-8">
       <!-- Recado da Angela -->
@@ -1256,28 +1219,7 @@
           .addEventListener("click", () => policyModal.classList.add("hidden"));
       });
 
-      // Event listeners for packaging navigation links
-      document.addEventListener("DOMContentLoaded", () => {
-        const navEmbalagens = document.getElementById('nav-embalagens');
-        const mobileNavEmbalagens = document.getElementById('mobile-nav-embalagens');
-        const packagingModal = document.getElementById('packaging-modal');
 
-        if (navEmbalagens) {
-          navEmbalagens.addEventListener('click', (e) => {
-            e.preventDefault();
-            packagingModal.classList.remove('hidden');
-            // Optionally play video here if it's not auto-playing on modal open
-          });
-        }
-
-        if (mobileNavEmbalagens) {
-          mobileNavEmbalagens.addEventListener('click', (e) => {
-            e.preventDefault();
-            packagingModal.classList.remove('hidden');
-            // Optionally play video here if it's not auto-playing on modal open
-          });
-        }
-      });
 
 
     </script>
