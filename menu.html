@@ -14,7 +14,8 @@
     />
     <link rel="stylesheet" href="menu.css" />
   </head>
-  <body>
+  <body class="bg-stone-50">
+    <div class="fixed top-0 bottom-0 right-0 flex items-center justify-end z-10 opacity-100 font-allura text-8xl text-[#D4AF37] rotate-[-90deg]">Angela Scatambulo</div>
     <header class="bg-white shadow-md sticky top-0 z-20">
       <div
         class="container mx-auto px-6 py-4 flex justify-between items-center"
@@ -88,1153 +89,1005 @@
 
     <!-- Abas Laterais -->
     <div id="info-tab" class="side-tab">Informações</div>
-    <div id="policy-tab" class="side-tab">Políticas</div>
-
-    <!-- Nome na Lateral Direita -->
-    <div class="side-name-right">Angela Scatambulo</div>
-
-    <!-- Modal de Informações -->
-    <div id="info-modal" class="modal-overlay hidden">
-      <div class="modal-content">
-        <button id="close-info-modal" class="close-button">&times;</button>
-        <h2 class="text-2xl font-bold mb-4 !text-[#D4AF37]">
-          Informações Importantes
-        </h2>
-        <ul class="list-disc list-inside text-gray-600 space-y-2">
-          <li>
-            Os bolos podem variar de peso, podendo acrescentar de 100 a 300
-            gramas.
-          </li>
-          <li>Todos os bolos com massa de chocolate são opcionais.</li>
-          <li>Cada bolo é composto por 2 recheios e cobertura.</li>
-          <li>Os morangos são orgânicos e o coco é fresco.</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Modal de Políticas -->
-    <div id="policy-modal" class="modal-overlay hidden">
-      <div class="modal-content">
-        <button id="close-policy-modal" class="close-button">&times;</button>
-        <h2 class="text-2xl font-bold mb-4 !text-[#D4AF37]">
-          Políticas e Cuidados
-        </h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="font-bold text-gray-800 text-lg mb-2">
-              Política de Cancelamento
-            </h3>
-            <ul class="list-disc list-inside space-y-2 text-gray-700">
-              <li>
-                <span class="font-semibold">72 horas de antecedência:</span>
-                para grandes eventos e potinhos (+20 un).
-              </li>
-              <li>
-                <span class="font-semibold">36 horas de antecedência:</span>
-                para potinhos (até 20 un).
-              </li>
-              <li>
-                <span class="font-semibold"
-                  >Pedidos com 24h de antecedência:</span
+            <div id="policy-tab" class="side-tab">Políticas</div>
+        
+            <main class="container mx-auto p-4 md:p-8">            <!-- Recado da Angela -->
+            <section class="mb-12">
+              <div
+                class="bg-white p-6 rounded-2xl shadow-xl border border-gray-200 flex items-center gap-6"
+              >
+                <img
+                  src="Avatar/AvatarAngela.jpg"
+                  alt="Angela Scatambulo"
+                  class="h-24 w-24 rounded-full object-cover border-2 border-[#D4AF37]"
+                />
+                <div>
+                  <h2 class="text-2xl font-bold mb-2 !text-[#1c1c1c]">
+                    Angela Scatambulo
+                  </h2>
+                  <p class="text-gray-600">
+                    Qualidade e carinho em cada detalhe. Desfrute de nossos bolos,
+                    feitos com profissionalismo para seus momentos de celebração.
+                  </p>
+                </div>
+              </div>
+            </section>
+            <!-- Sabores de Bolos -->
+            <section id="sabores" class="mb-12">
+              <h2 class="text-3xl md:text-4xl font-bold mb-2 text-center">
+                Sabores de Bolos
+              </h2>
+              <p class="text-center text-gray-500 mb-8">
+                R$ 150,00/kg (exceto Pistache com Frutas Vermelhas)
+              </p>
+              <div class="mb-8 flex justify-center">
+                <input
+                  type="text"
+                  id="cake-search"
+                  placeholder="Buscar bolo por nome..."
+                  class="p-3 border border-gray-300 rounded-lg w-full max-w-md focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                />
+              </div>
+              <div
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch"
+              >
+                <div
+                  class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
                 >
-                Não há direito a cancelamento ou reembolso.
-              </li>
-              <li class="mt-2">
-                Caso contrário, 50% do valor pago ficará como multa (reembolso
-                não será realizado).
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 class="font-bold text-gray-800 text-lg mb-2">
-              Transporte, Consumo e Armazenamento
-            </h3>
-            <ul class="list-disc list-inside space-y-2 text-gray-700">
-              <li>
-                <span class="font-semibold">Transporte:</span> Coloque o bolo em
-                local seguro, use ar condicionado e evite movimentos bruscos.
-              </li>
-              <li>
-                <span class="font-semibold">Consumo:</span> Com frutas, até 2
-                dias. Sem frutas, até 4 dias.
-              </li>
-              <li>
-                <span class="font-semibold">Armazenamento:</span> Manter
-                refrigerado. Retirar 40 min antes de consumir.
-              </li>
-              <li>
-                <span class="font-semibold">Congelamento:</span> Pode congelar
-                em pedaços por até 30 dias. Descongelar na geladeira.
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal Sobre as Embalagens -->
-    <div id="embalagens-modal" class="modal-overlay hidden">
-      <div class="modal-content embalagens-modal-content">
-        <button class="close-button">&times;</button>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-          <div class="md:order-2">
-            <h2 class="text-2xl font-bold mb-4 !text-[#D4AF37]">
-              Sobre as Embalagens
-            </h2>
-            <div class="md:block hidden">
-              <ul class="text-base text-gray-600 space-y-2">
-                <li><strong>Embalagem Descartável 500g e 1,5kg:</strong> Sem custo adicional.</li>
-                <li><strong>Embalagem Descartável 1kg:</strong> Sem custo adicional.</li>
-                <li><strong>Taça 1kg:</strong> R$ 20,00</li>
-                <li><strong>Caixa 1kg:</strong> R$ 36,00</li>
-                <li><strong>Taça 1,5kg / Box Redonda 1,5kg:</strong> R$ 25,00</li>
-                <li><strong>Taça 2kg:</strong> R$ 25,00</li>
-                <li><strong>Caixa 2kg:</strong> R$ 44,00</li>
-                <li><strong>Taça 3kg:</strong> R$ 40,00</li>
-                <li><strong>Caixa 3kg:</strong> R$ 62,00</li>
-                <li><strong>Caixa 4kg:</strong> R$ 72,00</li>
-                <li><strong>Caixa 5kg:</strong> R$ 87,00</li>
-                <li class="pt-2 border-t border-gray-200 mt-2"><strong>Opção de montar o bolo em taça ou refratário próprio:</strong> Taxa de coleta de R$ 10,00.</li>
-              </ul>
-            </div>
-          </div>
-          <div class="md:order-1">
-            <video
-              id="video-embalagens"
-              class="w-full rounded-lg"
-              controls
-              src="./VideoEmbalagens/VideoAngela.mp4"
-            ></video>
-            <button id="ver-mais-button" class="w-full mt-4 btn-gold-metallic py-2 px-4 rounded-lg text-sm text-center md:hidden" onclick="openSaberMaisModal()">Ver Mais</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal Saber Mais -->
-    <div id="saber-mais-modal" class="modal-overlay hidden">
-      <div class="modal-content saber-mais-modal-content">
-        <button id="close-saber-mais-modal" class="close-button">&times;</button>
-        <div class="overflow-y-auto max-h-[80vh] p-4">
-            <h2 class="text-2xl font-bold mb-4 !text-[#D4AF37]">
-              Sobre as Embalagens
-            </h2>
-            <ul class="text-base text-gray-600 space-y-2">
-              <li><strong>Embalagem Descartável 500g e 1,5kg:</strong> Sem custo adicional.</li>
-              <li><strong>Embalagem Descartável 1kg:</strong> Sem custo adicional.</li>
-              <li><strong>Taça 1kg:</strong> R$ 20,00</li>
-              <li><strong>Caixa 1kg:</strong> R$ 36,00</li>
-              <li><strong>Taça 1,5kg / Box Redonda 1,5kg:</strong> R$ 25,00</li>
-              <li><strong>Taça 2kg:</strong> R$ 25,00</li>
-              <li><strong>Caixa 2kg:</strong> R$ 44,00</li>
-              <li><strong>Taça 3kg:</strong> R$ 40,00</li>
-              <li><strong>Caixa 3kg:</strong> R$ 62,00</li>
-              <li><strong>Caixa 4kg:</strong> R$ 72,00</li>
-              <li><strong>Caixa 5kg:</strong> R$ 87,00</li>
-              <li class="pt-2 border-t border-gray-200 mt-2"><strong>Opção de montar o bolo em taça ou refratário próprio:</strong> Taxa de coleta de R$ 20,00.</li>
-            </ul>
-        </div>
-      </div>
-    </div>
-
-    <main class="container mx-auto p-4 md:p-8">
-      <!-- Recado da Angela -->
-      <section class="mb-12">
-        <div
-          class="bg-white p-6 rounded-2xl shadow-xl border border-gray-200 flex items-center gap-6"
-        >
-          <img
-            src="Avatar/AvatarAngela.jpg"
-            alt="Angela Scatambulo"
-            class="h-24 w-24 rounded-full object-cover border-2 border-[#D4AF37]"
-          />
-          <div>
-            <h2 class="text-2xl font-bold mb-2 !text-[#1c1c1c]">
-              Angela Scatambulo
-            </h2>
-            <p class="text-gray-600">
-              Qualidade e carinho em cada detalhe. Desfrute de nossos bolos,
-              feitos com profissionalismo para seus momentos de celebração.
-            </p>
-          </div>
-        </div>
-      </section>
-      <!-- Sabores de Bolos -->
-      <section id="sabores" class="mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold mb-2 text-center">
-          Sabores de Bolos
-        </h2>
-        <p class="text-center text-gray-500 mb-8">
-          R$ 150,00/kg (exceto Pistache com Frutas Vermelhas)
-        </p>
-        <div class="mb-8 flex justify-center">
-          <input
-            type="text"
-            id="cake-search"
-            placeholder="Buscar bolo por nome..."
-            class="p-3 border border-gray-300 rounded-lg w-full max-w-md focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
-          />
-        </div>
-        <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch"
-        >
-          <div
-            class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
-          >
-            <div>
-              <img
-                loading="lazy"
-                src="./sabores/UvaCrocante.jpg"
-                alt="Uva Crocante"
-                class="object-cover object-center rounded-md mb-4 cake-card-image"
-              />
-              <h3
-                class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
-              >
-                🍇 Uva Crocante
-              </h3>
-              <p class="text-gray-500">
-                Brigadeiro de caramelo com flor de sal (ou brigadeiro branco),
-                uvas frescas, creme Ninho, chantilly e crocante.
-              </p>
-            </div>
-            <div class="mt-4">
-              <label for="size-uva-crocante" class="sr-only">Tamanho</label>
-              <select
-                id="size-uva-crocante"
-                class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
-              >
-                <option value="Oval 500g (sem custo)">
-                  Oval 500g (sem custo)
-                </option>
-                <option value="Taça 500g (+ R$ 15,00)">
-                  Taça 500g (+ R$ 15,00)
-                </option>
-                <option value="Box 500g (+ R$ 15,00)">
-                  Box 500g (+ R$ 15,00)
-                </option>
-                <option value="Oval 1kg (sem custo)" selected>
-                  Oval 1kg (sem custo)
-                </option>
-                <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
-                <option value="Box 1kg (+ R$ 20,00)">
-                  Box 1kg (+ R$ 20,00)
-                </option>
-                <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
-                <option value="Oval 1,5kg (sem custo)">
-                  Oval 1,5kg (sem custo)
-                </option>
-                <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
-                <option value="Box 1,5kg (+ R$ 25,00)">
-                  Box 1,5kg (+ R$ 25,00)
-                </option>
-                <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
-                <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
-                <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
-                <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
-                <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
-                <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
-              </select>
-            </div>
-            <div class="mt-4">
-              <a
-                href="#"
-                onclick="addToCart('Uva Crocante', this)"
-                class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
-                >Encomendar agora</a
-              >
-            </div>
-          </div>
-
-          <div
-            class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
-          >
-            <div>
-              <img
-                loading="lazy"
-                src="sabores/NuvemDeMorango.jpg"
-                alt="Nuvem de Morango"
-                class="object-cover object-center rounded-md mb-4 cake-card-image"
-              />
-              <h3
-                class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
-              >
-                🍓 Nuvem de Morango
-              </h3>
-              <p class="text-gray-500">
-                Brigadeiro branco com morango, creme Ninho e chantilly fresco
-                com crocante.
-              </p>
-            </div>
-            <div class="mt-4">
-              <label for="size-nuvem-morango" class="sr-only">Tamanho</label>
-              <select
-                id="size-nuvem-morango"
-                class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
-              >
-                <option value="Oval 500g (sem custo)">
-                  Oval 500g (sem custo)
-                </option>
-                <option value="Taça 500g (+ R$ 15,00)">
-                  Taça 500g (+ R$ 15,00)
-                </option>
-                <option value="Box 500g (+ R$ 15,00)">
-                  Box 500g (+ R$ 15,00)
-                </option>
-                <option value="Oval 1kg (sem custo)" selected>
-                  Oval 1kg (sem custo)
-                </option>
-                <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
-                <option value="Box 1kg (+ R$ 20,00)">
-                  Box 1kg (+ R$ 20,00)
-                </option>
-                <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
-                <option value="Oval 1,5kg (sem custo)">
-                  Oval 1,5kg (sem custo)
-                </option>
-                <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
-                <option value="Box 1,5kg (+ R$ 25,00)">
-                  Box 1,5kg (+ R$ 25,00)
-                </option>
-                <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
-                <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
-                <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
-                <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
-                <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
-                <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
-              </select>
-            </div>
-            <div class="mt-4">
-              <a
-                href="#"
-                onclick="addToCart('Nuvem de Morango', this)"
-                class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
-                >Encomendar agora</a
-              >
-            </div>
-          </div>
-
-          <div
-            class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
-          >
-            <div>
-              <img
-                loading="lazy"
-                src="sabores/MorangoComSuspiro.jpg"
-                alt="Morango com Suspiro"
-                class="object-cover object-center rounded-md mb-4 cake-card-image"
-              />
-              <h3
-                class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
-              >
-                🍓 Morango com Suspiro
-              </h3>
-              <p class="text-gray-500">
-                Brigadeiro branco com morango, creme Ninho e chantilly fresco
-                com suspiro.
-              </p>
-            </div>
-            <div class="mt-4">
-              <label for="size-morango-suspiro" class="sr-only">Tamanho</label>
-              <select
-                id="size-morango-suspiro"
-                class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
-              >
-                <option value="Oval 500g (sem custo)">
-                  Oval 500g (sem custo)
-                </option>
-                <option value="Taça 500g (+ R$ 15,00)">
-                  Taça 500g (+ R$ 15,00)
-                </option>
-                <option value="Box 500g (+ R$ 15,00)">
-                  Box 500g (+ R$ 15,00)
-                </option>
-                <option value="Oval 1kg (sem custo)" selected>
-                  Oval 1kg (sem custo)
-                </option>
-                <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
-                <option value="Box 1kg (+ R$ 20,00)">
-                  Box 1kg (+ R$ 20,00)
-                </option>
-                <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
-                <option value="Oval 1,5kg (sem custo)">
-                  Oval 1,5kg (sem custo)
-                </option>
-                <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
-                <option value="Box 1,5kg (+ R$ 25,00)">
-                  Box 1,5kg (+ R$ 25,00)
-                </option>
-                <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
-                <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
-                <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
-                <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
-                <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
-                <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
-              </select>
-            </div>
-            <div class="mt-4">
-              <a
-                href="#"
-                onclick="addToCart('Morango com Suspiro', this)"
-                class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
-                >Encomendar agora</a
-              >
-            </div>
-          </div>
-
-          <div
-            class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
-          >
-            <div>
-              <img
-                loading="lazy"
-                src="sabores/BoloDeSensacao.jpg"
-                alt="Sensação"
-                class="object-cover object-center rounded-md mb-4 cake-card-image"
-              />
-              <h3
-                class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
-              >
-                🍓 Sensação
-              </h3>
-              <p class="text-gray-500">
-                Massa de chocolate, brigadeiro branco com morangos, creme Ninho,
-                ganache de chocolate ou chantilly fresco.
-              </p>
-            </div>
-            <div class="mt-4">
-              <label for="size-sensacao" class="sr-only">Tamanho</label>
-              <select
-                id="size-sensacao"
-                class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
-              >
-                <option value="Oval 500g (sem custo)">
-                  Oval 500g (sem custo)
-                </option>
-                <option value="Taça 500g (+ R$ 15,00)">
-                  Taça 500g (+ R$ 15,00)
-                </option>
-                <option value="Box 500g (+ R$ 15,00)">
-                  Box 500g (+ R$ 15,00)
-                </option>
-                <option value="Oval 1kg (sem custo)" selected>
-                  Oval 1kg (sem custo)
-                </option>
-                <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
-                <option value="Box 1kg (+ R$ 20,00)">
-                  Box 1kg (+ R$ 20,00)
-                </option>
-                <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
-                <option value="Oval 1,5kg (sem custo)">
-                  Oval 1,5kg (sem custo)
-                </option>
-                <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
-                <option value="Box 1,5kg (+ R$ 25,00)">
-                  Box 1,5kg (+ R$ 25,00)
-                </option>
-                <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
-                <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
-                <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
-                <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
-                <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
-                <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
-              </select>
-            </div>
-            <div class="mt-4">
-              <a
-                href="#"
-                onclick="addToCart('Sensação', this)"
-                class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
-                >Encomendar agora</a
-              >
-            </div>
-          </div>
-
-          <div
-            class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
-          >
-            <div>
-              <img
-                loading="lazy"
-                src="sabores/AbacaxiComCoco.jpg"
-                alt="Abacaxi com Coco"
-                class="object-cover object-center rounded-md mb-4 cake-card-image"
-              />
-              <h3
-                class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
-              >
-                🍍 Abacaxi com Coco
-              </h3>
-              <p class="text-gray-500">
-                Brigadeiro branco com abacaxi, Ninho com coco fresco, chantilly
-                fresco com farofa de crocante e coco.
-              </p>
-            </div>
-            <div class="mt-4">
-              <label for="size-abacaxi-coco" class="sr-only">Tamanho</label>
-              <select
-                id="size-abacaxi-coco"
-                class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
-              >
-                <option value="Oval 500g (sem custo)">
-                  Oval 500g (sem custo)
-                </option>
-                <option value="Taça 500g (+ R$ 15,00)">
-                  Taça 500g (+ R$ 15,00)
-                </option>
-                <option value="Box 500g (+ R$ 15,00)">
-                  Box 500g (+ R$ 15,00)
-                </option>
-                <option value="Oval 1kg (sem custo)" selected>
-                  Oval 1kg (sem custo)
-                </option>
-                <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
-                <option value="Box 1kg (+ R$ 20,00)">
-                  Box 1kg (+ R$ 20,00)
-                </option>
-                <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
-                <option value="Oval 1,5kg (sem custo)">
-                  Oval 1,5kg (sem custo)
-                </option>
-                <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
-                <option value="Box 1,5kg (+ R$ 25,00)">
-                  Box 1,5kg (+ R$ 25,00)
-                </option>
-                <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
-                <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
-                <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
-                <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
-                <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
-                <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
-              </select>
-            </div>
-            <div class="mt-4">
-              <a
-                href="#"
-                onclick="addToCart('Abacaxi com Coco', this)"
-                class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
-                >Encomendar agora</a
-              >
-            </div>
-          </div>
-
-          <div
-            class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
-          >
-            <div>
-              <img
-                loading="lazy"
-                src="sabores/OlhoDesogra.jpg"
-                alt="Olho de Sogra"
-                class="object-cover object-center rounded-md mb-4 cake-card-image"
-              />
-              <h3
-                class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
-              >
-                🥥 Olho de Sogra
-              </h3>
-              <p class="text-gray-500">
-                Brigadeiro branco com ameixa, creme Ninho com coco, chantilly
-                fresco com farofa de coco e crocante.
-              </p>
-            </div>
-            <div class="mt-4">
-              <label for="size-olho-sogra" class="sr-only">Tamanho</label>
-              <select
-                id="size-olho-sogra"
-                class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
-              >
-                <option value="Oval 500g (sem custo)">
-                  Oval 500g (sem custo)
-                </option>
-                <option value="Taça 500g (+ R$ 15,00)">
-                  Taça 500g (+ R$ 15,00)
-                </option>
-                <option value="Box 500g (+ R$ 15,00)">
-                  Box 500g (+ R$ 15,00)
-                </option>
-                <option value="Oval 1kg (sem custo)" selected>
-                  Oval 1kg (sem custo)
-                </option>
-                <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
-                <option value="Box 1kg (+ R$ 20,00)">
-                  Box 1kg (+ R$ 20,00)
-                </option>
-                <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
-                <option value="Oval 1,5kg (sem custo)">
-                  Oval 1,5kg (sem custo)
-                </option>
-                <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
-                <option value="Box 1,5kg (+ R$ 25,00)">
-                  Box 1,5kg (+ R$ 25,00)
-                </option>
-                <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
-                <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
-                <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
-                <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
-                <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
-                <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
-              </select>
-            </div>
-            <div class="mt-4">
-              <a
-                href="#"
-                onclick="addToCart('Olho de Sogra', this)"
-                class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
-                >Encomendar agora</a
-              >
-            </div>
-          </div>
-
-          <div
-            class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
-          >
-            <div>
-              <img
-                loading="lazy"
-                src="sabores/StrogonoffDeNozes.jpg"
-                alt="Strogonoff de Nozes"
-                class="object-cover object-center rounded-md mb-4 cake-card-image"
-              />
-              <h3
-                class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
-              >
-                🌰 Strogonoff de Nozes
-              </h3>
-              <p class="text-gray-500">
-                Brigadeiro branco com nozes, Ninho com coco (ou sem coco),
-                chantilly com farofa de crocante de nozes e coco.
-              </p>
-            </div>
-            <div class="mt-4">
-              <label for="size-strogonoff-nozes" class="sr-only">Tamanho</label>
-              <select
-                id="size-strogonoff-nozes"
-                class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
-              >
-                <option value="Oval 500g (sem custo)">
-                  Oval 500g (sem custo)
-                </option>
-                <option value="Taça 500g (+ R$ 15,00)">
-                  Taça 500g (+ R$ 15,00)
-                </option>
-                <option value="Box 500g (+ R$ 15,00)">
-                  Box 500g (+ R$ 15,00)
-                </option>
-                <option value="Oval 1kg (sem custo)" selected>
-                  Oval 1kg (sem custo)
-                </option>
-                <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
-                <option value="Box 1kg (+ R$ 20,00)">
-                  Box 1kg (+ R$ 20,00)
-                </option>
-                <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
-                <option value="Oval 1,5kg (sem custo)">
-                  Oval 1,5kg (sem custo)
-                </option>
-                <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
-                <option value="Box 1,5kg (+ R$ 25,00)">
-                  Box 1,5kg (+ R$ 25,00)
-                </option>
-                <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
-                <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
-                <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
-                <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
-                <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
-                <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
-              </select>
-            </div>
-            <div class="mt-4">
-              <a
-                href="#"
-                onclick="addToCart('Strogonoff de Nozes', this)"
-                class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
-                >Encomendar agora</a
-              >
-            </div>
-          </div>
-
-          <div
-            class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
-          >
-            <div>
-              <img
-                loading="lazy"
-                src="sabores/DoceDeLeite.jpg"
-                alt="Doce de Leite Trufado"
-                id="doce-de-leite-img"
-                class="object-cover object-center rounded-md mb-4 cake-card-image"
-              />
-              <h3
-                class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
-              >
-                🍮 Doce de Leite Trufado
-              </h3>
-              <p class="text-gray-500">
-                Brigadeiro branco, creme Ninho, trufado de doce de leite com
-                crocante.
-              </p>
-            </div>
-            <div class="mt-4">
-              <label for="size-doce-leite" class="sr-only">Tamanho</label>
-              <select
-                id="size-doce-leite"
-                class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
-              >
-                <option value="Oval 500g (sem custo)">
-                  Oval 500g (sem custo)
-                </option>
-                <option value="Taça 500g (+ R$ 15,00)">
-                  Taça 500g (+ R$ 15,00)
-                </option>
-                <option value="Box 500g (+ R$ 15,00)">
-                  Box 500g (+ R$ 15,00)
-                </option>
-                <option value="Oval 1kg (sem custo)" selected>
-                  Oval 1kg (sem custo)
-                </option>
-                <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
-                <option value="Box 1kg (+ R$ 20,00)">
-                  Box 1kg (+ R$ 20,00)
-                </option>
-                <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
-                <option value="Oval 1,5kg (sem custo)">
-                  Oval 1,5kg (sem custo)
-                </option>
-                <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
-                <option value="Box 1,5kg (+ R$ 25,00)">
-                  Box 1,5kg (+ R$ 25,00)
-                </option>
-                <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
-                <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
-                <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
-                <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
-                <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
-                <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
-              </select>
-            </div>
-            <div class="mt-4">
-              <a
-                href="#"
-                onclick="addToCart('Doce de Leite Trufado', this)"
-                class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
-                >Encomendar agora</a
-              >
-            </div>
-          </div>
-
-          <div
-            class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
-          >
-            <div>
-              <img
-                loading="lazy"
-                src="sabores/Casadinho.jpg"
-                alt="Casadinho"
-                class="object-cover object-center rounded-md mb-4 cake-card-image"
-              />
-              <h3
-                class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
-              >
-                🍫 Casadinho
-              </h3>
-              <p class="text-gray-500">
-                Massa de chocolate com brigadeiro branco e preto, cobertura de
-                Ninho com granule.
-              </p>
-            </div>
-            <div class="mt-4">
-              <label for="size-casadinho" class="sr-only">Tamanho</label>
-              <select
-                id="size-casadinho"
-                class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
-              >
-                <option value="Oval 500g (sem custo)">
-                  Oval 500g (sem custo)
-                </option>
-                <option value="Taça 500g (+ R$ 15,00)">
-                  Taça 500g (+ R$ 15,00)
-                </option>
-                <option value="Box 500g (+ R$ 15,00)">
-                  Box 500g (+ R$ 15,00)
-                </option>
-                <option value="Oval 1kg (sem custo)" selected>
-                  Oval 1kg (sem custo)
-                </option>
-                <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
-                <option value="Box 1kg (+ R$ 20,00)">
-                  Box 1kg (+ R$ 20,00)
-                </option>
-                <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
-                <option value="Oval 1,5kg (sem custo)">
-                  Oval 1,5kg (sem custo)
-                </option>
-                <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
-                <option value="Box 1,5kg (+ R$ 25,00)">
-                  Box 1,5kg (+ R$ 25,00)
-                </option>
-                <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
-                <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
-                <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
-                <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
-                <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
-                <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
-              </select>
-            </div>
-            <div class="mt-4">
-              <a
-                href="#"
-                onclick="addToCart('Casadinho', this)"
-                class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
-                >Encomendar agora</a
-              >
-            </div>
-          </div>
-
-          <div
-            class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
-          >
-            <div>
-              <img
-                loading="lazy"
-                src="sabores/BoloDeBrigadeiro.jpg"
-                alt="Brigadeiro"
-                class="object-cover object-center rounded-md mb-4 cake-card-image"
-              />
-              <h3
-                class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
-              >
-                🍫 Brigadeiro
-              </h3>
-              <p class="text-gray-500">
-                Massa de chocolate, recheio de brigadeiro e granule.
-              </p>
-            </div>
-            <div class="mt-4">
-              <label for="size-brigadeiro" class="sr-only">Tamanho</label>
-              <select
-                id="size-brigadeiro"
-                class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
-              >
-                <option value="Oval 500g (sem custo)">
-                  Oval 500g (sem custo)
-                </option>
-                <option value="Taça 500g (+ R$ 15,00)">
-                  Taça 500g (+ R$ 15,00)
-                </option>
-                <option value="Box 500g (+ R$ 15,00)">
-                  Box 500g (+ R$ 15,00)
-                </option>
-                <option value="Oval 1kg (sem custo)" selected>
-                  Oval 1kg (sem custo)
-                </option>
-                <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
-                <option value="Box 1kg (+ R$ 20,00)">
-                  Box 1kg (+ R$ 20,00)
-                </option>
-                <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
-                <option value="Oval 1,5kg (sem custo)">
-                  Oval 1,5kg (sem custo)
-                </option>
-                <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
-                <option value="Box 1,5kg (+ R$ 25,00)">
-                  Box 1,5kg (+ R$ 25,00)
-                </option>
-                <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
-                <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
-                <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
-                <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
-                <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
-                <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
-              </select>
-            </div>
-            <div class="mt-4">
-              <a
-                href="#"
-                onclick="addToCart('Brigadeiro', this)"
-                class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
-                >Encomendar agora</a
-              >
-            </div>
-          </div>
-
-          <div
-            class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
-          >
-            <div>
-              <img
-                loading="lazy"
-                src="sabores/BoloDeCafe.jpg"
-                alt="Brigadeiro de Café"
-                class="object-cover object-center rounded-md mb-4 cake-card-image"
-              />
-              <h3
-                class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
-              >
-                ☕ Brigadeiro de Café
-              </h3>
-              <p class="text-gray-500">
-                Massa de chocolate, brigadeiro de café, chantilly fresco
-                saborizado com café e raspas de chocolate.
-              </p>
-            </div>
-            <div class="mt-4">
-              <label for="size-brigadeiro-cafe" class="sr-only">Tamanho</label>
-              <select
-                id="size-brigadeiro-cafe"
-                class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
-              >
-                <option value="Oval 500g (sem custo)">
-                  Oval 500g (sem custo)
-                </option>
-                <option value="Taça 500g (+ R$ 15,00)">
-                  Taça 500g (+ R$ 15,00)
-                </option>
-                <option value="Box 500g (+ R$ 15,00)">
-                  Box 500g (+ R$ 15,00)
-                </option>
-                <option value="Oval 1kg (sem custo)" selected>
-                  Oval 1kg (sem custo)
-                </option>
-                <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
-                <option value="Box 1kg (+ R$ 20,00)">
-                  Box 1kg (+ R$ 20,00)
-                </option>
-                <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
-                <option value="Oval 1,5kg (sem custo)">
-                  Oval 1,5kg (sem custo)
-                </option>
-                <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
-                <option value="Box 1,5kg (+ R$ 25,00)">
-                  Box 1,5kg (+ R$ 25,00)
-                </option>
-                <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
-                <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
-                <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
-                <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
-                <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
-                <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
-              </select>
-            </div>
-            <div class="mt-4">
-              <a
-                href="#"
-                onclick="addToCart('Brigadeiro de Café', this)"
-                class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
-                >Encomendar agora</a
-              >
-            </div>
-          </div>
-
-          <div
-            class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
-          >
-            <div>
-              <img
-                loading="lazy"
-                src="sabores/TrufaDeNutella.jpg"
-                alt="Trufa de Nutella"
-                class="object-cover object-center rounded-md mb-4 cake-card-image"
-              />
-              <h3
-                class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
-              >
-                🍫 Trufa de Nutella
-              </h3>
-              <p class="text-gray-500">
-                Ganache de Nutella, creme Ninho e raspas de chocolate.
-              </p>
-            </div>
-            <div class="mt-4">
-              <label for="size-trufa-nutella" class="sr-only">Tamanho</label>
-              <select
-                id="size-trufa-nutella"
-                class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
-              >
-                <option value="Oval 500g (sem custo)">
-                  Oval 500g (sem custo)
-                </option>
-                <option value="Taça 500g (+ R$ 15,00)">
-                  Taça 500g (+ R$ 15,00)
-                </option>
-                <option value="Box 500g (+ R$ 15,00)">
-                  Box 500g (+ R$ 15,00)
-                </option>
-                <option value="Oval 1kg (sem custo)" selected>
-                  Oval 1kg (sem custo)
-                </option>
-                <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
-                <option value="Box 1kg (+ R$ 20,00)">
-                  Box 1kg (+ R$ 20,00)
-                </option>
-                <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
-                <option value="Oval 1,5kg (sem custo)">
-                  Oval 1,5kg (sem custo)
-                </option>
-                <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
-                <option value="Box 1,5kg (+ R$ 25,00)">
-                  Box 1,5kg (+ R$ 25,00)
-                </option>
-                <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
-                <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
-                <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
-                <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
-                <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
-                <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
-              </select>
-            </div>
-            <div class="mt-4">
-              <a
-                href="#"
-                onclick="addToCart('Trufa de Nutella', this)"
-                class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
-                >Encomendar agora</a
-              >
-            </div>
-          </div>
-
-          <!-- Elemento para centralizar o último card em telas grandes -->
-          <div class="hidden lg:block"></div>
-
-          <div
-            class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border-2 border-[#D4AF37] flex flex-col justify-between"
-          >
-            <div>
-              <img
-                loading="lazy"
-                src="sabores/PistacheComFrutasVermelhas.jpg"
-                alt="Pistache com Frutas Vermelhas"
-                class="object-cover object-center rounded-md mb-4 cake-card-image"
-              />
-              <h3
-                class="font-playfair text-xl font-semibold text-[#D4AF37] mb-2 flex items-center gap-2"
-              >
-                🍓 Pistache com Frutas Vermelhas
-              </h3>
-              <p class="text-gray-500 mb-2">
-                Ganache de pistache, geleia de frutas vermelhas, creme Ninho,
-                chantilly fresco e pistache crocante.
-              </p>
-              <p class="font-semibold text-[#D4AF37] text-lg">R$ 250,00/kg</p>
-            </div>
-            <div class="mt-4">
-              <label for="size-pistache" class="sr-only">Tamanho</label>
-              <select
-                id="size-pistache"
-                class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
-              >
-                <option value="Oval 500g (sem custo)">
-                  Oval 500g (sem custo)
-                </option>
-                <option value="Taça 500g (+ R$ 15,00)">
-                  Taça 500g (+ R$ 15,00)
-                </option>
-                <option value="Box 500g (+ R$ 15,00)">
-                  Box 500g (+ R$ 15,00)
-                </option>
-                <option value="Oval 1kg (sem custo)" selected>
-                  Oval 1kg (sem custo)
-                </option>
-                <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
-                <option value="Box 1kg (+ R$ 20,00)">
-                  Box 1kg (+ R$ 20,00)
-                </option>
-                <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
-                <option value="Oval 1,5kg (sem custo)">
-                  Oval 1,5kg (sem custo)
-                </option>
-                <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
-                <option value="Box 1,5kg (+ R$ 25,00)">
-                  Box 1,5kg (+ R$ 25,00)
-                </option>
-                <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
-                <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
-                <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
-                <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
-                <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
-                <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
-              </select>
-            </div>
-            <div class="mt-4">
-              <a
-                href="#"
-                onclick="addToCart('Pistache com Frutas Vermelhas', this)"
-                class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
-                >Encomendar agora</a
-              >
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section
-        id="informacoes"
-        class="mb-12 bg-white p-6 md:p-8 rounded-lg shadow-xl border border-gray-200"
-      >
-        <h2 class="text-3xl font-bold mb-6 text-center">Informações Gerais</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div>
-            <h3
-              class="font-semibold text-xl text-gray-800 mb-3 border-b border-gray-200 pb-2"
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="./sabores/UvaCrocante.jpg"
+                      alt="Uva Crocante"
+                      class="object-cover object-center rounded-md mb-4 cake-card-image"
+                    />
+                    <h3
+                      class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
+                    >
+                      🍇 Uva Crocante
+                    </h3>
+                    <p class="text-gray-500">
+                      Brigadeiro de caramelo com flor de sal (ou brigadeiro branco),
+                      uvas frescas, creme Ninho, chantilly e crocante.
+                    </p>
+                  </div>
+                  <div class="mt-4">
+                    <label for="size-uva-crocante" class="sr-only">Tamanho</label>
+                    <select
+                      id="size-uva-crocante"
+                      class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                    >
+                      <option value="Oval 500g (sem custo)">
+                        Oval 500g (sem custo)
+                      </option>
+                      <option value="Taça 500g (+ R$ 15,00)">
+                        Taça 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Box 500g (+ R$ 15,00)">
+                        Box 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Oval 1kg (sem custo)" selected>
+                        Oval 1kg (sem custo)
+                      </option>
+                      <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
+                      <option value="Box 1kg (+ R$ 20,00)">
+                        Box 1kg (+ R$ 20,00)
+                      </option>
+                      <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
+                      <option value="Oval 1,5kg (sem custo)">
+                        Oval 1,5kg (sem custo)
+                      </option>
+                      <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
+                      <option value="Box 1,5kg (+ R$ 25,00)">
+                        Box 1,5kg (+ R$ 25,00)
+                      </option>
+                      <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
+                      <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
+                      <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
+                      <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
+                      <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
+                      <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
+                    </select>
+                  </div>
+                  <div class="mt-4">
+                    <a
+                      href="#"
+                      onclick="addToCart('Uva Crocante', this)"
+                      class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
+                      >Encomendar agora</a
+                    >
+                  </div>
+                </div>
+    
+                <div
+                  class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
+                >
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="sabores/NuvemDeMorango.jpg"
+                      alt="Nuvem de Morango"
+                      class="object-cover object-center rounded-md mb-4 cake-card-image"
+                    />
+                    <h3
+                      class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
+                    >
+                      🍓 Nuvem de Morango
+                    </h3>
+                    <p class="text-gray-500">
+                      Brigadeiro branco com morango, creme Ninho e chantilly fresco
+                      com crocante.
+                    </p>
+                  </div>
+                  <div class="mt-4">
+                    <label for="size-nuvem-morango" class="sr-only">Tamanho</label>
+                    <select
+                      id="size-nuvem-morango"
+                      class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                    >
+                      <option value="Oval 500g (sem custo)">
+                        Oval 500g (sem custo)
+                      </option>
+                      <option value="Taça 500g (+ R$ 15,00)">
+                        Taça 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Box 500g (+ R$ 15,00)">
+                        Box 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Oval 1kg (sem custo)" selected>
+                        Oval 1kg (sem custo)
+                      </option>
+                      <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
+                      <option value="Box 1kg (+ R$ 20,00)">
+                        Box 1kg (+ R$ 20,00)
+                      </option>
+                      <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
+                      <option value="Oval 1,5kg (sem custo)">
+                        Oval 1,5kg (sem custo)
+                      </option>
+                      <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
+                      <option value="Box 1,5kg (+ R$ 25,00)">
+                        Box 1,5kg (+ R$ 25,00)
+                      </option>
+                      <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
+                      <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
+                      <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
+                      <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
+                      <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
+                      <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
+                    </select>
+                  </div>
+                  <div class="mt-4">
+                    <a
+                      href="#"
+                      onclick="addToCart('Nuvem de Morango', this)"
+                      class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
+                      >Encomendar agora</a
+                    >
+                  </div>
+                </div>
+    
+                <div
+                  class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
+                >
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="sabores/MorangoComSuspiro.jpg"
+                      alt="Morango com Suspiro"
+                      class="object-cover object-center rounded-md mb-4 cake-card-image"
+                    />
+                    <h3
+                      class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
+                    >
+                      🍓 Morango com Suspiro
+                    </h3>
+                    <p class="text-gray-500">
+                      Brigadeiro branco com morango, creme Ninho e chantilly fresco
+                      com suspiro.
+                    </p>
+                  </div>
+                  <div class="mt-4">
+                    <label for="size-morango-suspiro" class="sr-only">Tamanho</label>
+                    <select
+                      id="size-morango-suspiro"
+                      class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                    >
+                      <option value="Oval 500g (sem custo)">
+                        Oval 500g (sem custo)
+                      </option>
+                      <option value="Taça 500g (+ R$ 15,00)">
+                        Taça 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Box 500g (+ R$ 15,00)">
+                        Box 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Oval 1kg (sem custo)" selected>
+                        Oval 1kg (sem custo)
+                      </option>
+                      <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
+                      <option value="Box 1kg (+ R$ 20,00)">
+                        Box 1kg (+ R$ 20,00)
+                      </option>
+                      <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
+                      <option value="Oval 1,5kg (sem custo)">
+                        Oval 1,5kg (sem custo)
+                      </option>
+                      <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
+                      <option value="Box 1,5kg (+ R$ 25,00)">
+                        Box 1,5kg (+ R$ 25,00)
+                      </option>
+                      <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
+                      <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
+                      <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
+                      <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
+                      <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
+                      <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
+                    </select>
+                  </div>
+                  <div class="mt-4">
+                    <a
+                      href="#"
+                      onclick="addToCart('Morango com Suspiro', this)"
+                      class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
+                      >Encomendar agora</a
+                    >
+                  </div>
+                </div>
+    
+                <div
+                  class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
+                >
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="sabores/BoloDeSensacao.jpg"
+                      alt="Sensação"
+                      class="object-cover object-center rounded-md mb-4 cake-card-image"
+                    />
+                    <h3
+                      class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
+                    >
+                      🍓 Sensação
+                    </h3>
+                    <p class="text-gray-500">
+                      Massa de chocolate, brigadeiro branco com morangos, creme Ninho,
+                      ganache de chocolate ou chantilly fresco.
+                    </p>
+                  </div>
+                  <div class="mt-4">
+                    <label for="size-sensacao" class="sr-only">Tamanho</label>
+                    <select
+                      id="size-sensacao"
+                      class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                    >
+                      <option value="Oval 500g (sem custo)">
+                        Oval 500g (sem custo)
+                      </option>
+                      <option value="Taça 500g (+ R$ 15,00)">
+                        Taça 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Box 500g (+ R$ 15,00)">
+                        Box 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Oval 1kg (sem custo)" selected>
+                        Oval 1kg (sem custo)
+                      </option>
+                      <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
+                      <option value="Box 1kg (+ R$ 20,00)">
+                        Box 1kg (+ R$ 20,00)
+                      </option>
+                      <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
+                      <option value="Oval 1,5kg (sem custo)">
+                        Oval 1,5kg (sem custo)
+                      </option>
+                      <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
+                      <option value="Box 1,5kg (+ R$ 25,00)">
+                        Box 1,5kg (+ R$ 25,00)
+                      </option>
+                      <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
+                      <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
+                      <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
+                      <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
+                      <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
+                      <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
+                    </select>
+                  </div>
+                  <div class="mt-4">
+                    <a
+                      href="#"
+                      onclick="addToCart('Sensação', this)"
+                      class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
+                      >Encomendar agora</a
+                    >
+                  </div>
+                </div>
+    
+                <div
+                  class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
+                >
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="sabores/AbacaxiComCoco.jpg"
+                      alt="Abacaxi com Coco"
+                      class="object-cover object-center rounded-md mb-4 cake-card-image"
+                    />
+                    <h3
+                      class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
+                    >
+                      🍍 Abacaxi com Coco
+                    </h3>
+                    <p class="text-gray-500">
+                      Brigadeiro branco com abacaxi, Ninho com coco fresco, chantilly
+                      fresco com farofa de crocante e coco.
+                    </p>
+                  </div>
+                  <div class="mt-4">
+                    <label for="size-abacaxi-coco" class="sr-only">Tamanho</label>
+                    <select
+                      id="size-abacaxi-coco"
+                      class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                    >
+                      <option value="Oval 500g (sem custo)">
+                        Oval 500g (sem custo)
+                      </option>
+                      <option value="Taça 500g (+ R$ 15,00)">
+                        Taça 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Box 500g (+ R$ 15,00)">
+                        Box 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Oval 1kg (sem custo)" selected>
+                        Oval 1kg (sem custo)
+                      </option>
+                      <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
+                      <option value="Box 1kg (+ R$ 20,00)">
+                        Box 1kg (+ R$ 20,00)
+                      </option>
+                      <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
+                      <option value="Oval 1,5kg (sem custo)">
+                        Oval 1,5kg (sem custo)
+                      </option>
+                      <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
+                      <option value="Box 1,5kg (+ R$ 25,00)">
+                        Box 1,5kg (+ R$ 25,00)
+                      </option>
+                      <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
+                      <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
+                      <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
+                      <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
+                      <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
+                      <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
+                    </select>
+                  </div>
+                  <div class="mt-4">
+                    <a
+                      href="#"
+                      onclick="addToCart('Abacaxi com Coco', this)"
+                      class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
+                      >Encomendar agora</a
+                    >
+                  </div>
+                </div>
+    
+                <div
+                  class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
+                >
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="sabores/OlhoDesogra.jpg"
+                      alt="Olho de Sogra"
+                      class="object-cover object-center rounded-md mb-4 cake-card-image"
+                    />
+                    <h3
+                      class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
+                    >
+                      🥥 Olho de Sogra
+                    </h3>
+                    <p class="text-gray-500">
+                      Brigadeiro branco com ameixa, creme Ninho com coco, chantilly
+                      fresco com farofa de coco e crocante.
+                    </p>
+                  </div>
+                  <div class="mt-4">
+                    <label for="size-olho-sogra" class="sr-only">Tamanho</label>
+                    <select
+                      id="size-olho-sogra"
+                      class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                    >
+                      <option value="Oval 500g (sem custo)">
+                        Oval 500g (sem custo)
+                      </option>
+                      <option value="Taça 500g (+ R$ 15,00)">
+                        Taça 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Box 500g (+ R$ 15,00)">
+                        Box 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Oval 1kg (sem custo)" selected>
+                        Oval 1kg (sem custo)
+                      </option>
+                      <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
+                      <option value="Box 1kg (+ R$ 20,00)">
+                        Box 1kg (+ R$ 20,00)
+                      </option>
+                      <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
+                      <option value="Oval 1,5kg (sem custo)">
+                        Oval 1,5kg (sem custo)
+                      </option>
+                      <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
+                      <option value="Box 1,5kg (+ R$ 25,00)">
+                        Box 1,5kg (+ R$ 25,00)
+                      </option>
+                      <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
+                      <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
+                      <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
+                      <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
+                      <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
+                      <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
+                    </select>
+                  </div>
+                  <div class="mt-4">
+                    <a
+                      href="#"
+                      onclick="addToCart('Olho de Sogra', this)"
+                      class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
+                      >Encomendar agora</a
+                    >
+                  </div>
+                </div>
+    
+                <div
+                  class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
+                >
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="sabores/StrogonoffDeNozes.jpg"
+                      alt="Strogonoff de Nozes"
+                      class="object-cover object-center rounded-md mb-4 cake-card-image"
+                    />
+                    <h3
+                      class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
+                    >
+                      🌰 Strogonoff de Nozes
+                    </h3>
+                    <p class="text-gray-500">
+                      Brigadeiro branco com nozes, Ninho com coco (ou sem coco),
+                      chantilly com farofa de crocante de nozes e coco.
+                    </p>
+                  </div>
+                  <div class="mt-4">
+                    <label for="size-strogonoff-nozes" class="sr-only">Tamanho</label>
+                    <select
+                      id="size-strogonoff-nozes"
+                      class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                    >
+                      <option value="Oval 500g (sem custo)">
+                        Oval 500g (sem custo)
+                      </option>
+                      <option value="Taça 500g (+ R$ 15,00)">
+                        Taça 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Box 500g (+ R$ 15,00)">
+                        Box 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Oval 1kg (sem custo)" selected>
+                        Oval 1kg (sem custo)
+                      </option>
+                      <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
+                      <option value="Box 1kg (+ R$ 20,00)">
+                        Box 1kg (+ R$ 20,00)
+                      </option>
+                      <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
+                      <option value="Oval 1,5kg (sem custo)">
+                        Oval 1,5kg (sem custo)
+                      </option>
+                      <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
+                      <option value="Box 1,5kg (+ R$ 25,00)">
+                        Box 1,5kg (+ R$ 25,00)
+                      </option>
+                      <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
+                      <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
+                      <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
+                      <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
+                      <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
+                      <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
+                    </select>
+                  </div>
+                  <div class="mt-4">
+                    <a
+                      href="#"
+                      onclick="addToCart('Strogonoff de Nozes', this)"
+                      class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
+                      >Encomendar agora</a
+                    >
+                  </div>
+                </div>
+    
+                <div
+                  class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
+                >
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="sabores/DoceDeLeite.jpg"
+                      alt="Doce de Leite Trufado"
+                      id="doce-de-leite-img"
+                      class="object-cover object-center rounded-md mb-4 cake-card-image"
+                    />
+                    <h3
+                      class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
+                    >
+                      🍮 Doce de Leite Trufado
+                    </h3>
+                    <p class="text-gray-500">
+                      Brigadeiro branco, creme Ninho, trufado de doce de leite com
+                      crocante.
+                    </p>
+                  </div>
+                  <div class="mt-4">
+                    <label for="size-doce-leite" class="sr-only">Tamanho</label>
+                    <select
+                      id="size-doce-leite"
+                      class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                    >
+                      <option value="Oval 500g (sem custo)">
+                        Oval 500g (sem custo)
+                      </option>
+                      <option value="Taça 500g (+ R$ 15,00)">
+                        Taça 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Box 500g (+ R$ 15,00)">
+                        Box 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Oval 1kg (sem custo)" selected>
+                        Oval 1kg (sem custo)
+                      </option>
+                      <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
+                      <option value="Box 1kg (+ R$ 20,00)">
+                        Box 1kg (+ R$ 20,00)
+                      </option>
+                      <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
+                      <option value="Oval 1,5kg (sem custo)">
+                        Oval 1,5kg (sem custo)
+                      </option>
+                      <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
+                      <option value="Box 1,5kg (+ R$ 25,00)">
+                        Box 1,5kg (+ R$ 25,00)
+                      </option>
+                      <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
+                      <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
+                      <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
+                      <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
+                      <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
+                      <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
+                    </select>
+                  </div>
+                  <div class="mt-4">
+                    <a
+                      href="#"
+                      onclick="addToCart('Doce de Leite Trufado', this)"
+                      class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
+                      >Encomendar agora</a
+                    >
+                  </div>
+                </div>
+    
+                <div
+                  class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
+                >
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="sabores/Casadinho.jpg"
+                      alt="Casadinho"
+                      class="object-cover object-center rounded-md mb-4 cake-card-image"
+                    />
+                    <h3
+                      class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
+                    >
+                      🍫 Casadinho
+                    </h3>
+                    <p class="text-gray-500">
+                      Massa de chocolate com brigadeiro branco e preto, cobertura de
+                      Ninho com granule.
+                    </p>
+                  </div>
+                  <div class="mt-4">
+                    <label for="size-casadinho" class="sr-only">Tamanho</label>
+                    <select
+                      id="size-casadinho"
+                      class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                    >
+                      <option value="Oval 500g (sem custo)">
+                        Oval 500g (sem custo)
+                      </option>
+                      <option value="Taça 500g (+ R$ 15,00)">
+                        Taça 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Box 500g (+ R$ 15,00)">
+                        Box 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Oval 1kg (sem custo)" selected>
+                        Oval 1kg (sem custo)
+                      </option>
+                      <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
+                      <option value="Box 1kg (+ R$ 20,00)">
+                        Box 1kg (+ R$ 20,00)
+                      </option>
+                      <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
+                      <option value="Oval 1,5kg (sem custo)">
+                        Oval 1,5kg (sem custo)
+                      </option>
+                      <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
+                      <option value="Box 1,5kg (+ R$ 25,00)">
+                        Box 1,5kg (+ R$ 25,00)
+                      </option>
+                      <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
+                      <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
+                      <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
+                      <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
+                      <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
+                      <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
+                    </select>
+                  </div>
+                  <div class="mt-4">
+                    <a
+                      href="#"
+                      onclick="addToCart('Casadinho', this)"
+                      class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
+                      >Encomendar agora</a
+                    >
+                  </div>
+                </div>
+    
+                <div
+                  class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
+                >
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="sabores/BoloDeBrigadeiro.jpg"
+                      alt="Brigadeiro"
+                      class="object-cover object-center rounded-md mb-4 cake-card-image"
+                    />
+                    <h3
+                      class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
+                    >
+                      🍫 Brigadeiro
+                    </h3>
+                    <p class="text-gray-500">
+                      Massa de chocolate, recheio de brigadeiro e granule.
+                    </p>
+                  </div>
+                  <div class="mt-4">
+                    <label for="size-brigadeiro" class="sr-only">Tamanho</label>
+                    <select
+                      id="size-brigadeiro"
+                      class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                    >
+                      <option value="Oval 500g (sem custo)">
+                        Oval 500g (sem custo)
+                      </option>
+                      <option value="Taça 500g (+ R$ 15,00)">
+                        Taça 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Box 500g (+ R$ 15,00)">
+                        Box 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Oval 1kg (sem custo)" selected>
+                        Oval 1kg (sem custo)
+                      </option>
+                      <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
+                      <option value="Box 1kg (+ R$ 20,00)">
+                        Box 1kg (+ R$ 20,00)
+                      </option>
+                      <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
+                      <option value="Oval 1,5kg (sem custo)">
+                        Oval 1,5kg (sem custo)
+                      </option>
+                      <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
+                      <option value="Box 1,5kg (+ R$ 25,00)">
+                        Box 1,5kg (+ R$ 25,00)
+                      </option>
+                      <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
+                      <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
+                      <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
+                      <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
+                      <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
+                      <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
+                    </select>
+                  </div>
+                  <div class="mt-4">
+                    <a
+                      href="#"
+                      onclick="addToCart('Brigadeiro', this)"
+                      class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
+                      >Encomendar agora</a
+                    >
+                  </div>
+                </div>
+    
+                <div
+                  class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
+                >
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="sabores/BoloDeCafe.jpg"
+                      alt="Brigadeiro de Café"
+                      class="object-cover object-center rounded-md mb-4 cake-card-image"
+                    />
+                    <h3
+                      class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
+                    >
+                      ☕ Brigadeiro de Café
+                    </h3>
+                    <p class="text-gray-500">
+                      Massa de chocolate, brigadeiro de café, chantilly fresco
+                      saborizado com café e raspas de chocolate.
+                    </p>
+                  </div>
+                  <div class="mt-4">
+                    <label for="size-brigadeiro-cafe" class="sr-only">Tamanho</label>
+                    <select
+                      id="size-brigadeiro-cafe"
+                      class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                    >
+                      <option value="Oval 500g (sem custo)">
+                        Oval 500g (sem custo)
+                      </option>
+                      <option value="Taça 500g (+ R$ 15,00)">
+                        Taça 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Box 500g (+ R$ 15,00)">
+                        Box 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Oval 1kg (sem custo)" selected>
+                        Oval 1kg (sem custo)
+                      </option>
+                      <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
+                      <option value="Box 1kg (+ R$ 20,00)">
+                        Box 1kg (+ R$ 20,00)
+                      </option>
+                      <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
+                      <option value="Oval 1,5kg (sem custo)">
+                        Oval 1,5kg (sem custo)
+                      </option>
+                      <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
+                      <option value="Box 1,5kg (+ R$ 25,00)">
+                        Box 1,5kg (+ R$ 25,00)
+                      </option>
+                      <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
+                      <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
+                      <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
+                      <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
+                      <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
+                      <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
+                    </select>
+                  </div>
+                  <div class="mt-4">
+                    <a
+                      href="#"
+                      onclick="addToCart('Brigadeiro de Café', this)"
+                      class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
+                      >Encomendar agora</a
+                    >
+                  </div>
+                </div>
+    
+                <div
+                  class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
+                >
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="sabores/TrufaDeNutella.jpg"
+                      alt="Trufa de Nutella"
+                      class="object-cover object-center rounded-md mb-4 cake-card-image"
+                    />
+                    <h3
+                      class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
+                    >
+                      🍫 Trufa de Nutella
+                    </h3>
+                    <p class="text-gray-500">
+                      Ganache de Nutella, creme Ninho e raspas de chocolate.
+                    </p>
+                  </div>
+                  <div class="mt-4">
+                    <label for="size-trufa-nutella" class="sr-only">Tamanho</label>
+                    <select
+                      id="size-trufa-nutella"
+                      class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                    >
+                      <option value="Oval 500g (sem custo)">
+                        Oval 500g (sem custo)
+                      </option>
+                      <option value="Taça 500g (+ R$ 15,00)">
+                        Taça 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Box 500g (+ R$ 15,00)">
+                        Box 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Oval 1kg (sem custo)" selected>
+                        Oval 1kg (sem custo)
+                      </option>
+                      <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
+                      <option value="Box 1kg (+ R$ 20,00)">
+                        Box 1kg (+ R$ 20,00)
+                      </option>
+                      <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
+                      <option value="Oval 1,5kg (sem custo)">
+                        Oval 1,5kg (sem custo)
+                      </option>
+                      <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
+                      <option value="Box 1,5kg (+ R$ 25,00)">
+                        Box 1,5kg (+ R$ 25,00)
+                      </option>
+                      <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
+                      <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
+                      <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
+                      <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
+                      <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
+                      <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
+                    </select>
+                  </div>
+                  <div class="mt-4">
+                    <a
+                      href="#"
+                      onclick="addToCart('Trufa de Nutella', this)"
+                      class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
+                      >Encomendar agora</a
+                    >
+                  </div>
+                </div>
+    
+                <!-- Elemento para centralizar o último card em telas grandes -->
+                <div class="hidden lg:block"></div>
+    
+                <div
+                  class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border-2 border-[#D4AF37] flex flex-col justify-between"
+                >
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="sabores/PistacheComFrutasVermelhas.jpg"
+                      alt="Pistache com Frutas Vermelhas"
+                      class="object-cover object-center rounded-md mb-4 cake-card-image"
+                    />
+                    <h3
+                      class="font-playfair text-xl font-semibold text-[#D4AF37] mb-2 flex items-center gap-2"
+                    >
+                      🍓 Pistache com Frutas Vermelhas
+                    </h3>
+                    <p class="text-gray-500 mb-2">
+                      Ganache de pistache, geleia de frutas vermelhas, creme Ninho,
+                      chantilly fresco e pistache crocante.
+                    </p>
+                    <p class="font-semibold text-[#D4AF37] text-lg">R$ 250,00/kg</p>
+                  </div>
+                  <div class="mt-4">
+                    <label for="size-pistache" class="sr-only">Tamanho</label>
+                    <select
+                      id="size-pistache"
+                      class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                    >
+                      <option value="Oval 500g (sem custo)">
+                        Oval 500g (sem custo)
+                      </option>
+                      <option value="Taça 500g (+ R$ 15,00)">
+                        Taça 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Box 500g (+ R$ 15,00)">
+                        Box 500g (+ R$ 15,00)
+                      </option>
+                      <option value="Oval 1kg (sem custo)" selected>
+                        Oval 1kg (sem custo)
+                      </option>
+                      <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
+                      <option value="Box 1kg (+ R$ 20,00)">
+                        Box 1kg (+ R$ 20,00)
+                      </option>
+                      <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
+                      <option value="Oval 1,5kg (sem custo)">
+                        Oval 1,5kg (sem custo)
+                      </option>
+                      <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
+                      <option value="Box 1,5kg (+ R$ 25,00)">
+                        Box 1,5kg (+ R$ 25,00)
+                      </option>
+                      <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
+                      <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
+                      <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
+                      <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
+                      <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
+                      <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
+                    </select>
+                  </div>
+                  <div class="mt-4">
+                    <a
+                      href="#"
+                      onclick="addToCart('Pistache com Frutas Vermelhas', this)"
+                      class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center"
+                      >Encomendar agora</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </section>
+    
+            <section
+              id="informacoes"
+              class="mb-12 bg-white p-6 md:p-8 rounded-lg shadow-xl border border-gray-200"
             >
-              Formas de Pagamento e Entrega
-            </h3>
-            <ul class="space-y-2 text-gray-600">
-              <li><span class="font-semibold">Pagamento:</span> PIX.</li>
-              <li>
-                <span class="font-semibold">Taxa de Entrega:</span> Consultar o
-                valor, que pode variar conforme a localidade.
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3
-              class="font-semibold text-xl text-gray-800 mb-3 border-b border-gray-200 pb-2"
-            >
-              Antecedência dos Pedidos
-            </h3>
-            <ul class="list-disc list-inside space-y-2 text-gray-600">
-              <li>
-                <span class="font-semibold">Bolos:</span> Mínimo de 1 dia.
-              </li>
-
-              <li>
-                <span class="font-semibold">Potinhos (10-20 un):</span> 7 dias.
-              </li>
-              <li>
-                <span class="font-semibold">Potinhos (acima de 20 un):</span> 15
-                dias.
-              </li>
-            </ul>
-            <p class="text-sm text-gray-500 mt-3">
-              <span class="font-semibold">Pagamento:</span> 50% no ato do pedido
-              e o restante na retirada/entrega.
+              <h2 class="text-3xl font-bold mb-6 text-center">Informações Gerais</h2>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <h3
+                    class="font-semibold text-xl text-gray-800 mb-3 border-b border-gray-200 pb-2"
+                  >
+                    Formas de Pagamento e Entrega
+                  </h3>
+                  <ul class="space-y-2 text-gray-600">
+                    <li><span class="font-semibold">Pagamento:</span> PIX.</li>
+                    <li>
+                      <span class="font-semibold">Taxa de Entrega:</span> Consultar o
+                      valor, que pode variar conforme a localidade.
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h3
+                    class="font-semibold text-xl text-gray-800 mb-3 border-b border-gray-200 pb-2"
+                  >
+                    Antecedência dos Pedidos
+                  </h3>
+                  <ul class="list-disc list-inside space-y-2 text-gray-600">
+                    <li>
+                      <span class="font-semibold">Bolos:</span> Mínimo de 1 dia.
+                    </li>
+    
+                    <li>
+                      <span class="font-semibold">Potinhos (10-20 un):</span> 7 dias.
+                    </li>
+                    <li>
+                      <span class="font-semibold">Potinhos (acima de 20 un):</span> 15
+                      dias.
+                    </li>
+                  </ul>
+                  <p class="text-sm text-gray-500 mt-3">
+                    <span class="font-semibold">Pagamento:</span> 50% no ato do pedido
+                    e o restante na retirada/entrega.
+                  </p>
+                </div>
+              </div>
+            </section>
+    
+            <section id="potinho" class="mb-12">
+              <h2 class="text-3xl font-bold mb-6 text-center">Bolo no Potinho</h2>
+              <div
+                class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-xl border border-gray-200"
+              >
+                <h3 class="font-semibold text-lg text-gray-800 mb-3">
+                  Como Fazer seu Pedido:
+                </h3>
+                <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                  <li>Escolha o sabor.</li>
+                  <li>Escolha o modelo do potinho.</li>
+                  <li>Escolha a cor da fita.</li>
+                  <li>Escolha o adesivo personalizado.</li>
+                </ol>
+              </div>
+            </section>
+    
+            <p class="text-center text-gray-500 mt-8">
+              A empresa também trabalha com topo de bolo.
             </p>
-          </div>
-        </div>
-      </section>
-
-      <section id="potinho" class="mb-12">
-        <h2 class="text-3xl font-bold mb-6 text-center">Bolo no Potinho</h2>
-        <div
-          class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-xl border border-gray-200"
-        >
-          <h3 class="font-semibold text-lg text-gray-800 mb-3">
-            Como Fazer seu Pedido:
-          </h3>
-          <ol class="list-decimal list-inside space-y-2 text-gray-600">
-            <li>Escolha o sabor.</li>
-            <li>Escolha o modelo do potinho.</li>
-            <li>Escolha a cor da fita.</li>
-            <li>Escolha o adesivo personalizado.</li>
-          </ol>
-        </div>
-      </section>
-
-      <p class="text-center text-gray-500 mt-8">
-        A empresa também trabalha com topo de bolo.
-      </p>
-    </main>
+          </main>
     <script>
       const menuButton = document.getElementById("mobile-menu-button");
       const mobileMenu = document.getElementById("mobile-menu");
