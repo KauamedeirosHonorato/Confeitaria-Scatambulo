@@ -172,33 +172,28 @@
 
     <!-- Modal de Embalagens -->
     <div id="packaging-modal" class="modal-overlay hidden">
-      <div class="modal-content max-w-4xl"> <!-- Increased max-width for side-by-side layout -->
+      <div class="modal-content">
         <button id="close-packaging-modal" class="close-button">&times;</button>
-        <h2 class="text-2xl font-bold mb-4 !text-[#D4AF37] text-center">
+        <h2 class="text-2xl font-bold mb-4 !text-[#D4AF37]">
           Escolha sua Embalagem
         </h2>
-        <div class="flex flex-col md:flex-row gap-8"> <!-- Flex container for video and info -->
-          <div class="md:w-1/2"> <!-- Video container -->
-            <div class="video-container">
-              <video id="packaging-video" controls class="w-full rounded-lg shadow-lg">
-                <source src="./VideoEmbalagens/VideoAngela.mp4" type="video/mp4" />
-                Seu navegador não suporta o elemento de vídeo.
-              </video>
-              <div id="video-overlays" class="video-overlay">
-                <!-- Overlays will be dynamically added here -->
-              </div>
-            </div>
+        <div class="video-container">
+          <video id="packaging-video" controls class="w-full rounded-lg shadow-lg">
+            <source src="./VideoEmbalagens/VideoAngela.mp4" type="video/mp4" />
+            Seu navegador não suporta o elemento de vídeo.
+          </video>
+          <div id="video-overlays" class="video-overlay">
+            <!-- Overlays will be dynamically added here -->
           </div>
-          <div class="md:w-1/2"> <!-- Packaging info container -->
-            <div id="packaging-info" class="packaging-details"> <!-- Removed 'mt-8 hidden' from here -->
-              <h3 class="text-2xl font-bold mb-4">Detalhes da Embalagem: <span id="packaging-name"></span></h3>
-              <p id="packaging-description" class="text-gray-700 mb-4"></p>
-              <p class="font-semibold">Preço Adicional: <span id="packaging-price"></span></p>
-              <button id="select-packaging-btn" class="mt-4 bg-[#D4AF37] text-white py-2 px-4 rounded-lg hover:bg-[#f5e6b3] transition-colors">
-                Selecionar Embalagem
-              </button>
-            </div>
-          </div>
+        </div>
+
+        <div id="packaging-info" class="mt-8 hidden packaging-details">
+          <h3 class="text-2xl font-bold mb-4">Detalhes da Embalagem: <span id="packaging-name"></span></h3>
+          <p id="packaging-description" class="text-gray-700 mb-4"></p>
+          <p class="font-semibold">Preço Adicional: <span id="packaging-price"></span></p>
+          <button id="select-packaging-btn" class="mt-4 bg-[#D4AF37] text-white py-2 px-4 rounded-lg hover:bg-[#f5e6b3] transition-colors">
+            Selecionar Embalagem
+          </button>
         </div>
       </div>
     </div>
@@ -1297,10 +1292,6 @@
         packagingTab.addEventListener('click', () => {
           packagingModal.classList.remove('hidden');
           video.play(); // Start video when modal opens
-          packagingInfo.classList.add('hidden'); // Hide details when modal opens
-          packagingName.textContent = '';
-          packagingDescription.textContent = '';
-          packagingPrice.textContent = '';
         });
 
         closePackagingModal.addEventListener('click', () => {
@@ -1377,11 +1368,11 @@
           packagingName.textContent = data.name;
           packagingDescription.textContent = data.description;
           packagingPrice.textContent = data.price;
-          packagingInfo.classList.remove('hidden'); // Ensure it's visible when details are shown
+          packagingInfo.classList.remove('hidden');
           selectPackagingBtn.onclick = () => {
             alert(`Embalagem "${data.name}" selecionada!`);
             // Here you would integrate with your cart/ordering system
-            packagingInfo.classList.add('hidden'); // Hide details after selection
+            packagingInfo.classList.add('hidden');
             video.play();
           };
         }
