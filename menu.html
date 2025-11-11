@@ -28,7 +28,12 @@
           <a href="#sabores" class="hover:text-[#D4AF37] transition-colors"
             >Sabores</a
           >
-
+          <button
+            id="embalagens-button"
+            class="hover:text-[#D4AF37] transition-colors"
+          >
+            Sobre as Embalagens
+          </button>
           <a href="#informacoes" class="hover:text-[#D4AF37] transition-colors"
             >Informações</a
           >
@@ -62,7 +67,12 @@
           class="block py-3 px-6 text-gray-700 hover:bg-gray-50 transition-colors"
           >Sabores</a
         >
-
+        <button
+          id="mobile-embalagens-button"
+          class="block w-full text-left py-3 px-6 text-gray-700 hover:bg-gray-50 transition-colors"
+        >
+          Sobre as Embalagens
+        </button>
         <a
           href="#informacoes"
           class="block py-3 px-6 text-gray-700 hover:bg-gray-50 transition-colors"
@@ -162,7 +172,70 @@
       </div>
     </div>
 
+    <!-- Modal Sobre as Embalagens -->
+    <div id="embalagens-modal" class="modal-overlay hidden">
+      <div class="modal-content embalagens-modal-content">
+        <button class="close-button">&times;</button>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+          <div class="md:order-2">
+            <h2 class="text-2xl font-bold mb-4 !text-[#D4AF37]">
+              Sobre as Embalagens
+            </h2>
+            <div class="md:block hidden">
+              <ul class="text-base text-gray-600 space-y-2">
+                <li><strong>Embalagem Descartável 500g e 1,5kg:</strong> Sem custo adicional.</li>
+                <li><strong>Embalagem Descartável 1kg:</strong> Sem custo adicional.</li>
+                <li><strong>Taça 1kg:</strong> R$ 20,00</li>
+                <li><strong>Caixa 1kg:</strong> R$ 36,00</li>
+                <li><strong>Taça 1,5kg / Box Redonda 1,5kg:</strong> R$ 25,00</li>
+                <li><strong>Taça 2kg:</strong> R$ 25,00</li>
+                <li><strong>Caixa 2kg:</strong> R$ 44,00</li>
+                <li><strong>Taça 3kg:</strong> R$ 40,00</li>
+                <li><strong>Caixa 3kg:</strong> R$ 62,00</li>
+                <li><strong>Caixa 4kg:</strong> R$ 72,00</li>
+                <li><strong>Caixa 5kg:</strong> R$ 87,00</li>
+                <li class="pt-2 border-t border-gray-200 mt-2"><strong>Opção de montar o bolo em taça ou refratário próprio:</strong> Taxa de coleta de R$ 10,00.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="md:order-1">
+            <video
+              id="video-embalagens"
+              class="w-full rounded-lg"
+              controls
+              src="./VideoEmbalagens/VideoAngela.mp4"
+            ></video>
+            <button id="ver-mais-button" class="w-full mt-4 btn-gold-metallic py-2 px-4 rounded-lg text-sm text-center md:hidden" onclick="openSaberMaisModal()">Ver Mais</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <!-- Modal Saber Mais -->
+    <div id="saber-mais-modal" class="modal-overlay hidden">
+      <div class="modal-content saber-mais-modal-content">
+        <button id="close-saber-mais-modal" class="close-button">&times;</button>
+        <div class="overflow-y-auto max-h-[80vh] p-4">
+            <h2 class="text-2xl font-bold mb-4 !text-[#D4AF37]">
+              Sobre as Embalagens
+            </h2>
+            <ul class="text-base text-gray-600 space-y-2">
+              <li><strong>Embalagem Descartável 500g e 1,5kg:</strong> Sem custo adicional.</li>
+              <li><strong>Embalagem Descartável 1kg:</strong> Sem custo adicional.</li>
+              <li><strong>Taça 1kg:</strong> R$ 20,00</li>
+              <li><strong>Caixa 1kg:</strong> R$ 36,00</li>
+              <li><strong>Taça 1,5kg / Box Redonda 1,5kg:</strong> R$ 25,00</li>
+              <li><strong>Taça 2kg:</strong> R$ 25,00</li>
+              <li><strong>Caixa 2kg:</strong> R$ 44,00</li>
+              <li><strong>Taça 3kg:</strong> R$ 40,00</li>
+              <li><strong>Caixa 3kg:</strong> R$ 62,00</li>
+              <li><strong>Caixa 4kg:</strong> R$ 72,00</li>
+              <li><strong>Caixa 5kg:</strong> R$ 87,00</li>
+              <li class="pt-2 border-t border-gray-200 mt-2"><strong>Opção de montar o bolo em taça ou refratário próprio:</strong> Taxa de coleta de R$ 20,00.</li>
+            </ul>
+        </div>
+      </div>
+    </div>
 
     <main class="container mx-auto p-4 md:p-8">
       <!-- Recado da Angela -->
@@ -210,11 +283,10 @@
           >
             <div>
               <img
+                loading="lazy"
                 src="./sabores/UvaCrocante.jpg"
                 alt="Uva Crocante"
-                width="410"
-                height="410"
-                class="object-cover object-center rounded-md mb-4"
+                class="object-cover object-center rounded-md mb-4 cake-card-image"
               />
               <h3
                 class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
@@ -279,11 +351,10 @@
           >
             <div>
               <img
+                loading="lazy"
                 src="sabores/NuvemDeMorango.jpg"
                 alt="Nuvem de Morango"
-                width="410"
-                height="410"
-                class="object-cover object-center rounded-md mb-4"
+                class="object-cover object-center rounded-md mb-4 cake-card-image"
               />
               <h3
                 class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
@@ -348,11 +419,10 @@
           >
             <div>
               <img
+                loading="lazy"
                 src="sabores/MorangoComSuspiro.jpg"
                 alt="Morango com Suspiro"
-                width="410"
-                height="410"
-                class="object-cover object-center rounded-md mb-4"
+                class="object-cover object-center rounded-md mb-4 cake-card-image"
               />
               <h3
                 class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
@@ -417,11 +487,10 @@
           >
             <div>
               <img
+                loading="lazy"
                 src="sabores/BoloDeSensacao.jpg"
                 alt="Sensação"
-                width="410"
-                height="410"
-                class="object-cover object-center rounded-md mb-4"
+                class="object-cover object-center rounded-md mb-4 cake-card-image"
               />
               <h3
                 class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
@@ -486,11 +555,10 @@
           >
             <div>
               <img
+                loading="lazy"
                 src="sabores/AbacaxiComCoco.jpg"
                 alt="Abacaxi com Coco"
-                width="410"
-                height="410"
-                class="object-cover object-center rounded-md mb-4"
+                class="object-cover object-center rounded-md mb-4 cake-card-image"
               />
               <h3
                 class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
@@ -555,11 +623,10 @@
           >
             <div>
               <img
+                loading="lazy"
                 src="sabores/OlhoDesogra.jpg"
                 alt="Olho de Sogra"
-                width="410"
-                height="410"
-                class="object-cover object-center rounded-md mb-4"
+                class="object-cover object-center rounded-md mb-4 cake-card-image"
               />
               <h3
                 class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
@@ -624,11 +691,10 @@
           >
             <div>
               <img
+                loading="lazy"
                 src="sabores/StrogonoffDeNozes.jpg"
                 alt="Strogonoff de Nozes"
-                width="410"
-                height="410"
-                class="object-cover object-center rounded-md mb-4"
+                class="object-cover object-center rounded-md mb-4 cake-card-image"
               />
               <h3
                 class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
@@ -693,11 +759,11 @@
           >
             <div>
               <img
-                src="sabores/DoceDeLeite.png"
+                loading="lazy"
+                src="sabores/DoceDeLeite.jpg"
                 alt="Doce de Leite Trufado"
-                width="410"
-                height="410"
-                class="object-cover object-center rounded-md mb-4"
+                id="doce-de-leite-img"
+                class="object-cover object-center rounded-md mb-4 cake-card-image"
               />
               <h3
                 class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
@@ -762,11 +828,10 @@
           >
             <div>
               <img
+                loading="lazy"
                 src="sabores/Casadinho.jpg"
                 alt="Casadinho"
-                width="410"
-                height="410"
-                class="object-cover object-center rounded-md mb-4"
+                class="object-cover object-center rounded-md mb-4 cake-card-image"
               />
               <h3
                 class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
@@ -831,11 +896,10 @@
           >
             <div>
               <img
+                loading="lazy"
                 src="sabores/BoloDeBrigadeiro.jpg"
                 alt="Brigadeiro"
-                width="410"
-                height="410"
-                class="object-cover object-center rounded-md mb-4"
+                class="object-cover object-center rounded-md mb-4 cake-card-image"
               />
               <h3
                 class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
@@ -899,11 +963,10 @@
           >
             <div>
               <img
+                loading="lazy"
                 src="sabores/BoloDeCafe.jpg"
                 alt="Brigadeiro de Café"
-                width="410"
-                height="410"
-                class="object-cover object-center rounded-md mb-4"
+                class="object-cover object-center rounded-md mb-4 cake-card-image"
               />
               <h3
                 class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
@@ -963,18 +1026,15 @@
             </div>
           </div>
 
-
-
           <div
             class="bg-[#FAF8F0] p-6 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between"
           >
             <div>
               <img
+                loading="lazy"
                 src="sabores/TrufaDeNutella.jpg"
                 alt="Trufa de Nutella"
-                width="410"
-                height="410"
-                class="object-cover object-center rounded-md mb-4"
+                class="object-cover object-center rounded-md mb-4 cake-card-image"
               />
               <h3
                 class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
@@ -1041,11 +1101,10 @@
           >
             <div>
               <img
+                loading="lazy"
                 src="sabores/PistacheComFrutasVermelhas.jpg"
                 alt="Pistache com Frutas Vermelhas"
-                width="410"
-                height="410"
-                class="object-cover object-center rounded-md mb-4"
+                class="object-cover object-center rounded-md mb-4 cake-card-image"
               />
               <h3
                 class="font-playfair text-xl font-semibold text-[#D4AF37] mb-2 flex items-center gap-2"
@@ -1107,8 +1166,6 @@
           </div>
         </div>
       </section>
-
-
 
       <section
         id="informacoes"
@@ -1184,19 +1241,18 @@
       menuButton.addEventListener("click", () => {
         mobileMenu.classList.toggle("hidden");
       });
-      document.querySelectorAll("#mobile-menu a").forEach((link) => {
-        link.addEventListener("click", () => {
-          mobileMenu.classList.add("hidden");
+      document
+        .querySelectorAll("#mobile-menu a, #mobile-menu button")
+        .forEach((link) => {
+          link.addEventListener("click", () => {
+            mobileMenu.classList.add("hidden");
+          });
         });
-      });
 
       // Lógica para os modais
       document.addEventListener("DOMContentLoaded", () => {
         const infoModal = document.getElementById("info-modal");
         const policyModal = document.getElementById("policy-modal");
-
-        // Abre o modal de informações automaticamente
-        if (infoModal) infoModal.classList.remove("hidden");
 
         // Funções para abrir modais
         document
@@ -1219,59 +1275,77 @@
           .addEventListener("click", () => policyModal.classList.add("hidden"));
       });
 
+      // Lógica para o modal de Embalagens
+      document.addEventListener("DOMContentLoaded", () => {
+        const embalagensModal = document.getElementById("embalagens-modal");
+        const videoEmbalagens = document.getElementById("video-embalagens");
+        const openButtons = [
+          document.getElementById("embalagens-button"),
+          document.getElementById("mobile-embalagens-button"),
+        ];
+        const closeButton = embalagensModal.querySelector(".close-button");
 
+        const openEmbalagensModal = () => {
+            if (embalagensModal) embalagensModal.classList.remove("hidden");
+            if (videoEmbalagens) videoEmbalagens.play();
+        }
 
+        openButtons.forEach((button) => {
+          if (button) {
+            button.addEventListener("click", (e) => {
+              e.preventDefault();
+              openEmbalagensModal();
+            });
+          }
+        });
 
+        const closeEmbalagensModal = () => {
+            if (embalagensModal) embalagensModal.classList.add("hidden");
+            if (videoEmbalagens) {
+                videoEmbalagens.pause();
+                videoEmbalagens.currentTime = 0; // Reset video to start
+            }
+        }
+
+        if (closeButton) {
+          closeButton.addEventListener("click", closeEmbalagensModal);
+        }
+
+        // Optional: Close modal by clicking the overlay
+        if (embalagensModal) {
+          embalagensModal.addEventListener("click", (event) => {
+            if (event.target === embalagensModal) {
+              closeEmbalagensModal();
+            }
+          });
+        }
+      });
+
+      // Lógica para o modal Saber Mais
+      document.addEventListener("DOMContentLoaded", () => {
+        const saberMaisModal = document.getElementById("saber-mais-modal");
+        const closeSaberMaisModalButton = document.getElementById("close-saber-mais-modal");
+
+        window.openSaberMaisModal = () => {
+            if (saberMaisModal) saberMaisModal.classList.remove("hidden");
+        };
+
+        if (closeSaberMaisModalButton) {
+            closeSaberMaisModalButton.addEventListener("click", () => {
+                if (saberMaisModal) saberMaisModal.classList.add("hidden");
+            });
+        }
+
+        if (saberMaisModal) {
+            saberMaisModal.addEventListener("click", (event) => {
+                if (event.target === saberMaisModal) {
+                    saberMaisModal.classList.add("hidden");
+                }
+            });
+        }
+      });
     </script>
-    <!-- Ícone do Chatbot Flutuante -->
-    <button
-      id="floating-chatbot"
-      class="fixed bottom-8 right-24 bg-[#D4AF37] p-4 rounded-full shadow-lg z-30 flex items-center justify-center text-white hover:bg-[#f5e6b3] transition-colors"
-      style="width: 60px; height: 60px"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="2"
-        stroke="currentColor"
-        class="w-8 h-8"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.75 9.75 0 01-3.484-.695L3.75 21.75l1.64-4.078a13.91 13.91 0 01-1.38-3.566C2.92 8.45 6.95 4.75 12 4.75s9 3.701 9 8.25z"
-        />
-      </svg>
-    </button>
-
-    <!-- Chatbot Modal -->
-    <div id="chatbot-modal" class="modal-overlay hidden">
-      <div class="modal-content flex flex-col h-[80vh] max-h-[600px] w-[90vw] max-w-[400px] p-0">
-        <div class="flex justify-between items-center p-4 border-b border-gray-200 bg-[#D4AF37] text-white">
-          <h2 class="text-xl font-semibold">Assistente Scatambulo</h2>
-          <button id="close-chatbot" class="text-white hover:text-gray-200">&times;</button>
-        </div>
-        <div id="chat-messages" class="flex-grow p-4 overflow-y-auto bg-gray-50">
-          <!-- Chat messages will be appended here -->
-        </div>
-        <div class="p-4 border-t border-gray-200 flex">
-          <input
-            type="text"
-            id="chat-input"
-            placeholder="Digite sua mensagem..."
-            class="flex-grow p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
-          />
-          <button
-            id="send-chat"
-            class="bg-[#D4AF37] text-white p-2 rounded-r-lg hover:bg-[#f5e6b3] transition-colors"
-          >
-            Enviar
-          </button>
-        </div>
-      </div>
-    </div>
-
+    <script src="embalagens.js"></script>
     <!-- Ícone do Carrinho Flutuante (agora um botão) -->
     <a
       href="#"
@@ -1366,7 +1440,9 @@
       document.addEventListener("DOMContentLoaded", () => {
         const searchInput = document.getElementById("cake-search");
         const cakeCardsContainer = document.querySelector("#sabores .grid");
-        const cakeCards = cakeCardsContainer ? Array.from(cakeCardsContainer.children) : [];
+        const cakeCards = cakeCardsContainer
+          ? Array.from(cakeCardsContainer.children)
+          : [];
 
         searchInput.addEventListener("keyup", (event) => {
           const searchTerm = event.target.value.toLowerCase();
@@ -1380,74 +1456,6 @@
             }
           });
         });
-      });
-
-      // Chatbot functionality
-      document.addEventListener("DOMContentLoaded", () => {
-        const chatbotButton = document.getElementById("floating-chatbot");
-        const chatbotModal = document.getElementById("chatbot-modal");
-        const closeChatbotButton = document.getElementById("close-chatbot");
-        const chatMessages = document.getElementById("chat-messages");
-        const chatInput = document.getElementById("chat-input");
-        const sendChatButton = document.getElementById("send-chat");
-
-        chatbotButton.addEventListener("click", () => {
-          chatbotModal.classList.remove("hidden");
-          appendMessage("bot", "Olá! Sou seu assistente. Como posso ajudar você a escolher seu bolo hoje?");
-        });
-
-        closeChatbotButton.addEventListener("click", () => {
-          chatbotModal.classList.add("hidden");
-        });
-
-        sendChatButton.addEventListener("click", () => {
-          sendMessage();
-        });
-
-        chatInput.addEventListener("keypress", (event) => {
-          if (event.key === "Enter") {
-            sendMessage();
-          }
-        });
-
-        function appendMessage(sender, message) {
-          const messageElement = document.createElement("div");
-          messageElement.classList.add("mb-2", "p-2", "rounded-lg");
-          if (sender === "bot") {
-            messageElement.classList.add("bg-gray-200", "self-start", "text-gray-800");
-          } else {
-            messageElement.classList.add("bg-[#D4AF37]", "self-end", "text-white", "ml-auto");
-          }
-          messageElement.textContent = message;
-          chatMessages.appendChild(messageElement);
-          chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to the latest message
-        }
-
-        function sendMessage() {
-          const userMessage = chatInput.value.trim();
-          if (userMessage === "") return;
-
-          appendMessage("user", userMessage);
-          chatInput.value = "";
-
-          // Simple chatbot logic
-          const lowerCaseMessage = userMessage.toLowerCase();
-          if (lowerCaseMessage.includes("olá") || lowerCaseMessage.includes("oi")) {
-            setTimeout(() => appendMessage("bot", "Olá! Em que posso ajudar?"), 500);
-          } else if (lowerCaseMessage.includes("comprar") || lowerCaseMessage.includes("pedido")) {
-            setTimeout(() => appendMessage("bot", "Para fazer um pedido, você pode navegar pelos sabores acima e clicar em 'Encomendar agora'. Se precisar de ajuda para escolher um sabor, me diga!"), 500);
-          } else if (lowerCaseMessage.includes("sabor")) {
-            setTimeout(() => appendMessage("bot", "Temos diversos sabores deliciosos! Qual tipo de sabor você procura? Frutado, chocolate, ou algo mais tradicional?"), 500);
-          } else if (lowerCaseMessage.includes("tamanho")) {
-            setTimeout(() => appendMessage("bot", "Os tamanhos e preços variam por bolo. Você pode ver as opções de tamanho em cada card de bolo."), 500);
-          } else if (lowerCaseMessage.includes("preço") || lowerCaseMessage.includes("valor")) {
-            setTimeout(() => appendMessage("bot", "O preço base é R$ 150,00/kg, exceto o de Pistache com Frutas Vermelhas que é R$ 250,00/kg. Os valores das embalagens são adicionais."), 500);
-          } else if (lowerCaseMessage.includes("obrigado") || lowerCaseMessage.includes("valeu")) {
-            setTimeout(() => appendMessage("bot", "De nada! Se precisar de mais alguma coisa, é só chamar."), 500);
-          } else {
-            setTimeout(() => appendMessage("bot", "Desculpe, não entendi. Poderia reformular sua pergunta?"), 500);
-          }
-        }
       });
     </script>
   </body>
