@@ -172,13 +172,13 @@
 
     <!-- Modal de Embalagens -->
     <div id="packaging-modal" class="modal-overlay hidden">
-      <div class="modal-content max-w-4xl h-[80vh] max-h-[600px]">
+      <div class="modal-content max-w-6xl h-[80vh] max-h-[600px]"> <!-- Increased max-w to 6xl -->
         <button id="close-packaging-modal" class="close-button">&times;</button>
         <h2 class="text-2xl font-bold mb-4 !text-[#D4AF37] text-center">
           Escolha sua Embalagem
         </h2>
         <div class="flex flex-col md:flex-row gap-8">
-          <div class="md:w-1/2">
+          <div class="md:w-1/2 p-4 bg-gray-100 rounded-lg shadow-inner"> <!-- Added padding and background for visual comfort -->
             <div class="video-container">
               <video id="packaging-video" controls class="w-full rounded-lg shadow-lg">
                 <source src="./VideoEmbalagens/VideoAngela.mp4" type="video/mp4" />
@@ -187,21 +187,13 @@
             </div>
           </div>
           <div class="md:w-1/2">
-            <div id="packaging-static-info" class="packaging-details h-full overflow-y-auto">
-              <h3 class="text-2xl font-bold mb-4">Opções de Embalagens (Custo Adicional ao valor do quilo do bolo):</h3>
+            <div id="packaging-static-info" class="packaging-details h-full overflow-y-auto p-4"> <!-- Added padding to info card -->
+              <h3 class="text-2xl font-bold mb-4">Resumo das Opções de Embalagens:</h3>
               <ul class="list-disc list-inside text-gray-700 space-y-2">
-                <li><span class="font-semibold">Embalagem Descartável 500g e 1,5kg:</span> Sem custo adicional.</li>
-                <li><span class="font-semibold">Embalagem Descartável 1kg:</span> Sem custo adicional.</li>
-                <li><span class="font-semibold">Taça 1kg:</span> R$ 20,00</li>
-                <li><span class="font-semibold">Caixa 1kg:</span> R$ 36,00</li>
-                <li><span class="font-semibold">Taça 1,5kg / Box Redonda 1,5kg:</span> R$ 25,00</li>
-                <li><span class="font-semibold">Taça 2kg:</span> R$ 25,00</li>
-                <li><span class="font-semibold">Caixa 2kg:</span> R$ 44,00</li>
-                <li><span class="font-semibold">Taça 3kg:</span> R$ 40,00</li>
-                <li><span class="font-semibold">Caixa 3kg:</span> R$ 62,00</li>
-                <li><span class="font-semibold">Caixa 4kg:</span> R$ 72,00</li>
-                <li><span class="font-semibold">Caixa 5kg:</span> R$ 87,00</li>
-                <li><span class="font-semibold">Opção de montar o bolo em taça ou refratário próprio:</span> Taxa de coleta de R$ 10,00.</li>
+                <li><span class="font-semibold">Embalagens Descartáveis (500g, 1kg, 1.5kg):</span> Sem custo adicional.</li>
+                <li><span class="font-semibold">Taças (1kg, 1.5kg, 2kg, 3kg):</span> Custos adicionais de R$ 20,00 a R$ 40,00.</li>
+                <li><span class="font-semibold">Caixas (1kg, 2kg, 3kg, 4kg, 5kg):</span> Custos adicionais de R$ 36,00 a R$ 87,00.</li>
+                <li><span class="font-semibold">Bolo em taça/refratário próprio:</span> Taxa de coleta de R$ 10,00.</li>
               </ul>
             </div>
           </div>
