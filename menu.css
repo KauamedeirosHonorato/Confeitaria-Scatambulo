@@ -39,33 +39,30 @@
 /* Side Tab Styles */
 .side-tab {
   position: fixed;
-  left: -40px; /* Adjust as needed to show part of the tab */
-  transform: translateY(-50%) rotate(-90deg);
+  left: 0;
   background-color: #D4AF37; /* Gold metallic color */
   color: white;
   padding: 0.5rem 1rem;
-  border-radius: 0 0.5rem 0.5rem 0; /* Rounded right corners when rotated */
+  border-radius: 0 0.5rem 0.5rem 0; /* Rounded right corners */
   cursor: pointer;
   z-index: 999;
   font-weight: bold;
-  transition: left 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out; /* Smooth transition for all properties */
+  text-align: center;
+  width: 120px; /* Fixed width for alignment */
+  box-sizing: border-box; /* Include padding in width */
 }
 
 #info-tab {
-  top: 45%;
+  top: 45%; /* Adjusted top for better alignment */
 }
 
 #policy-tab {
-  top: 55%;
+  top: 52%; /* Adjusted top for better alignment */
 }
 
 .side-tab:hover {
-  left: 0; /* Slide in on hover */
-}
-
-/* Specific positioning for policy tab */
-#policy-tab {
-  top: 62%; /* Already defined inline, but good to have a fallback */
+  background-color: #c0a030; /* Slightly darker gold on hover */
 }
 
 /* Side Name Right Styles */
@@ -80,6 +77,12 @@
   font-size: 2.5rem; /* Increased font size */
   color: #D4AF37;
   z-index: 999;
+}
+
+/* Style for the "Encomendar agora" buttons */
+.btn-gold-metallic {
+  background-color: #D4AF37; /* Color of "Angela Scatambulo" */
+  color: #000000; /* Black text */
 }
 
 /* Media query from original menu.css */
