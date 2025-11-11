@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="./Logo/logoSc.png" />
+    <title>Personalizar Embalagem - Scatambulo Confeitaria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Allura&family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="menu.css" />
+    <style>
+      .video-container {
+        position: relative;
+        width: 100%;
+        max-width: 800px; /* Adjust as needed */
+        margin: 0 auto;
+      }
+      .video-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none; /* Allow clicks to pass through by default */
+      }
+      .overlay-item {
+        position: absolute;
+        background-color: rgba(212, 175, 55, 0.8); /* Gold metallic with transparency */
+        color: white;
+        padding: 8px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        pointer-events: auto; /* Make this item clickable */
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        font-weight: bold;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Poppins', sans-serif;
+      }
+      .overlay-item.active {
+        opacity: 1;
+      }
+      .packaging-details {
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .chatbot-modal-content {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+      .chat-message-bot {
+        background-color: #e2e8f0; /* Gray-200 */
+        color: #2d3748; /* Gray-800 */
+        align-self: flex-start;
+      }
+      .chat-message-user {
+        background-color: #d4af37; /* Gold metallic */
+        color: #fff;
+        align-self: flex-end;
+        margin-left: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="bg-white shadow-md sticky top-0 z-20">
+      <div
+        class="container mx-auto px-6 py-4 flex justify-between items-center"
+      >
+        <h1 class="font-playfair text-2xl font-bold text-[#D4AF37]">
+          <a href="./menu.html">Scatambulo</a>
+        </h1>
+        <nav
+          class="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-700"
+        >
+          <a href="./menu.html#sabores" class="hover:text-[#D4AF37] transition-colors"
+            >Sabores</a
+          >
+          <a href="./menu.html#embalagens" class="hover:text-[#D4AF37] transition-colors"
+            >Embalagens</a
+          >
+          <a href="./menu.html#informacoes" class="hover:text-[#D4AF37] transition-colors"
+            >Informações</a
+          >
+          <a href="./index.html" class="hover:text-[#D4AF37] transition-colors"
+            >Voltar à Bio</a
+          >
+        </nav>
+        <button id="mobile-menu-button" class="md:hidden text-gray-700">
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            ></path>
+          </svg>
+        </button>
+      </div>
+      <div
+        id="mobile-menu"
+        class="hidden md:hidden bg-white border-t border-gray-200"
+      >
+        <a
+          href="./menu.html#sabores"
+          class="block py-3 px-6 text-gray-700 hover:bg-gray-50 transition-colors"
+          >Sabores</a
+        >
+        <a
+          href="./menu.html#embalagens"
+          class="block py-3 px-6 text-gray-700 hover:bg-gray-50 transition-colors"
+          >Embalagens</a
+        >
+        <a
+          href="./menu.html#informacoes"
+          class="block py-3 px-6 text-gray-700 hover:bg-gray-50 transition-colors"
+          >Informações</a
+        >
+        <a
+          href="./index.html"
+          class="block py-3 px-6 text-[#D4AF37] font-semibold hover:bg-gray-50 transition-colors border-t border-gray-200"
+          >&larr; Voltar à Bio</a
+        >
+      </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+      <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center">
+        Personalize a Embalagem do seu Bolo
+      </h2>
+
+      <div class="video-container">
+        <video id="packaging-video" controls class="w-full rounded-lg shadow-lg">
+          <source src="./VideoEmbalagens/VideoAngela.mp4" type="video/mp4" />
+          Seu navegador não suporta o elemento de vídeo.
+        </video>
+        <div id="video-overlays" class="video-overlay">
+          <!-- Overlays will be dynamically added here -->
+        </div>
+      </div>
+
+      <div id="packaging-info" class="mt-8 hidden">
+        <h3 class="text-2xl font-bold mb-4">Detalhes da Embalagem: <span id="packaging-name"></span></h3>
+        <p id="packaging-description" class="text-gray-700 mb-4"></p>
+        <p class="font-semibold">Preço Adicional: <span id="packaging-price"></span></p>
+        <button id="select-packaging-btn" class="mt-4 bg-[#D4AF37] text-white py-2 px-4 rounded-lg hover:bg-[#f5e6b3] transition-colors">
+          Selecionar Embalagem
+        </button>
+      </div>
+    </main>
+
+    <!-- Floating Chatbot Button -->
+    <button
+      id="floating-chatbot"
+      class="fixed bottom-8 right-8 bg-[#D4AF37] p-4 rounded-full shadow-lg z-30 flex items-center justify-center text-white hover:bg-[#f5e6b3] transition-colors"
+      style="width: 60px; height: 60px"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="2"
+        stroke="currentColor"
+        class="w-8 h-8"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.75 9.75 0 01-3.484-.695L3.75 21.75l1.64-4.078a13.91 13.91 0 01-1.38-3.566C2.92 8.45 6.95 4.75 12 4.75s9 3.701 9 8.25z"
+        />
+      </svg>
+    </button>
+
+    <!-- Chatbot Modal -->
+    <div id="chatbot-modal" class="modal-overlay hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="chatbot-modal-content flex flex-col h-[80vh] max-h-[600px] w-[90vw] max-w-[400px] p-0">
+        <div class="flex justify-between items-center p-4 border-b border-gray-200 bg-[#D4AF37] text-white">
+          <h2 class="text-xl font-semibold">Assistente Scatambulo</h2>
+          <button id="close-chatbot" class="text-white hover:text-gray-200">&times;</button>
+        </div>
+        <div id="chat-messages" class="flex-grow p-4 overflow-y-auto bg-gray-50 flex flex-col">
+          <!-- Chat messages will be appended here -->
+        </div>
+        <div class="p-4 border-t border-gray-200 flex">
+          <input
+            type="text"
+            id="chat-input"
+            placeholder="Digite sua mensagem..."
+            class="flex-grow p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+          />
+          <button
+            id="send-chat"
+            class="bg-[#D4AF37] text-white p-2 rounded-r-lg hover:bg-[#f5e6b3] transition-colors"
+          >
+            Enviar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const video = document.getElementById('packaging-video');
+      const videoOverlays = document.getElementById('video-overlays');
+      const packagingInfo = document.getElementById('packaging-info');
+      const packagingName = document.getElementById('packaging-name');
+      const packagingDescription = document.getElementById('packaging-description');
+      const packagingPrice = document.getElementById('packaging-price');
+      const selectPackagingBtn = document.getElementById('select-packaging-btn');
+
+      // Define packaging data with video timestamps and overlay positions
+      const packagingData = [
+        {
+          name: 'Oval 500g',
+          description: 'Embalagem oval de 500g, ideal para pequenas celebrações.',
+          price: 'Sem custo adicional',
+          time: 5, // seconds
+          position: { top: '30%', left: '10%', width: '20%', height: '15%' }
+        },
+        {
+          name: 'Taça 1kg',
+          description: 'Embalagem em formato de taça de 1kg, elegante e prática.',
+          price: 'R$ 20,00',
+          time: 10,
+          position: { top: '40%', left: '40%', width: '20%', height: '15%' }
+        },
+        {
+          name: 'Caixa 2kg',
+          description: 'Caixa de 2kg, perfeita para transporte seguro e apresentação.',
+          price: 'R$ 44,00',
+          time: 15,
+          position: { top: '50%', left: '70%', width: '20%', height: '15%' }
+        }
+        // Add more packaging options as needed
+      ];
+
+      let currentOverlay = null;
+
+      video.addEventListener('timeupdate', () => {
+        packagingData.forEach(data => {
+          if (video.currentTime >= data.time && video.currentTime < data.time + 3 && currentOverlay !== data.name) {
+            // Show overlay
+            if (currentOverlay) {
+              document.getElementById(`overlay-${currentOverlay.replace(/\s/g, '-')}`).remove();
+            }
+            const overlay = document.createElement('div');
+            overlay.id = `overlay-${data.name.replace(/\s/g, '-')}`;
+            overlay.classList.add('overlay-item');
+            overlay.classList.add('active');
+            overlay.style.top = data.position.top;
+            overlay.style.left = data.position.left;
+            overlay.style.width = data.position.width;
+            overlay.style.height = data.position.height;
+            overlay.textContent = data.name;
+            overlay.addEventListener('click', () => showPackagingDetails(data));
+            videoOverlays.appendChild(overlay);
+            currentOverlay = data.name;
+          } else if (video.currentTime >= data.time + 3 && currentOverlay === data.name) {
+            // Hide overlay
+            document.getElementById(`overlay-${data.name.replace(/\s/g, '-')}`).remove();
+            currentOverlay = null;
+          }
+        });
+      });
+
+      function showPackagingDetails(data) {
+        video.pause();
+        packagingName.textContent = data.name;
+        packagingDescription.textContent = data.description;
+        packagingPrice.textContent = data.price;
+        packagingInfo.classList.remove('hidden');
+        selectPackagingBtn.onclick = () => {
+          alert(`Embalagem "${data.name}" selecionada!`);
+          // Here you would integrate with your cart/ordering system
+          packagingInfo.classList.add('hidden');
+          video.play();
+        };
+      }
+
+      // Chatbot functionality (from menu.html, adapted for this page)
+      const chatbotButton = document.getElementById("floating-chatbot");
+      const chatbotModal = document.getElementById("chatbot-modal");
+      const closeChatbotButton = document.getElementById("close-chatbot");
+      const chatMessages = document.getElementById("chat-messages");
+      const chatInput = document.getElementById("chat-input");
+      const sendChatButton = document.getElementById("send-chat");
+
+      chatbotButton.addEventListener("click", () => {
+        chatbotModal.classList.remove("hidden");
+        appendMessage("bot", "Olá! Sou seu assistente de embalagens. Como posso ajudar?");
+      });
+
+      closeChatbotButton.addEventListener("click", () => {
+        chatbotModal.classList.add("hidden");
+      });
+
+      sendChatButton.addEventListener("click", () => {
+        sendMessage();
+      });
+
+      chatInput.addEventListener("keypress", (event) => {
+        if (event.key === "Enter") {
+          sendMessage();
+        }
+      });
+
+      function appendMessage(sender, message) {
+        const messageElement = document.createElement("div");
+        messageElement.classList.add("mb-2", "p-2", "rounded-lg", "max-w-[80%]");
+        if (sender === "bot") {
+          messageElement.classList.add("bg-gray-200", "chat-message-bot");
+        } else {
+          messageElement.classList.add("bg-[#D4AF37]", "chat-message-user");
+        }
+        messageElement.textContent = message;
+        chatMessages.appendChild(messageElement);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      function sendMessage() {
+        const userMessage = chatInput.value.trim();
+        if (userMessage === "") return;
+
+        appendMessage("user", userMessage);
+        chatInput.value = "";
+
+        const lowerCaseMessage = userMessage.toLowerCase();
+        let botResponse = "Desculpe, não entendi. Poderia reformular sua pergunta?";
+
+        if (lowerCaseMessage.includes("olá") || lowerCaseMessage.includes("oi")) {
+          botResponse = "Olá! Posso te ajudar com informações sobre as embalagens dos bolos.";
+        } else if (lowerCaseMessage.includes("tamanho") || lowerCaseMessage.includes("qual embalagem")) {
+          botResponse = "Angela está explicando os diferentes tamanhos de embalagens no vídeo. Você pode clicar nos destaques que aparecem no vídeo para ver mais detalhes.";
+        } else if (lowerCaseMessage.includes("oval 500g")) {
+          video.currentTime = 5;
+          video.play();
+          botResponse = "A embalagem Oval 500g é ideal para pequenas celebrações e não tem custo adicional.";
+        } else if (lowerCaseMessage.includes("taça 1kg")) {
+          video.currentTime = 10;
+          video.play();
+          botResponse = "A Taça 1kg é uma opção elegante e prática, com um custo adicional de R$ 20,00.";
+        } else if (lowerCaseMessage.includes("caixa 2kg")) {
+          video.currentTime = 15;
+          video.play();
+          botResponse = "A Caixa 2kg é perfeita para transporte seguro e apresentação, com um custo adicional de R$ 44,00.";
+        } else if (lowerCaseMessage.includes("ajuda") || lowerCaseMessage.includes("duvida")) {
+          botResponse = "Claro! Pergunte-me sobre os tipos de embalagem, seus tamanhos, preços ou para qual ocasião são mais adequadas.";
+        } else if (lowerCaseMessage.includes("obrigado") || lowerCaseMessage.includes("valeu")) {
+          botResponse = "De nada! Se precisar de mais alguma coisa, é só chamar.";
+        }
+
+        setTimeout(() => appendMessage("bot", botResponse), 500);
+      }
+    </script>
+  </body>
+</html>
