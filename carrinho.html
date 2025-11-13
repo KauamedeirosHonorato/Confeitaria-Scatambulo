@@ -14,22 +14,32 @@
     <style>
       body {
         font-family: "Poppins", sans-serif;
-        background-color: #faf8f0;
+        background-image: url("./Avatar/AvatarCarrinho.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+      }
+      .backdrop-blur-sm {
+        backdrop-filter: blur(4px);
       }
     </style>
   </head>
-  <body class="bg-gray-100">
-    <div class="container mx-auto mt-10 p-4">
+  <body class="bg-stone-50">
+    <div class="container mx-auto mt-10 p-4 min-h-screen flex flex-col">
       <h1
-        class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-800"
+        class="text-3xl md:text-4xl font-bold mb-8 text-center text-[#D4AF37]"
         style="font-family: 'Playfair Display', serif"
       >
-        Carrinho de Compras
+        Meu Carrinho
       </h1>
       <div id="cart-items" class="flex flex-wrap -mx-2">
         <!-- Itens do carrinho serão inseridos aqui -->
       </div>
-      <div class="text-center mt-8">
+      <div class="mt-8 pt-8 border-t border-gray-200/50">
+        <div class="text-right text-2xl font-bold text-gray-800 mb-6">
+            <span>Total: </span><span id="cart-page-total">R$ 0,00</span>
+        </div>
+        <div class="text-center">
         <a
           id="checkout-button"
           href="#"
@@ -42,9 +52,10 @@
           class="mt-4 inline-block text-gray-600 hover:text-[#D4AF37]"
           >Voltar ao Menu</a
         >
+        </div>
       </div>
     </div>
 
-    <script src="carrinho.js"></script>
+    <script src="carrinho.js" defer></script>
   </body>
 </html>

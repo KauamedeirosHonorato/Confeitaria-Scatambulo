@@ -1,155 +1,423 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // Elementos do Painel Lateral
-  const cartPanel = document.getElementById("cart-panel");
-  const cartPanelOverlay = document.getElementById("cart-panel-overlay");
-  const cartItemsContainer = document.getElementById("cart-items-panel");
-  const checkoutButton = document.getElementById("checkout-button-panel");
-  const closeCartButton = document.getElementById("close-cart-panel");
+function initMobileMenu() {
+  // --- Lógica do Menu Mobile ---
+  const menuButton = document.getElementById("mobile-menu-button");
+  const mobileMenu = document.getElementById("mobile-menu");
+  if (menuButton) {
+    menuButton.addEventListener("click", () => {
+      if (mobileMenu) mobileMenu.classList.toggle("hidden");
+    });
+  }
+  document
+    .querySelectorAll("#mobile-menu a, #mobile-menu button")
+    .forEach((link) => {
+      link.addEventListener("click", () => {
+        if (mobileMenu) mobileMenu.classList.add("hidden");
+      });
+    });
+}
+function initModals() {
+  // --- Lógica para os Modais ---
+  const infoModal = document.getElementById("info-modal");
+  const policyModal = document.getElementById("policy-modal");
 
-  // Elementos do Carrinho Flutuante
-  const floatingCart = document.getElementById("floating-cart");
-  const cartCount = document.getElementById("cart-count");
-
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  function saveCart() {
-    localStorage.setItem("cart", JSON.stringify(cart));
-    updateCartIcon();
-    updateButtonStates();
+  // Funções para abrir modais
+  const infoTab = document.getElementById("info-tab");
+  if (infoTab) {
+    infoTab.addEventListener("click", () =>
+      infoModal.classList.remove("hidden")
+    );
+  }
+  const policyTab = document.getElementById("policy-tab");
+  if (policyTab) {
+    policyTab.addEventListener("click", () =>
+      policyModal.classList.remove("hidden")
+    );
   }
 
-  function updateCartIcon() {
-    if (cartCount) {
-      cartCount.textContent = cart.length;
-    }
+  // Funções para fechar modais
+  const closeInfoModal = document.getElementById("close-info-modal");
+  if (closeInfoModal) {
+    closeInfoModal.addEventListener("click", () =>
+      infoModal.classList.add("hidden")
+    );
   }
-
-  function toggleCartPanel() {
-    const isOpen = !cartPanel.classList.contains("translate-x-full");
-    if (isOpen) {
-      cartPanel.classList.add("translate-x-full");
-      cartPanelOverlay.classList.add("hidden");
-    } else {
-      displayCart(); // Atualiza o conteúdo antes de mostrar
-      cartPanel.classList.remove("translate-x-full");
-      cartPanelOverlay.classList.remove("hidden");
-    }
+  const closePolicyModal = document.getElementById("close-policy-modal");
+  if (closePolicyModal) {
+    closePolicyModal.addEventListener("click", () =>
+      policyModal.classList.add("hidden")
+    );
   }
+}
+function initPackagingModal() {
+  // --- Lógica para o modal de Embalagens ---
+  const embalagensModal = document.getElementById("embalagens-modal");
+  const videoEmbalagens = document.getElementById("video-embalagens");
 
-  function displayCart() {
-    if (!cartItemsContainer) return;
+  // Only proceed if the modal element exists
+  if (embalagensModal) {
+    const closeButton = embalagensModal.querySelector(".close-button");
 
-    cartItemsContainer.innerHTML = "";
-    if (cart.length === 0) {
-      cartItemsContainer.innerHTML =
-        '<p class="text-center text-gray-500">Seu carrinho está vazio.</p>';
-      if (checkoutButton) checkoutButton.style.display = "none";
-      return;
-    }
+    window.openEmbalagensModal = () => {
+      embalagensModal.classList.remove("hidden");
+      if (videoEmbalagens) videoEmbalagens.play();
+    };
 
-    cart.forEach((item) => {
-      const cartItem = document.createElement("div");
-      cartItem.innerHTML = `
-                <div class="flex justify-between items-center bg-white/80 p-3 rounded-lg shadow">
-                    <span class="text-gray-800 font-medium">${item.name} <span class="text-sm text-gray-600">(${item.size})</span></span>
-                    <button class="text-red-500 hover:text-red-700" onclick="window.removeFromCart('${item.id}')">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                    </button>
-                </div>
-            `;
-      cartItemsContainer.appendChild(cartItem);
+    const openButtons = [
+      document.getElementById("embalagens-button"),
+      document.getElementById("mobile-embalagens-button"),
+    ];
+
+    openButtons.forEach((button) => {
+      if (button) {
+        button.addEventListener("click", (e) => {
+          e.preventDefault();
+          openEmbalagensModal();
+        });
+      }
     });
 
-    if (checkoutButton) checkoutButton.style.display = "inline-block";
-  }
-
-  window.addToCart = function (itemName, button) {
-    event.preventDefault();
-    const card = button.closest(".flex-col");
-    const select = card.querySelector("select");
-    const size = select.value;
-
-    // Criamos um ID único para o item no carrinho, combinando nome e tamanho
-    const itemId = `${itemName}-${size}-${Date.now()}`;
-
-    const newItem = {
-      id: itemId,
-      name: itemName,
-      size: size,
+    const closeEmbalagensModal = () => {
+      embalagensModal.classList.add("hidden");
+      if (videoEmbalagens) {
+        videoEmbalagens.pause();
+        videoEmbalagens.currentTime = 0; // Reset video to start
+      }
     };
-    cart.push(newItem);
-    saveCart();
 
-    if (button) {
-      button.textContent = "Adicionado!";
-      button.disabled = true;
+    if (closeButton) {
+      closeButton.addEventListener("click", closeEmbalagensModal);
     }
 
-    if (floatingCart) {
-      floatingCart.classList.add("jump");
-      setTimeout(() => {
-        floatingCart.classList.remove("jump");
-      }, 500);
-    }
+    // Optional: Close modal by clicking the overlay
+    embalagensModal.addEventListener("click", (event) => {
+      if (event.target === embalagensModal) {
+        closeEmbalagensModal();
+      }
+    });
+  } else {
+    console.warn(
+      "Elemento 'embalagens-modal' não encontrado. O modal de embalagens pode não funcionar."
+    );
+  }
+}
+
+function initSaberMaisModal() {
+  // --- Lógica para o modal Saber Mais ---
+  const saberMaisModal = document.getElementById("saber-mais-modal");
+  const closeSaberMaisModalButton = document.getElementById(
+    "close-saber-mais-modal"
+  );
+
+  window.openSaberMaisModal = () => {
+    if (saberMaisModal) saberMaisModal.classList.remove("hidden");
   };
 
-  window.removeFromCart = function (itemId) {
-    cart = cart.filter((item) => item.id !== itemId);
-    saveCart();
-    displayCart(); // Re-renderiza o painel do carrinho
-  };
-
-  function generateWhatsAppLink() {
-    if (cart.length === 0) return "#";
-
-    const phone = "554499024212";
-    const intro = "Olá! Quero encomendar os seguintes bolos: ";
-    // Formata cada item como "1- Nome do Bolo" e junta com ", "
-    const itemsText = cart
-      .map((item) => `${item.name} (${item.size})`)
-      .join(", ");
-    const message = intro + itemsText;
-    return `https://api.whatsapp.com/send/?phone=${phone}&text=${encodeURIComponent(
-      message
-    )}`;
+  if (closeSaberMaisModalButton) {
+    closeSaberMaisModalButton.addEventListener("click", () => {
+      if (saberMaisModal) saberMaisModal.classList.add("hidden");
+    });
   }
 
-  function updateButtonStates() {
-    const buttons = document.querySelectorAll('a[onclick^="addToCart"]');
-    buttons.forEach((button) => {
-      const itemName = button.getAttribute("onclick").split("'")[1];
-      // A lógica de desabilitar o botão se torna mais complexa com tamanhos.
-      // Por simplicidade, vamos permitir adicionar o mesmo bolo com tamanhos diferentes.
-      // A verificação abaixo não funcionará mais como antes, mas a mantemos para o estado inicial.
-      if (cart.some((item) => item.name === itemName)) {
-        button.textContent = "Adicionado!";
-        button.disabled = true;
-      } else {
-        button.textContent = "Encomendar agora";
-        button.disabled = false;
+  if (saberMaisModal) {
+    saberMaisModal.addEventListener("click", (event) => {
+      if (event.target === saberMaisModal) {
+        saberMaisModal.classList.add("hidden");
       }
     });
   }
 
-  // --- Event Listeners ---
+  const saberMaisEmbalagensButton = document.getElementById(
+    "saber-mais-embalagens"
+  );
+  if (saberMaisEmbalagensButton) {
+    saberMaisEmbalagensButton.addEventListener("click", () => {
+      window.openSaberMaisModal();
+    });
+  }
+}
 
-  // Abrir painel
-  floatingCart.addEventListener("click", (e) => {
-    e.preventDefault();
-    toggleCartPanel();
-  });
+function initCartPanel() {
+  const cartPanel = document.getElementById("cart-panel");
+  const cartOverlay = document.getElementById("cart-panel-overlay");
+  const floatingCartButton = document.getElementById("floating-cart");
+  const closeCartButton = document.getElementById("close-cart-panel");
 
-  // Fechar painel
-  closeCartButton.addEventListener("click", toggleCartPanel);
-  cartPanelOverlay.addEventListener("click", toggleCartPanel);
+  const openCartPanel = () => {
+    cartPanel.classList.remove("translate-x-full");
+    cartOverlay.classList.remove("hidden");
+  };
 
-  // Checkout
-  checkoutButton.addEventListener("click", (e) => {
-    e.preventDefault();
-    const whatsappLink = generateWhatsAppLink();
-    if (whatsappLink !== "#") window.open(whatsappLink, "_blank");
-  });
+  const closeCartPanel = () => {
+    cartPanel.classList.add("translate-x-full");
+    cartOverlay.classList.add("hidden");
+  };
 
-  updateCartIcon();
-  updateButtonStates();
+  if (floatingCartButton)
+    floatingCartButton.addEventListener("click", openCartPanel);
+  if (closeCartButton)
+    closeCartButton.addEventListener("click", closeCartPanel);
+  if (cartOverlay) cartOverlay.addEventListener("click", closeCartPanel);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Inicializa todos os módulos
+  initMobileMenu();
+  initModals();
+  initPackagingModal();
+  initSaberMaisModal();
+  initCartPanel();
+
+  // --- Lógica da Página do Carrinho ---
+  // Verifica se estamos na página do carrinho e a renderiza
+  if (document.getElementById("cart-items")) {
+    displayCartItemsOnCartPage();
+  }
+
+  // Atualiza a UI do carrinho (contador, painel lateral) em qualquer página
+  updateCart();
 });
+
+// --- Fim do DOMContentLoaded ---
+
+let cart = JSON.parse(localStorage.getItem("shoppingCart")) || [];
+
+function saveCartToStorage() {
+  localStorage.setItem("shoppingCart", JSON.stringify(cart));
+}
+
+const cakePrices = {
+  "Uva Crocante": 230.0,
+  "Nuvem de Morango": 240.0,
+  "Morango com Suspiro": 240.0,
+  Sensação: 255.0,
+  "Doce de Leite Trufado": 215.0,
+  "Strogonoff de Nozes (sem coco)": 245.0,
+  "Strogonoff de Nozes (com coco)": 250.0,
+  "Olho de Sogra": 230.0,
+  Brigadeiro: 230.0,
+  "Brigadeiro de Café": 240.0,
+  "Trufa de Nutella": 240.0,
+  Casadinho: 230.0,
+  "Pistache com Frutas Vermelhas": 310.0,
+  "Abacaxi com Coco": 245.0,
+};
+
+function parseSizeAndPrice(optionText) {
+  // Regex to find weight like "1,5kg", "1kg", or "500g" and capture the unit
+  const weightMatch = optionText.match(/(\d+,\d+|\d+)\s*(k?g)/i);
+  // Regex to find additional cost like "+ R$ 20,00"
+  const priceMatch = optionText.match(/\+\s*R\$\s*(\d+,\d+)/);
+
+  let weightInKg = 0;
+  if (weightMatch) {
+    // Standardize decimal separator to a period
+    let weightStr = weightMatch[1].replace(",", ".");
+    weightInKg = parseFloat(weightStr);
+    const unit = weightMatch[2].toLowerCase();
+
+    // Convert grams to kilograms only if the unit is 'g'
+    if (unit === "g") {
+      weightInKg /= 1000;
+    }
+  }
+
+  // Extract packaging cost, or default to 0
+  const packagingCost = priceMatch
+    ? parseFloat(priceMatch[1].replace(",", "."))
+    : 0;
+
+  return { weightInKg, packagingCost };
+}
+
+function formatCurrency(value) {
+  if (typeof value !== "number") {
+    value = 0;
+  }
+  return value.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+}
+
+function addStrogonoffToCart(buttonElement) {
+  const card = buttonElement.closest(".relative, .bg-\\[#FAF8F0\\]");
+  const cocoSelect = card.querySelector(".coco-select");
+  const selectedCocoOption = cocoSelect.options[cocoSelect.selectedIndex].value;
+  const cakeName = "Strogonoff de Nozes " + selectedCocoOption;
+  addToCart(cakeName, buttonElement);
+}
+
+function addToCart(cakeName, buttonElement) {
+  const card = buttonElement.closest(".relative, .bg-\\[#FAF8F0\\]");
+  const selectElement = card.querySelector(".cake-size-select");
+  const selectedOption = selectElement.options[selectElement.selectedIndex];
+  const size = selectedOption.text;
+
+  const uniqueId = `${cakeName}-${size}`.replace(/\s+/g, "-");
+
+  // Previne adicionar se já estiver no carrinho
+  if (cart.some((item) => item.id === uniqueId)) {
+    return;
+  }
+
+  const { weightInKg, packagingCost } = parseSizeAndPrice(size);
+  const cakePricePerKg = cakePrices[cakeName] || 150; // Default to 150 if not found
+  const itemPrice = weightInKg * cakePricePerKg + packagingCost;
+
+  cart.push({ id: uniqueId, name: cakeName, size: size, price: itemPrice });
+  saveCartToStorage();
+
+  // Atualiza a UI
+  updateCart();
+  buttonElement.textContent = "Adicionado";
+  buttonElement.classList.add("bg-green-500", "cursor-not-allowed");
+  buttonElement.classList.remove("btn-gold-metallic");
+}
+
+function removeFromCart(itemId) {
+  cart = cart.filter((item) => item.id !== itemId);
+  saveCartToStorage();
+  // Se estiver na página do carrinho, renderiza novamente. Senão, atualiza o painel.
+  if (document.getElementById("cart-items")) {
+    displayCartItemsOnCartPage();
+  } else {
+    updateCart();
+  }
+}
+
+function updateCart() {
+  const cartCount = document.getElementById("cart-count");
+  const cartItemsPanel = document.getElementById("cart-items-panel");
+  const checkoutButton = document.getElementById("checkout-button-panel");
+  const floatingCart = document.getElementById("floating-cart");
+  const cartTotalElement = document.getElementById("cart-total-price");
+  if (!cartCount || !cartItemsPanel || !checkoutButton || !floatingCart) return;
+
+  cartCount.textContent = cart.length;
+  cartItemsPanel.innerHTML = ""; // Limpa o painel antes de atualizar
+
+  let totalPrice = 0;
+
+  if (cart.length > 0) {
+    cart.forEach((item) => {
+      totalPrice += item.price;
+      const itemElement = document.createElement("div");
+      itemElement.className =
+        "flex justify-between items-center bg-white/50 p-2 rounded-lg";
+      itemElement.innerHTML = `
+        <div>
+          <p class="font-semibold text-gray-800">${item.name}</p>
+          <p class="text-sm text-gray-600">${item.size} - ${formatCurrency(
+        item.price
+      )}</p>
+        </div>
+        <button onclick="removeFromCart('${
+          item.id
+        }')" class="text-red-500 hover:text-red-700">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+        </button>
+      `;
+      cartItemsPanel.appendChild(itemElement);
+    });
+    checkoutButton.style.display = "block";
+    if (cartTotalElement) {
+      cartTotalElement.textContent = formatCurrency(totalPrice);
+    }
+    floatingCart.classList.add("jump");
+
+    // Monta a mensagem do WhatsApp para o painel lateral
+    let message = "Olá, Angela! Gostaria de encomendar:\n\n**Itens:**\n";
+    cart.forEach((item) => {
+      message += `- ${item.name} (Tamanho: ${item.size})\n`;
+    });
+
+    message += `\n*Total: ${formatCurrency(totalPrice)}*`;
+
+    const whatsappUrl = `https://api.whatsapp.com/send/?phone=554499024212&text=${encodeURIComponent(
+      message
+    )}`;
+    checkoutButton.href = whatsappUrl;
+    checkoutButton.target = "_blank";
+
+    setTimeout(() => floatingCart.classList.remove("jump"), 500);
+  } else {
+    cartItemsPanel.innerHTML =
+      '<p class="text-center text-gray-500">Seu carrinho está vazio.</p>';
+    checkoutButton.style.display = "none";
+    if (cartTotalElement) {
+      cartTotalElement.textContent = formatCurrency(0);
+    }
+  }
+
+  // Update all "Encomendar agora" buttons
+  // This part is now handled more efficiently.
+  // When an item is removed, we need to find its corresponding button and reset it.
+  // This is a bit more complex, so for now we will stick to a slightly less efficient but working model on removal.
+  // A full robust implementation would map items back to their buttons.
+  // For simplicity and avoiding over-engineering now, let's reset all buttons if cart becomes empty.
+  if (cart.length === 0) {
+    document.querySelectorAll("[onclick^='addToCart']").forEach((button) => {
+      button.textContent = "Encomendar agora";
+      button.classList.remove("bg-green-500", "cursor-not-allowed");
+      button.classList.add("btn-gold-metallic");
+    });
+  }
+}
+
+function displayCartItemsOnCartPage() {
+  const cartItemsContainer = document.getElementById("cart-items");
+  const checkoutButton = document.getElementById("checkout-button");
+  const cartTotalElement = document.getElementById("cart-page-total");
+
+  if (!cartItemsContainer || !checkoutButton || !cartTotalElement) return;
+
+  cartItemsContainer.innerHTML = ""; // Limpa a visualização atual
+  let totalPrice = 0;
+
+  if (cart.length > 0) {
+    cart.forEach((item) => {
+      totalPrice += item.price;
+      const itemCard = document.createElement("div");
+      itemCard.className = "w-full md:w-1/2 lg:w-1/3 px-2 mb-4";
+      itemCard.innerHTML = `
+        <div class="bg-white p-4 rounded-lg shadow-md h-full flex flex-col justify-between">
+          <div>
+            <h2 class="text-xl font-bold font-playfair text-gray-800">${
+              item.name
+            }</h2>
+            <p class="text-gray-600">${item.size}</p>
+            <p class="font-semibold text-gray-800 mt-2">${formatCurrency(
+              item.price
+            )}</p>
+          </div>
+          <button onclick="removeFromCart('${
+            item.id
+          }')" class="mt-4 text-red-500 hover:text-red-700 text-sm self-start">
+            Remover
+          </button>
+        </div>
+      `;
+      cartItemsContainer.appendChild(itemCard);
+    });
+
+    // Monta a mensagem do WhatsApp
+    let message = "Olá, Angela! Gostaria de encomendar:\n\n**Itens:**\n";
+    cart.forEach((item) => {
+      message += `- ${item.name} (Tamanho: ${item.size})\n`;
+    });
+
+    message += `\n*Total: ${formatCurrency(totalPrice)}*`;
+    const whatsappUrl = `https://api.whatsapp.com/send/?phone=554499024212&text=${encodeURIComponent(
+      message
+    )}`;
+    checkoutButton.href = whatsappUrl;
+    checkoutButton.target = "_blank"; // Abrir em nova aba
+    checkoutButton.style.display = "inline-block";
+  } else {
+    cartItemsContainer.innerHTML =
+      '<div class="w-full text-center"><p class="text-gray-500">Seu carrinho está vazio.</p></div>';
+    checkoutButton.style.display = "none";
+  }
+
+  cartTotalElement.textContent = formatCurrency(totalPrice);
+}

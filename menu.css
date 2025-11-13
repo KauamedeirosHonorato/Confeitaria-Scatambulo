@@ -1,99 +1,192 @@
-/* Basic Modal Overlay Styles */
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #faf8f0; /* Branco Perolado */
+  color: #1c1c1c; /* Cinza Carvão */
+}
+.font-playfair {
+  font-family: "Playfair Display", serif;
+}
+h2 {
+  font-family: "Playfair Display", serif;
+  color: #d4af37;
+}
+section {
+  scroll-margin-top: 80px;
+}
+.side-tab {
+  position: fixed;
+  left: 0;
+  top: 45%;
+  -webkit-transform: rotate(-90deg) translateX(-50%);
+  transform: rotate(-90deg) translateX(-50%);
+  -webkit-transform-origin: left top;
+  transform-origin: left top;
+  background-color: #d4af37;
+  color: #000000;
+  padding: 8px 16px;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  z-index: 30;
+  font-size: 14px;
+  font-weight: 600;
+}
+.side-name-right {
+  font-family: "Allura", cursive;
+  position: fixed;
+  right: 0;
+  top: 50%;
+  -webkit-transform: rotate(-90deg) translateY(50%) translateX(50%);
+  transform: rotate(-90deg) translateY(50%) translateX(50%);
+  -webkit-transform-origin: right center;
+  transform-origin: right center;
+  color: #d4af37; /* Dourado Metálico */
+  font-size: 48px; /* Aumentado para o dobro do tamanho */
+  z-index: 30;
+  letter-spacing: 1px;
+  pointer-events: none;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Esconde o nome lateral em telas menores (móveis) */
+@media (max-width: 768px) {
+  .side-name-right {
+    display: none;
+  }
+}
+.btn-gold-metallic {
+  background-color: #d4af37;
+  color: #000000;
+  font-weight: 600;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  border: 1px solid #d4af37;
+}
+.btn-gold-metallic:hover {
+  background-color: #f5e6b3; /* Champagne Claro */
+  border-color: #f5e6b3;
+  -webkit-transform: translateY(-2px);
+  transform: translateY(-2px);
+}
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 40;
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 1000; /* Ensure it's above other content */
+  justify-content: center;
 }
-
-/* Modal Content Styles */
 .modal-content {
-  background-color: #fff;
+  background: #faf8f0; /* Branco Perolado */
   padding: 2rem;
   border-radius: 0.5rem;
-  max-width: 90%;
-  max-height: 90%;
-  overflow-y: auto; /* Enable scrolling for long content */
+  max-width: 500px;
+  width: 90%;
   position: relative;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Close Button Styles */
+.embalagens-modal-content {
+  max-width: 900px;
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    padding: 1.5rem;
+    max-width: 95%;
+  }
+  .embalagens-modal-content .grid {
+    grid-template-columns: 1fr; /* Coluna única em telas pequenas */
+  }
+}
+
 .close-button {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 1.5rem;
-  cursor: pointer;
+  top: 10px;
+  right: 10px;
   background: none;
   border: none;
-  color: #333;
-}
-
-/* Side Tab Styles */
-.side-tab {
-  position: fixed;
-  left: 0;
-  background-color: #D4AF37; /* Gold metallic color */
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 0 0.5rem 0.5rem 0; /* Rounded right corners */
+  font-size: 1.8rem;
   cursor: pointer;
-  z-index: 999;
-  font-weight: bold;
-  transition: all 0.3s ease-in-out; /* Smooth transition for all properties */
-  text-align: center;
-  width: 120px; /* Fixed width for alignment */
-  box-sizing: border-box; /* Include padding in width */
+  color: #888;
+}
+#floating-cart.jump {
+  animation: jump 0.5s;
 }
 
-#info-tab {
-  top: 45%; /* Adjusted top for better alignment */
-}
-
-#policy-tab {
-  top: 52%; /* Adjusted top for better alignment */
-}
-
-.side-tab:hover {
-  background-color: #c0a030; /* Slightly darker gold on hover */
-}
-
-/* Side Name Right Styles */
-.side-name-right {
-  position: fixed;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%) rotate(-90deg); /* Rotates 90 degrees counter-clockwise */
-  transform-origin: right center;
-  white-space: nowrap;
-  font-family: 'Allura', cursive;
-  font-size: 2.5rem; /* Increased font size */
-  color: #D4AF37;
-  z-index: 999;
-}
-
-/* Style for the "Encomendar agora" buttons */
-.btn-gold-metallic {
-  background-color: #D4AF37; /* Color of "Angela Scatambulo" */
-  color: #000000; /* Black text */
-}
-
-/* Media query from original menu.css */
-@media (max-width: 768px) {
-  .side-tab {
-    display: none;
+@keyframes jump {
+  0% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
   }
-  .modal-content {
-    max-width: 100%;
-    max-height: 100%;
-    margin: 0;
-    border-radius: 0;
+  50% {
+    -webkit-transform: translateY(-15px);
+    transform: translateY(-15px);
   }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+.cake-size-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D4AF37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1.2em;
+  padding-right: 2.5rem; /* Espaço para a seta */
+  border-color: #d4af37; /* Borda dourada */
+  -webkit-transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.cake-size-select:focus {
+  outline: none;
+  border-color: #f5e6b3; /* Dourado mais claro ao focar */
+  -webkit-box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25); /* Sombra de foco suave */
+}
+
+.cake-card-image {
+  width: 100%;
+  object-fit: cover; /* Garante que a imagem preencha o espaço no mobile */
+  background-color: #f0ede5; /* Um fundo suave para preencher o espaço vazio */
+  transition: transform 0.3s ease-in-out; /* Adiciona transição suave para o zoom */
+
+}
+
+@media (min-width: 768px) {
+  .cake-card-image {
+    object-fit: contain; /* Mostra a imagem inteira sem cortar */
+    object-position: center; /* Centraliza a imagem no corte */
+    background-color: transparent; /* Remove o fundo no desktop */
+  }
+}
+
+/* Efeito de zoom na imagem ao passar o mouse sobre o card pai */
+.group:hover .cake-card-image {
+  transform: scale(1.05); /* Aumenta a imagem em 5% */
+}
+
+/* Ajuste específico para a imagem do Bolo Nuvem de Morango */
+#nuvem-de-morango-img {
+  object-position: center 20%; /* Move o foco da imagem para cima (mostra mais da parte de cima) */
+}
+
+.best-seller-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: #d4af37; /* Dourado */
+  color: #000000;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
