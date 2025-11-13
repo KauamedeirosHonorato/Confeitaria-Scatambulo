@@ -108,8 +108,9 @@
               Angela Scatambulo
             </h2>
             <p class="text-gray-600">
-              Qualidade e carinho em cada detalhe. Desfrute de nossos bolos,
-              feitos com profissionalismo para seus momentos de celebração.
+             Confeitaria Artesanal por Angela
+Scatambulo Patisserie.
+Arte em açúcar... cada detalhe importa
             </p>
           </div>
         </div>
@@ -1253,25 +1254,33 @@
         <h3 class="text-xl font-semibold mb-4 text-center">Políticas da Confeitaria</h3>
         <div class="space-y-3 text-sm text-gray-600">
           <p class="font-bold text-center text-base">
-            POLÍTICA DE CANCELAMENTO
+            🧁 Política de Cancelamento – Confeitaria Scatambulo
           </p>
           <p>
-            O cancelamento deverá ser informado com no mínimo
-            <strong class="text-gray-800">72 horas de antecedência</strong> para
-            grandes eventos e potinhos acima de 20 unidades.
+            Para garantir a qualidade da produção e o bom andamento dos pedidos, siga as orientações abaixo em caso de cancelamento:
           </p>
-          <p>
-            Caso contrário, o valor pago de 50% da encomenda ficará como multa
-            para cobrir os custos iniciais da produção, ou seja, o reembolso
-            não será realizado.
+          <p class="font-bold text-base pt-2">
+            1. Grandes eventos e pedidos acima de 20 potinhos
           </p>
-          <p>
-            Pedidos realizados com
-            <strong class="text-gray-800">24 horas de antecedência</strong> não
-            têm direito a cancelamento, ou seja, não haverá reembolso.
+          <ul class="list-disc list-inside ml-4 space-y-1">
+            <li>O cancelamento deve ser solicitado com mínimo de 72 horas de antecedência.</li>
+            <li>Caso o cancelamento seja feito após esse prazo, 50% do valor total da encomenda será retido para cobrir custos de produção.</li>
+            <li>Não haverá reembolso integral nesses casos.</li>
+          </ul>
+          <p class="font-bold text-base pt-2">
+            2. Pedidos de até 20 potinhos
           </p>
-          <p class="font-bold text-center text-base pt-2">ATENÇÃO</p>
-          <p>O cancelamento deverá ser informado com no mínimo <strong class="text-gray-800">36 horas de antecedência</strong> para potinhos até 20 unidades.</p>
+          <ul class="list-disc list-inside ml-4 space-y-1">
+            <li>O cancelamento deve ser solicitado com mínimo de 36 horas de antecedência.</li>
+            <li>Após esse prazo, o valor pago não será reembolsado.</li>
+          </ul>
+          <p class="font-bold text-base pt-2">
+            3. Pedidos com prazo curto (entrega em até 24 horas)
+          </p>
+          <ul class="list-disc list-inside ml-4 space-y-1">
+            <li>Para pedidos com prazo de 1 dia (24 horas), o cancelamento pode ser solicitado em até 12 horas após a confirmação do pedido.</li>
+            <li>Passado esse limite, o cancelamento não será aceito e não haverá reembolso.</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -1337,33 +1346,6 @@
         </ul>
       </div>
     </div>
-
-    <!-- Ícone do Carrinho Flutuante (agora um botão) -->
-    <button
-      id="floating-cart"
-      class="fixed bottom-8 right-8 bg-white p-4 rounded-full shadow-lg z-30 flex items-center justify-center border-2 border-[#D4AF37] transition-colors hover:bg-gray-50"
-      aria-label="Abrir carrinho de compras"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-8 w-8 text-gray-700"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-        />
-      </svg>
-      <span
-        id="cart-count"
-        class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
-        >0</span
-      >
-    </button>
 
     <!-- Painel Lateral do Carrinho -->
     <div
@@ -1520,18 +1502,6 @@
       </div>
     </div>
 
-    <!-- Ilha Dinâmica de Novidade (Apenas Mobile) -->
-    <div id="novidade-island" class="md:hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-30">
-      <button
-        class="bg-white text-black border-2 border-[#D4AF37] px-5 py-3 rounded-full shadow-lg text-sm font-semibold flex items-center gap-2 transform transition-transform active:scale-95 hover:bg-gray-100"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h8V3a1 1 0 112 0v1h1a2 2 0 012 2v10a2 2 0 01-2 2H3a2 2 0 01-2-2V6a2 2 0 012-2h1V3a1 1 0 011-1zm10 5H5v8h10V7z" clip-rule="evenodd" />
-        </svg>
-        Temos Novidades
-      </button>
-    </div>
-
     <!-- Modal de Novidade -->
     <div
       id="novidade-modal"
@@ -1554,6 +1524,48 @@
           Fechar
         </button>
       </div>
+    </div>
+
+    <!-- Contêiner para botões flutuantes -->
+    <div class="fixed bottom-8 z-30 flex items-center justify-center gap-4 left-1/2 -translate-x-1/2 md:left-auto md:right-8 md:translate-x-0">
+      <!-- Ilha Dinâmica de Novidade (Apenas Mobile) -->
+      <div id="novidade-island" class="md:hidden">
+        <button
+          class="bg-white text-black border-2 border-[#D4AF37] px-5 py-3 rounded-full shadow-lg text-sm font-semibold flex items-center gap-2 transform transition-transform active:scale-95 hover:bg-gray-100"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h8V3a1 1 0 112 0v1h1a2 2 0 012 2v10a2 2 0 01-2 2H3a2 2 0 01-2-2V6a2 2 0 012-2h1V3a1 1 0 011-1zm10 5H5v8h10V7z" clip-rule="evenodd" />
+          </svg>
+          Temos Novidades
+        </button>
+      </div>
+
+      <!-- Ícone do Carrinho Flutuante -->
+      <button
+        id="floating-cart"
+        class="bg-white p-4 rounded-full shadow-lg flex items-center justify-center border-2 border-[#D4AF37] transition-colors hover:bg-gray-50"
+        aria-label="Abrir carrinho de compras"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-8 w-8 text-gray-700"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+          />
+        </svg>
+        <span
+          id="cart-count"
+          class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+          >0</span
+        >
+      </button>
     </div>
 
     <script src="carrinho.js" defer></script>
