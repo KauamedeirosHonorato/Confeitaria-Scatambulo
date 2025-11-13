@@ -146,7 +146,7 @@
                 </p>
               </div>
               <div>
-                <select
+                <p class="font-semibold text-gray-800 mb-2 text-right">R$ 240,00 / kg</p><select
                   id="size-nuvem-morango"
                   class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
                 >
@@ -223,7 +223,7 @@
                 </p>
               </div>
               <div>
-                <select
+                <p class="font-semibold text-gray-800 mb-2 text-right">R$ 215,00 / kg</p><select
                   id="size-doce-leite"
                   class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
                 >
@@ -297,7 +297,7 @@
               </p>
               </div>
               <div>
-              <select class="w-full p-2 border rounded-md bg-white text-sm mb-3 coco-select">
+              <p class="font-semibold text-gray-800 mb-2 text-right">A partir de R$ 245,00 / kg</p><select class="w-full p-2 border rounded-md bg-white text-sm mb-3 coco-select">
                 <option value="(sem coco)">Sem coco</option>
                 <option value="(com coco)">Com coco</option>
               </select>
@@ -373,7 +373,7 @@
                 </p>
               </div>
               <div>
-                <select
+                <p class="font-semibold text-gray-800 mb-2 text-right">R$ 230,00 / kg</p><select
                   id="size-uva-crocante"
                   class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
                 >
@@ -448,7 +448,7 @@
                 </p>
               </div>
               <div>
-                <select
+                <p class="font-semibold text-gray-800 mb-2 text-right">R$ 240,00 / kg</p><select
                   id="size-brigadeiro-cafe"
                   class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
                 >
@@ -521,7 +521,7 @@
                 </p>
               </div>
               <div>
-                <select
+                <p class="font-semibold text-gray-800 mb-2 text-right">R$ 240,00 / kg</p><select
                   id="size-morango-suspiro"
                   class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
                 >
@@ -594,7 +594,7 @@
               </p>
               </div>
               <div>
-              <select
+              <p class="font-semibold text-gray-800 mb-2 text-right">R$ 255,00 / kg</p><select
                 id="size-sensacao"
                 class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
               >
@@ -667,7 +667,7 @@
               </p>
               </div>
               <div>
-              <select
+              <p class="font-semibold text-gray-800 mb-2 text-right">R$ 245,00 / kg</p><select
                 id="size-abacaxi-coco"
                 class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
               >
@@ -740,7 +740,7 @@
               </p>
               </div>
               <div>
-              <select
+              <p class="font-semibold text-gray-800 mb-2 text-right">R$ 230,00 / kg</p><select
                 id="size-olho-sogra"
                 class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
               >
@@ -813,7 +813,7 @@
               </p>
               </div>
               <div>
-              <select
+              <p class="font-semibold text-gray-800 mb-2 text-right">R$ 230,00 / kg</p><select
                 id="size-casadinho"
                 class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
               >
@@ -885,7 +885,7 @@
               </p>
               </div>
               <div>
-              <select
+              <p class="font-semibold text-gray-800 mb-2 text-right">R$ 230,00 / kg</p><select
                 id="size-brigadeiro"
                 class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
               >
@@ -957,7 +957,7 @@
               </p>
               </div>
               <div>
-              <select
+              <p class="font-semibold text-gray-800 mb-2 text-right">R$ 240,00 / kg</p><select
                 id="size-trufa-nutella"
                 class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
               >
@@ -1033,7 +1033,7 @@
               </p>
               </div>
               <div>
-              <select
+              <p class="font-semibold text-gray-800 mb-2 text-right">R$ 310,00 / kg</p><select
                 id="size-pistache"
                 class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
               >
@@ -1383,6 +1383,7 @@
           </div>
           <div>
             <label for="vela" class="block text-sm font-medium">Mandamos vela de brinde se solicitada:</label>
+            <img src="./Velas/VelaBolo.jpg" alt="Exemplo de vela de brinde" class="w-32 h-auto mt-2 mb-2 block mx-auto rounded-md shadow-sm">
             <select id="vela" name="vela" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
               <option>Não, obrigado</option>
               <option>Sim, por favor</option>
@@ -1405,8 +1406,30 @@
             </div>
           </div>
           <div>
+            <label for="cep" class="block text-sm font-medium">CEP:</label>
+            <input type="text" id="cep" name="cep" required placeholder="Apenas números" maxlength="8" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
+          </div>
+          <div>
             <label for="endereco" class="block text-sm font-medium">Endereço completo:</label>
             <textarea id="endereco" name="endereco" rows="3" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]"></textarea>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="num" class="block text-sm font-medium">Num:</label>
+              <input type="text" id="num" name="num" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
+            </div>
+            <div>
+              <label for="ap" class="block text-sm font-medium">Ap:</label>
+              <input type="text" id="ap" name="ap" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
+            </div>
+          </div>
+          <div>
+            <label for="predio" class="block text-sm font-medium">Prédio:</label>
+            <input type="text" id="predio" name="predio" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
+          </div>
+          <div>
+            <label for="bairro" class="block text-sm font-medium">Bairro:</label>
+            <input type="text" id="bairro" name="bairro" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
           </div>
           <div>
             <label for="cidade" class="block text-sm font-medium">Cidade:</label>

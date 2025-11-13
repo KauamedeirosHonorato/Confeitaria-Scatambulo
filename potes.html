@@ -514,6 +514,7 @@
         initMobileMenu();
         initLightbox();
         initPedidoModal(); // <-- Nova função inicializada
+        initPersonalizePanel(); // <-- Adicionado para o painel de potinhos
       });
 
       function initMobileMenu() {
@@ -594,6 +595,32 @@
             closeModal();
           }
         });
+      }
+
+      /**
+       * NOVO: Controla o painel de personalização de potinhos
+       */
+      function initPersonalizePanel() {
+        const openButton = document.getElementById("personalize-tab");
+        const panel = document.getElementById("personalize-panel");
+        const overlay = document.getElementById("personalize-panel-overlay");
+        const closeButton = document.getElementById("close-personalize-panel");
+
+        if (!openButton || !panel || !overlay || !closeButton) return;
+
+        const openPanel = () => {
+          overlay.classList.remove("hidden");
+          panel.classList.remove("translate-x-full");
+        };
+
+        const closePanel = () => {
+          overlay.classList.add("hidden");
+          panel.classList.add("translate-x-full");
+        };
+
+        openButton.addEventListener("click", openPanel);
+        closeButton.addEventListener("click", closePanel);
+        overlay.addEventListener("click", closePanel);
       }
     </script>
   </body>

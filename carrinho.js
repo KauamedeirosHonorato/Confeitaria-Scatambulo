@@ -4,7 +4,6 @@
   }
 
   function initMobileMenu() {
-    // --- Lógica do Menu Mobile ---
     const menuButton = document.getElementById("mobile-menu-button");
     const mobileMenu = document.getElementById("mobile-menu");
     if (menuButton) {
@@ -22,45 +21,38 @@
   }
 
   function initModals() {
-    // --- Lógica para os Modais ---
     const infoModal = document.getElementById("info-modal");
     const policyModal = document.getElementById("policy-modal");
 
-    // Funções para abrir modais
     const infoTab = document.getElementById("info-tab");
-    if (infoTab) {
+    if (infoTab)
       infoTab.addEventListener("click", () =>
         infoModal.classList.remove("hidden")
       );
-    }
+
     const policyTab = document.getElementById("policy-tab");
-    if (policyTab) {
+    if (policyTab)
       policyTab.addEventListener("click", () =>
         policyModal.classList.remove("hidden")
       );
-    }
 
-    // Funções para fechar modais
     const closeInfoModal = document.getElementById("close-info-modal");
-    if (closeInfoModal) {
+    if (closeInfoModal)
       closeInfoModal.addEventListener("click", () =>
         infoModal.classList.add("hidden")
       );
-    }
+
     const closePolicyModal = document.getElementById("close-policy-modal");
-    if (closePolicyModal) {
+    if (closePolicyModal)
       closePolicyModal.addEventListener("click", () =>
         policyModal.classList.add("hidden")
       );
-    }
   }
 
   function initPackagingModal() {
-    // --- Lógica para o modal de Embalagens ---
     const embalagensModal = document.getElementById("embalagens-modal");
     const videoEmbalagens = document.getElementById("video-embalagens");
 
-    // Only proceed if the modal element exists
     if (embalagensModal) {
       const closeButton = embalagensModal.querySelector(".close-button");
 
@@ -87,19 +79,15 @@
         embalagensModal.classList.add("hidden");
         if (videoEmbalagens) {
           videoEmbalagens.pause();
-          videoEmbalagens.currentTime = 0; // Reset video to start
+          videoEmbalagens.currentTime = 0;
         }
       };
 
-      if (closeButton) {
+      if (closeButton)
         closeButton.addEventListener("click", closeEmbalagensModal);
-      }
 
-      // Optional: Close modal by clicking the overlay
       embalagensModal.addEventListener("click", (event) => {
-        if (event.target === embalagensModal) {
-          closeEmbalagensModal();
-        }
+        if (event.target === embalagensModal) closeEmbalagensModal();
       });
     } else {
       console.warn(
@@ -109,7 +97,6 @@
   }
 
   function initSaberMaisModal() {
-    // --- Lógica para o modal Saber Mais ---
     const saberMaisModal = document.getElementById("saber-mais-modal");
     const closeSaberMaisModalButton = document.getElementById(
       "close-saber-mais-modal"
@@ -127,9 +114,8 @@
 
     if (saberMaisModal) {
       saberMaisModal.addEventListener("click", (event) => {
-        if (event.target === saberMaisModal) {
+        if (event.target === saberMaisModal)
           saberMaisModal.classList.add("hidden");
-        }
       });
     }
 
@@ -198,26 +184,17 @@
       let weightStr = weightMatch[1].replace(",", ".");
       weightInKg = parseFloat(weightStr);
       const unit = weightMatch[2].toLowerCase();
-
-      if (unit === "g") {
-        weightInKg /= 1000;
-      }
+      if (unit === "g") weightInKg /= 1000;
     }
 
     const packagingCost = priceMatch
       ? parseFloat(priceMatch[1].replace(",", "."))
       : 0;
-
-    return {
-      weightInKg,
-      packagingCost,
-    };
+    return { weightInKg, packagingCost };
   }
 
   function formatCurrency(value) {
-    if (typeof value !== "number") {
-      value = 0;
-    }
+    if (typeof value !== "number") value = 0;
     return value.toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL",
@@ -240,21 +217,13 @@
     const size = selectedOption.text;
 
     const uniqueId = `${cakeName}-${size}`.replace(/\s+/g, "-");
-
-    if (cart.some((item) => item.id === uniqueId)) {
-      return;
-    }
+    if (cart.some((item) => item.id === uniqueId)) return;
 
     const { weightInKg, packagingCost } = parseSizeAndPrice(size);
     const cakePricePerKg = cakePrices[cakeName] || 150;
     const itemPrice = weightInKg * cakePricePerKg + packagingCost;
 
-    cart.push({
-      id: uniqueId,
-      name: cakeName,
-      size: size,
-      price: itemPrice,
-    });
+    cart.push({ id: uniqueId, name: cakeName, size, price: itemPrice });
     saveCartToStorage();
 
     updateCart();
@@ -279,6 +248,7 @@
     const checkoutButton = document.getElementById("checkout-button-panel");
     const floatingCart = document.getElementById("floating-cart");
     const cartTotalElement = document.getElementById("cart-total-price");
+
     if (!cartCount || !cartItemsPanel || !checkoutButton || !floatingCart)
       return;
 
@@ -286,7 +256,6 @@
     cartItemsPanel.innerHTML = "";
 
     let totalPrice = 0;
-
     if (cart.length > 0) {
       cart.forEach((item) => {
         totalPrice += item.price;
@@ -294,34 +263,35 @@
         itemElement.className =
           "flex justify-between items-center bg-white/50 p-2 rounded-lg";
         itemElement.innerHTML = `
-        <div>
-          <p class="font-semibold text-gray-800">${item.name}</p>
-          <p class="text-sm text-gray-600">${item.size} - ${formatCurrency(
+          <div>
+            <p class="font-semibold text-gray-800">${item.name}</p>
+            <p class="text-sm text-gray-600">${item.size} - ${formatCurrency(
           item.price
         )}</p>
-        </div>
-        <button onclick="removeFromCart('${
-          item.id
-        }')" class="text-red-500 hover:text-red-700">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-        </button>
-      `;
+          </div>
+          <button onclick="removeFromCart('${
+            item.id
+          }')" class="text-red-500 hover:text-red-700">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1
+                1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+            </svg>
+          </button>`;
         cartItemsPanel.appendChild(itemElement);
       });
       checkoutButton.style.display = "block";
-      if (cartTotalElement) {
+      if (cartTotalElement)
         cartTotalElement.textContent = formatCurrency(totalPrice);
-      }
-      floatingCart.classList.add("jump");
 
-      setTimeout(() => floatingCart.classList.remove("jump"), 500);
+      floatingCart.classList.remove("jump");
+      void floatingCart.offsetWidth;
+      floatingCart.classList.add("jump");
     } else {
       cartItemsPanel.innerHTML =
         '<p class="text-center text-gray-500">Seu carrinho está vazio.</p>';
       checkoutButton.style.display = "none";
-      if (cartTotalElement) {
-        cartTotalElement.textContent = formatCurrency(0);
-      }
+      if (cartTotalElement) cartTotalElement.textContent = formatCurrency(0);
     }
 
     if (cart.length === 0) {
@@ -349,23 +319,22 @@
         const itemCard = document.createElement("div");
         itemCard.className = "w-full md:w-1/2 lg:w-1/3 px-2 mb-4";
         itemCard.innerHTML = `
-        <div class="bg-white p-4 rounded-lg shadow-md h-full flex flex-col justify-between">
-          <div>
-            <h2 class="text-xl font-bold font-playfair text-gray-800">${
-              item.name
-            }</h2>
-            <p class="text-gray-600">${item.size}</p>
-            <p class="font-semibold text-gray-800 mt-2">${formatCurrency(
-              item.price
-            )}</p>
-          </div>
-          <button onclick="removeFromCart('${
-            item.id
-          }')" class="mt-4 text-red-500 hover:text-red-700 text-sm self-start">
-            Remover
-          </button>
-        </div>
-      `;
+          <div class="bg-white p-4 rounded-lg shadow-md h-full flex flex-col justify-between">
+            <div>
+              <h2 class="text-xl font-bold font-playfair text-gray-800">${
+                item.name
+              }</h2>
+              <p class="text-gray-600">${item.size}</p>
+              <p class="font-semibold text-gray-800 mt-2">${formatCurrency(
+                item.price
+              )}</p>
+            </div>
+            <button onclick="removeFromCart('${
+              item.id
+            }')" class="mt-4 text-red-500 hover:text-red-700 text-sm self-start">
+              Remover
+            </button>
+          </div>`;
         cartItemsContainer.appendChild(itemCard);
       });
 
@@ -385,7 +354,7 @@
 
     const openButtons = [
       document.getElementById("checkout-button-panel"),
-      document.getElementById("checkout-button"), // Para a página carrinho.html
+      document.getElementById("checkout-button"),
     ];
     const closeButton = document.getElementById("close-checkout-modal");
     const form = document.getElementById("checkout-form");
@@ -405,6 +374,41 @@
       if (btn) btn.addEventListener("click", openModal);
     });
 
+    // Funcionalidade de Auto-preenchimento com ViaCEP
+    const cepInput = document.getElementById("cep");
+    const enderecoInput = document.getElementById("endereco");
+    const bairroInput = document.getElementById("bairro");
+    const cidadeInput = document.getElementById("cidade");
+    const numInput = document.getElementById("num");
+
+    if (cepInput && enderecoInput && bairroInput && cidadeInput && numInput) {
+      cepInput.addEventListener("blur", async () => {
+        const cep = cepInput.value.replace(/\D/g, ""); // Remove caracteres não numéricos
+
+        if (cep.length !== 8) {
+          return; // CEP inválido
+        }
+
+        try {
+          const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+          const data = await response.json();
+
+          if (data.erro) {
+            console.error("CEP não encontrado.");
+            return;
+          }
+
+          enderecoInput.value = data.logradouro || "";
+          bairroInput.value = data.bairro || "";
+          cidadeInput.value = data.localidade || "";
+
+          numInput.focus(); // Move o foco para o campo de número
+        } catch (error) {
+          console.error("Erro ao buscar CEP:", error);
+        }
+      });
+    }
+
     if (closeButton) closeButton.addEventListener("click", closeModal);
 
     checkoutModal.addEventListener("click", (e) => {
@@ -420,12 +424,13 @@
         let message = "Olá, Angela! Gostaria de encomendar:\n\n";
         message += "*--- ITENS DO PEDIDO ---*\n";
         let totalPrice = 0;
+
         cart.forEach((item) => {
           message += `- ${item.name} (${item.size})\n`;
           totalPrice += item.price;
         });
-        message += `\n*Total dos Itens: ${formatCurrency(totalPrice)}*\n\n`;
 
+        message += `\n*Total dos Itens: ${formatCurrency(totalPrice)}*\n\n`;
         message += "*--- DADOS PARA ENTREGA ---*\n";
         message += `*Nome:* ${details.nome}\n`;
         message += `*Vela de brinde?:* ${details.vela}\n`;
@@ -434,17 +439,27 @@
           .reverse()
           .join("/")}\n`;
         message += `*Horário para entrega:* entre ${details.horario_inicio}h e ${details.horario_fim}h\n`;
-        message += `*Endereço:* ${details.endereco}\n`;
+        message += `*CEP:* ${details.cep}\n`;
+        message += `*Endereço:* ${details.endereco}, Nº ${details.num}\n`;
+        if (details.ap) message += `*Ap:* ${details.ap}\n`;
+        if (details.predio) message += `*Prédio:* ${details.predio}\n`;
+        message += `*Bairro:* ${details.bairro}\n`;
         message += `*Cidade:* ${details.cidade}\n`;
-        if (details.valor_entrega) {
+        if (details.valor_entrega)
           message += `*Valor da entrega:* ${details.valor_entrega}\n`;
-        }
 
-        const whatsappUrl = `https://api.whatsapp.com/send/?phone=554499024212&text=${encodeURIComponent(
+        const whatsappUrl = `https://wa.me/554499024212?text=${encodeURIComponent(
           message
         )}`;
         window.open(whatsappUrl, "_blank");
+
+        // limpa carrinho
+        cart = [];
+        saveCartToStorage();
+        updateCart();
+
         closeModal();
+        alert("Pedido enviado! Obrigado ❤️");
       });
     }
   }
@@ -457,9 +472,7 @@
     initCartPanel();
     initCheckoutModal();
 
-    if (document.getElementById("cart-items")) {
-      displayCartItemsOnCartPage();
-    }
+    if (document.getElementById("cart-items")) displayCartItemsOnCartPage();
 
     updateCart();
   });
