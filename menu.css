@@ -3,11 +3,7 @@ body {
   background-color: #faf8f0; /* Branco Perolado */
   color: #1c1c1c; /* Cinza Carvão */
 }
-.font-playfair {
-  font-family: "Playfair Display", serif;
-}
 h2 {
-  font-family: "Playfair Display", serif;
   color: #d4af37;
 }
 section {
@@ -31,7 +27,6 @@ section {
   font-weight: 600;
 }
 .side-name-right {
-  font-family: "Allura", cursive;
   position: fixed;
   right: 0;
   top: 50%;
