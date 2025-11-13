@@ -449,6 +449,13 @@
         if (details.valor_entrega)
           message += `*Valor da entrega:* ${details.valor_entrega}\n`;
 
+        message += "\n*📌 Aviso Importante*\n";
+        message +=
+          "Como nossos bolos são artesanais, o peso final pode variar entre 100 g e 300 g para mais.\n";
+        message += "O valor pago no site corresponde ao peso base (1 kg).\n";
+        message +=
+          "Após a pesagem final, enviaremos pelo WhatsApp o ajuste de diferença, caso necessário.";
+
         const whatsappUrl = `https://wa.me/554499024212?text=${encodeURIComponent(
           message
         )}`;
