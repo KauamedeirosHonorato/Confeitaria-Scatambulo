@@ -262,7 +262,7 @@
         totalPrice += item.price;
         const itemElement = document.createElement("div");
         itemElement.className =
-          "flex justify-between items-center bg-white/50 p-2 rounded-lg";
+          "flex justify-between items-center bg-white p-2 rounded-lg shadow-sm";
         itemElement.innerHTML = `
           <div>
             <p class="font-semibold text-gray-800">${item.name}</p>
@@ -457,6 +457,7 @@
         // limpa carrinho
         cart = [];
         saveCartToStorage();
+        // A função updateCart() já é chamada dentro de si mesma, mas vamos garantir que o painel seja atualizado.
         updateCart();
 
         closeModal();
