@@ -44,8 +44,7 @@ section {
 
 /* Esconde o nome lateral em telas menores (móveis) */
 @media (max-width: 768px) {
-  .side-name-right,
-  .side-tab {
+  .side-name-right {
     display: none;
   }
 }
