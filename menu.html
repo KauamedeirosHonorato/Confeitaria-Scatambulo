@@ -13,6 +13,11 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="menu.css" />
+    <!-- Flatpickr CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
   </head>
   <body class="bg-stone-50">
     <div
@@ -1446,14 +1451,14 @@ Arte em açúcar... cada detalhe importa
           </div>
           <div>
             <label for="data_entrega" class="block text-sm font-medium">Data de entrega:</label>
-            <input type="date" id="data_entrega" name="data_entrega" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
+            <input type="text" id="data_entrega" name="data_entrega" required placeholder="Selecione a data" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
           </div>
           <div>
             <label class="block text-sm font-medium">Horário para entrega:</label>
             <div class="flex items-center gap-2 mt-1">
-              <input type="time" id="horario_inicio" name="horario_inicio" required class="block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
+              <input type="text" id="horario_inicio" name="horario_inicio" required placeholder="Início" class="block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
               <span>a</span>
-              <input type="time" id="horario_fim" name="horario_fim" required class="block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
+              <input type="text" id="horario_fim" name="horario_fim" required placeholder="Fim" class="block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
             </div>
           </div>
           <div class="md:col-span-2">
@@ -1574,5 +1579,8 @@ Arte em açúcar... cada detalhe importa
     </div>
 
     <script src="carrinho.js" defer></script>
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="datepicker.js" defer></script>
   </body>
 </html>
