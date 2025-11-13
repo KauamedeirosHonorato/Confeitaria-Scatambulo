@@ -173,6 +173,7 @@
     Casadinho: 230.0,
     "Pistache com Frutas Vermelhas": 310.0,
     "Abacaxi com Coco": 245.0,
+    "Floresta Branca": 250.0,
   };
 
   function parseSizeAndPrice(optionText) {
@@ -382,7 +383,7 @@
     const numInput = document.getElementById("num");
 
     if (cepInput && enderecoInput && bairroInput && cidadeInput && numInput) {
-      cepInput.addEventListener("blur", async () => {
+      cepInput.addEventListener("input", async () => {
         const cep = cepInput.value.replace(/\D/g, ""); // Remove caracteres não numéricos
 
         if (cep.length !== 8) {
@@ -464,6 +465,75 @@
     }
   }
 
+  function initNovidadeModal() {
+    const novidadeIsland = document.getElementById("novidade-island");
+    const novidadeModal = document.getElementById("novidade-modal");
+    const closeModalFooterButton = document.getElementById(
+      "close-novidade-modal-footer"
+    );
+    const modalContent = document.getElementById("novidade-modal-content");
+    const cardToClone = document.getElementById("card-floresta-branca");
+
+    if (
+      !novidadeIsland ||
+      !novidadeModal ||
+      !closeModalFooterButton ||
+      !cardToClone
+    ) {
+      return;
+    }
+
+    const openModal = () => {
+      // Limpa o conteúdo anterior e clona o card atualizado
+      modalContent.innerHTML = "";
+      const clonedCard = cardToClone.cloneNode(true);
+      clonedCard.removeAttribute("id"); // Evita IDs duplicados
+      modalContent.appendChild(clonedCard);
+
+      // Reatribui os eventos de clique para os botões dentro do modal clonado
+      const newAddToCartButton = clonedCard.querySelector(
+        "[onclick^='addToCart']"
+      );
+      if (newAddToCartButton) {
+        newAddToCartButton.onclick = () => {
+          addToCart("Floresta Branca", newAddToCartButton);
+          closeModal(); // Fecha o modal ao adicionar ao carrinho
+        };
+      }
+
+      const newStrogonoffButton = clonedCard.querySelector(
+        "[onclick^='addStrogonoffToCart']"
+      );
+      if (newStrogonoffButton) {
+        newStrogonoffButton.onclick = () =>
+          addStrogonoffToCart(newStrogonoffButton);
+      }
+
+      const newEmbalagensButton = clonedCard.querySelector(
+        "[onclick^='openEmbalagensModal']"
+      );
+      if (newEmbalagensButton) {
+        newEmbalagensButton.onclick = () => openEmbalagensModal();
+      }
+
+      novidadeModal.classList.remove("hidden");
+      novidadeModal.classList.add("flex");
+    };
+
+    const closeModal = () => {
+      novidadeModal.classList.add("hidden");
+      novidadeModal.classList.remove("flex");
+    };
+
+    novidadeIsland.addEventListener("click", openModal);
+    closeModalFooterButton.addEventListener("click", closeModal);
+    novidadeModal.addEventListener("click", (e) => {
+      if (e.target === novidadeModal) {
+        closeModal();
+      }
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     initMobileMenu();
     initModals();
@@ -471,6 +541,7 @@
     initSaberMaisModal();
     initCartPanel();
     initCheckoutModal();
+    initNovidadeModal();
 
     if (document.getElementById("cart-items")) displayCartItemsOnCartPage();
 

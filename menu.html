@@ -357,7 +357,7 @@
           >
             <img
               loading="lazy"
-              src="./sabores/UvaCrocante.jpg"
+              src="././sabores/UvaCrocante.jpg"
               alt="Bolo Uva Crocante"
               class="w-full cake-card-image"
             />
@@ -1083,6 +1083,82 @@
               </div>
             </div>
           </div>
+
+          <!-- Bolo Floresta Branca -->
+          <div
+            id="card-floresta-branca"
+            class="relative bg-[#FAF8F0] p-1 rounded-lg shadow-xl border-2 border-[#D4AF37] flex flex-col justify-between overflow-hidden group"
+          >
+            <div class="best-seller-badge bg-[#D4AF37] text-black">Novo</div>
+            <img
+              loading="lazy"
+              src="sabores/FlorestaBranca.jpg"
+              alt="Bolo Floresta Branca"
+              class="w-full cake-card-image bg-gray-200"
+            />
+            <div class="card-content p-4 flex flex-col justify-between flex-grow">
+              <div>
+              <h3
+                class="font-playfair text-xl font-semibold text-[#1C1C1C] mb-2 flex items-center gap-2"
+              >
+                🍒 Floresta Branca
+              </h3>
+              <p class="text-gray-500 mb-2">
+                Brigadeiro branco, cereja, creme Ninho, chantilly fresco e raspas
+                de chocolate.
+              </p>
+              </div>
+              <div>
+              <p class="font-semibold text-gray-800 mb-2 text-right">R$ 250,00 / kg</p><select
+                id="size-floresta-branca"
+                class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+              >
+                <option value="Oval 500g (sem custo)">
+                  Oval 500g (sem custo)
+                </option>
+                <option value="Taça 500g (+ R$ 15,00)">
+                  Taça 500g (+ R$ 15,00)
+                </option>
+                <option value="Box 500g (+ R$ 15,00)">
+                  Box 500g (+ R$ 15,00)
+                </option>
+                <option value="Oval 1kg (sem custo)" selected>
+                  Oval 1kg (sem custo)
+                </option>
+                <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
+                <option value="Box 1kg (+ R$ 20,00)">
+                  Box 1kg (+ R$ 20,00)
+                </option>
+                <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
+                <option value="Oval 1,5kg (sem custo)">
+                  Oval 1,5kg (sem custo)
+                </option>
+                <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
+                <option value="Box 1,5kg (+ R$ 25,00)">
+                  Box 1,5kg (+ R$ 25,00)
+                </option>
+                <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
+                <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
+                <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
+                <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
+                <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
+                <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
+              </select>
+              <button
+                onclick="openEmbalagensModal()"
+                class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
+              >
+                Ver embalagens
+              </button>
+              <a
+                href="#"
+                onclick="addToCart('Floresta Branca', this)"
+                class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center mt-4"
+                >Encomendar agora</a
+              >
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1265,7 +1341,7 @@
     <!-- Ícone do Carrinho Flutuante (agora um botão) -->
     <button
       id="floating-cart"
-      class="fixed bottom-8 right-8 bg-white p-4 rounded-full shadow-lg z-30 flex items-center justify-center"
+      class="fixed bottom-8 right-8 bg-white p-4 rounded-full shadow-lg z-30 flex items-center justify-center border-2 border-[#D4AF37] transition-colors hover:bg-gray-50"
       aria-label="Abrir carrinho de compras"
     >
       <svg
@@ -1366,7 +1442,7 @@
       >
         <button
           id="close-checkout-modal"
-          class="absolute -top-3 -right-3 bg-white rounded-full p-1 shadow-lg text-gray-500 hover:text-gray-800 transition-colors"
+          class="absolute top-4 right-4 bg-gray-100 rounded-full p-1 text-gray-500 hover:text-gray-800 hover:bg-gray-200 transition-colors"
           aria-label="Fechar modal"
         >
           <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1376,67 +1452,107 @@
         <h3 class="text-2xl font-playfair font-bold text-center text-[#D4AF37] mb-6">
           Por gentileza, preencha os dados
         </h3>
-        <form id="checkout-form" class="space-y-4 text-gray-700">
-          <div>
+        <form id="checkout-form" class="space-y-4 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-6 md:gap-y-4 text-gray-700">
+          <div class="md:col-span-2">
             <label for="nome" class="block text-sm font-medium">Nome Completo:</label>
-            <input type="text" id="nome" name="nome" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
-          </div>
-          <div>
-            <label for="vela" class="block text-sm font-medium">Mandamos vela de brinde se solicitada:</label>
-            <img src="./Velas/VelaBolo.jpg" alt="Exemplo de vela de brinde" class="w-32 h-auto mt-2 mb-2 block mx-auto rounded-md shadow-sm">
-            <select id="vela" name="vela" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
-              <option>Não, obrigado</option>
-              <option>Sim, por favor</option>
-            </select>
+            <input type="text" id="nome" name="nome" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
           </div>
           <div>
             <label for="data_entrega" class="block text-sm font-medium">Data de entrega:</label>
-            <input type="date" id="data_entrega" name="data_entrega" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
-          </div>
-          <div>
-            <label for="valor_entrega" class="block text-sm font-medium">Valor da entrega:</label>
-            <input type="text" id="valor_entrega" name="valor_entrega" placeholder="A combinar" readonly class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed focus:ring-0 focus:border-gray-300">
+            <input type="date" id="data_entrega" name="data_entrega" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
           </div>
           <div>
             <label class="block text-sm font-medium">Horário para entrega:</label>
             <div class="flex items-center gap-2 mt-1">
-              <input type="time" id="horario_inicio" name="horario_inicio" required class="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
+              <input type="time" id="horario_inicio" name="horario_inicio" required class="block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
               <span>a</span>
-              <input type="time" id="horario_fim" name="horario_fim" required class="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
+              <input type="time" id="horario_fim" name="horario_fim" required class="block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
             </div>
           </div>
-          <div>
+          <div class="md:col-span-2">
             <label for="cep" class="block text-sm font-medium">CEP:</label>
-            <input type="text" id="cep" name="cep" required placeholder="Apenas números" maxlength="8" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
+            <input type="text" id="cep" name="cep" required placeholder="Apenas números" maxlength="8" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
           </div>
-          <div>
+          <div class="md:col-span-2">
             <label for="endereco" class="block text-sm font-medium">Endereço completo:</label>
-            <textarea id="endereco" name="endereco" rows="3" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]"></textarea>
+            <textarea id="endereco" name="endereco" rows="3" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]"></textarea>
           </div>
-          <div class="grid grid-cols-2 gap-4">
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:col-span-2">
             <div>
               <label for="num" class="block text-sm font-medium">Num:</label>
-              <input type="text" id="num" name="num" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
+              <input type="text" id="num" name="num" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
             </div>
             <div>
               <label for="ap" class="block text-sm font-medium">Ap:</label>
-              <input type="text" id="ap" name="ap" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
+              <input type="text" id="ap" name="ap" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
+            </div>
+            <div class="col-span-2 md:col-span-1">
+              <label for="predio" class="block text-sm font-medium">Prédio:</label>
+              <input type="text" id="predio" name="predio" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
             </div>
           </div>
-          <div>
-            <label for="predio" class="block text-sm font-medium">Prédio:</label>
-            <input type="text" id="predio" name="predio" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
-          </div>
-          <div>
+          <div class="md:col-span-1">
             <label for="bairro" class="block text-sm font-medium">Bairro:</label>
-            <input type="text" id="bairro" name="bairro" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
+            <input type="text" id="bairro" name="bairro" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
           </div>
-          <div>
+          <div class="md:col-span-1">
             <label for="cidade" class="block text-sm font-medium">Cidade:</label>
-            <input type="text" id="cidade" name="cidade" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
+            <input type="text" id="cidade" name="cidade" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
           </div>
-          <button type="submit" class="w-full text-center block bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-lg text-lg hover:bg-[#f5e6b3] transition-transform transform hover:scale-105">Confirmar Pedido</button>
+          <div class="md:col-span-2">
+            <label for="valor_entrega" class="block text-sm font-medium">Valor da entrega:</label>
+            <input type="text" id="valor_entrega" name="valor_entrega" placeholder="A combinar" readonly class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm bg-gray-100 cursor-not-allowed focus:ring-0 focus:border-gray-300">
+          </div>
+          <div class="md:col-span-2 flex items-center gap-4 border-t pt-4 mt-2">
+            <img src="./Velas/VelaBolo.jpg" alt="Exemplo de vela de brinde" class="w-24 h-auto rounded-lg shadow-sm">
+            <div class="flex-grow">
+              <label for="vela" class="block text-sm font-medium">Mandamos vela de brinde se solicitada:</label>
+              <select id="vela" name="vela" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
+                <option>Não, obrigado</option>
+                <option>Sim, por favor</option>
+              </select>
+            </div>
+          </div>
+          <div class="md:col-span-2">
+            <button type="submit" class="w-full text-center block bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-lg text-lg hover:bg-[#f5e6b3] transition-transform transform hover:scale-105">Confirmar Pedido</button>
+          </div>
         </form>
+      </div>
+    </div>
+
+    <!-- Ilha Dinâmica de Novidade (Apenas Mobile) -->
+    <div id="novidade-island" class="md:hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-30">
+      <button
+        class="bg-white text-black border-2 border-[#D4AF37] px-5 py-3 rounded-full shadow-lg text-sm font-semibold flex items-center gap-2 transform transition-transform active:scale-95 hover:bg-gray-100"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h8V3a1 1 0 112 0v1h1a2 2 0 012 2v10a2 2 0 01-2 2H3a2 2 0 01-2-2V6a2 2 0 012-2h1V3a1 1 0 011-1zm10 5H5v8h10V7z" clip-rule="evenodd" />
+        </svg>
+        Temos Novidades
+      </button>
+    </div>
+
+    <!-- Modal de Novidade -->
+    <div
+      id="novidade-modal"
+      class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        class="bg-white p-4 rounded-2xl shadow-xl max-w-sm w-full relative mx-4 max-h-[85vh] overflow-y-auto flex flex-col"
+      >
+        <h3 class="text-2xl font-playfair font-bold text-center text-[#D4AF37] mb-4">
+          Novidade de Natal!
+        </h3>
+        <!-- O card do bolo será clonado aqui pelo JS -->
+        <div id="novidade-modal-content" class="flex-grow"></div>
+        <button
+          id="close-novidade-modal-footer"
+          class="mt-4 w-full p-2 border border-gray-300 text-gray-700 rounded-md bg-gray-100 text-sm hover:bg-gray-200 transition-colors"
+        >
+          Fechar
+        </button>
       </div>
     </div>
 
