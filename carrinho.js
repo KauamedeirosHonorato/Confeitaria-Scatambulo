@@ -152,10 +152,20 @@
     if (cartOverlay) cartOverlay.addEventListener("click", closeCartPanel);
   }
 
-  let cart = JSON.parse(localStorage.getItem("shoppingCart")) || [];
+  let cart;
+  try {
+    cart = JSON.parse(localStorage.getItem("shoppingCart")) || [];
+  } catch (e) {
+    console.warn("Could not access localStorage. Cart will not be saved.", e);
+    cart = [];
+  }
 
   function saveCartToStorage() {
-    localStorage.setItem("shoppingCart", JSON.stringify(cart));
+    try {
+      localStorage.setItem("shoppingCart", JSON.stringify(cart));
+    } catch (e) {
+      console.warn("Could not access localStorage. Cart will not be saved.", e);
+    }
   }
 
   const cakePrices = {
