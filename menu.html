@@ -1473,17 +1473,29 @@
               <input type="text" id="horario_fim" name="horario_fim" required placeholder="Fim" class="block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
             </div>
             <p class="text-xs text-gray-500 mt-1">Horário de entrega: 8:00 às 18:00.</p>
+            <div id="time-validation-notice" class="hidden mt-2 text-sm text-red-800 bg-red-100 border border-red-300 p-3 rounded-lg">
+              <!-- Mensagem será inserida aqui pelo JS -->
+            </div>
             <div id="saturday-delivery-notice" class="hidden mt-2 text-sm text-blue-800 bg-blue-100 border border-blue-300 p-3 rounded-lg">
               <strong class="font-bold">Aviso:</strong> Bolos pedidos no sábado serão entregues no domingo até as 12:00.
             </div>
           </div>
           <div class="md:col-span-2">
             <label for="cep" class="block text-sm font-medium">CEP:</label>
-            <input type="text" id="cep" name="cep" required placeholder="Apenas números" maxlength="8" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
+            <div class="relative mt-1">
+              <input type="text" id="cep" name="cep" required placeholder="Apenas números" maxlength="8" class="block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
+              <div id="cep-spinner" class="hidden absolute inset-y-0 right-0 flex items-center pr-3">
+                <svg class="animate-spin h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              </div>
+            </div>
+            <div id="cep-notice" class="hidden mt-2 text-sm p-3 rounded-lg"></div>
           </div>
           <div class="md:col-span-2">
             <label for="endereco" class="block text-sm font-medium">Endereço completo:</label>
-            <textarea id="endereco" name="endereco" rows="3" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]"></textarea>
+            <input type="text" id="endereco" name="endereco" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]">
           </div>
           <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:col-span-2">
             <div>

@@ -17,6 +17,43 @@ document.addEventListener("DOMContentLoaded", function () {
     time_24hr: true,
     minTime: "08:00",
     maxTime: "18:00",
+    // Adiciona a validação quando o seletor é fechado (após digitar ou selecionar)
+    onClose: function (selectedDates, dateStr, instance) {
+      if (!dateStr) return; // Se não houver valor, não faz nada
+
+      const noticeElement = document.getElementById("time-validation-notice");
+      if (noticeElement) noticeElement.style.display = "none"; // Esconde o aviso por padrão
+
+      const [hours, minutes] = dateStr.split(":").map(Number);
+
+      // Validação para horários antes das 8:00
+      if (hours < 8) {
+        if (noticeElement) {
+          noticeElement.textContent =
+            "Nosso horário de entrega começa às 8:00. Ajustamos para você.";
+          noticeElement.style.display = "block";
+        }
+        // Usa a API do flatpickr para definir a data/hora corretamente
+        instance.setDate(`08:00`, true);
+        return;
+      }
+
+      // Validação para horários depois das 18:00
+      if (hours > 18 || (hours === 18 && minutes > 0)) {
+        if (noticeElement) {
+          noticeElement.textContent =
+            "Nosso horário de entrega termina às 18:00. Ajustamos para você.";
+          noticeElement.style.display = "block";
+        }
+        instance.setDate(`18:00`, true);
+        return;
+      }
+
+      // Garante que o formato esteja sempre com dois dígitos (ex: 9:0 -> 09:00)
+      const formattedHours = String(hours).padStart(2, "0");
+      const formattedMinutes = String(minutes).padStart(2, "0");
+      instance.setDate(`${formattedHours}:${formattedMinutes}`, true);
+    },
   };
 
   const timePickerInicio = flatpickr("#horario_inicio", timePickerOptions);

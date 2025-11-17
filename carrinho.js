@@ -276,9 +276,9 @@
         itemElement.innerHTML = `
           <div>
             <p class="font-semibold text-gray-800">${item.name}</p>
-            <p class="text-sm text-gray-600">${item.type === 'packaging' ? item.size : item.size} - ${formatCurrency(
-          item.price
-        )}</p>
+            <p class="text-sm text-gray-600">${
+              item.type === "packaging" ? item.size : item.size
+            } - ${formatCurrency(item.price)}</p>
           </div>
           <button onclick="removeFromCart('${
             item.id
@@ -335,7 +335,9 @@
               <h2 class="text-xl font-bold font-playfair text-gray-800">${
                 item.name
               }</h2>
-              <p class="text-gray-600">${item.type === 'packaging' ? item.size : item.size}</p>
+              <p class="text-gray-600">${
+                item.type === "packaging" ? item.size : item.size
+              }</p>
               <p class="font-semibold text-gray-800 mt-2">${formatCurrency(
                 item.price
               )}</p>
@@ -391,31 +393,69 @@
     const bairroInput = document.getElementById("bairro");
     const cidadeInput = document.getElementById("cidade");
     const numInput = document.getElementById("num");
+    const cepNotice = document.getElementById("cep-notice");
+    const cepSpinner = document.getElementById("cep-spinner");
 
-    if (cepInput && enderecoInput && bairroInput && cidadeInput && numInput) {
+    function setNotice(message, type) {
+      if (cepNotice) {
+        cepNotice.textContent = message;
+        cepNotice.classList.remove("hidden", "text-red-800", "bg-red-100", "border-red-300", "text-green-800", "bg-green-100", "border-green-300");
+        if (type === "error") {
+          cepNotice.classList.add("text-red-800", "bg-red-100", "border-red-300");
+        } else if (type === "success") {
+          cepNotice.classList.add("text-green-800", "bg-green-100", "border-green-300");
+        }
+        cepNotice.classList.remove("hidden");
+      }
+    }
+
+    function clearNotice() {
+      if (cepNotice) {
+        cepNotice.classList.add("hidden");
+        cepNotice.textContent = "";
+      }
+    }
+
+    if (cepInput && enderecoInput && bairroInput && cidadeInput && numInput && cepNotice && cepSpinner) {
       cepInput.addEventListener("input", async () => {
         const cep = cepInput.value.replace(/\D/g, ""); // Remove caracteres não numéricos
+        clearNotice(); // Clear any previous notices
 
-        if (cep.length !== 8) {
-          return; // CEP inválido
+        if (cep.length < 8) {
+          // If CEP is incomplete, clear fields and return
+          enderecoInput.value = "";
+          bairroInput.value = "";
+          cidadeInput.value = "";
+          return;
         }
 
-        try {
-          const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-          const data = await response.json();
+        if (cep.length === 8) {
+          cepSpinner.classList.remove("hidden"); // Show spinner
+          try {
+            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+            const data = await response.json();
 
-          if (data.erro) {
-            console.error("CEP não encontrado.");
-            return;
+            if (data.erro) {
+              setNotice("CEP não encontrado.", "error");
+              enderecoInput.value = "";
+              bairroInput.value = "";
+              cidadeInput.value = "";
+            } else {
+              enderecoInput.value = data.logradouro || "";
+              bairroInput.value = data.bairro || "";
+              cidadeInput.value = data.localidade || "";
+              setNotice("Endereço preenchido!", "success");
+              numInput.focus(); // Move o foco para o campo de número
+            }
+          } catch (error) {
+            console.error("Erro ao buscar CEP:", error);
+            setNotice("Erro ao buscar CEP. Tente novamente.", "error");
+            enderecoInput.value = "";
+            bairroInput.value = "";
+            cidadeInput.value = "";
+          } finally {
+            cepSpinner.classList.add("hidden"); // Hide spinner
           }
-
-          enderecoInput.value = data.logradouro || "";
-          bairroInput.value = data.bairro || "";
-          cidadeInput.value = data.localidade || "";
-
-          numInput.focus(); // Move o foco para o campo de número
-        } catch (error) {
-          console.error("Erro ao buscar CEP:", error);
         }
       });
     }
@@ -480,25 +520,35 @@
         closeModal(); // Close the checkout modal
 
         const successModal = document.getElementById("success-modal");
-        const closeSuccessModalButton = document.getElementById("close-success-modal");
+        const closeSuccessModalButton = document.getElementById(
+          "close-success-modal"
+        );
 
         if (successModal) {
           successModal.classList.remove("hidden");
           successModal.classList.add("flex"); // Use flex to center
 
           if (closeSuccessModalButton) {
-            closeSuccessModalButton.addEventListener("click", () => {
-              successModal.classList.add("hidden");
-              successModal.classList.remove("flex");
-            }, { once: true }); // Ensure event listener is added only once
+            closeSuccessModalButton.addEventListener(
+              "click",
+              () => {
+                successModal.classList.add("hidden");
+                successModal.classList.remove("flex");
+              },
+              { once: true }
+            ); // Ensure event listener is added only once
           }
 
-          successModal.addEventListener("click", (e) => {
-            if (e.target === successModal) {
-              successModal.classList.add("hidden");
-              successModal.classList.remove("flex");
-            }
-          }, { once: true }); // Ensure event listener is added only once
+          successModal.addEventListener(
+            "click",
+            (e) => {
+              if (e.target === successModal) {
+                successModal.classList.add("hidden");
+                successModal.classList.remove("flex");
+              }
+            },
+            { once: true }
+          ); // Ensure event listener is added only once
         }
       });
     }
@@ -573,7 +623,50 @@
     });
   }
 
+  // Expõe a função globalmente de forma imediata
+  window.showCustomAlert = (message, title = "Aviso") => {
+    const modal = document.getElementById("custom-alert-modal");
+    if (!modal) {
+      // Fallback para o alerta padrão caso o modal não seja encontrado
+      alert(`${title}: ${message}`);
+      return;
+    }
+
+    const titleEl = document.getElementById("custom-alert-title");
+    const messageEl = document.getElementById("custom-alert-message");
+
+    if (titleEl) titleEl.textContent = title;
+    if (messageEl) messageEl.textContent = message;
+
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+  };
+
+  // Função para fechar o modal de alerta, definida em um escopo acessível
+  const closeCustomAlert = () => {
+    const modal = document.getElementById("custom-alert-modal");
+    if (modal) {
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+  };
+
   document.addEventListener("DOMContentLoaded", () => {
+    // Apenas configura os eventos de fechamento do modal após o DOM carregar
+    const customAlertModal = document.getElementById("custom-alert-modal");
+    if (customAlertModal) {
+      const closeBtn = document.getElementById("custom-alert-close");
+      const xCloseBtn = document.getElementById("custom-alert-x-close");
+      const closeModal = () => {
+        closeCustomAlert();
+      };
+      if (closeBtn) closeBtn.addEventListener("click", closeModal);
+      if (xCloseBtn) xCloseBtn.addEventListener("click", closeModal);
+      customAlertModal.addEventListener("click", (e) => {
+        if (e.target === customAlertModal) closeModal();
+      });
+    }
+
     initMobileMenu();
     initModals();
     initPackagingModal();
@@ -587,13 +680,25 @@
     updateCart();
   });
 
-  function addPackagingToCart(packagingName, packagingDescription, packagingPrice) {
+  function addPackagingToCart(
+    packagingName,
+    packagingDescription,
+    packagingPrice
+  ) {
     const uniqueId = `packaging-${packagingName}`.replace(/\s+/g, "-");
     if (cart.some((item) => item.id === uniqueId)) return;
 
-    const itemPrice = parseFloat(packagingPrice.replace("R$", "").replace(",", ".").trim());
+    const itemPrice = parseFloat(
+      packagingPrice.replace("R$", "").replace(",", ".").trim()
+    );
 
-    cart.push({ id: uniqueId, name: packagingName, size: packagingDescription, price: itemPrice, type: 'packaging' });
+    cart.push({
+      id: uniqueId,
+      name: packagingName,
+      size: packagingDescription,
+      price: itemPrice,
+      type: "packaging",
+    });
     saveCartToStorage();
     updateCart();
   }
