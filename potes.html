@@ -472,9 +472,35 @@
       document.addEventListener("DOMContentLoaded", () => {
         initMobileMenu();
         initLightbox();
-        initPedidoModal(); // <-- Nova função inicializada
-        initPersonalizePanel(); // <-- Adicionado para o painel de potinhos
+        initPedidoModal();
+        initPersonalizePanel();
+        initWhatsAppLoadingOverlay(); // Initialize the WhatsApp loading overlay
       });
+
+      // Function to handle WhatsApp link clicks with loading overlay
+      function initWhatsAppLoadingOverlay() {
+        const loadingOverlay = document.getElementById("loading-overlay");
+        const whatsappLinks = document.querySelectorAll('a[href^="https://api.whatsapp.com/send/"]');
+
+        if (!loadingOverlay || whatsappLinks.length === 0) return;
+
+        whatsappLinks.forEach(link => {
+          link.addEventListener("click", (event) => {
+            event.preventDefault(); // Prevent default link behavior
+
+            loadingOverlay.classList.remove("hidden"); // Show loading overlay
+
+            // Open WhatsApp link in a new tab
+            window.open(link.href, "_blank");
+
+            // Hide loading overlay after a short delay (e.g., 3 seconds)
+            // This is a fixed delay as we cannot detect when the new tab has loaded
+            setTimeout(() => {
+              loadingOverlay.classList.add("hidden");
+            }, 3000);
+          });
+        });
+      }
 
       function initMobileMenu() {
         const menuButton = document.getElementById("mobile-menu-button");
@@ -568,5 +594,12 @@
         });
       }
     </script>
+    <div id="loading-overlay" class="fixed inset-0 bg-background bg-opacity-80 z-50 flex items-center justify-center hidden">
+      <div class="flex flex-col items-center space-y-4">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary"></div>
+        <p class="text-text text-lg font-semibold">Abrindo WhatsApp...</p>
+      </div>
+    </div>
+
   </body>
 </html>
