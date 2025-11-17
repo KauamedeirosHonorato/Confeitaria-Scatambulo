@@ -477,8 +477,29 @@
         // A função updateCart() já é chamada dentro de si mesma, mas vamos garantir que o painel seja atualizado.
         updateCart();
 
-        closeModal();
-        alert("Pedido enviado! Obrigado ❤️");
+        closeModal(); // Close the checkout modal
+
+        const successModal = document.getElementById("success-modal");
+        const closeSuccessModalButton = document.getElementById("close-success-modal");
+
+        if (successModal) {
+          successModal.classList.remove("hidden");
+          successModal.classList.add("flex"); // Use flex to center
+
+          if (closeSuccessModalButton) {
+            closeSuccessModalButton.addEventListener("click", () => {
+              successModal.classList.add("hidden");
+              successModal.classList.remove("flex");
+            }, { once: true }); // Ensure event listener is added only once
+          }
+
+          successModal.addEventListener("click", (e) => {
+            if (e.target === successModal) {
+              successModal.classList.add("hidden");
+              successModal.classList.remove("flex");
+            }
+          }, { once: true }); // Ensure event listener is added only once
+        }
       });
     }
   }
