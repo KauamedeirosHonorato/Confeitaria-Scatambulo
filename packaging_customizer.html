@@ -215,6 +215,7 @@
       </div>
     </div>
 
+    <script src="carrinho.js" defer></script>
     <script>
       const video = document.getElementById('packaging-video');
       const videoOverlays = document.getElementById('video-overlays');
@@ -229,7 +230,7 @@
         {
           name: 'Oval 500g',
           description: 'Embalagem oval de 500g, ideal para pequenas celebrações.',
-          price: 'Sem custo adicional',
+          price: 'R$ 0,00', // Sem custo adicional
           time: 5, // seconds
           position: { top: '30%', left: '10%', width: '20%', height: '15%' }
         },
@@ -273,7 +274,9 @@
             currentOverlay = data.name;
           } else if (video.currentTime >= data.time + 3 && currentOverlay === data.name) {
             // Hide overlay
-            document.getElementById(`overlay-${data.name.replace(/\s/g, '-')}`).remove();
+            if (document.getElementById(`overlay-${data.name.replace(/\s/g, '-')}`)) {
+                document.getElementById(`overlay-${data.name.replace(/\s/g, '-')}`).remove();
+            }
             currentOverlay = null;
           }
         });
@@ -286,10 +289,8 @@
         packagingPrice.textContent = data.price;
         packagingInfo.classList.remove('hidden');
         selectPackagingBtn.onclick = () => {
-          alert(`Embalagem "${data.name}" selecionada!`);
-          // Here you would integrate with your cart/ordering system
-          packagingInfo.classList.add('hidden');
-          video.play();
+          window.addPackagingToCart(data.name, data.description, data.price);
+          window.location.href = "carrinho.html";
         };
       }
 

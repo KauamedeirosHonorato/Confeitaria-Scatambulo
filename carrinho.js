@@ -276,7 +276,7 @@
         itemElement.innerHTML = `
           <div>
             <p class="font-semibold text-gray-800">${item.name}</p>
-            <p class="text-sm text-gray-600">${item.size} - ${formatCurrency(
+            <p class="text-sm text-gray-600">${item.type === 'packaging' ? item.size : item.size} - ${formatCurrency(
           item.price
         )}</p>
           </div>
@@ -335,7 +335,7 @@
               <h2 class="text-xl font-bold font-playfair text-gray-800">${
                 item.name
               }</h2>
-              <p class="text-gray-600">${item.size}</p>
+              <p class="text-gray-600">${item.type === 'packaging' ? item.size : item.size}</p>
               <p class="font-semibold text-gray-800 mt-2">${formatCurrency(
                 item.price
               )}</p>
@@ -566,9 +566,21 @@
     updateCart();
   });
 
+  function addPackagingToCart(packagingName, packagingDescription, packagingPrice) {
+    const uniqueId = `packaging-${packagingName}`.replace(/\s+/g, "-");
+    if (cart.some((item) => item.id === uniqueId)) return;
+
+    const itemPrice = parseFloat(packagingPrice.replace("R$", "").replace(",", ".").trim());
+
+    cart.push({ id: uniqueId, name: packagingName, size: packagingDescription, price: itemPrice, type: 'packaging' });
+    saveCartToStorage();
+    updateCart();
+  }
+
   window.addToCart = addToCart;
   window.addStrogonoffToCart = addStrogonoffToCart;
   window.removeFromCart = removeFromCart;
+  window.addPackagingToCart = addPackagingToCart;
 
   window.carrinhoInitialized = true;
 })();

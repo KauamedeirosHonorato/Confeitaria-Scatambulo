@@ -345,48 +345,7 @@
       </svg>
     </button>
 
-    <!-- Painel Lateral de Personalização -->
-    <div
-      id="personalize-panel-overlay"
-      class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden transition-opacity duration-300"
-    ></div>
-    <div
-      id="personalize-panel"
-      class="fixed top-0 right-0 h-full w-full max-w-md bg-background shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-40 flex flex-col"
-    >
-      <div class="flex justify-between items-center p-5 border-b border-gray-200">
-        <h3 class="text-2xl font-bold text-primary">
-          Potinhos Personalizados
-        </h3>
-        <button
-          id="close-personalize-panel"
-          class="text-text-light hover:text-primary"
-          aria-label="Fechar painel"
-        >
-          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
-      </div>
-      <div class="p-8 flex-grow overflow-y-auto">
-        <div class="text-text-light space-y-5 text-base md:text-lg">
-          <p>
-            Oferecemos embalagens especiais para nossos
-            <strong class="text-text">POTINHOS</strong> (acrílico 6x6) com um
-            custo adicional. Eles contêm entre 120g a 150g, variando conforme o
-            sabor escolhido.
-          </p>
-          <p>
-            Cada potinho é uma tela em branco para sua criatividade:
-            personalize o <strong class="text-text">sabor</strong>, a
-            <strong class="text-text">cor do laço</strong> e os
-            <strong class="text-text">adesivos</strong> para harmonizar
-            perfeitamente com ocasiões como batizados, casamentos,
-            aniversários ou confraternizações.
-          </p>
-        </div>
-      </div>
-    </div>
+
 
     <footer class="bg-background mt-12 py-8 border-t border-gray-100">
       <div class="container mx-auto text-center text-text-light text-sm">
@@ -602,25 +561,11 @@
        */
       function initPersonalizePanel() {
         const openButton = document.getElementById("personalize-tab");
-        const panel = document.getElementById("personalize-panel");
-        const overlay = document.getElementById("personalize-panel-overlay");
-        const closeButton = document.getElementById("close-personalize-panel");
+        if (!openButton) return;
 
-        if (!openButton || !panel || !overlay || !closeButton) return;
-
-        const openPanel = () => {
-          overlay.classList.remove("hidden");
-          panel.classList.remove("translate-x-full");
-        };
-
-        const closePanel = () => {
-          overlay.classList.add("hidden");
-          panel.classList.add("translate-x-full");
-        };
-
-        openButton.addEventListener("click", openPanel);
-        closeButton.addEventListener("click", closePanel);
-        overlay.addEventListener("click", closePanel);
+        openButton.addEventListener("click", () => {
+          window.location.href = "./packaging_customizer.html";
+        });
       }
     </script>
   </body>
