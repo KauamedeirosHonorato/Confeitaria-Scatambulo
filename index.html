@@ -60,6 +60,19 @@
       #island-text {
         opacity: 1; /* Texto sempre visível */
       }
+      #natal-gift-icon {
+        animation: jump 1.5s ease-in-out infinite;
+      }
+      @keyframes jump {
+        0%,
+        50%,
+        100% {
+          transform: translateY(0);
+        }
+        25% {
+          transform: translateY(-5px);
+        }
+      }
 
       /* Estilos para o Pop-up de Natal */
       #natal-popup-overlay {
@@ -111,15 +124,9 @@
   </head>
   <body class="bg-black">
     <!-- Ilha Dinâmica Simulada (Apenas para iPhone/Safari) -->
-    <a
-      href="https://www.instagram.com/angelabolosartesanais"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <div id="dynamic-island">
-        <span id="island-text">@angelabolosartesanais</span>
-      </div>
-    </a>
+    <div id="dynamic-island-container">
+      <!-- O conteúdo será inserido aqui via JS -->
+    </div>
 
     <!-- Video Background -->
     <div class="fixed top-0 left-0 w-full h-full z-0 overflow-hidden">
@@ -129,7 +136,6 @@
         loop
         playsinline
         preload="metadata"
-        poster="./VideoFundo/Cena1_poster.jpg"
         class="w-full h-full object-cover"
       >
         <source src="./VideoFundo/Cena1.mp4" type="video/mp4" />
@@ -218,6 +224,20 @@
             <span>Menu</span>
           </a>
         </div>
+        <!-- Botão de Presente de Natal (visível apenas em Dezembro) -->
+        <a
+          id="natal-floating-button"
+          href="newnatal.html"
+          class="hidden mt-8 inline-block transition-transform hover:scale-110"
+          aria-label="Ver encomendas de Natal"
+        >
+          <img
+            id="natal-gift-icon"
+            src="./DocesNatal/presente.png"
+            alt="Presente de Natal"
+            style="width: 70px; height: 70px"
+          />
+        </a>
       </main>
     </div>
 
@@ -244,51 +264,65 @@
       setViewportHeight(); // Executa na primeira carga
     </script>
     <script>
-      // Lógica para a Ilha Dinâmica Simulada
       document.addEventListener("DOMContentLoaded", () => {
+        const hoje = new Date();
+        const ehDezembro = hoje.getMonth() === 11; // Mês 11 é Dezembro (0-11)
+
+        // --- Lógica da Ilha Dinâmica ---
+        const islandContainer = document.getElementById(
+          "dynamic-island-container"
+        );
         const ua = navigator.userAgent;
         const isIphone = /iPhone/.test(ua);
         const isMobile =
           "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
-        // Executar apenas em iPhones reais
-        if (isIphone && isMobile) {
-          const island = document.getElementById("dynamic-island");
-          if (island) {
-            // Apenas torna a ilha visível, sem outras animações
-            island.classList.add("visible");
+        if (isIphone && isMobile && islandContainer) {
+          if (ehDezembro) {
+            islandContainer.innerHTML = `
+              <a href="newnatal.html">
+                <div id="dynamic-island" class="visible">
+                  <img id="natal-gift-icon" src="./DocesNatal/presente.png" alt="Presente de Natal" style="width: 24px; height: 24px;" />
+                </div>
+              </a>`;
+          } else {
+            islandContainer.innerHTML = `
+              <a href="https://www.instagram.com/angelabolosartesanais" target="_blank" rel="noopener noreferrer">
+                <div id="dynamic-island" class="visible">
+                  <span id="island-text">@angelabolosartesanais</span>
+                </div>
+              </a>`;
           }
         }
-      });
-    </script>
-    <script>
-      // Lógica para exibir o Pop-up de Natal
-      document.addEventListener("DOMContentLoaded", () => {
-        const popupOverlay = document.getElementById("natal-popup-overlay");
-        const closeButton = document.getElementById("natal-popup-close");
 
-        const hoje = new Date();
-        const ehDezembro = hoje.getMonth() === 11; // Mês 11 é Dezembro (0-11)
+        // --- Lógica do Pop-up e Botão de Natal ---
+        if (true) {
+          // Pop-up
+          const popupOverlay = document.getElementById("natal-popup-overlay");
+          const closeButton = document.getElementById("natal-popup-close");
+          if (
+            popupOverlay &&
+            sessionStorage.getItem("natalPopupMostrado") !== "true"
+          ) {
+            popupOverlay.style.display = "flex";
+            sessionStorage.setItem("natalPopupMostrado", "true");
+          }
+          if (closeButton) {
+            const fecharPopup = () => (popupOverlay.style.display = "none");
+            closeButton.addEventListener("click", fecharPopup);
+            popupOverlay.addEventListener("click", (event) => {
+              if (event.target === popupOverlay) fecharPopup();
+            });
+          }
 
-        // Verifica se é Dezembro e se o pop-up já foi mostrado nesta sessão
-        if (
-          ehDezembro &&
-          sessionStorage.getItem("natalPopupMostrado") !== "true"
-        ) {
-          popupOverlay.style.display = "flex";
-          sessionStorage.setItem("natalPopupMostrado", "true");
+          // Botão Flutuante de Natal
+          const natalFloatingButton = document.getElementById(
+            "natal-floating-button"
+          );
+          if (natalFloatingButton) {
+            natalFloatingButton.classList.remove("hidden");
+          }
         }
-
-        // Função para fechar o pop-up
-        function fecharPopup() {
-          popupOverlay.style.display = "none";
-        }
-
-        // Event Listeners para fechar
-        closeButton.addEventListener("click", fecharPopup);
-        popupOverlay.addEventListener("click", (event) => {
-          if (event.target === popupOverlay) fecharPopup();
-        });
       });
     </script>
   </body>
