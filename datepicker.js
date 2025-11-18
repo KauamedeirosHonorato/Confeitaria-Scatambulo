@@ -121,12 +121,17 @@ document.addEventListener("DOMContentLoaded", function () {
       const sundayDeliveryNotice = document.getElementById(
         "sunday-delivery-notice"
       );
+      const deliveryTimeInfo = document.getElementById("delivery-time-info");
 
       // Resetar maxTime para o padrão (18:00)
       saturdayDeliveryNotice.classList.add("hidden"); // Oculta o aviso de sábado por padrão
       timePickerInicio.set("maxTime", "18:00");
       timePickerFim.set("maxTime", "18:00");
       if (sundayDeliveryNotice) sundayDeliveryNotice.style.display = "none";
+      // Reseta o texto do horário para o padrão
+      if (deliveryTimeInfo) {
+        deliveryTimeInfo.textContent = "Horário de entrega: 8:00 às 18:00.";
+      }
 
       if (dayOfWeek === 0) {
         // Domingo
@@ -134,23 +139,18 @@ document.addEventListener("DOMContentLoaded", function () {
         timePickerFim.set("maxTime", "12:00");
         if (sundayDeliveryNotice) sundayDeliveryNotice.style.display = "block";
 
-        // Ajustar horários se já estiverem definidos e forem após 12:00
-        const currentInicio = timePickerInicio.selectedDates[0];
-        const currentFim = timePickerFim.selectedDates[0];
+        // Define o horário padrão para entregas no domingo
+        timePickerInicio.setDate("08:00", true);
+        timePickerFim.setDate("12:00", true);
 
-        if (
-          currentInicio &&
-          (currentInicio.getHours() > 12 ||
-            (currentInicio.getHours() === 12 && currentInicio.getMinutes() > 0))
-        ) {
-          timePickerInicio.setDate("12:00", true);
-        }
-        if (
-          currentFim &&
-          (currentFim.getHours() > 12 ||
-            (currentFim.getHours() === 12 && currentFim.getMinutes() > 0))
-        ) {
-          timePickerFim.setDate("12:00", true);
+        // Atualiza a mensagem de aviso para o horário padrão de domingo
+        const timeNotice = document.getElementById("time-validation-notice");
+        if (timeNotice) timeNotice.style.display = "none"; // Garante que outros avisos de horário sejam ocultados
+
+        // Atualiza o texto informativo do horário para domingo
+        if (deliveryTimeInfo) {
+          deliveryTimeInfo.textContent =
+            "Horário de entrega: das 8:00 às 12:00.";
         }
       } else if (dayOfWeek === 6) {
         // Sábado - Exibe o aviso de sábado
