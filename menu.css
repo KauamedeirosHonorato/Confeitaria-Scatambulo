@@ -35,7 +35,7 @@ section {
   -webkit-transform-origin: right center;
   transform-origin: right center;
   color: #d4af37; /* Dourado Metálico */
-  font-size: 48px; /* Aumentado para o dobro do tamanho */
+  font-size: 48px;
   z-index: 30;
   letter-spacing: 1px;
   pointer-events: none;
@@ -151,7 +151,6 @@ section {
   object-fit: cover; /* Garante que a imagem preencha o espaço no mobile */
   background-color: #f0ede5; /* Um fundo suave para preencher o espaço vazio */
   transition: transform 0.3s ease-in-out; /* Adiciona transição suave para o zoom */
-
 }
 
 @media (min-width: 768px) {

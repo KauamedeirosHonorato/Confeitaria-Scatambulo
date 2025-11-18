@@ -110,22 +110,20 @@ document.addEventListener("DOMContentLoaded", function () {
         ],
       },
     },
-    // Remove a função que desabilitava domingos
-    // disable: [
-    //   function (date) {
-    //     return date.getDay() === 0;
-    //   },
-    // ],
     onChange: function (selectedDates, dateStr, instance) {
       const selectedDate = selectedDates[0];
       if (!selectedDate) return;
 
       const dayOfWeek = selectedDate.getDay(); // 0 para Domingo, 6 para Sábado
+      const saturdayDeliveryNotice = document.getElementById(
+        "saturday-delivery-notice"
+      );
       const sundayDeliveryNotice = document.getElementById(
         "sunday-delivery-notice"
       );
 
       // Resetar maxTime para o padrão (18:00)
+      saturdayDeliveryNotice.classList.add("hidden"); // Oculta o aviso de sábado por padrão
       timePickerInicio.set("maxTime", "18:00");
       timePickerFim.set("maxTime", "18:00");
       if (sundayDeliveryNotice) sundayDeliveryNotice.style.display = "none";
@@ -140,19 +138,23 @@ document.addEventListener("DOMContentLoaded", function () {
         const currentInicio = timePickerInicio.selectedDates[0];
         const currentFim = timePickerFim.selectedDates[0];
 
-        if (currentInicio && (currentInicio.getHours() > 12 || (currentInicio.getHours() === 12 && currentInicio.getMinutes() > 0))) {
+        if (
+          currentInicio &&
+          (currentInicio.getHours() > 12 ||
+            (currentInicio.getHours() === 12 && currentInicio.getMinutes() > 0))
+        ) {
           timePickerInicio.setDate("12:00", true);
         }
-        if (currentFim && (currentFim.getHours() > 12 || (currentFim.getHours() === 12 && currentFim.getMinutes() > 0))) {
+        if (
+          currentFim &&
+          (currentFim.getHours() > 12 ||
+            (currentFim.getHours() === 12 && currentFim.getMinutes() > 0))
+        ) {
           timePickerFim.setDate("12:00", true);
         }
       } else if (dayOfWeek === 6) {
-        // Sábado - manter o aviso original se houver
-        // A lógica para sábado pode ser adicionada aqui se necessário,
-        // mas o aviso de "Bolos pedidos no sábado serão entregues no domingo até as 12:00"
-        // foi substituído por um aviso geral de domingo.
-        // Se houver um aviso específico para sábado, ele deve ter um ID diferente.
-        // Por enquanto, apenas garantimos que o aviso de domingo não apareça.
+        // Sábado - Exibe o aviso de sábado
+        saturdayDeliveryNotice.classList.remove("hidden");
       }
     },
   });

@@ -399,11 +399,27 @@
     function setNotice(message, type) {
       if (cepNotice) {
         cepNotice.textContent = message;
-        cepNotice.classList.remove("hidden", "text-red-800", "bg-red-100", "border-red-300", "text-green-800", "bg-green-100", "border-green-300");
+        cepNotice.classList.remove(
+          "hidden",
+          "text-red-800",
+          "bg-red-100",
+          "border-red-300",
+          "text-green-800",
+          "bg-green-100",
+          "border-green-300"
+        );
         if (type === "error") {
-          cepNotice.classList.add("text-red-800", "bg-red-100", "border-red-300");
+          cepNotice.classList.add(
+            "text-red-800",
+            "bg-red-100",
+            "border-red-300"
+          );
         } else if (type === "success") {
-          cepNotice.classList.add("text-green-800", "bg-green-100", "border-green-300");
+          cepNotice.classList.add(
+            "text-green-800",
+            "bg-green-100",
+            "border-green-300"
+          );
         }
         cepNotice.classList.remove("hidden");
       }
@@ -416,8 +432,18 @@
       }
     }
 
-    if (cepInput && enderecoInput && bairroInput && cidadeInput && numInput && cepNotice && cepSpinner) {
+    if (
+      cepInput &&
+      enderecoInput &&
+      bairroInput &&
+      cidadeInput &&
+      numInput &&
+      cepNotice &&
+      cepSpinner
+    ) {
       cepInput.addEventListener("input", async () => {
+        const cidadesAtendidas = ["Maringá", "Sarandi", "Marialva"];
+
         const cep = cepInput.value.replace(/\D/g, ""); // Remove caracteres não numéricos
         clearNotice(); // Clear any previous notices
 
@@ -432,7 +458,9 @@
         if (cep.length === 8) {
           cepSpinner.classList.remove("hidden"); // Show spinner
           try {
-            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+            const response = await fetch(
+              `https://viacep.com.br/ws/${cep}/json/`
+            );
             const data = await response.json();
 
             if (data.erro) {
@@ -441,11 +469,22 @@
               bairroInput.value = "";
               cidadeInput.value = "";
             } else {
-              enderecoInput.value = data.logradouro || "";
-              bairroInput.value = data.bairro || "";
-              cidadeInput.value = data.localidade || "";
-              setNotice("Endereço preenchido!", "success");
-              numInput.focus(); // Move o foco para o campo de número
+              // Verifica se a cidade do CEP está na lista de cidades atendidas
+              if (cidadesAtendidas.includes(data.localidade)) {
+                enderecoInput.value = data.logradouro || "";
+                bairroInput.value = data.bairro || "";
+                cidadeInput.value = data.localidade || "";
+                setNotice("Endereço preenchido!", "success");
+                numInput.focus(); // Move o foco para o campo de número
+              } else {
+                setNotice(
+                  "Desculpe, no momento só entregamos em Maringá, Sarandi e Marialva.",
+                  "error"
+                );
+                enderecoInput.value = "";
+                bairroInput.value = "";
+                cidadeInput.value = "";
+              }
             }
           } catch (error) {
             console.error("Erro ao buscar CEP:", error);

@@ -3,26 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Scatambulo Confeitaria - Bolos artesanais e doces finos."
+    />
+
     <link rel="icon" type="image/png" href="./Logo/logoSc.png" />
-    <title>Scatambulo</title>
+    <title>Scatambulo Confeitaria</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
+
     <style>
+      /* --- Estilos Globais --- */
       body {
         font-family: "Poppins", sans-serif;
+        -webkit-tap-highlight-color: transparent; /* Remove flash azul no clique em mobile */
       }
+
+      /* --- Utilitários --- */
       .text-shadow {
         text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
       }
+
+      /* --- Botões --- */
       .button-link {
         background-color: #d4af37; /* Dourado Metálico */
         color: #000000;
-        font-weight: 600; /* Deixa a fonte um pouco mais forte */
+        font-weight: 600;
         transition: all 0.3s ease-in-out;
         border: 1px solid #d4af37;
       }
@@ -30,11 +44,12 @@
         background-color: #f5e6b3; /* Champagne Claro */
         border-color: #f5e6b3;
         transform: scale(1.05) translateY(-2px);
+        box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
       }
 
-      /* Estilos para a Ilha Dinâmica (Versão Estática) */
+      /* --- Ilha Dinâmica (Estilo iPhone) --- */
       #dynamic-island {
-        display: none; /* Começa escondido, ativado via JS */
+        display: none; /* Controlado via JS */
         position: fixed;
         top: 12px;
         left: 50%;
@@ -49,20 +64,23 @@
         align-items: center;
         justify-content: center;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          "Helvetica Neue", Arial, sans-serif;
+          Helvetica, Arial, sans-serif;
         font-weight: 500;
         font-size: 15px;
         letter-spacing: 0.5px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
       }
+
       #dynamic-island.visible {
-        display: flex; /* Torna a ilha visível */
+        display: flex;
       }
-      #island-text {
-        opacity: 1; /* Texto sempre visível */
+
+      /* Animação do Presente na Ilha */
+      #island-gift-icon {
+        animation: jump 2s ease-in-out infinite;
       }
-      #natal-gift-icon {
-        animation: jump 1.5s ease-in-out infinite;
-      }
+
+      /* --- Animações --- */
       @keyframes jump {
         0%,
         50%,
@@ -70,20 +88,45 @@
           transform: translateY(0);
         }
         25% {
-          transform: translateY(-5px);
+          transform: translateY(-4px);
         }
       }
 
-      /* Estilos para o Pop-up de Natal */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* --- Botão Flutuante de Natal (Abaixo dos botões principais) --- */
+      #natal-gift-main {
+        animation: float 3s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      /* --- Pop-up de Natal --- */
       #natal-popup-overlay {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.75);
-        z-index: 200;
-        display: none; /* Começa escondido */
+        background-color: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(5px); /* Efeito de desfoque no fundo */
+        z-index: 9999; /* Garante que fique acima de tudo */
+        display: none;
         align-items: center;
         justify-content: center;
         padding: 1rem;
@@ -93,93 +136,102 @@
         position: relative;
         width: 100%;
         max-width: 550px;
-        height: 90vh;
+        height: 85vh;
         max-height: 650px;
-        background: transparent;
-        border-radius: 15px;
+        background: transparent; /* Fundo transparente para o iframe brilhar */
+        border-radius: 20px;
         overflow: hidden;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+        transform: scale(0.9);
+        opacity: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+      }
+
+      /* Classe para animar entrada do modal */
+      #natal-popup-overlay.active #natal-popup-content {
+        transform: scale(1);
+        opacity: 1;
       }
 
       #natal-popup-close {
         position: absolute;
-        top: 5px;
-        right: 5px;
-        font-size: 2rem;
+        top: 10px;
+        right: 10px;
+        width: 36px;
+        height: 36px;
+        background: rgba(192, 57, 43, 0.9);
         color: white;
-        background: #c0392b;
         border: none;
         border-radius: 50%;
-        width: 40px;
-        height: 40px;
+        font-size: 1.5rem;
         cursor: pointer;
-        z-index: 210; /* Acima do iframe */
+        z-index: 10;
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-        line-height: 1;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s;
+      }
+
+      #natal-popup-close:hover {
+        transform: scale(1.1);
+        background: #e74c3c;
       }
     </style>
   </head>
-  <body class="bg-black">
-    <!-- Ilha Dinâmica Simulada (Apenas para iPhone/Safari) -->
-    <div id="dynamic-island-container">
-      <!-- O conteúdo será inserido aqui via JS -->
-    </div>
 
-    <!-- Video Background -->
+  <body class="bg-black text-white overflow-x-hidden">
+    <div id="dynamic-island-container"></div>
+
     <div class="fixed top-0 left-0 w-full h-full z-0 overflow-hidden">
       <video
         autoplay
         muted
         loop
         playsinline
-        preload="metadata"
-        class="w-full h-full object-cover"
+        preload="auto"
+        poster="./VideoFundo/poster-placeholder.jpg"
+        class="w-full h-full object-cover opacity-90"
       >
         <source src="./VideoFundo/Cena1.mp4" type="video/mp4" />
         Seu navegador não suporta vídeos em HTML5.
       </video>
-      <div
-        class="absolute top-0 left-0 w-full h-full bg-black opacity-50"
-      ></div>
+      <div class="absolute top-0 left-0 w-full h-full bg-black/50 z-0"></div>
     </div>
 
-    <!-- Conteúdo Principal -->
     <div
       id="main-container"
-      class="relative z-10 flex flex-col items-center justify-center h-screen p-4 text-center text-white"
+      class="relative z-10 flex flex-col items-center justify-center min-h-screen p-4 text-center"
     >
-      <main>
-        <!-- Logo Placeholder -->
+      <main class="w-full max-w-4xl mx-auto flex flex-col items-center">
         <img
           src="./Logo/logoSc.png"
-          alt="Logo da Confeitaria"
-          class="h-48 w-48 rounded-full mx-auto mb-6 border-2 border-[#D4AF37] shadow-2xl"
+          alt="Logo Scatambulo Confeitaria"
+          class="h-48 w-48 rounded-full mb-6 border-2 border-[#D4AF37] shadow-2xl object-cover"
         />
 
-        <!-- Título e Subtítulo para Desktop -->
-        <div class="hidden md:block mb-8">
-          <h1 class="text-5xl text-shadow mb-2 font-bold">
+        <div class="hidden md:block mb-8 animate-fade-in-down">
+          <h1 class="text-5xl text-shadow mb-2 font-bold text-[#f5e6b3]">
             Scatambulo Confeitaria
           </h1>
-          <p class="text-lg text-gray-300">
+          <p class="text-lg text-gray-200 tracking-wide">
             O sabor que celebra seus momentos.
           </p>
         </div>
 
         <div
-          class="flex flex-col md:flex-row items-center space-y-5 md:space-y-0 md:space-x-6 w-full max-w-xs md:max-w-2xl mx-auto"
+          class="flex flex-col md:flex-row items-center justify-center gap-4 w-full max-w-xs md:max-w-3xl"
         >
           <a
             href="https://chat.whatsapp.com/JOd95NXddpc2a12HBrRGP2"
-            class="button-link w-full md:w-auto py-3 px-6 rounded-full text-lg font-semibold uppercase tracking-wider shadow-lg flex items-center justify-center gap-3"
+            target="_blank"
+            class="button-link w-full md:w-auto py-3 px-8 rounded-full text-lg font-semibold uppercase tracking-wider shadow-lg flex items-center justify-center gap-3"
+            aria-label="Entrar no Grupo VIP do WhatsApp"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
+              width="20"
+              height="20"
               fill="currentColor"
               viewBox="0 0 16 16"
             >
@@ -189,14 +241,17 @@
             </svg>
             <span>Grupo VIP</span>
           </a>
+
           <a
             href="https://api.whatsapp.com/send/?phone=554499024212&text=Olá%21+Encontrei+seu+perfil+no+Instagram%2C+quero+mais+informações+sobre+encomendas.+Obrigado%21&type=phone_number&app_absent=0"
-            class="button-link w-full md:w-auto py-3 px-6 rounded-full text-lg font-semibold uppercase tracking-wider shadow-lg flex items-center justify-center gap-3"
+            target="_blank"
+            class="button-link w-full md:w-auto py-3 px-8 rounded-full text-lg font-semibold uppercase tracking-wider shadow-lg flex items-center justify-center gap-3"
+            aria-label="Falar no WhatsApp"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
+              width="20"
+              height="20"
               fill="currentColor"
               viewBox="0 0 16 16"
             >
@@ -206,121 +261,161 @@
             </svg>
             <span>Fale Conosco</span>
           </a>
+
           <a
             href="menu.html"
-            class="button-link w-full md:w-auto py-3 px-6 rounded-full text-lg font-semibold uppercase tracking-wider shadow-lg flex items-center justify-center gap-3"
+            class="button-link w-full md:w-auto py-3 px-8 rounded-full text-lg font-semibold uppercase tracking-wider shadow-lg flex items-center justify-center gap-3"
+            aria-label="Ver Menu"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="28"
-              height="28"
+              width="22"
+              height="22"
+              fill="currentColor"
               viewBox="0 0 15 15"
             >
               <path
-                fill="currentColor"
                 d="M7.5 0C5.5 0 4.012 1.512 4 3.5h7c-.012-1.988-1.5-3.5-3.5-3.5M4 4.5c-2 0-2.5 2-2.5 2v.5h12v-.5c0 0-.5-2-2.5-2h-7Zm-2 3v6h11v-6H2Z"
               />
             </svg>
             <span>Menu</span>
           </a>
         </div>
-        <!-- Botão de Presente de Natal (visível apenas em Dezembro) -->
+
         <a
           id="natal-floating-button"
           href="newnatal.html"
-          class="hidden mt-8 inline-block transition-transform hover:scale-110"
+          class="hidden mt-8 transition-transform hover:scale-110 focus:scale-110 outline-none"
           aria-label="Ver encomendas de Natal"
         >
           <img
-            id="natal-gift-icon"
+            id="natal-gift-main"
             src="./DocesNatal/presente.png"
-            alt="Presente de Natal"
-            style="width: 70px; height: 70px"
+            alt="Ícone Presente de Natal"
+            style="width: 80px; height: 80px"
           />
         </a>
       </main>
     </div>
 
-    <!-- Estrutura do Pop-up de Natal -->
-    <div id="natal-popup-overlay">
+    <div id="natal-popup-overlay" aria-modal="true" role="dialog">
       <div id="natal-popup-content">
-        <button id="natal-popup-close">&times;</button>
+        <button id="natal-popup-close" aria-label="Fechar pop-up">
+          &times;
+        </button>
         <iframe
-          src="newnatal.html"
-          style="width: 100%; height: 100%; border: 0"
+          id="natal-iframe"
+          src=""
+          style="width: 100%; height: 100%; border: 0; border-radius: 15px"
+          loading="lazy"
         ></iframe>
       </div>
     </div>
-    <script>
-      // Script para corrigir o problema da unidade 'vh' em navegadores móveis (como o Safari)
-      function setViewportHeight() {
-        const mainContainer = document.getElementById("main-container");
-        if (mainContainer) {
-          mainContainer.style.height = window.innerHeight + "px";
-        }
-      }
-      window.addEventListener("resize", setViewportHeight);
-      window.addEventListener("DOMContentLoaded", setViewportHeight);
-      setViewportHeight(); // Executa na primeira carga
-    </script>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const hoje = new Date();
-        const ehDezembro = hoje.getMonth() === 11; // Mês 11 é Dezembro (0-11)
 
-        // --- Lógica da Ilha Dinâmica ---
+    <script>
+      /* --- Script de Configuração e Lógica --- */
+      document.addEventListener("DOMContentLoaded", () => {
+        // --- CONFIGURAÇÕES ---
+        const MODO_TESTE_NATAL = false; // Mude para TRUE se quiser testar o natal agora!
+
+        // --- Datas ---
+        const hoje = new Date();
+        const mesAtual = hoje.getMonth(); // 0 = Janeiro, 11 = Dezembro
+        const ehDezembro = mesAtual === 11 || MODO_TESTE_NATAL;
+
+        // --- Ajuste de Viewport para Mobile (Safari/Chrome) ---
+        function setViewportHeight() {
+          const vh = window.innerHeight * 0.01;
+          document.documentElement.style.setProperty("--vh", `${vh}px`);
+          const mainContainer = document.getElementById("main-container");
+          if (mainContainer) {
+            mainContainer.style.minHeight = window.innerHeight + "px";
+          }
+        }
+        window.addEventListener("resize", setViewportHeight);
+        setViewportHeight();
+
+        // --- Lógica da Ilha Dinâmica (iPhone) ---
         const islandContainer = document.getElementById(
           "dynamic-island-container"
         );
         const ua = navigator.userAgent;
-        const isIphone = /iPhone/.test(ua);
-        const isMobile =
-          "ontouchstart" in window || navigator.maxTouchPoints > 0;
+        const isIphone = /iPhone/.test(ua) && !window.MSStream; // Detecção mais robusta
+        // const isMobile = "ontouchstart" in window || navigator.maxTouchPoints > 0; // Opcional, se quiser restringir a mobile
 
-        if (isIphone && isMobile && islandContainer) {
+        if (isIphone && islandContainer) {
+          let islandContent = "";
+
           if (ehDezembro) {
-            islandContainer.innerHTML = `
+            // Versão Natal
+            islandContent = `
               <a href="newnatal.html">
                 <div id="dynamic-island" class="visible">
-                  <img id="natal-gift-icon" src="./DocesNatal/presente.png" alt="Presente de Natal" style="width: 24px; height: 24px;" />
+                  <img id="island-gift-icon" src="./DocesNatal/presente.png" alt="Presente" style="width: 24px; height: 24px;" />
                 </div>
               </a>`;
           } else {
-            islandContainer.innerHTML = `
+            // Versão Padrão (Instagram)
+            islandContent = `
               <a href="https://www.instagram.com/angelabolosartesanais" target="_blank" rel="noopener noreferrer">
                 <div id="dynamic-island" class="visible">
                   <span id="island-text">@angelabolosartesanais</span>
                 </div>
               </a>`;
           }
+          islandContainer.innerHTML = islandContent;
         }
 
-        // --- Lógica do Pop-up e Botão de Natal ---
-        if (true) {
-          // Pop-up
+        // --- Lógica do Natal (Pop-up e Botão) ---
+        if (ehDezembro) {
           const popupOverlay = document.getElementById("natal-popup-overlay");
+          const popupContent = document.getElementById("natal-popup-content");
           const closeButton = document.getElementById("natal-popup-close");
-          if (
-            popupOverlay &&
-            sessionStorage.getItem("natalPopupMostrado") !== "true"
-          ) {
-            popupOverlay.style.display = "flex";
-            sessionStorage.setItem("natalPopupMostrado", "true");
-          }
-          if (closeButton) {
-            const fecharPopup = () => (popupOverlay.style.display = "none");
-            closeButton.addEventListener("click", fecharPopup);
-            popupOverlay.addEventListener("click", (event) => {
-              if (event.target === popupOverlay) fecharPopup();
-            });
-          }
-
-          // Botão Flutuante de Natal
           const natalFloatingButton = document.getElementById(
             "natal-floating-button"
           );
+          const natalIframe = document.getElementById("natal-iframe");
+
+          // 1. Mostra botão flutuante
           if (natalFloatingButton) {
             natalFloatingButton.classList.remove("hidden");
+            natalFloatingButton.classList.add("inline-block");
+          }
+
+          // 2. Lógica do Pop-up (Session Storage para mostrar apenas 1x por sessão)
+          const jaViuPopup =
+            sessionStorage.getItem("natalPopupMostrado") === "true";
+
+          if (!jaViuPopup && popupOverlay) {
+            // Carrega o iframe apenas se for abrir o popup (economiza dados)
+            if (natalIframe) natalIframe.src = "newnatal.html?modal=true";
+
+            popupOverlay.style.display = "flex";
+            // Pequeno delay para permitir a transição CSS
+            setTimeout(() => {
+              popupOverlay.classList.add("active");
+              document.body.style.overflow = "hidden"; // Trava rolagem do fundo
+            }, 10);
+
+            sessionStorage.setItem("natalPopupMostrado", "true");
+          }
+
+          // Função para Fechar Popup
+          const fecharPopup = () => {
+            popupOverlay.classList.remove("active");
+            document.body.style.overflow = ""; // Destrava rolagem
+            setTimeout(() => {
+              popupOverlay.style.display = "none";
+              if (natalIframe) natalIframe.src = ""; // Limpa iframe para parar vídeos/audio se houver
+            }, 300); // Espera animação terminar
+          };
+
+          if (closeButton) closeButton.addEventListener("click", fecharPopup);
+
+          if (popupOverlay) {
+            popupOverlay.addEventListener("click", (event) => {
+              if (event.target === popupOverlay) fecharPopup();
+            });
           }
         }
       });
