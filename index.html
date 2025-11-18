@@ -60,6 +60,53 @@
       #island-text {
         opacity: 1; /* Texto sempre visível */
       }
+
+      /* Estilos para o Pop-up de Natal */
+      #natal-popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.75);
+        z-index: 200;
+        display: none; /* Começa escondido */
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+
+      #natal-popup-content {
+        position: relative;
+        width: 100%;
+        max-width: 550px;
+        height: 90vh;
+        max-height: 650px;
+        background: transparent;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      }
+
+      #natal-popup-close {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        font-size: 2rem;
+        color: white;
+        background: #c0392b;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        z-index: 210; /* Acima do iframe */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        line-height: 1;
+      }
     </style>
   </head>
   <body class="bg-black">
@@ -173,6 +220,17 @@
         </div>
       </main>
     </div>
+
+    <!-- Estrutura do Pop-up de Natal -->
+    <div id="natal-popup-overlay">
+      <div id="natal-popup-content">
+        <button id="natal-popup-close">&times;</button>
+        <iframe
+          src="newnatal.html"
+          style="width: 100%; height: 100%; border: 0"
+        ></iframe>
+      </div>
+    </div>
     <script>
       // Script para corrigir o problema da unidade 'vh' em navegadores móveis (como o Safari)
       function setViewportHeight() {
@@ -201,6 +259,36 @@
             island.classList.add("visible");
           }
         }
+      });
+    </script>
+    <script>
+      // Lógica para exibir o Pop-up de Natal
+      document.addEventListener("DOMContentLoaded", () => {
+        const popupOverlay = document.getElementById("natal-popup-overlay");
+        const closeButton = document.getElementById("natal-popup-close");
+
+        const hoje = new Date();
+        const ehDezembro = hoje.getMonth() === 11; // Mês 11 é Dezembro (0-11)
+
+        // Verifica se é Dezembro e se o pop-up já foi mostrado nesta sessão
+        if (
+          ehDezembro &&
+          sessionStorage.getItem("natalPopupMostrado") !== "true"
+        ) {
+          popupOverlay.style.display = "flex";
+          sessionStorage.setItem("natalPopupMostrado", "true");
+        }
+
+        // Função para fechar o pop-up
+        function fecharPopup() {
+          popupOverlay.style.display = "none";
+        }
+
+        // Event Listeners para fechar
+        closeButton.addEventListener("click", fecharPopup);
+        popupOverlay.addEventListener("click", (event) => {
+          if (event.target === popupOverlay) fecharPopup();
+        });
       });
     </script>
   </body>
