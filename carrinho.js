@@ -396,6 +396,9 @@
     const cepNotice = document.getElementById("cep-notice");
     const cepSpinner = document.getElementById("cep-spinner");
 
+    // 1. REFERÊNCIA AO CAMPO DE VALOR DE ENTREGA ADICIONADA AQUI
+    const valorEntregaInput = document.getElementById("valor_entrega");
+
     function setNotice(message, type) {
       if (cepNotice) {
         cepNotice.textContent = message;
@@ -439,7 +442,8 @@
       cidadeInput &&
       numInput &&
       cepNotice &&
-      cepSpinner
+      cepSpinner &&
+      valorEntregaInput // 2. Adicionado na verificação de segurança
     ) {
       cepInput.addEventListener("input", async () => {
         const cidadesAtendidas = ["Maringá", "Sarandi", "Marialva"];
@@ -452,6 +456,7 @@
           enderecoInput.value = "";
           bairroInput.value = "";
           cidadeInput.value = "";
+          valorEntregaInput.value = "Selecione uma Cidade"; // Reseta
           return;
         }
 
@@ -468,13 +473,26 @@
               enderecoInput.value = "";
               bairroInput.value = "";
               cidadeInput.value = "";
+              valorEntregaInput.value = "Selecione uma Cidade"; // Reseta
             } else {
               // Verifica se a cidade do CEP está na lista de cidades atendidas
               if (cidadesAtendidas.includes(data.localidade)) {
                 enderecoInput.value = data.logradouro || "";
                 bairroInput.value = data.bairro || "";
                 cidadeInput.value = data.localidade || "";
-                setNotice("Endereço preenchido!", "success");
+
+                // --- 3. LÓGICA DE SELEÇÃO AUTOMÁTICA DA TAXA ---
+                // Os valores "10", "20" e "30" correspondem aos 'values' do HTML
+                if (data.localidade === "Marialva") {
+                  valorEntregaInput.value = "10";
+                } else if (data.localidade === "Maringá") {
+                  valorEntregaInput.value = "20"; // Value 20 no HTML = R$ 25
+                } else if (data.localidade === "Sarandi") {
+                  valorEntregaInput.value = "30"; // Value 30 no HTML = R$ 25
+                }
+                // ----------------------------------------------
+
+                setNotice("Endereço preenchido e taxa calculada!", "success");
                 numInput.focus(); // Move o foco para o campo de número
               } else {
                 setNotice(
@@ -484,6 +502,7 @@
                 enderecoInput.value = "";
                 bairroInput.value = "";
                 cidadeInput.value = "";
+                valorEntregaInput.value = "Selecione uma Cidade"; // Reseta
               }
             }
           } catch (error) {
@@ -492,6 +511,7 @@
             enderecoInput.value = "";
             bairroInput.value = "";
             cidadeInput.value = "";
+            valorEntregaInput.value = "Selecione uma Cidade"; // Reseta
           } finally {
             cepSpinner.classList.add("hidden"); // Hide spinner
           }
@@ -535,8 +555,20 @@
         if (details.predio) message += `*Prédio:* ${details.predio}\n`;
         message += `*Bairro:* ${details.bairro}\n`;
         message += `*Cidade:* ${details.cidade}\n`;
-        if (details.valor_entrega)
-          message += `*Valor da entrega:* ${details.valor_entrega}\n`;
+        if (details.valor_entrega) {
+          // O valor_entrega aqui será "10", "20" ou "30".
+          // Se quiser mostrar o R$ no Whats, podemos fazer um de-para simples:
+          let textoEntrega = "";
+          if (details.valor_entrega === "10")
+            textoEntrega = "Marialva (R$ 10,00)";
+          else if (details.valor_entrega === "20")
+            textoEntrega = "Maringá (R$ 25,00)";
+          else if (details.valor_entrega === "30")
+            textoEntrega = "Sarandi (R$ 25,00)";
+          else textoEntrega = "A combinar";
+
+          message += `*Valor da entrega:* ${textoEntrega}\n`;
+        }
 
         message += "\n*📌 Aviso Importante*\n";
         message +=

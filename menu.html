@@ -1828,28 +1828,35 @@
             />
           </div>
           <div class="md:col-span-2">
-            <label for="valor_entrega" class="block text-sm font-medium"
-              >Valor da entrega:</label
-            >
-            <input
-              type="text"
+            <label for="valor_entrega" class="block text-sm font-medium">
+              Valor da entrega:
+            </label>
+
+            <select
               id="valor_entrega"
               name="valor_entrega"
-              placeholder="A combinar"
-              readonly
-              class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm bg-gray-100 cursor-not-allowed focus:ring-0 focus:border-gray-300"
-            />
+              required
+              class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]"
+            >
+              <option disabled selected>Selecione uma Cidade</option>
+              <option value="10">Marialva-PR R$ 10,00</option>
+              <option value="20">Maringa-PR R$ 25,00</option>
+              <option value="30">Sarandi-PR R$ 25,00</option>
+            </select>
           </div>
+
           <div class="md:col-span-2 flex items-center gap-4 border-t pt-4 mt-2">
             <img
               src="./Velas/VelaBolo.jpg"
               alt="Exemplo de vela de brinde"
               class="w-24 h-auto rounded-lg shadow-sm"
             />
+
             <div class="flex-grow">
-              <label for="vela" class="block text-sm font-medium"
-                >Mandamos vela de brinde se solicitada:</label
-              >
+              <label for="vela" class="block text-sm font-medium">
+                Mandamos vela de brinde se solicitada:
+              </label>
+
               <select
                 id="vela"
                 name="vela"
@@ -1860,6 +1867,7 @@
               </select>
             </div>
           </div>
+
           <div class="md:col-span-2">
             <button
               type="submit"
