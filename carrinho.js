@@ -102,20 +102,37 @@
       "close-saber-mais-modal"
     );
 
+    const openModal = () => {
+      if (saberMaisModal) {
+        saberMaisModal.classList.remove("hidden");
+        document.body.classList.add("overflow-hidden"); // Trava o scroll do body
+      }
+    };
+
+    const closeModal = () => {
+      if (saberMaisModal) {
+        saberMaisModal.classList.add("hidden");
+        document.body.classList.remove("overflow-hidden"); // Libera o scroll do body
+      }
+    };
+
     window.openSaberMaisModal = () => {
       if (saberMaisModal) saberMaisModal.classList.remove("hidden");
+      openModal();
     };
 
     if (closeSaberMaisModalButton) {
       closeSaberMaisModalButton.addEventListener("click", () => {
         if (saberMaisModal) saberMaisModal.classList.add("hidden");
       });
+      closeSaberMaisModalButton.addEventListener("click", closeModal);
     }
 
     if (saberMaisModal) {
       saberMaisModal.addEventListener("click", (event) => {
         if (event.target === saberMaisModal)
           saberMaisModal.classList.add("hidden");
+        if (event.target === saberMaisModal) closeModal();
       });
     }
 
@@ -376,12 +393,58 @@
       e.preventDefault();
       checkoutModal.classList.remove("hidden");
       checkoutModal.classList.add("flex");
+      updateCheckoutTotal(); // Atualiza os totais sempre que o modal é aberto
     };
 
     const closeModal = () => {
       checkoutModal.classList.add("hidden");
       checkoutModal.classList.remove("flex");
     };
+
+    // --- LÓGICA PARA ATUALIZAR TOTAIS NO CHECKOUT ---
+    const deliveryFees = {
+      10: 10.0, // Marialva
+      20: 25.0, // Maringá
+      30: 25.0, // Sarandi
+    };
+
+    function updateCheckoutTotal() {
+      const subtotalElement = document.getElementById("checkout-subtotal");
+      const deliveryFeeElement = document.getElementById(
+        "checkout-delivery-fee"
+      );
+      const totalElement = document.getElementById("checkout-total");
+      const valorEntregaSelect = document.getElementById("valor_entrega");
+
+      if (
+        !subtotalElement ||
+        !deliveryFeeElement ||
+        !totalElement ||
+        !valorEntregaSelect
+      ) {
+        return;
+      }
+
+      const itemsSubtotal = cart.reduce((sum, item) => sum + item.price, 0);
+      const selectedDeliveryValue = valorEntregaSelect.value;
+      const deliveryCost = deliveryFees[selectedDeliveryValue] || 0;
+
+      const finalTotal = itemsSubtotal + deliveryCost;
+
+      subtotalElement.textContent = formatCurrency(itemsSubtotal);
+      deliveryFeeElement.textContent = formatCurrency(deliveryCost);
+      totalElement.textContent = formatCurrency(finalTotal);
+    }
+
+    // Expõe a função para ser chamada de outros lugares (como ao remover item)
+    window.updateCheckoutTotal = updateCheckoutTotal;
+
+    // Adiciona um listener para quando o usuário muda a taxa manualmente
+    const valorEntregaSelect = document.getElementById("valor_entrega");
+    if (valorEntregaSelect) {
+      valorEntregaSelect.addEventListener("change", updateCheckoutTotal);
+    }
+    // --- FIM DA LÓGICA DE TOTAIS ---
 
     openButtons.forEach((btn) => {
       if (btn) btn.addEventListener("click", openModal);
@@ -490,6 +553,7 @@
                 } else if (data.localidade === "Sarandi") {
                   valorEntregaInput.value = "30"; // Value 30 no HTML = R$ 25
                 }
+                updateCheckoutTotal(); // Atualiza o total após preencher o CEP
                 // ----------------------------------------------
 
                 setNotice("Endereço preenchido e taxa calculada!", "success");
@@ -503,6 +567,7 @@
                 bairroInput.value = "";
                 cidadeInput.value = "";
                 valorEntregaInput.value = "Selecione uma Cidade"; // Reseta
+                updateCheckoutTotal(); // Reseta o total se a cidade não for atendida
               }
             }
           } catch (error) {
@@ -512,6 +577,7 @@
             bairroInput.value = "";
             cidadeInput.value = "";
             valorEntregaInput.value = "Selecione uma Cidade"; // Reseta
+            updateCheckoutTotal(); // Reseta o total em caso de erro
           } finally {
             cepSpinner.classList.add("hidden"); // Hide spinner
           }
@@ -532,15 +598,24 @@
         const details = Object.fromEntries(formData.entries());
 
         let message = "Olá, Angela! Gostaria de encomendar:\n\n";
-        message += "*--- ITENS DO PEDIDO ---*\n";
-        let totalPrice = 0;
+        message += "*--- ITENS DO PEDIDO ---*\n\n";
+        let itemsSubtotal = 0;
 
         cart.forEach((item) => {
           message += `- ${item.name} (${item.size})\n`;
-          totalPrice += item.price;
+          itemsSubtotal += item.price;
         });
 
-        message += `\n*Total dos Itens: ${formatCurrency(totalPrice)}*\n\n`;
+        const deliveryCost = deliveryFees[details.valor_entrega] || 0;
+        const finalTotal = itemsSubtotal + deliveryCost;
+
+        message += `\n*Subtotal dos Itens: ${formatCurrency(
+          itemsSubtotal
+        )}*\n`;
+        if (deliveryCost > 0) {
+          message += `*Taxa de Entrega: ${formatCurrency(deliveryCost)}*\n`;
+        }
+        message += `*Total do Pedido: ${formatCurrency(finalTotal)}*\n\n\n`;
         message += "*--- DADOS PARA ENTREGA ---*\n";
         message += `*Nome:* ${details.nome}\n`;
         message += `*Vela de brinde?:* ${details.vela}\n`;
@@ -567,13 +642,12 @@
             textoEntrega = "Sarandi (R$ 25,00)";
           else textoEntrega = "A combinar";
 
-          message += `*Valor da entrega:* ${textoEntrega}\n`;
         }
 
-        message += "\n*📌 Aviso Importante*\n";
+        message += "\n\n*📌 Aviso Importante*\n";
         message +=
           "Como nossos bolos são artesanais, o peso final pode variar entre 100 g e 300 g para mais.\n";
-        message += "O valor pago no site corresponde ao peso base (1 kg).\n";
+        message += "O valor constatado no site corresponde ao peso base (1 kg).\n";
         message +=
           "Após a pesagem final, enviaremos pelo WhatsApp o ajuste de diferença, caso necessário.";
 

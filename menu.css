@@ -87,6 +87,31 @@ section {
   max-width: 900px;
 }
 
+.embalagens-modal-content .video-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio (9 / 16 * 100) */
+  height: 0;
+  overflow: hidden;
+  margin-bottom: 1rem; /* Add some space below the video */
+}
+
+.embalagens-modal-content .video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Ensure the whole video is visible */
+}
+
+@media (min-width: 768px) {
+  .embalagens-modal-content {
+    max-width: 700px; /* Adjust max-width for desktop to be slightly smaller */
+  }
+}
+
+
 @media (max-width: 768px) {
   .modal-content {
     padding: 1.5rem;
