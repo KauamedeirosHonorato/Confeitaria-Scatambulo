@@ -166,55 +166,8 @@
       </div>
     </main>
 
-    <!-- Floating Chatbot Button -->
-    <button
-      id="floating-chatbot"
-      class="fixed bottom-8 right-8 bg-[#D4AF37] p-4 rounded-full shadow-lg z-30 flex items-center justify-center text-white hover:bg-[#f5e6b3] transition-colors"
-      style="width: 60px; height: 60px"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="2"
-        stroke="currentColor"
-        class="w-8 h-8"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.75 9.75 0 01-3.484-.695L3.75 21.75l1.64-4.078a13.91 13.91 0 01-1.38-3.566C2.92 8.45 6.95 4.75 12 4.75s9 3.701 9 8.25z"
-        />
-      </svg>
-    </button>
 
-    <!-- Chatbot Modal -->
-    <div id="chatbot-modal" class="modal-overlay hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="chatbot-modal-content flex flex-col h-[80vh] max-h-[600px] w-[90vw] max-w-[400px] p-0">
-        <div class="flex justify-between items-center p-4 border-b border-gray-200 bg-[#D4AF37] text-white">
-          <h2 class="text-xl font-semibold">Assistente Scatambulo</h2>
-          <button id="close-chatbot" class="text-white hover:text-gray-200">&times;</button>
-        </div>
-        <div id="chat-messages" class="flex-grow p-4 overflow-y-auto bg-gray-50 flex flex-col">
-          <!-- Chat messages will be appended here -->
-        </div>
-        <div class="p-4 border-t border-gray-200 flex">
-          <input
-            type="text"
-            id="chat-input"
-            placeholder="Digite sua mensagem..."
-            class="flex-grow p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
-          />
-          <button
-            id="send-chat"
-            class="bg-[#D4AF37] text-white p-2 rounded-r-lg hover:bg-[#f5e6b3] transition-colors"
-          >
-            Enviar
-          </button>
-        </div>
-      </div>
-    </div>
-
+    
     <script src="carrinho.js" defer></script>
     <script>
       const video = document.getElementById('packaging-video');
@@ -294,80 +247,6 @@
         };
       }
 
-      // Chatbot functionality (from menu.html, adapted for this page)
-      const chatbotButton = document.getElementById("floating-chatbot");
-      const chatbotModal = document.getElementById("chatbot-modal");
-      const closeChatbotButton = document.getElementById("close-chatbot");
-      const chatMessages = document.getElementById("chat-messages");
-      const chatInput = document.getElementById("chat-input");
-      const sendChatButton = document.getElementById("send-chat");
-
-      chatbotButton.addEventListener("click", () => {
-        chatbotModal.classList.remove("hidden");
-        appendMessage("bot", "Olá! Sou seu assistente de embalagens. Como posso ajudar?");
-      });
-
-      closeChatbotButton.addEventListener("click", () => {
-        chatbotModal.classList.add("hidden");
-      });
-
-      sendChatButton.addEventListener("click", () => {
-        sendMessage();
-      });
-
-      chatInput.addEventListener("keypress", (event) => {
-        if (event.key === "Enter") {
-          sendMessage();
-        }
-      });
-
-      function appendMessage(sender, message) {
-        const messageElement = document.createElement("div");
-        messageElement.classList.add("mb-2", "p-2", "rounded-lg", "max-w-[80%]");
-        if (sender === "bot") {
-          messageElement.classList.add("bg-gray-200", "chat-message-bot");
-        } else {
-          messageElement.classList.add("bg-[#D4AF37]", "chat-message-user");
-        }
-        messageElement.textContent = message;
-        chatMessages.appendChild(messageElement);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-      }
-
-      function sendMessage() {
-        const userMessage = chatInput.value.trim();
-        if (userMessage === "") return;
-
-        appendMessage("user", userMessage);
-        chatInput.value = "";
-
-        const lowerCaseMessage = userMessage.toLowerCase();
-        let botResponse = "Desculpe, não entendi. Poderia reformular sua pergunta?";
-
-        if (lowerCaseMessage.includes("olá") || lowerCaseMessage.includes("oi")) {
-          botResponse = "Olá! Posso te ajudar com informações sobre as embalagens dos bolos.";
-        } else if (lowerCaseMessage.includes("tamanho") || lowerCaseMessage.includes("qual embalagem")) {
-          botResponse = "Angela está explicando os diferentes tamanhos de embalagens no vídeo. Você pode clicar nos destaques que aparecem no vídeo para ver mais detalhes.";
-        } else if (lowerCaseMessage.includes("oval 500g")) {
-          video.currentTime = 5;
-          video.play();
-          botResponse = "A embalagem Oval 500g é ideal para pequenas celebrações e não tem custo adicional.";
-        } else if (lowerCaseMessage.includes("taça 1kg")) {
-          video.currentTime = 10;
-          video.play();
-          botResponse = "A Taça 1kg é uma opção elegante e prática, com um custo adicional de R$ 20,00.";
-        } else if (lowerCaseMessage.includes("caixa 2kg")) {
-          video.currentTime = 15;
-          video.play();
-          botResponse = "A Caixa 2kg é perfeita para transporte seguro e apresentação, com um custo adicional de R$ 44,00.";
-        } else if (lowerCaseMessage.includes("ajuda") || lowerCaseMessage.includes("duvida")) {
-          botResponse = "Claro! Pergunte-me sobre os tipos de embalagem, seus tamanhos, preços ou para qual ocasião são mais adequadas.";
-        } else if (lowerCaseMessage.includes("obrigado") || lowerCaseMessage.includes("valeu")) {
-          botResponse = "De nada! Se precisar de mais alguma coisa, é só chamar.";
-        }
-
-        setTimeout(() => appendMessage("bot", botResponse), 500);
-      }
-    </script>
+      </script>
   </body>
 </html>

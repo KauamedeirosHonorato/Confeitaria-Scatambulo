@@ -1,664 +1,591 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Encomendas de Natal - Scatambulo Confeitaria</title>
-    <link rel="icon" type="image/png" href="./Logo/logoSc.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Playfair+Display:wght@700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      :root {
-        --bg-color: #2c3e50;
-        --modal-bg: #fdfdf0; /* Branco Pérola */
-        --primary-text: #333;
-        --accent-color: #c0392b;
-        --button-bg: #d4af37;
-        --button-text: #000;
-      }
-
-      body,
-      html {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        font-family: "Poppins", sans-serif;
-        background-image: url("./DocesNatal/fundo.png");
-        background-size: cover;
-        background-position: center;
-        background-color: var(--bg-color);
-      }
-      /* --- MODAL PRINCIPAL --- */
-      .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 10;
-        display: flex; /* Centraliza */
-        align-items: center;
-        justify-content: center;
-        background-color: rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(2px);
-        padding: 5px;
-        box-sizing: border-box;
-      }
-
-      .modal-content {
-        background-color: var(--modal-bg);
-        color: var(--primary-text);
-        /* Tamanho reduzido aqui */
-        padding: 1.5rem;
-        max-width: 420px;
-        width: 95%;
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-        max-height: 90vh;
-        overflow-y: auto;
-        text-align: center;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        position: relative;
-      }
-
-      .modal-content h1 {
-        font-family: "Playfair Display", serif;
-        color: var(--accent-color);
-        font-size: 1.8rem; /* Fonte menor */
-        margin-bottom: 1rem;
-        font-weight: 700;
-      }
-
-      .modal-content p {
-        margin: 0.6rem 0;
-        line-height: 1.4;
-        font-size: 0.95rem;
-      }
-
-      .modal-content .highlight {
-        font-weight: 500;
-        color: #000;
-      }
-
-      .modal-content .cta-button {
-        display: inline-block;
-        background-color: var(--button-bg);
-        color: var(--button-text);
-        padding: 10px 28px; /* Botão mais compacto */
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: 700;
-        font-size: 1rem;
-        margin: 0.8rem 0;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
-      }
-
-      .modal-content .cta-button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
-      }
-
-      .modal-content .secondary-button {
-        display: inline-block;
-        font-size: 0.85rem;
-        color: #fff;
-        text-decoration: none;
-        cursor: pointer;
-        border: none;
-        padding: 9px 18px;
-        border-radius: 50px;
-        font-weight: 600;
-        background-color: var(--accent-color);
-        transition: all 0.2s ease-in-out;
-        margin-top: 0.8rem;
-        box-shadow: 0 4px 15px rgba(192, 57, 43, 0.3);
-      }
-      .modal-content .secondary-button:hover {
-        background-color: #e74c3c;
-        transform: translateY(-2px);
-      }
-
-      .app-button {
-        margin: 0;
-        padding: 8px 22px;
-        font-size: 0.9rem;
-      }
-
-      .section-title {
-        font-size: 1.1rem;
-        margin-top: 1.5rem;
-        font-weight: 700;
-      }
-
-      #countdown-timer {
-        margin: 1rem 0;
-        display: flex;
-        justify-content: space-around;
-        text-align: center;
-        padding: 0.8rem;
-        border-radius: 12px;
-        background: linear-gradient(145deg, #edebe1, #ffffff);
-        box-shadow: inset 4px 4px 8px #dcd9d0, inset -4px -4px 8px #ffffff;
-      }
-
-      .countdown-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-width: 50px;
-      }
-
-      .countdown-item span:first-child {
-        font-size: 2rem; /* Fonte menor */
-        font-weight: 700;
-        color: var(--accent-color);
-        line-height: 1;
-      }
-
-      .countdown-item span:last-child {
-        font-size: 0.7rem;
-        color: #777;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-
-      .countdown-title {
-        font-size: 0.9rem;
-        font-weight: 600;
-      }
-
-      .countdown-header {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        margin-bottom: 0.5rem;
-      }
-
-      /* --- MODAL SECUNDÁRIO --- */
-      .secondary-modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 20;
-        display: none; /* Flex via JS */
-        align-items: center;
-        justify-content: center;
-        background-color: rgba(0, 0, 0, 0.85);
-        padding: 15px;
-        box-sizing: border-box;
-      }
-
-      .secondary-modal-content {
-        background-color: var(--modal-bg);
-        color: var(--primary-text);
-        /* Tamanho reduzido aqui */
-        padding: 1.5rem;
-        max-width: 500px;
-        width: 95%;
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        max-height: 90vh;
-        overflow-y: auto;
-        position: relative;
-      }
-
-      .secondary-modal-content h2 {
-        font-family: "Poppins", sans-serif;
-        color: #333;
-        font-size: 1.4rem;
-        text-align: center;
-        font-weight: 700;
-        margin-bottom: 1rem;
-      }
-
-      .secondary-modal-content h3 {
-        font-weight: 700;
-        font-size: 1rem;
-        margin-top: 1rem;
-        margin-bottom: 0.5rem;
-        border-bottom: 2px solid var(--accent-color);
-        display: inline-flex;
-        padding-bottom: 0.2rem;
-      }
-
-      .secondary-modal-content p,
-      .secondary-modal-content li {
-        font-size: 0.85rem;
-        line-height: 1.5;
-        margin-bottom: 0.4rem;
-        color: #555;
-      }
-
-      .secondary-modal-content ul {
-        list-style-position: inside;
-        padding-left: 0.2rem;
-        list-style-type: none;
-      }
-
-      .secondary-modal-content .schedule-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 0.8rem;
-      }
-
-      .secondary-modal-content .schedule-day {
-        background: rgba(0, 0, 0, 0.02);
-        padding: 0.8rem;
-        border-radius: 8px;
-        font-size: 0.85rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-
-      .secondary-modal-content .schedule-day strong {
-        text-align: center;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-        padding-bottom: 0.5rem;
-        margin-bottom: 0.2rem;
-      }
-
-      .schedule-period {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-size: 0.8rem;
-        color: #555;
-      }
-
-      .period-icon {
-        width: 16px;
-        height: 16px;
-        flex-shrink: 0;
-      }
-
-      .secondary-modal-content .warning-box {
-        background-color: rgba(192, 57, 43, 0.1);
-        border-left: 3px solid var(--accent-color);
-        padding: 0.6rem 0.8rem;
-        margin: 0.8rem 0;
-      }
-
-      .secondary-modal-content .info-icon {
-        display: inline-block;
-        width: 0.9em;
-        height: 1em;
-        margin-right: 0.4em;
-        vertical-align: -0.15em;
-      }
-
-      #close-secondary-modal {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: #f0f0f0;
-        border: none;
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        font-size: 1.2rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #555;
-      }
-
-      /* Animações gerais */
-      @keyframes wave {
-        0%,
-        50%,
-        100% {
-          transform: rotate(-10deg);
-        }
-        25%,
-        75% {
-          transform: rotate(-25deg) translateY(-5px);
-        }
-      }
-      .urgent {
-        animation: blink 1.2s ease-in-out infinite;
-      }
-      @keyframes blink {
-        50% {
-          background-color: rgba(192, 57, 43, 0.15);
-          box-shadow: inset 0 0 10px rgba(192, 57, 43, 0.2);
-        }
-        0%,
-        100% {
-          background: linear-gradient(145deg, #edebe1, #ffffff);
-        }
-      }
-      #santa-img {
-        animation: wave 2.5s ease-in-out infinite;
-      }
-
-      /* Neve */
-      #snow-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100%;
-        z-index: 1;
-        pointer-events: none;
-      }
-      .snowflake {
-        position: fixed;
-        background: white;
-        border-radius: 50%;
-        opacity: 0.8;
-        pointer-events: none;
-        animation: fall linear infinite;
-      }
-      @keyframes fall {
-        0% {
-          transform: translateY(-10vh) translateX(0);
-        }
-        100% {
-          transform: translateY(110vh) translateX(5vw);
-        }
-      }
-
-      /* Responsividade */
-      @media (max-width: 480px) {
-        .modal-content {
-          padding: 1.5rem 1rem;
-        }
-        .modal-content h1 {
-          font-size: 1.5rem;
-        }
-        .secondary-modal-content {
-          padding: 1.2rem 1rem;
-        }
-        .countdown-item span:first-child {
-          font-size: 1.8rem;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="snow-container"></div>
-
-    <div class="modal-overlay">
-      <div class="modal-content">
-        <h1>Encomendas de Natal</h1>
-        <p>
-          Para o <span class="highlight">dia 24/12</span>, encomendas até
-          <span class="highlight">20/12</span>.
-        </p>
-        <div>
-          <div class="countdown-header">
-            <img
-              id="santa-img"
-              src="./DocesNatal/papai-noel.png"
-              alt="Papai Noel"
-              style="width: 45px; height: auto"
-            />
-            <h3 class="countdown-title">Prazo para o Natal</h3>
-          </div>
-          <div id="countdown-timer">
-            <div class="countdown-item">
-              <span id="days">00</span>
-              <span>Dias</span>
-            </div>
-            <div class="countdown-item">
-              <span id="hours">00</span>
-              <span>Horas</span>
-            </div>
-            <div class="countdown-item">
-              <span id="minutes">00</span>
-              <span>Minutos</span>
-            </div>
-          </div>
-        </div>
-        <p>
-          Para o <span class="highlight">dia 31/12</span>, encomendas até
-          <span class="highlight">27/12</span>.
-        </p>
-        <p style="margin-top: 1.2rem; font-size: 0.85rem">
-          Nossa produção é artesanal e limitada. Antecipe seu pedido!
-        </p>
-        <h2 class="section-title">Onde encomendar</h2>
-        <a
-          href="https://api.whatsapp.com/send/?phone=554499024212&text=Olá!+Vi+os+bolos+natalinos+da+sua+página+e+quero+fazer+uma+encomenda.+Poderia+me+passar+detalhes+de+sabores,+tamanhos+e+preços?+Obrigado!&type=phone_number&app_absent=0"
-          class="cta-button"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Encomendar por WhatsApp
-        </a>
-        <p style="margin: 0.5rem 0">ou</p>
-        <div>
-          <a href="./menu.html" class="cta-button app-button">Ir para o Menu</a>
-        </div>
-        <div>
-          <button id="open-secondary-modal" class="secondary-button">
-            Ver Detalhes e Pagamento
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div id="secondary-modal-overlay" class="secondary-modal-overlay">
-      <div class="secondary-modal-content">
-        <button id="close-secondary-modal">&times;</button>
-        <h2>Pagamento e Entrega</h2>
-
-        <div>
-          <h3>
-            <img
-              src="https://api.iconify.design/mdi/credit-card-check-outline.svg?color=%23c0392b"
-              class="info-icon"
-            />Pagamento
-          </h3>
-          <ul>
-            <li><strong>Confirmação:</strong> 50% ou valor integral.</li>
-            <li>
-              <strong>Métodos:</strong> Pix ou Cartão via
-              <a
-                href="https://api.whatsapp.com/send/?phone=554499024212&text=Olá!+Gostaria+de+realizar+o+pagamento+da+minha+encomenda+via+link."
-                target="_blank"
-                class="payment-link"
-                >link de pagamento</a
-              >.
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <h3>
-            <img
-              src="https://api.iconify.design/mdi/truck-delivery-outline.svg?color=%23c0392b"
-              class="info-icon"
-            />Entrega
-          </h3>
-          <p>Entregas de carro agendadas por período (manhã/tarde).</p>
-          <div class="warning-box">
-            <p style="margin: 0; font-weight: 500; color: #555">
-              ✈️ <strong>Vai viajar?</strong> Avise o horário limite!
-            </p>
-          </div>
-        </div>
-
-        <div>
-          <h3>
-            <img
-              src="https://api.iconify.design/mdi/calendar-clock-outline.svg?color=%23c0392b"
-              class="info-icon"
-            />Horários
-          </h3>
-          <div class="schedule-grid">
-            <div class="schedule-day">
-              <strong>Dia 23/12</strong>
-              <div class="schedule-period">
-                <img
-                  src="https://api.iconify.design/mdi/weather-sunny.svg?color=%23D4AF37"
-                  class="period-icon"
-                />
-                <span>Manhã: 9h às 12h</span>
-              </div>
-              <div class="schedule-period">
-                <img
-                  src="https://api.iconify.design/mdi/weather-sunset.svg?color=%23D4AF37"
-                  class="period-icon"
-                />
-                <span>Tarde: 13h às 19h</span>
-              </div>
-            </div>
-            <div class="schedule-day">
-              <strong>Dia 24/12</strong>
-              <div class="schedule-period">
-                <img
-                  src="https://api.iconify.design/mdi/weather-sunny.svg?color=%23D4AF37"
-                  class="period-icon"
-                />
-                <span>Manhã: 9h às 12h</span>
-              </div>
-              <div class="schedule-period">
-                <img
-                  src="https://api.iconify.design/mdi/weather-sunset.svg?color=%23D4AF37"
-                  class="period-icon"
-                />
-                <span>Tarde: 13h às 18h</span>
-              </div>
-            </div>
-            <div class="schedule-day">
-              <strong>Dia 30/12</strong>
-              <div class="schedule-period">
-                <img
-                  src="https://api.iconify.design/mdi/weather-sunny.svg?color=%23D4AF37"
-                  class="period-icon"
-                />
-                <span>Manhã: 9h às 12h</span>
-              </div>
-              <div class="schedule-period">
-                <img
-                  src="https://api.iconify.design/mdi/weather-sunset.svg?color=%23D4AF37"
-                  class="period-icon"
-                />
-                <span>Tarde: 13h às 18h</span>
-              </div>
-            </div>
-            <div class="schedule-day">
-              <strong>Dia 31/12</strong>
-              <div class="schedule-period">
-                <img
-                  src="https://api.iconify.design/mdi/weather-sunny.svg?color=%23D4AF37"
-                  class="period-icon"
-                />
-                <span>Manhã: 9h às 12h</span>
-              </div>
-              <div class="schedule-period">
-                <img
-                  src="https://api.iconify.design/mdi/weather-sunset.svg?color=%23D4AF37"
-                  class="period-icon"
-                />
-                <span>Tarde: 13h às 18h</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Natal Scatambulo - Encomendas Exclusivas</title>
+    
+    <meta property="og:title" content="Natal Scatambulo - Encomendas Abertas">
+    <meta property="og:description" content="Garanta sua sobremesa de Natal! Encomendas limitadas.">
+    <meta property="og:image" content="Logo/logoSc.png">
+    <meta name="theme-color" content="#450a0a">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
 
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        // Verifica se a página está em um modal
-        const isModal = new URLSearchParams(window.location.search).get(
-          "modal"
-        );
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        scatambulo: {
+                            red: '#7f1d1d',
+                            dark: '#450a0a',
+                            gold: '#d4af37',
+                            goldlight: '#f3e5ab',
+                            cream: '#fffbf7'
+                        }
+                    },
+                    backgroundImage: {
+                        'paper-texture': "linear-gradient(to bottom right, #fffbf7, #fff0f0)",
+                        'shimmer': "linear-gradient(45deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 60%)"
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'fade-in-down': 'fadeInDown 1s ease-out forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeInDown: {
+                            '0%': { opacity: '0', transform: 'translateY(-20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    },
+                    screens: {
+                        'xs': '375px',
+                    }
+                }
+            }
+        }
+    </script>
 
-        if (isModal) {
-          // Remove o fundo e a neve se estiver no modal
-          document.body.style.backgroundImage = "none";
+    <style>
+        /* Configuração Base */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            /* Permite scroll na página principal, o JS vai travar quando abrir modal */
+            overflow-x: hidden;
+            overflow-y: auto; 
+            background-color: #450a0a;
+        }
+        
+        .font-serif { font-family: 'Playfair Display', serif; }
+        
+        /* Neve */
+        .snowflake {
+            position: fixed;
+            top: -20px;
+            color: rgba(255, 255, 255, 0.9);
+            pointer-events: none;
+            z-index: 40;
+            will-change: transform, opacity;
+            animation: snow-fall linear infinite;
+            text-shadow: 0 0 3px rgba(255,255,255,0.4);
+        }
+        
+        @keyframes snow-fall {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.9; }
+            100% { transform: translateY(110vh) translateX(20px) rotate(360deg); opacity: 0.2; }
         }
 
-        function setupCountdown() {
-          const countdownElement = document.getElementById("countdown-timer");
-          const daysEl = document.getElementById("days");
-          const hoursEl = document.getElementById("hours");
-          const minutesEl = document.getElementById("minutes");
-          const deadline = new Date(
-            new Date().getFullYear(),
-            11,
-            20,
-            23,
-            59,
-            59
-          );
+        /* --- ESTILOS DOS MODAIS --- */
+        .modal-wrapper {
+            transition: visibility 0s linear 0.3s, opacity 0.3s ease; 
+            opacity: 0; 
+            pointer-events: none; 
+            visibility: hidden;
+        }
+        .modal-wrapper.show { 
+            transition-delay: 0s; 
+            visibility: visible; 
+            opacity: 1; 
+            pointer-events: auto; 
+        }
+        
+        .modal-backdrop { transition: opacity 300ms ease-in-out; opacity: 0; }
+        .modal-wrapper.show .modal-backdrop { opacity: 1; }
+        
+        .modal-panel { 
+            transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 300ms ease-in-out; 
+            opacity: 0; 
+            transform: scale(0.95) translateY(20px); 
+        }
+        .modal-wrapper.show .modal-panel { 
+            opacity: 1; 
+            transform: scale(1) translateY(0); 
+        }
 
-          const interval = setInterval(() => {
-            const now = new Date();
-            const diff = deadline.getTime() - now.getTime();
+        /* --- AJUSTES MOBILE (FULLSCREEN) --- */
+        @media (max-width: 640px) {
+            .modal-wrapper { padding: 0 !important; }
+            
+            /* Modal Principal ocupa 100% no mobile */
+            #christmas-modal .modal-panel {
+                width: 100% !important;
+                height: 100dvh !important; /* Altura total do viewport dinâmico */
+                max-height: none !important;
+                border-radius: 0 !important;
+                margin: 0 !important;
+            }
+            
+            /* Sub-modais flutuantes no mobile */
+            #modal-pagamento .modal-panel, 
+            #modal-entrega .modal-panel, 
+            #modal-horarios .modal-panel {
+                width: 92% !important;
+                max-height: 90vh !important; /* Mais altura disponível */
+                border-radius: 1rem !important;
+            }
+        }
+
+        /* Botões de Navegação Interna */
+        .nav-button {
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            border-color: rgba(254, 226, 226, 0.5);
+        }
+        .nav-button:active {
+            background-color: #fef2f2;
+            transform: scale(0.98);
+        }
+        
+        /* Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(180, 83, 9, 0.3); border-radius: 20px; }
+
+        /* Botão Premium */
+        .btn-premium {
+            background-size: 200% auto;
+            transition: all 0.5s;
+        }
+        .btn-premium:hover { background-position: right center; letter-spacing: 0.05em; }
+        .btn-premium:active { transform: scale(0.98); }
+
+        /* Glass Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        /* Ajustes Telas Pequenas */
+        @media (max-height: 680px) {
+            .logo-wrapper { width: 8rem !important; height: 8rem !important; }
+            h1 { font-size: 2.2rem !important; margin-bottom: 0.2rem !important; }
+            p.desc-text { margin-bottom: 1rem !important; font-size: 0.9rem !important; }
+            .countdown-wrapper { margin-bottom: 1.5rem !important; }
+            footer { padding-bottom: 0.5rem !important; }
+        }
+    </style>
+</head>
+
+<body class="bg-scatambulo-dark text-white selection:bg-scatambulo-gold selection:text-white min-h-[100dvh] flex flex-col">
+
+    <div class="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-red-900 via-scatambulo-dark to-black z-0"></div>
+    <div class="fixed inset-0 pointer-events-none opacity-20 bg-[url('https://www.transparenttextures.com/patterns/snow.png')] z-0 mix-blend-overlay"></div>
+    
+  <main class="relative z-10 flex flex-col items-center justify-center flex-grow w-full px-4 py-8 sm:p-6 lg:p-12 text-center">
+        
+        <button onclick="window.fecharPaginaPrincipal()" 
+                class="absolute top-4 right-4 sm:top-8 sm:right-8 p-3 text-red-200/60 hover:text-white hover:bg-white/10 rounded-full transition-all duration-300 group z-50 cursor-pointer" 
+                aria-label="Fechar">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 sm:w-10 sm:h-10 transform group-hover:rotate-90 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <div class="relative group mb-8 animate-fade-in-down">
+            <div class="w-36 h-36 sm:w-48 sm:h-48 relative flex items-center justify-center animate-float">
+                <div class="absolute inset-0 bg-red-600 blur-[80px] opacity-40 rounded-full animate-pulse-slow"></div>
+                <img src="Logo/logoSc.png" alt="Logo Scatambulo" class="max-h-full w-full object-contain drop-shadow-2xl z-10 hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'; document.getElementById('fallback-logo').classList.remove('hidden')">
+                <div id="fallback-logo" class="hidden absolute inset-0 rounded-full border-4 border-scatambulo-gold/30 bg-scatambulo-red flex items-center justify-center shadow-2xl">
+                    <span class="font-serif text-6xl text-scatambulo-gold">S</span>
+                </div>
+            </div>
+        </div>
+        
+        <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white drop-shadow-lg mb-4 leading-tight animate-fade-in-down" style="animation-delay: 0.2s;">
+            <span class="text-transparent bg-clip-text bg-gradient-to-b from-white to-red-100">Boas Festas!</span>
+        </h1>
+
+        <p class="text-sm sm:text-base md:text-lg text-red-100/80 font-light max-w-lg mx-auto leading-relaxed px-4 mb-10 animate-fade-in-down" style="animation-delay: 0.4s;">
+            A magia do Natal transformada em <span class="text-scatambulo-gold font-medium">sabores inesquecíveis</span>.
+        </p>
+
+        <div id="countdown" class="w-full max-w-[340px] sm:max-w-md mx-auto mb-12 animate-fade-in-down" style="animation-delay: 0.6s;">
+            <p class="text-scatambulo-gold text-[10px] sm:text-xs uppercase tracking-[0.3em] font-medium mb-4">Contagem Regressiva</p>
+            <div class="grid grid-cols-4 gap-3">
+                <div class="glass-card p-3 rounded-xl shadow-lg"><span id="days" class="font-serif text-2xl sm:text-4xl font-bold">--</span><span class="block text-[9px] text-red-200/70 mt-1 uppercase">Dias</span></div>
+                <div class="glass-card p-3 rounded-xl shadow-lg"><span id="hours" class="font-serif text-2xl sm:text-4xl font-bold">--</span><span class="block text-[9px] text-red-200/70 mt-1 uppercase">Horas</span></div>
+                <div class="glass-card p-3 rounded-xl shadow-lg"><span id="minutes" class="font-serif text-2xl sm:text-4xl font-bold">--</span><span class="block text-[9px] text-red-200/70 mt-1 uppercase">Min</span></div>
+                <div class="glass-card p-3 rounded-xl shadow-lg"><span id="seconds" class="font-serif text-2xl sm:text-4xl font-bold">--</span><span class="block text-[9px] text-red-200/70 mt-1 uppercase">Seg</span></div>
+            </div>
+        </div>
+        
+        <button id="open-modal-btn" class="animate-fade-in-down btn-premium group relative bg-gradient-to-r from-scatambulo-gold via-white to-scatambulo-gold text-scatambulo-dark px-10 py-4 rounded-full font-bold text-lg shadow-[0_0_25px_rgba(212,175,55,0.3)] flex items-center gap-3 mx-auto overflow-hidden border border-white/50" style="animation-delay: 0.8s;">
+            <span class="relative z-10 font-serif tracking-wide">Ver Encomendas</span>
+            <svg class="w-5 h-5 transition-transform group-hover:translate-x-1 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+            <div class="absolute inset-0 bg-shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+        </button>
+        
+        <footer class="mt-auto pt-12 pb-[calc(1.5rem+env(safe-area-inset-bottom))] text-xs text-red-200/30 font-light">
+            &copy; 2025 Scatambulo Confeitaria. Feito com amor.
+        </footer>
+    </main>
+
+    <div id="christmas-modal" class="modal-wrapper fixed inset-0 z-[100] flex items-center justify-center p-0 sm:p-4">
+        <div class="modal-backdrop fixed inset-0 bg-black/80 backdrop-blur-md cursor-pointer"></div>
+        
+        <div class="modal-panel relative w-full h-[100dvh] sm:h-[92vh] max-w-4xl bg-white text-gray-800 rounded-none sm:rounded-3xl shadow-2xl flex flex-col md:flex-row overflow-hidden">
+            
+            <div class="w-full md:w-7/12 h-full bg-paper-texture relative overflow-y-auto custom-scrollbar pb-[calc(2rem+env(safe-area-inset-bottom))] mx-auto">
+                
+                <div class="p-6 sm:p-8 pb-6 flex flex-col items-center justify-center text-center relative z-10">
+                    <button onclick="window.closeModal()" class="absolute top-2 right-2 sm:top-0 sm:right-4 text-gray-400 hover:text-gray-600 transition-colors p-3 rounded-full hover:bg-gray-100 active:bg-gray-200 z-20">
+                        <svg class="w-8 h-8 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                    <h2 class="font-serif text-3xl font-bold text-scatambulo-red leading-tight mt-4 sm:mt-0">Natal & Ano Novo</h2>
+                    <div class="h-0.5 w-16 bg-scatambulo-gold/30 mt-3 mb-2"></div>
+                    <p class="text-gray-500 text-sm">Central de Informações</p>
+                </div>
+
+                <div class="px-6 md:px-8">
+                    
+                    <div class="grid grid-cols-1 xs:grid-cols-2 gap-4 mb-8">
+                        <div class="bg-gradient-to-br from-white to-red-50 border border-red-100 p-4 rounded-xl text-center shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
+                            <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-red-400 to-scatambulo-red"></div>
+                            <p class="font-bold text-scatambulo-red uppercase text-[10px] tracking-widest mb-1">Natal</p>
+                            <p class="text-xs text-gray-500">Pedidos até</p>
+                            <p class="text-2xl font-serif font-bold text-gray-800 mt-1">20 <span class="text-sm text-gray-500 font-sans">Dez</span></p>
+                        </div>
+
+                        <div class="bg-gradient-to-br from-white to-amber-50 border border-amber-100 p-4 rounded-xl text-center shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
+                            <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-amber-300 to-amber-500"></div>
+                            <p class="font-bold text-amber-700 uppercase text-[10px] tracking-widest mb-1">Ano Novo</p>
+                            <p class="text-xs text-gray-500">Pedidos até</p>
+                            <p class="text-2xl font-serif font-bold text-gray-800 mt-1">27 <span class="text-sm text-gray-500 font-sans">Dez</span></p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 pb-8">
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1 mb-2 text-center">Detalhes Importantes</p>
+                        
+                        <button onclick="window.openSubModal('modal-pagamento')" class="nav-button w-full flex justify-between items-center p-4 rounded-xl bg-white text-left shadow-sm">
+                            <span class="flex items-center gap-3 font-semibold text-gray-800">
+                                <span class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-xl shadow-inner">💳</span> 
+                                Formas de Pagamento
+                            </span>
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </button>
+
+                        <button onclick="window.openSubModal('modal-entrega')" class="nav-button w-full flex justify-between items-center p-4 rounded-xl bg-white text-left shadow-sm">
+                            <span class="flex items-center gap-3 font-semibold text-gray-800">
+                                <span class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-xl shadow-inner">🚚</span> 
+                                Entrega & Retirada
+                            </span>
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </button>
+
+                        <button onclick="window.openSubModal('modal-horarios')" class="nav-button w-full flex justify-between items-center p-4 rounded-xl bg-white text-left shadow-sm">
+                            <span class="flex items-center gap-3 font-semibold text-gray-800">
+                                <span class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-xl shadow-inner">📅</span> 
+                                Horários Especiais
+                            </span>
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </button>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-pagamento" class="modal-wrapper fixed inset-0 z-[120] flex items-center justify-center p-4">
+        <div class="modal-backdrop fixed inset-0 bg-black/60 backdrop-blur-sm" onclick="window.closeSubModal('modal-pagamento')"></div>
+        <div class="modal-panel relative bg-paper-texture w-full max-w-sm rounded-2xl shadow-2xl p-6 border border-white/50 max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div class="mb-6 text-center">
+                <h3 class="font-serif text-2xl font-bold text-scatambulo-red">Pagamento</h3>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-start gap-3">
+                    <span class="text-green-500 font-bold text-lg">✓</span>
+                    <div>
+                        <p class="font-bold text-gray-800">Sinal de 50% </p>
+                        <p class="text-sm text-gray-500">As encomendas serão confirmadas mediante o envio do comprovante de pagamento, no valor parcial de 50% ou integral, conforme o valor indicado pelo atendimento.
+Os pagamentos podem ser feitos via Pix ou cartão de crédito pelo (link).
+</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-start gap-3">
+                    <span class="text-green-500 font-bold text-lg">✓</span>
+                    <div>
+                        <p class="font-bold text-gray-800">Restante do Valor</p>
+                        <p class="text-sm text-gray-500">Pago no momento da retirada/entrega.</p>
+                    </div>
+                </div>
+                <p class="text-xs text-center text-gray-400 pt-2">Aceitamos Pix, Dinheiro e Cartão (Link).</p>
+            </div>
+            <button onclick="window.closeSubModal('modal-pagamento')" class="mt-6 w-full py-3 bg-white border border-gray-200 rounded-xl text-gray-600 font-semibold hover:bg-gray-50 transition-colors shadow-sm">Fechar</button>
+        </div>
+    </div>
+
+    <div id="modal-entrega" class="modal-wrapper fixed inset-0 z-[120] flex items-center justify-center p-4">
+        <div class="modal-backdrop fixed inset-0 bg-black/60 backdrop-blur-sm" onclick="window.closeSubModal('modal-entrega')"></div>
+        <div class="modal-panel relative bg-paper-texture w-full max-w-sm rounded-2xl shadow-2xl p-6 border border-white/50 max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div class="mb-6 text-center">
+                <h3 class="font-serif text-2xl font-bold text-scatambulo-red">Entrega</h3>
+            </div>
+            
+            <div class="space-y-4 text-gray-700">
+                <p class="leading-relaxed">Trabalhamos com agendamento rigoroso por períodos para garantir que sua sobremesa chegue fresca.</p>
+                <div class="bg-amber-50 border border-amber-200 text-amber-900 p-4 rounded-xl text-sm flex gap-3 items-start">
+                    <span class="text-2xl">⚠️</span>
+                    <div>
+                        <p class="font-bold mb-1">Vai viajar?</p>
+                        <p>Informe o horário limite exato no momento da encomenda para evitarmos desencontros.</p>
+                    </div>
+                </div>
+                <div class="bg-amber-50 border border-amber-200 text-amber-900 p-4 rounded-xl text-sm flex gap-3 items-start">
+                    <div>
+                        <p class="font-bold mb-1">Atenção:</p>
+                        <p> Nossos produtos são delicados e precisam ser transportados de carro.
+Devido à alta demanda para o Natal e Réveillon, o agendamento será feito apenas por período de entrega (manhã ou tarde), sem horário específico.
+Se você estiver viajando, por favor, nos informe o horário máximo em que a entrega pode ser realizada.</p>
+                    </div>
+                </div>
+            </div>
+            <button onclick="window.closeSubModal('modal-entrega')" class="mt-6 w-full py-3 bg-white border border-gray-200 rounded-xl text-gray-600 font-semibold hover:bg-gray-50 transition-colors shadow-sm">Fechar</button>
+        </div>
+    </div>
+
+    <div id="modal-horarios" class="modal-wrapper fixed inset-0 z-[120] flex items-center justify-center p-4">
+    <div class="modal-backdrop fixed inset-0 bg-black/60 backdrop-blur-sm" onclick="window.closeSubModal('modal-horarios')"></div>
+    <div class="modal-panel relative bg-paper-texture w-full max-w-sm rounded-2xl shadow-2xl p-6 border border-white/50 max-h-[90vh] overflow-y-auto custom-scrollbar">
+        <div class="mb-6 text-center">
+            <h3 class="font-serif text-2xl font-bold text-scatambulo-red">Horários de Fim de Ano</h3>
+        </div>
+        
+        <div class="grid gap-3 text-sm">
+            <div class="p-3 rounded-lg bg-white border border-gray-100 flex justify-between items-start shadow-sm">
+                <span class="font-bold text-gray-900 mt-1">23/Dez</span>
+                <div class="flex flex-col items-end gap-1">
+                    <span class="text-gray-600 bg-gray-50 px-2 py-0.5 rounded text-xs whitespace-nowrap">Manhã: 09h - 12h</span>
+                    <span class="text-gray-600 bg-gray-50 px-2 py-0.5 rounded text-xs whitespace-nowrap">Tarde: 13h - 19h</span>
+                </div>
+            </div>
+
+            <div class="p-3 rounded-lg bg-red-50 border border-red-100 flex justify-between items-start shadow-sm">
+                <span class="font-bold text-red-700 mt-1">24/Dez (Natal)</span>
+                <div class="flex flex-col items-end gap-1">
+                    <span class="text-red-700 bg-white px-2 py-0.5 rounded text-xs font-bold whitespace-nowrap">Manhã: 09h - 12h</span>
+                    <span class="text-red-700 bg-white px-2 py-0.5 rounded text-xs font-bold whitespace-nowrap">Tarde: 13h - 18h</span>
+                </div>
+            </div>
+
+            <div class="p-3 rounded-lg bg-white border border-gray-100 flex justify-between items-start shadow-sm">
+                <span class="font-bold text-gray-900 mt-1">30/Dez</span>
+                <div class="flex flex-col items-end gap-1">
+                    <span class="text-gray-600 bg-gray-50 px-2 py-0.5 rounded text-xs whitespace-nowrap">Manhã: 09h - 12h</span>
+                    <span class="text-gray-600 bg-gray-50 px-2 py-0.5 rounded text-xs whitespace-nowrap">Tarde: 13h - 18h</span>
+                </div>
+            </div>
+
+            <div class="p-3 rounded-lg bg-amber-50 border border-amber-100 flex justify-between items-start shadow-sm">
+                <span class="font-bold text-amber-700 mt-1">31/Dez (Ano Novo)</span>
+                <div class="flex flex-col items-end gap-1">
+                    <span class="text-amber-700 bg-white px-2 py-0.5 rounded text-xs font-bold whitespace-nowrap">Manhã: 09h - 12h</span>
+                    <span class="text-amber-700 bg-white px-2 py-0.5 rounded text-xs font-bold whitespace-nowrap">Tarde: 13h - 18h</span>
+                </div>
+            </div>
+        </div>
+        
+        <button onclick="window.closeSubModal('modal-horarios')" class="mt-6 w-full py-3 bg-white border border-gray-200 rounded-xl text-gray-600 font-semibold hover:bg-gray-50 transition-colors shadow-sm">Fechar</button>
+    </div>
+</div>
+
+   <script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // -----------------------------
+    // ELEMENTOS PRINCIPAIS
+    // -----------------------------
+    const modal = document.getElementById('christmas-modal');
+    const openBtn = document.getElementById('open-modal-btn');
+    const backdrop = modal.querySelector('.modal-backdrop');
+    
+    // -----------------------------
+    // FUNÇÃO FECHAR PÁGINA PRINCIPAL
+    // -----------------------------
+    window.fecharPaginaPrincipal = () => {
+        if (window.parent && window.parent !== window) {
+            try {
+                const overlayNoPai = window.parent.document.getElementById('natal-popup-overlay');
+                if (overlayNoPai) {
+                    overlayNoPai.classList.remove('active');
+                    window.parent.document.body.style.overflow = '';
+                    setTimeout(() => {
+                        overlayNoPai.style.display = 'none';
+                    }, 300);
+                    return;
+                }
+            } catch (e) {
+                console.log('Erro ao acessar o pai:', e);
+            }
+        }
+        
+        window.location.href = 'menu.html';
+    };
+
+    // -----------------------------
+    // BLOQUEIO DE SCROLL (Fixado para funcionar com overflow-y: auto)
+    // -----------------------------
+    let scrollY = 0;
+
+    const lockScroll = () => {
+        // Guarda a posição atual
+        scrollY = window.scrollY;
+        // Trava o body como fixed na posição atual para não rolar
+        document.body.style.overflow = 'hidden';
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.width = '100%';
+    };
+
+    const unlockScroll = () => {
+        // Restaura as propriedades
+        document.body.style.overflow = 'auto'; // Importante: restaura o scroll
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        // Volta para a posição que estava
+        window.scrollTo(0, scrollY);
+    };
+
+    // -----------------------------
+    // MODAL PRINCIPAL
+    // -----------------------------
+    window.closeModal = () => {
+        modal.classList.remove('show');
+        unlockScroll();
+    };
+
+    const openModal = () => {
+        if (modal.classList.contains('show')) return;
+        modal.classList.add('show');
+        lockScroll();
+        sessionStorage.setItem('natalModalShown', 'true');
+    };
+
+    openBtn?.addEventListener('click', openModal);
+    backdrop?.addEventListener('click', window.closeModal);
+
+    if (!sessionStorage.getItem('natalModalShown')) {
+        setTimeout(() => {
+            openModal();
+        }, 1500);
+    }
+
+    // -----------------------------
+    // SUB-MODAIS
+    // -----------------------------
+    window.openSubModal = (id) => {
+        const sub = document.getElementById(id);
+        if (!sub) return;
+        sub.classList.add('show');
+    };
+
+    window.closeSubModal = (id) => {
+        const sub = document.getElementById(id);
+        if (!sub) return;
+        sub.classList.remove('show');
+    };
+
+    // -----------------------------
+    // NEVE ANIMADA
+    // -----------------------------
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    if (!prefersReducedMotion) {
+        const maxFlakes = 40;
+
+        const spawnSnowflake = () => {
+            if (document.hidden) return;
+
+            const flakes = document.querySelectorAll('.snowflake');
+            if (flakes.length >= maxFlakes) flakes[0].remove();
+
+            const flake = document.createElement('div');
+            flake.className = 'snowflake';
+            flake.textContent = Math.random() > 0.5 ? '❄' : '❅';
+
+            flake.style.left = Math.random() * 100 + 'vw';
+            flake.style.fontSize = (8 + Math.random() * 12) + 'px';
+            flake.style.animationDuration = (5 + Math.random() * 5) + 's';
+            flake.style.opacity = (0.2 + Math.random() * 0.6);
+
+            document.body.appendChild(flake);
+
+            setTimeout(() => flake.remove(), 10000);
+        };
+
+        setInterval(spawnSnowflake, 350);
+    }
+
+    // -----------------------------
+    // CONTAGEM REGRESSIVA NATAL
+    // -----------------------------
+    function startCountdown() {
+        const ids = ['days', 'hours', 'minutes', 'seconds'];
+        const els = Object.fromEntries(ids.map(id => [id, document.getElementById(id)]));
+
+        const container = document.getElementById('countdown');
+        if (!container) return;
+
+        let target = new Date(new Date().getFullYear(), 11, 25);
+        if (Date.now() > target) target.setFullYear(target.getFullYear() + 1);
+
+        const update = () => {
+            const diff = target - Date.now();
 
             if (diff <= 0) {
-              countdownElement.innerHTML =
-                '<p style="font-weight: 500; color: var(--accent-color); font-size:0.9rem;">Prazo para o Natal encerrado!</p>';
-              clearInterval(interval);
-              return;
+                if (document.getElementById('countdown')) {
+                    container.innerHTML =
+                        `<div class="glass-card p-4 rounded-xl text-white font-bold text-2xl animate-pulse">
+                            🎄 Feliz Natal!
+                        </div>`;
+                }
+                return;
             }
 
-            if (diff < 86400000) countdownElement.classList.add("urgent");
+            const d = Math.floor(diff / 86400000);
+            const h = Math.floor((diff % 86400000) / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
 
-            daysEl.textContent = String(Math.floor(diff / 86400000)).padStart(
-              2,
-              "0"
-            );
-            hoursEl.textContent = String(
-              Math.floor((diff % 86400000) / 3600000)
-            ).padStart(2, "0");
-            minutesEl.textContent = String(
-              Math.floor((diff % 3600000) / 60000)
-            ).padStart(2, "0");
-          }, 1000);
-        }
+            els.days.textContent = String(d).padStart(2, '0');
+            els.hours.textContent = String(h).padStart(2, '0');
+            els.minutes.textContent = String(m).padStart(2, '0');
+            els.seconds.textContent = String(s).padStart(2, '0');
 
-        function setupSnowEffect() {
-          const snowContainer = document.getElementById("snow-container");
-          if (!snowContainer || isModal) return; // Não executa se estiver no modal
-          for (let i = 0; i < 80; i++) {
-            const snowflake = document.createElement("div");
-            snowflake.className = "snowflake";
-            const size = Math.random() * 3 + 1;
-            snowflake.style.cssText = `width:${size}px; height:${size}px; left:${
-              Math.random() * 100
-            }vw; animation-duration:${
-              Math.random() * 7 + 8
-            }s; animation-delay:${Math.random() * -20}s;`;
-            snowContainer.appendChild(snowflake);
-          }
-        }
+            requestAnimationFrame(update);
+        };
 
-        function setupDetailsModal() {
-          const openBtn = document.getElementById("open-secondary-modal");
-          const closeBtn = document.getElementById("close-secondary-modal");
-          const overlay = document.getElementById("secondary-modal-overlay");
-          if (!openBtn || !closeBtn || !overlay) return;
+        update();
+    }
 
-          const openModal = () => (overlay.style.display = "flex");
-          const closeModal = () => (overlay.style.display = "none");
+    startCountdown();
+});
+</script>
 
-          openBtn.addEventListener("click", openModal);
-          closeBtn.addEventListener("click", closeModal);
-          overlay.addEventListener("click", (e) => {
-            if (e.target === overlay) closeModal();
-          });
-        }
-
-        setupCountdown();
-        setupSnowEffect();
-        setupDetailsModal();
-      });
-    </script>
-  </body>
+</body>
 </html>

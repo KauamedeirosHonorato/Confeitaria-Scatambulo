@@ -13,13 +13,147 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="menu.css" />
-    <!-- Flatpickr CSS -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
     />
+    <style>
+      /* --- Botão Flutuante de Natal (Abaixo dos botões principais) --- */
+      #natal-gift-main {
+        animation: float 3s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      /* --- Pop-up de Natal --- */
+      #natal-popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(5px); /* Efeito de desfoque no fundo */
+        z-index: 9999; /* Garante que fique acima de tudo */
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+
+      #natal-popup-overlay.active {
+        opacity: 1;
+      }
+
+      #natal-popup-content {
+        position: relative;
+        width: 100%;
+        max-width: 550px;
+        height: 90vh;
+        max-height: 650px;
+        background: transparent; /* Fundo transparente para o iframe brilhar */
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+        transform: scale(0.95);
+        opacity: 0;
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+          opacity 0.3s ease;
+      }
+
+      /* Classe para animar entrada do modal */
+      #natal-popup-overlay.active #natal-popup-content {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      #natal-popup-close {
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        width: 38px;
+        height: 38px;
+        background: #c0392b;
+        color: white;
+        border: 2px solid white;
+        border-radius: 50%;
+        font-size: 1.6rem;
+        line-height: 36px;
+        text-align: center;
+        cursor: pointer;
+        z-index: 10;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        transition: transform 0.2s ease-out, background-color 0.2s;
+      }
+
+      @media (max-width: 600px) {
+        #natal-popup-close {
+          top: 0px;
+          right: 0px;
+          width: 32px;
+          height: 32px;
+          font-size: 1.3rem;
+          line-height: 30px;
+        }
+        #natal-popup-content {
+          height: 80vh;
+          width: 95%;
+          max-width: none;
+        }
+      }
+
+      #natal-popup-close:hover {
+        transform: scale(1.1);
+        background: #e74c3c;
+      }
+
+      /* --- Ilha Dinâmica de Natal (Mobile) --- */
+      @media (max-width: 768px) {
+        #natal-dynamic-island.visible {
+          display: block;
+          animation: slideDownFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideDownFadeIn {
+          from {
+            transform: translateY(-40px) translateX(-50%);
+            opacity: 0;
+          }
+          to {
+            transform: translateY(0) translateX(-50%);
+            opacity: 1;
+          }
+        }
+      }
+    </style>
   </head>
   <body class="bg-stone-50 font-['Poppins']">
+    <!-- Ilha Dinâmica de Natal para Mobile -->
+    <div
+      id="natal-dynamic-island"
+      class="hidden fixed top-4 left-1/2 -translate-x-1/2 z-30"
+    >
+      <a
+        href="#"
+        id="natal-dynamic-link"
+        class="flex items-center gap-3 bg-gray-800/90 backdrop-blur-sm text-white px-4 py-2 rounded-full shadow-lg transition-all duration-300 hover:bg-gray-900"
+      >
+        <img
+          src="./DocesNatal/presente.png"
+          alt="Ícone de Natal"
+          class="h-6 w-6"
+        />
+        <span class="font-semibold text-sm">Natal Chegando</span>
+      </a>
+    </div>
     <div
       class="fixed -right-16 top-1/2 -translate-y-1/2 text-[#D4AF37]/50 rotate-[-90deg] origin-bottom-right text-5xl pointer-events-none hidden md:block"
       style="font-family: 'Poppins', sans-serif"
@@ -30,9 +164,11 @@
       <div
         class="container mx-auto px-6 py-4 flex justify-between items-center"
       >
-        <h1 class="font-bold text-2xl text-[#D4AF37]">
-          <a href="./menu.html">Scatambulo</a>
-        </h1>
+        <a href="./menu.html" class="flex items-center gap-2">
+          <h1 class="font-bold text-2xl text-[#D4AF37]">Scatambulo</h1>
+          <div id="natal-header-icon-container" class="hidden">
+          </div>
+        </a>
         <nav
           class="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-700"
         >
@@ -93,12 +229,10 @@
       </div>
     </header>
 
-    <!-- Abas Laterais -->
     <div id="info-tab" class="side-tab">Informações</div>
     <div id="policy-tab" class="side-tab">Políticas</div>
 
     <main class="container mx-auto p-4 md:p-8">
-      <!-- Recado da Angela -->
       <section class="mb-12">
         <div
           class="bg-white p-6 rounded-2xl shadow-xl border border-gray-200 flex flex-col items-center text-center gap-6 md:flex-row md:text-left"
@@ -115,12 +249,11 @@
             <p class="text-gray-600">
               Confeitaria Artesanal por Angela Scatambulo Patisserie . <br />
 
-              Bolos que transformam celebrações em memórias.
+              Bolos que transformam celebrações em memórias.
             </p>
           </div>
         </div>
       </section>
-      <!-- Sabores de Bolos -->
       <section id="sabores" class="mb-12">
         <h2 class="text-3xl md:text-4xl font-bold mb-2 text-center">
           Sabores de Bolos
@@ -392,8 +525,8 @@
                   Uva Crocante
                 </h3>
                 <p class="text-gray-500">
-                  Brigadeiro branco com uvas . Creme ninho , chantilly
-                  fresco com crocante
+                  Brigadeiro branco com uvas . Creme ninho , chantilly fresco
+                  com crocante
                 </p>
               </div>
               <div>
@@ -1073,7 +1206,6 @@
             </div>
           </div>
 
-          <!-- Elemento para centralizar o último card em telas grandes -->
           <div class="hidden lg:block"></div>
 
           <div
@@ -1154,7 +1286,6 @@
             </div>
           </div>
 
-          <!-- Bolo Floresta Branca -->
           <div
             id="card-floresta-branca"
             class="relative bg-[#FAF8F0] p-1 rounded-lg shadow-xl border-2 border-[#D4AF37] flex flex-col justify-between overflow-hidden group"
@@ -1318,6 +1449,32 @@
         A empresa também trabalha com topo de bolo.
       </p>
     </main>
+
+    <div
+      id="parent-container"
+      class="fixed bottom-28 end-5 z-20 flex flex-col items-center"
+    >
+      <button
+        id="natal-gift-main"
+        class="bg-transparent border-none cursor-pointer p-0"
+        aria-label="Abrir pop-up de Natal"
+      >
+        
+      </button>
+    </div>
+
+    <div id="natal-popup-overlay" aria-modal="true" role="dialog">
+      <div id="natal-popup-content">
+       
+        <iframe
+          id="natal-iframe"
+          src=""
+          style="width: 100%; height: 100%; border: 0; border-radius: 15px"
+          loading="lazy"
+        ></iframe>
+      </div>
+    </div>
+
     <div
       id="info-modal"
       class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden flex items-center justify-center"
@@ -1553,7 +1710,6 @@
       </div>
     </div>
 
-    <!-- Painel Lateral do Carrinho -->
     <div
       id="cart-panel-overlay"
       class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"
@@ -1564,7 +1720,6 @@
       style="background-image: url('./Avatar/AvatarCarrinho.png')"
     >
       <div class="flex flex-col h-full">
-        <!-- Cabeçalho do Painel -->
         <div
           class="flex justify-between items-center p-4 border-b border-gray-200/50 bg-white"
         >
@@ -1587,15 +1742,11 @@
           </button>
         </div>
 
-        <!-- Itens do Carrinho -->
         <div
           id="cart-items-panel"
           class="flex-grow p-4 overflow-y-auto space-y-3"
-        >
-          <!-- Itens serão inseridos aqui pelo JS -->
-        </div>
+        ></div>
 
-        <!-- Rodapé do Painel -->
         <div class="p-4 border-t border-gray-200/50 space-y-4">
           <div
             class="text-xs text-black bg-yellow-100/80 border border-yellow-300/80 p-2 rounded-md"
@@ -1624,7 +1775,6 @@
       </div>
     </div>
 
-    <!-- Modal de Checkout -->
     <div
       id="checkout-modal"
       class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"
@@ -1707,7 +1857,7 @@
                 placeholder="Início"
                 class="block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]"
               />
-              <span>a</span>
+              <span class="text-gray-500 font-medium">até</span>
               <input
                 type="text"
                 id="horario_fim"
@@ -1717,15 +1867,50 @@
                 class="block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]"
               />
             </div>
-            <p id="delivery-time-info" class="text-xs text-gray-500 mt-1">
-              Horário de entrega: 8:00 às 18:00.
+
+            <p
+              id="delivery-time-info"
+              class="text-xs text-gray-600 mt-2 flex items-center gap-1 bg-gray-50 p-2 rounded-md border border-gray-200"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 text-[#D4AF37]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span
+                >Nosso horário de entregas é das
+                <strong>08:00 às 18:00</strong>.</span
+              >
             </p>
+
             <div
               id="time-validation-notice"
-              class="hidden mt-2 text-sm text-red-800 bg-red-100 border border-red-300 p-3 rounded-lg"
+              class="hidden mt-2 text-sm text-red-800 bg-red-100 border border-red-300 p-3 rounded-lg flex items-start gap-2"
             >
-              <!-- Mensagem será inserida aqui pelo JS -->
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-red-600 flex-shrink-0"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <span id="time-validation-msg"></span>
             </div>
+
             <div
               id="sunday-delivery-notice"
               class="hidden mt-2 text-sm text-blue-800 bg-blue-100 border border-blue-300 p-3 rounded-lg"
@@ -1926,7 +2111,6 @@
       </div>
     </div>
 
-    <!-- Modal de Novidade -->
     <div
       id="novidade-modal"
       class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"
@@ -1934,13 +2118,14 @@
       aria-modal="true"
     >
       <div
-        class="bg-white p-4 rounded-2xl shadow-xl max-w-sm w-full relative mx-4 max-h-[85vh] overflow-y-auto flex flex-col"
+        class="bg-white p-4 rounded-2xl shadow-xl max-w-sm w-full relative mx-4 max-h-[80vh] overflow-y-auto flex flex-col"
       >
         <h3 class="text-2xl font-bold text-center text-[#D4AF37] mb-4">
           Novidade de Natal!
         </h3>
-        <!-- O card do bolo será clonado aqui pelo JS -->
+        
         <div id="novidade-modal-content" class="flex-grow"></div>
+        
         <button
           id="close-novidade-modal-footer"
           class="mt-4 w-full p-2 border border-gray-300 text-gray-700 rounded-md bg-gray-100 text-sm hover:bg-gray-200 transition-colors"
@@ -1950,12 +2135,10 @@
       </div>
     </div>
 
-    <!-- Contêiner para botões flutuantes -->
     <div
       class="fixed bottom-8 z-30 flex items-center justify-center gap-4 left-1/2 -translate-x-1/2 md:left-auto md:right-8 md:translate-x-0"
     >
-      <!-- Ilha Dinâmica de Novidade (Apenas Mobile) -->
-      <div id="novidade-island" class="md:hidden">
+      <div id="novidade-island">
         <button
           class="bg-white text-black border-2 border-[#D4AF37] px-5 py-3 rounded-full shadow-lg text-sm font-semibold flex items-center gap-2 transform transition-transform active:scale-95 hover:bg-gray-100"
         >
@@ -1975,7 +2158,6 @@
         </button>
       </div>
 
-      <!-- Ícone do Carrinho Flutuante -->
       <button
         id="floating-cart"
         class="bg-white p-4 rounded-full shadow-lg flex items-center justify-center border-2 border-[#D4AF37] transition-colors hover:bg-gray-50"
@@ -2004,13 +2186,99 @@
     </div>
 
     <script src="carrinho.js" defer></script>
-    <!-- Flatpickr JS -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
+      /* --- Script de Natal --- */
+      document.addEventListener("DOMContentLoaded", () => {
+        // --- CONFIGURAÇÕES ---
+        const MODO_TESTE_NATAL = true; // Mude para false em produção
+ 
+        // --- Datas ---
+        const hoje = new Date();
+        const mesAtual = hoje.getMonth(); // 0 = Janeiro, 11 = Dezembro
+        const diaAtual = hoje.getDate();
+        const ehPeriodoDeNatal =
+          (mesAtual === 11 && diaAtual >= 1 && diaAtual <= 25) || MODO_TESTE_NATAL;
+ 
+        const natalGiftButton = document.getElementById("natal-gift-main");
+        const popupOverlay = document.getElementById("natal-popup-overlay");
+        const closeButton = document.getElementById("natal-popup-close");
+        const natalIframe = document.getElementById("natal-iframe");
+        const natalHeaderIcon = document.getElementById("natal-header-icon-container");
+ 
+        // --- Lógica do Natal (Pop-up e Botão) ---
+        if (ehPeriodoDeNatal) {
+          if (natalHeaderIcon) {
+            natalHeaderIcon.classList.remove("hidden");
+          }
+ 
+          // Lógica do Pop-up para abrir ao carregar a página
+          if (popupOverlay && natalIframe) {
+            natalIframe.src = "newnatal.html?modal=true";
+            popupOverlay.style.display = "flex";
+            setTimeout(() => {
+              popupOverlay.classList.add("active");
+              document.body.style.overflow = "hidden";
+            }, 10);
+          }
+ 
+          const openPopupFromClick = () => {
+            popupOverlay.style.display = "flex";
+            popupOverlay.classList.add("active")
+            document.body.style.overflow = "hidden";
+          };
+ 
+          const closePopup = () => {
+            popupOverlay.classList.remove("active");
+            document.body.style.overflow = "";
+            setTimeout(() => {
+              popupOverlay.style.display = "none";
+            }, 300);
+          };
+ 
+          if (natalGiftButton) natalGiftButton.addEventListener("click", openPopupFromClick);
+          if (closeButton) closeButton.addEventListener("click", closePopup);
+          if (popupOverlay) {
+            popupOverlay.addEventListener("click", (event) => {
+              if (event.target === popupOverlay) closePopup();
+            });
+          }
+
+          // --- Lógica para a Ilha Dinâmica de Natal ---
+          const natalIsland = document.getElementById("natal-dynamic-island");
+          const natalDynamicLink = document.getElementById("natal-dynamic-link");
+
+          if (natalIsland && natalGiftButton && window.innerWidth <= 768) {
+            const parentContainer = document.getElementById('parent-container');
+            if(parentContainer) {
+              parentContainer.style.display = 'none';
+            }
+
+            window.addEventListener("scroll", () => {
+              if (window.scrollY > 100) {
+                natalIsland.classList.add("visible");
+              } else {
+                natalIsland.classList.remove("visible");
+              }
+            }, { passive: true });
+
+            if (natalDynamicLink) {
+              natalDynamicLink.addEventListener("click", (e) => {
+                e.preventDefault();
+                openPopupFromClick();
+              });
+            }
+          }
+        } else {
+          // Esconde o botão de presente se não for período de Natal
+          if (natalGiftButton) natalGiftButton.style.display = "none";
+        }
+      });
+    </script>
+    <script src="datepicker.js" defer></script>
+    <script>
       document.addEventListener("DOMContentLoaded", function () {
-        const saturdayNotice = document.getElementById(
-          "saturday-delivery-notice"
-        );
+        const saturdayNotice = document.getElementById("saturday-delivery-notice");
         flatpickr("#data_entrega", {
           locale: "pt",
           minDate: "today",
@@ -2021,13 +2289,11 @@
             },
           ],
           onChange: function (selectedDates, dateStr, instance) {
-            const isSaturday =
-              selectedDates.length > 0 && selectedDates[0].getDay() === 6;
+            const isSaturday = selectedDates.length > 0 && selectedDates[0].getDay() === 6;
             saturdayNotice.classList.toggle("hidden", !isSaturday);
           },
         });
       });
     </script>
-    <script src="datepicker.js" defer></script>
   </body>
 </html>

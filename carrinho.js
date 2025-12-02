@@ -3,6 +3,27 @@
     return;
   }
 
+  // --- Função para resetar o botão de compra ao mudar opções (UX) ---
+  function initSelectChangeReset() {
+    document
+      .querySelectorAll(".cake-size-select, .coco-select")
+      .forEach((select) => {
+        select.addEventListener("change", function () {
+          const card = this.closest('.relative, [class*="bg-[#FAF8F0]"]');
+          const button = card.querySelector(
+            "button[onclick^='addToCart'], button[onclick^='addStrogonoffToCart']"
+          );
+
+          // Reseta o botão para o estado original se já tiver sido clicado
+          if (button && button.textContent === "Adicionado") {
+            button.textContent = "Encomendar agora";
+            button.classList.remove("bg-green-500", "cursor-not-allowed");
+            button.classList.add("btn-gold-metallic");
+          }
+        });
+      });
+  }
+
   function initMobileMenu() {
     const menuButton = document.getElementById("mobile-menu-button");
     const mobileMenu = document.getElementById("mobile-menu");
@@ -255,9 +276,23 @@
     saveCartToStorage();
 
     updateCart();
+
+    // Feedback visual do botão
     buttonElement.textContent = "Adicionado";
     buttonElement.classList.add("bg-green-500", "cursor-not-allowed");
     buttonElement.classList.remove("btn-gold-metallic");
+
+    // Abrir o carrinho automaticamente se for o primeiro item (Melhoria UX)
+    const cartPanel = document.getElementById("cart-panel");
+    const cartOverlay = document.getElementById("cart-panel-overlay");
+    if (
+      cart.length === 1 &&
+      cartPanel &&
+      cartPanel.classList.contains("translate-x-full")
+    ) {
+      cartPanel.classList.remove("translate-x-full");
+      cartOverlay.classList.remove("hidden");
+    }
   }
 
   function removeFromCart(itemId) {
@@ -322,12 +357,17 @@
       if (cartTotalElement) cartTotalElement.textContent = formatCurrency(0);
     }
 
+    // Se o carrinho esvaziar, reseta todos os botões da tela
     if (cart.length === 0) {
-      document.querySelectorAll("[onclick^='addToCart']").forEach((button) => {
-        button.textContent = "Encomendar agora";
-        button.classList.remove("bg-green-500", "cursor-not-allowed");
-        button.classList.add("btn-gold-metallic");
-      });
+      document
+        .querySelectorAll(
+          "button[onclick^='addToCart'], button[onclick^='addStrogonoffToCart']"
+        )
+        .forEach((button) => {
+          button.textContent = "Encomendar agora";
+          button.classList.remove("bg-green-500", "cursor-not-allowed");
+          button.classList.add("btn-gold-metallic");
+        });
     }
   }
 
@@ -450,7 +490,174 @@
       if (btn) btn.addEventListener("click", openModal);
     });
 
-    // Funcionalidade de Auto-preenchimento com ViaCEP
+    const dataInput = document.getElementById("data_entrega");
+    const inicioInput = document.getElementById("horario_inicio");
+    const fimInput = document.getElementById("horario_fim");
+    const timeNotice = document.getElementById("time-validation-notice");
+    const timeNoticeMsg = document.getElementById("time-validation-msg");
+
+    // --- FUNÇÕES AUXILIARES DE DATA/HORA ---
+    const isToday = () => {
+      if (!dataInput.value) return false;
+      const [y, m, d] = dataInput.value.split("-");
+      const sel = new Date(y, m - 1, d);
+      const now = new Date();
+      return sel.setHours(0, 0, 0, 0) === now.setHours(0, 0, 0, 0);
+    };
+
+    const timeToMinutes = (timeStr) => {
+      if (!timeStr) return 0;
+      const [h, m] = timeStr.split(":").map(Number);
+      return h * 60 + m;
+    };
+    // ----------------------------------------
+
+    const updateTimeInputsState = () => {
+      // Dispara a validação do horário de início caso a data mude
+      if (inicioInput.value) {
+        inicioInput.dispatchEvent(new Event("change"));
+      }
+
+      if (isToday()) {
+        fimInput.setAttribute("readonly", true);
+        fimInput.classList.add("bg-gray-100", "cursor-not-allowed");
+      } else {
+        fimInput.removeAttribute("readonly");
+        fimInput.classList.remove("bg-gray-100", "cursor-not-allowed");
+      }
+    };
+
+    if (dataInput) {
+      dataInput.addEventListener("change", updateTimeInputsState);
+    }
+
+    if (inicioInput && fimInput) {
+      inicioInput.addEventListener("change", function () {
+        const timeValue = this.value;
+        // Limpa aviso anterior
+        if (timeNotice) {
+          timeNotice.classList.add("hidden");
+          if (timeNoticeMsg) timeNoticeMsg.textContent = "";
+        }
+
+        if (!timeValue) return;
+
+        // Limpeza básica e conversão
+        const [horaStr, minStr] = timeValue.split(":");
+        let hora = parseInt(horaStr);
+        let minuto = parseInt(minStr) || 0;
+
+        // Limites da Loja (em minutos)
+        const ABERTURA = 8 * 60; // 08:00
+        const FECHAMENTO = 18 * 60; // 18:00
+        const currentMinutes = hora * 60 + minuto;
+
+        let errorMsg = "";
+        let adjustedTime = null;
+
+        // 1. Validação de horário de funcionamento
+        if (currentMinutes < ABERTURA) {
+          errorMsg = "Nossas entregas começam apenas às 08:00.";
+          adjustedTime = "08:00";
+          hora = 8;
+          minuto = 0;
+        } else if (currentMinutes > FECHAMENTO) {
+          errorMsg = "Fechamos às 18:00.";
+          adjustedTime = "18:00";
+          hora = 18;
+          minuto = 0;
+        }
+
+        // 2. Validação de antecedência para hoje
+        if (!errorMsg && isToday()) {
+          const now = new Date();
+          const currentNowMinutes = now.getHours() * 60 + now.getMinutes();
+          const antecedenciaMinima = 120; // 2 horas em minutos
+
+          // Se escolheu um horário muito próximo (menos de 2h)
+          if (currentMinutes < currentNowMinutes + antecedenciaMinima) {
+            errorMsg = "Para hoje, precisamos de no mínimo 2h de antecedência.";
+            // Sugere horário para daqui 2h (arredondando a hora seguinte)
+            const novaHora = now.getHours() + 2;
+            hora = novaHora;
+            minuto = 0;
+            adjustedTime = `${String(novaHora).padStart(2, "0")}:00`;
+          }
+
+          // Regra específica: Se for hoje e a sugestão passar das 18h ou já for tarde
+          if (hora * 60 + minuto > FECHAMENTO) {
+            errorMsg =
+              "Infelizmente já encerramos os pedidos para entrega hoje.";
+            adjustedTime = "18:00";
+            hora = 18;
+          } else if (now.getHours() >= 16) {
+            // Se já são 16h, 16+2 = 18h (limite), então avisa
+            errorMsg =
+              "Pedidos para hoje encerram às 16:00 (para entregar até às 18:00).";
+            adjustedTime = "18:00"; // Trava no limite
+            hora = 18;
+          }
+        }
+
+        // Aplica ajustes se necessário
+        if (adjustedTime) {
+          this.value = adjustedTime;
+        } else {
+          // Formata bonitinho se estiver tudo certo
+          this.value =
+            String(hora).padStart(2, "0") +
+            ":" +
+            String(minuto).padStart(2, "0");
+        }
+
+        // Exibir erro se houver
+        if (errorMsg) {
+          if (timeNotice && timeNoticeMsg) {
+            timeNoticeMsg.textContent = errorMsg;
+            timeNotice.classList.remove("hidden");
+          }
+        }
+
+        // Auto-preencher horário final (+ 2 horas)
+        let horaFinal = hora + 2;
+        if (horaFinal > 18) horaFinal = 18; // Teto de 18h
+        fimInput.value = String(horaFinal).padStart(2, "0") + ":00";
+      });
+
+      // Validação do campo FIM (só permite se NÃO for hoje, pois hoje é auto-calc)
+      fimInput.addEventListener("change", function () {
+        if (isToday()) return; // Ignora se for hoje
+
+        let horaFim = parseInt(this.value.replace(/\D/g, ""));
+        let horaInicio = parseInt(inicioInput.value.replace(/\D/g, ""));
+
+        if (timeNotice) timeNotice.classList.add("hidden");
+
+        if (isNaN(horaFim)) return;
+
+        if (horaFim > 18) {
+          if (timeNotice && timeNoticeMsg) {
+            timeNoticeMsg.textContent = "Fechamos às 18:00.";
+            timeNotice.classList.remove("hidden");
+          }
+          this.value = "18:00";
+          horaFim = 18;
+        }
+
+        if (!isNaN(horaInicio) && horaFim <= horaInicio) {
+          if (timeNotice && timeNoticeMsg) {
+            timeNoticeMsg.textContent =
+              "O horário final deve ser após o horário de início.";
+            timeNotice.classList.remove("hidden");
+          }
+          this.value = ""; // Limpa para forçar correção
+          return;
+        }
+
+        this.value = horaFim.toString().padStart(2, "0") + ":00";
+      });
+    }
+
     const cepInput = document.getElementById("cep");
     const enderecoInput = document.getElementById("endereco");
     const bairroInput = document.getElementById("bairro");
@@ -458,8 +665,6 @@
     const numInput = document.getElementById("num");
     const cepNotice = document.getElementById("cep-notice");
     const cepSpinner = document.getElementById("cep-spinner");
-
-    // 1. REFERÊNCIA AO CAMPO DE VALOR DE ENTREGA ADICIONADA AQUI
     const valorEntregaInput = document.getElementById("valor_entrega");
 
     function setNotice(message, type) {
@@ -506,20 +711,26 @@
       numInput &&
       cepNotice &&
       cepSpinner &&
-      valorEntregaInput // 2. Adicionado na verificação de segurança
+      valorEntregaInput
     ) {
       cepInput.addEventListener("input", async () => {
-        const cidadesAtendidas = ["Maringá", "Sarandi", "Marialva"];
+        // Mapa de cidades e taxas (Normalizado para comparação)
+        // Chaves em minúsculo e sem acentos
+        const cidadesTaxas = {
+          marialva: "10",
+          maringa: "20",
+          sarandi: "30",
+        };
 
         const cep = cepInput.value.replace(/\D/g, ""); // Remove caracteres não numéricos
-        clearNotice(); // Clear any previous notices
+        clearNotice();
 
         if (cep.length < 8) {
-          // If CEP is incomplete, clear fields and return
+          // Limpa campos se CEP incompleto
           enderecoInput.value = "";
           bairroInput.value = "";
           cidadeInput.value = "";
-          valorEntregaInput.value = "Selecione uma Cidade"; // Reseta
+          valorEntregaInput.value = "Selecione uma Cidade";
           return;
         }
 
@@ -536,10 +747,16 @@
               enderecoInput.value = "";
               bairroInput.value = "";
               cidadeInput.value = "";
-              valorEntregaInput.value = "Selecione uma Cidade"; // Reseta
+              valorEntregaInput.value = "Selecione uma Cidade";
             } else {
-              // Verifica se a cidade do CEP está na lista de cidades atendidas
-              if (cidadesAtendidas.includes(data.localidade)) {
+              // Normalização da cidade retornada pela API (remove acentos e põe minúsculo)
+              const cidadeNormalizada = data.localidade
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
+              // Verifica se a cidade normalizada existe no nosso mapa
+              if (cidadesTaxas.hasOwnProperty(cidadeNormalizada)) {
                 enderecoInput.value = data.logradouro || "";
                 bairroInput.value = data.bairro || "";
                 cidadeInput.value = data.localidade || "";
@@ -557,7 +774,7 @@
                 // ----------------------------------------------
 
                 setNotice("Endereço preenchido e taxa calculada!", "success");
-                numInput.focus(); // Move o foco para o campo de número
+                numInput.focus();
               } else {
                 setNotice(
                   "Desculpe, no momento só entregamos em Maringá, Sarandi e Marialva.",
@@ -568,6 +785,7 @@
                 cidadeInput.value = "";
                 valorEntregaInput.value = "Selecione uma Cidade"; // Reseta
                 updateCheckoutTotal(); // Reseta o total se a cidade não for atendida
+
               }
             }
           } catch (error) {
@@ -578,6 +796,7 @@
             cidadeInput.value = "";
             valorEntregaInput.value = "Selecione uma Cidade"; // Reseta
             updateCheckoutTotal(); // Reseta o total em caso de erro
+
           } finally {
             cepSpinner.classList.add("hidden"); // Hide spinner
           }
@@ -594,6 +813,17 @@
     if (form) {
       form.addEventListener("submit", (e) => {
         e.preventDefault();
+
+        // Check final de validação de horário antes de enviar
+        if (timeNotice && !timeNotice.classList.contains("hidden")) {
+          // Se o aviso de erro de horário está visível, não deixa enviar
+          window.showCustomAlert(
+            "Por favor, corrija o horário de entrega antes de continuar.",
+            "Horário Inválido"
+          );
+          return;
+        }
+
         const formData = new FormData(form);
         const details = Object.fromEntries(formData.entries());
 
@@ -620,49 +850,38 @@
         message += `*Nome:* ${details.nome}\n`;
         message += `*Vela de brinde?:* ${details.vela}\n`;
         message += `*Data de entrega:* ${details.data_entrega
+
           .split("-")
           .reverse()
           .join("/")}\n`;
-        message += `*Horário para entrega:* entre ${details.horario_inicio}h e ${details.horario_fim}h\n`;
-        message += `*CEP:* ${details.cep}\n`;
-        message += `*Endereço:* ${details.endereco}, Nº ${details.num}\n`;
-        if (details.ap) message += `*Ap:* ${details.ap}\n`;
-        if (details.predio) message += `*Prédio:* ${details.predio}\n`;
-        message += `*Bairro:* ${details.bairro}\n`;
-        message += `*Cidade:* ${details.cidade}\n`;
-        if (details.valor_entrega) {
-          // O valor_entrega aqui será "10", "20" ou "30".
-          // Se quiser mostrar o R$ no Whats, podemos fazer um de-para simples:
-          let textoEntrega = "";
-          if (details.valor_entrega === "10")
-            textoEntrega = "Marialva (R$ 10,00)";
-          else if (details.valor_entrega === "20")
-            textoEntrega = "Maringá (R$ 25,00)";
-          else if (details.valor_entrega === "30")
-            textoEntrega = "Sarandi (R$ 25,00)";
-          else textoEntrega = "A combinar";
+        message += `Horário para entrega: entre ${details.horario_inicio}h e ${details.horario_fim}h\n`;
+        message += `CEP: ${details.cep}\n`;
+        message += `Endereço: ${details.endereco}, Nº ${details.num}\n`;
+        if (details.ap) message += `Ap: ${details.ap}\n`;
+        if (details.predio) message += `Prédio: ${details.predio}\n`;
+        message += `Bairro: ${details.bairro}\n`;
+        message += `Cidade: ${details.cidade}\n\n\n`;
 
-        }
+        // The closing brace for the 'submit' event listener was missing here.
 
         message += "\n\n*📌 Aviso Importante*\n";
         message +=
           "Como nossos bolos são artesanais, o peso final pode variar entre 100 g e 300 g para mais.\n";
         message += "O valor constatado no site corresponde ao peso base (1 kg).\n";
+
         message +=
           "Após a pesagem final, enviaremos pelo WhatsApp o ajuste de diferença, caso necessário.";
 
         const whatsappUrl = `https://wa.me/554499024212?text=${encodeURIComponent(
           message
         )}`;
-        window.open(whatsappUrl, "_blank");
+        window.open(whatsappUrl, "_blank"); // limpa carrinho
 
-        // limpa carrinho
         cart = [];
         saveCartToStorage();
-        // A função updateCart() já é chamada dentro de si mesma, mas vamos garantir que o painel seja atualizado.
         updateCart();
 
-        closeModal(); // Close the checkout modal
+        closeModal();
 
         const successModal = document.getElementById("success-modal");
         const closeSuccessModalButton = document.getElementById(
@@ -671,7 +890,7 @@
 
         if (successModal) {
           successModal.classList.remove("hidden");
-          successModal.classList.add("flex"); // Use flex to center
+          successModal.classList.add("flex");
 
           if (closeSuccessModalButton) {
             closeSuccessModalButton.addEventListener(
@@ -681,7 +900,7 @@
                 successModal.classList.remove("flex");
               },
               { once: true }
-            ); // Ensure event listener is added only once
+            );
           }
 
           successModal.addEventListener(
@@ -693,7 +912,7 @@
               }
             },
             { once: true }
-          ); // Ensure event listener is added only once
+          );
         }
       });
     }
@@ -708,30 +927,29 @@
     const modalContent = document.getElementById("novidade-modal-content");
     const cardToClone = document.getElementById("card-floresta-branca");
 
-    if (
-      !novidadeIsland ||
-      !novidadeModal ||
-      !closeModalFooterButton ||
-      !cardToClone
-    ) {
+    if (!novidadeIsland || !novidadeModal || !closeModalFooterButton) {
       return;
     }
 
     const openModal = () => {
-      // Limpa o conteúdo anterior e clona o card atualizado
+      // Verifica se o card para clonar existe antes de tentar
+      if (!cardToClone) {
+        console.warn("Card 'Floresta Branca' não encontrado para clonagem.");
+        return;
+      }
+
       modalContent.innerHTML = "";
       const clonedCard = cardToClone.cloneNode(true);
-      clonedCard.removeAttribute("id"); // Evita IDs duplicados
+      clonedCard.removeAttribute("id");
       modalContent.appendChild(clonedCard);
 
-      // Reatribui os eventos de clique para os botões dentro do modal clonado
       const newAddToCartButton = clonedCard.querySelector(
         "[onclick^='addToCart']"
       );
       if (newAddToCartButton) {
         newAddToCartButton.onclick = () => {
           addToCart("Floresta Branca", newAddToCartButton);
-          closeModal(); // Fecha o modal ao adicionar ao carrinho
+          closeModal();
         };
       }
 
@@ -768,11 +986,9 @@
     });
   }
 
-  // Expõe a função globalmente de forma imediata
   window.showCustomAlert = (message, title = "Aviso") => {
     const modal = document.getElementById("custom-alert-modal");
     if (!modal) {
-      // Fallback para o alerta padrão caso o modal não seja encontrado
       alert(`${title}: ${message}`);
       return;
     }
@@ -787,7 +1003,6 @@
     modal.classList.add("flex");
   };
 
-  // Função para fechar o modal de alerta, definida em um escopo acessível
   const closeCustomAlert = () => {
     const modal = document.getElementById("custom-alert-modal");
     if (modal) {
@@ -797,7 +1012,6 @@
   };
 
   document.addEventListener("DOMContentLoaded", () => {
-    // Apenas configura os eventos de fechamento do modal após o DOM carregar
     const customAlertModal = document.getElementById("custom-alert-modal");
     if (customAlertModal) {
       const closeBtn = document.getElementById("custom-alert-close");
@@ -819,6 +1033,7 @@
     initCartPanel();
     initCheckoutModal();
     initNovidadeModal();
+    initSelectChangeReset(); // Inicializa o reset dos botões
 
     if (document.getElementById("cart-items")) displayCartItemsOnCartPage();
 
@@ -846,6 +1061,18 @@
     });
     saveCartToStorage();
     updateCart();
+
+    // Abrir carrinho ao adicionar embalagem também
+    const cartPanel = document.getElementById("cart-panel");
+    const cartOverlay = document.getElementById("cart-panel-overlay");
+    if (
+      cart.length === 1 &&
+      cartPanel &&
+      cartPanel.classList.contains("translate-x-full")
+    ) {
+      cartPanel.classList.remove("translate-x-full");
+      cartOverlay.classList.remove("hidden");
+    }
   }
 
   window.addToCart = addToCart;
