@@ -442,12 +442,12 @@
     };
 
     // --- LÓGICA PARA ATUALIZAR TOTAIS NO CHECKOUT ---
-    const deliveryFees = {
-      10: 10.0, // Marialva
-      20: 25.0, // Maringá
-      30: 25.0, // Sarandi
+    const CIDADES_ATENDIDAS = {
+      marialva: { id: "10", taxa: 10.0 },
+      maringa: { id: "20", taxa: 25.0 },
+      sarandi: { id: "30", taxa: 25.0 },
     };
-
+    
     function updateCheckoutTotal() {
       const subtotalElement = document.getElementById("checkout-subtotal");
       const deliveryFeeElement = document.getElementById(
@@ -466,13 +466,15 @@
       }
 
       const itemsSubtotal = cart.reduce((sum, item) => sum + item.price, 0);
-      const selectedDeliveryValue = valorEntregaSelect.value;
-      const deliveryCost = deliveryFees[selectedDeliveryValue] || 0;
+      const selectedDeliveryId = valorEntregaSelect.value;
+      
+      const deliveryCity = Object.values(CIDADES_ATENDIDAS).find(c => c.id === selectedDeliveryId);
+      const deliveryCost = deliveryCity ? deliveryCity.taxa : 0;
 
       const finalTotal = itemsSubtotal + deliveryCost;
 
       subtotalElement.textContent = formatCurrency(itemsSubtotal);
-      deliveryFeeElement.textContent = formatCurrency(deliveryCost);
+      deliveryFeeElement.textContent = formatCurrency(deliveryCost); // Corrigido para usar a variável correta
       totalElement.textContent = formatCurrency(finalTotal);
     }
 
@@ -714,13 +716,6 @@
       valorEntregaInput
     ) {
       cepInput.addEventListener("input", async () => {
-        // Mapa de cidades e taxas (Normalizado para comparação)
-        // Chaves em minúsculo e sem acentos
-        const cidadesTaxas = {
-          marialva: "10",
-          maringa: "20",
-          sarandi: "30",
-        };
 
         const cep = cepInput.value.replace(/\D/g, ""); // Remove caracteres não numéricos
         clearNotice();
@@ -731,6 +726,7 @@
           bairroInput.value = "";
           cidadeInput.value = "";
           valorEntregaInput.value = "Selecione uma Cidade";
+          updateCheckoutTotal();
           return;
         }
 
@@ -748,6 +744,7 @@
               bairroInput.value = "";
               cidadeInput.value = "";
               valorEntregaInput.value = "Selecione uma Cidade";
+              updateCheckoutTotal();
             } else {
               // Normalização da cidade retornada pela API (remove acentos e põe minúsculo)
               const cidadeNormalizada = data.localidade
@@ -756,14 +753,14 @@
                 .replace(/[\u0300-\u036f]/g, "");
 
               // Verifica se a cidade normalizada existe no nosso mapa
-              if (cidadesTaxas.hasOwnProperty(cidadeNormalizada)) {
+              const cidadeAtendida = CIDADES_ATENDIDAS[cidadeNormalizada];
+              if (cidadeAtendida) {
                 enderecoInput.value = data.logradouro || "";
                 bairroInput.value = data.bairro || "";
                 cidadeInput.value = data.localidade || "";
 
                 // Define o valor com base no mapa
-                valorEntregaInput.value = cidadesTaxas[cidadeNormalizada];
-
+                valorEntregaInput.value = cidadeAtendida.id;
 
                 setNotice("Endereço preenchido e taxa calculada!", "success");
                 numInput.focus();
@@ -776,7 +773,6 @@
                 bairroInput.value = "";
                 cidadeInput.value = "";
                 valorEntregaInput.value = "Selecione uma Cidade";
-
               }
             }
           } catch (error) {
@@ -786,10 +782,10 @@
             bairroInput.value = "";
             cidadeInput.value = "";
             valorEntregaInput.value = "Selecione uma Cidade";
-
           } finally {
             cepSpinner.classList.add("hidden"); // Hide spinner
           }
+          updateCheckoutTotal(); // Garante que o total seja atualizado após a busca
         }
       });
     }
@@ -817,6 +813,7 @@
         const formData = new FormData(form);
         const details = Object.fromEntries(formData.entries());
 
+        const numeroWhatsApp = "554499024212";
         let message = "Olá, Angela! Gostaria de encomendar:\n\n";
         message += "--- ITENS DO PEDIDO ---\n\n";
         let itemsTotalPrice = 0;
@@ -826,7 +823,9 @@
           itemsTotalPrice += item.price;
         });
 
-        const deliveryFee = parseFloat(details.valor_entrega) || 0;
+        const deliveryCity = Object.values(CIDADES_ATENDIDAS).find(c => c.id === details.valor_entrega);
+        const deliveryFee = deliveryCity ? deliveryCity.taxa : 0;
+
         const grandTotal = itemsTotalPrice + deliveryFee;
 
         message += `\nSubtotal dos Itens: ${formatCurrency(
@@ -865,7 +864,7 @@
         message +=
           "Após a pesagem final, enviaremos pelo WhatsApp o ajuste de diferença, caso necessário.";
 
-        const whatsappUrl = `https://wa.me/554499024212?text=${encodeURIComponent(
+        const whatsappUrl = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(
           message
         )}`;
         window.open(whatsappUrl, "_blank"); // limpa carrinho
