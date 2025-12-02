@@ -1582,105 +1582,131 @@
 
     <div
       id="embalagens-modal"
-      class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden flex items-center justify-center"
+      class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden flex items-center justify-center p-4"
     >
-      <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full relative">
-        <button
-          class="close-button absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-        >
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
+      <div
+        class="bg-white rounded-lg shadow-lg max-w-md w-full relative flex flex-col max-h-[85vh]"
+      >
+        <!-- Cabeçalho do Modal -->
+        <div class="flex justify-between items-center p-4 border-b flex-shrink-0">
+          <h3 class="text-xl font-semibold">Sobre as Embalagens</h3>
+          <button
+            class="close-button text-gray-500 hover:text-gray-700"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            ></path>
-          </svg>
-        </button>
-        <h3 class="text-xl font-semibold mb-4">Sobre as Embalagens</h3>
-        <video id="video-embalagens" controls class="w-full h-auto rounded-md">
-          <source src="VideoEmbalagens/VideoAngela.mp4" type="video/mp4" />
-          Seu navegador não suporta o elemento de vídeo.
-        </video>
-        <p class="mt-4">Informações sobre as embalagens.</p>
-        <button
-          id="saber-mais-embalagens"
-          class="mt-4 w-full btn-gold-metallic py-2 px-4 rounded-lg text-sm text-center"
-        >
-          Saber Mais
-        </button>
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <!-- Conteúdo Rolável -->
+        <div class="p-6 overflow-y-auto">
+          <video id="video-embalagens" controls class="w-full h-auto rounded-md">
+            <source src="VideoEmbalagens/VideoAngela.mp4" type="video/mp4" />
+            Seu navegador não suporta o elemento de vídeo.
+          </video>
+          <p class="mt-4 text-gray-600">Informações sobre as embalagens.</p>
+          <button
+            id="saber-mais-embalagens"
+            class="mt-4 w-full btn-gold-metallic py-2 px-4 rounded-lg text-sm text-center"
+          >
+            Saber Mais
+          </button>
+        </div>
       </div>
     </div>
 
     <div
       id="saber-mais-modal"
-      class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden flex items-center justify-center"
+      class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden flex items-center justify-center p-4"
     >
-      <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full relative">
-        <button
-          id="close-saber-mais-modal"
-          class="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-        >
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
+      <div
+        class="bg-white rounded-lg shadow-lg max-w-md w-full relative flex flex-col max-h-[85vh]"
+      >
+        <!-- Cabeçalho do Modal -->
+        <div class="flex justify-between items-center p-4 border-b flex-shrink-0">
+          <h3 class="text-xl font-semibold">Detalhes Adicionais</h3>
+          <button
+            id="close-saber-mais-modal"
+            class="text-gray-500 hover:text-gray-700"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            ></path>
-          </svg>
-        </button>
-        <h3 class="text-xl font-semibold mb-4">Detalhes Adicionais</h3>
-        <p class="font-semibold mb-2">TODAS OPÇÕES DE EMBALAGENS</p>
-        <p class="font-semibold mb-1">Embalagens de 500 gr</p>
-        <ul class="list-disc list-inside ml-4 mb-2">
-          <li>Oval 500 gr: sem custo</li>
-          <li>Taça 500 gr: R$ 15,00 + o quilo do bolo</li>
-          <li>Box 500 gr: R$ 15,00 + quilo do bolo</li>
-        </ul>
-        <p class="font-semibold mb-1">Embalagens de 1 k</p>
-        <ul class="list-disc list-inside ml-4 mb-2">
-          <li>Oval: sem custo</li>
-          <li>Taça 1 k: R$ 20,00 + o quilo do bolo</li>
-          <li>Box 1 k: R$ 20,00 + quilo do bolo</li>
-          <li>Caixa 1 k: R$ 36,00 + quilo do bolo</li>
-        </ul>
-        <p class="font-semibold mb-1">Embalagens de 1,5</p>
-        <ul class="list-disc list-inside ml-4 mb-2">
-          <li>Oval: sem custo</li>
-          <li>Taça 1,5: R$ 25,00</li>
-          <li>Box 1,5: R$ 25,00</li>
-        </ul>
-        <p class="font-semibold mb-1">Embalagens de 2 k</p>
-        <ul class="list-disc list-inside ml-4 mb-2">
-          <li>Taça 2 k: R$ 25,00 + o quilo</li>
-          <li>Caixa 2 k: R$ 44,00 + o quilo do bolo</li>
-        </ul>
-        <p class="font-semibold mb-1">Embalagens de 3 k</p>
-        <ul class="list-disc list-inside ml-4 mb-2">
-          <li>Taça 3 k: R$ 40,00 + quilo do bolo</li>
-          <li>Caixa 3 k: R$ 62,00 + quilo do bolo</li>
-        </ul>
-        <p class="font-semibold mb-1">Embalagens de 4 k</p>
-        <ul class="list-disc list-inside ml-4 mb-2">
-          <li>Caixa 4 k: R$ 72,00 + quilo do bolo</li>
-        </ul>
-        <p class="font-semibold mb-1">Embalagens de 5 k</p>
-        <ul class="list-disc list-inside ml-4 mb-2">
-          <li>Caixa 5 k: R$ 87,00 + quilo do bolo</li>
-        </ul>
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <!-- Conteúdo Rolável -->
+        <div class="p-6 space-y-4 text-sm text-gray-600 overflow-y-auto">
+          <p class="font-semibold mb-2 text-base">TODAS OPÇÕES DE EMBALAGENS</p>
+          <p class="font-semibold mb-1">Embalagens de 500 gr</p>
+          <ul class="list-disc list-inside ml-4 mb-2">
+            <li>Oval 500 gr: sem custo</li>
+            <li>Taça 500 gr: R$ 15,00 + o quilo do bolo</li>
+            <li>Box 500 gr: R$ 15,00 + quilo do bolo</li>
+          </ul>
+          <p class="font-semibold mb-1">Embalagens de 1 k</p>
+          <ul class="list-disc list-inside ml-4 mb-2">
+            <li>Oval: sem custo</li>
+            <li>Taça 1 k: R$ 20,00 + o quilo do bolo</li>
+            <li>Box 1 k: R$ 20,00 + quilo do bolo</li>
+            <li>Caixa 1 k: R$ 36,00 + quilo do bolo</li>
+          </ul>
+          <p class="font-semibold mb-1">Embalagens de 1,5</p>
+          <ul class="list-disc list-inside ml-4 mb-2">
+            <li>Oval: sem custo</li>
+            <li>Taça 1,5: R$ 25,00</li>
+            <li>Box 1,5: R$ 25,00</li>
+          </ul>
+          <p class="font-semibold mb-1">Embalagens de 2 k</p>
+          <ul class="list-disc list-inside ml-4 mb-2">
+            <li>Taça 2 k: R$ 25,00 + o quilo</li>
+            <li>Caixa 2 k: R$ 44,00 + o quilo do bolo</li>
+          </ul>
+          <p class="font-semibold mb-1">Embalagens de 3 k</p>
+          <ul class="list-disc list-inside ml-4 mb-2">
+            <li>Taça 3 k: R$ 40,00 + quilo do bolo</li>
+            <li>Caixa 3 k: R$ 62,00 + quilo do bolo</li>
+          </ul>
+          <p class="font-semibold mb-1">Embalagens de 4 k</p>
+          <ul class="list-disc list-inside ml-4 mb-2">
+            <li>Caixa 4 k: R$ 72,00 + quilo do bolo</li>
+          </ul>
+          <p class="font-semibold mb-1">Embalagens de 5 k</p>
+          <ul class="list-disc list-inside ml-4 mb-2">
+            <li>Caixa 5 k: R$ 87,00 + quilo do bolo</li>
+          </ul>
+          <div class="mt-4 pt-4 border-t border-gray-200">
+            <h4 class="text-lg font-semibold mb-2">Rendimento Aproximado</h4>
+            <ul class="list-disc list-inside ml-4 space-y-1 text-gray-700">
+              <li><strong>1KG:</strong> serve 8 (oito) pessoas</li>
+              <li><strong>2KG:</strong> serve 18 (dezoito) pessoas</li>
+              <li><strong>3KG:</strong> serve 38 (trinta e oito) pessoas</li>
+              <li><strong>4KG:</strong> serve 38 (trinta e oito) pessoas</li>
+              <li><strong>5KG:</strong> serve 48 (quarenta e oito) pessoas</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -2050,6 +2076,26 @@
                 <option>Não, obrigado</option>
                 <option>Sim, por favor</option>
               </select>
+            </div>
+          </div>
+
+          <!-- Seção de Total do Pedido -->
+          <div
+            class="md:col-span-2 mt-4 pt-4 border-t-2 border-dashed border-gray-200 space-y-2"
+          >
+            <div class="flex justify-between items-center text-gray-700">
+              <span>Subtotal dos Itens:</span>
+              <span id="checkout-subtotal" class="font-medium">R$ 0,00</span>
+            </div>
+            <div class="flex justify-between items-center text-gray-700">
+              <span>Taxa de Entrega:</span>
+              <span id="checkout-delivery-fee" class="font-medium">R$ 0,00</span>
+            </div>
+            <div
+              class="flex justify-between items-center text-lg font-bold text-gray-900"
+            >
+              <span>Total do Pedido:</span>
+              <span id="checkout-total">R$ 0,00</span>
             </div>
           </div>
 
