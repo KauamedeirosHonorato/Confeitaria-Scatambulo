@@ -115,24 +115,29 @@
 
         /* --- AJUSTES MOBILE (FULLSCREEN) --- */
         @media (max-width: 640px) {
-            .modal-wrapper { padding: 1rem !important; }
+            .modal-wrapper { padding: 0 !important; }
             
             /* Modal Principal ocupa 100% no mobile */
             #christmas-modal .modal-panel {
                 width: 100% !important;
-                height: 90vh !important; /* Altura ajustada para parecer um card */
+                height: 100% !important; /* Ocupa toda a altura do iframe */
                 max-height: none !important;
-                border-radius: 1.5rem !important;
+                border-radius: 0 !important;
                 margin: 0 !important;
             }
             
-            /* Sub-modais flutuantes no mobile */
+            /* Sub-modais como Bottom Sheets no mobile */
+            #modal-pagamento, #modal-entrega, #modal-horarios {
+                align-items: flex-end !important;
+            }
+
             #modal-pagamento .modal-panel, 
             #modal-entrega .modal-panel, 
             #modal-horarios .modal-panel {
-                width: 92% !important;
-                max-height: 90vh !important; /* Mais altura disponível */
-                border-radius: 1rem !important;
+                width: 100% !important;
+                max-height: 85vh !important;
+                border-radius: 1.5rem 1.5rem 0 0 !important;
+                margin: 0 !important;
             }
         }
 
@@ -242,15 +247,15 @@
         </footer>
     </main>
 
-    <div id="christmas-modal" class="modal-wrapper fixed inset-0 z-[100] flex items-center justify-center p-0 sm:p-4">
+    <div id="christmas-modal" class="modal-wrapper fixed inset-0 z-[100] flex items-center justify-center p-0">
         <div class="modal-backdrop fixed inset-0 bg-black/80 backdrop-blur-md cursor-pointer"></div>
         
-        <div class="modal-panel relative w-full h-[100dvh] sm:h-[92vh] max-w-4xl bg-white text-gray-800 rounded-none sm:rounded-3xl shadow-2xl flex flex-col md:flex-row overflow-hidden">
+        <div class="modal-panel relative w-full h-full bg-white text-gray-800 rounded-none shadow-none flex flex-col overflow-hidden">
             
-            <div class="w-full md:w-7/12 h-full bg-paper-texture relative overflow-y-auto custom-scrollbar pb-[calc(2rem+env(safe-area-inset-bottom))] mx-auto">
+            <div class="w-full h-full bg-paper-texture relative overflow-y-auto custom-scrollbar pb-[calc(2rem+env(safe-area-inset-bottom))] mx-auto">
                 
                 <div class="p-6 sm:p-8 pb-6 flex flex-col items-center justify-center text-center relative z-10">
-                    <button onclick="window.closeModal()" class="absolute top-2 right-2 sm:top-0 sm:right-4 text-gray-400 hover:text-gray-600 transition-colors p-3 rounded-full hover:bg-gray-100 active:bg-gray-200 z-20">
+                    <button onclick="window.closeModal()" class="absolute top-4 right-4 sm:top-0 sm:right-4 text-gray-400 hover:text-gray-600 transition-colors p-3 rounded-full hover:bg-gray-100 active:bg-gray-200 z-20">
                         <svg class="w-8 h-8 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                     <h2 class="font-serif text-3xl font-bold text-scatambulo-red leading-tight mt-4 sm:mt-0">Natal & Ano Novo</h2>
