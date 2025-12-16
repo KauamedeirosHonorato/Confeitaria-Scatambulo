@@ -246,19 +246,6 @@
       </main>
     </div>
 
-    <!-- Modal de Natal -->
-    <div id="christmas-modal" class="modal-wrapper fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div class="modal-backdrop fixed inset-0 bg-black/70 backdrop-blur-sm"></div>
-      <div class="modal-panel relative w-full h-[90vh] sm:max-w-5xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all flex flex-col">
-        <button id="close-christmas-modal" class="absolute top-4 right-4 z-20 bg-white/80 backdrop-blur-md rounded-full p-2 text-gray-600 hover:text-red-600 transition-colors shadow-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-        <iframe src="newnatal.html" class="w-full h-full border-0"></iframe>
-      </div>
-    </div>
-
     <script>
       /* --- Script de Configuração e Lógica --- */
       document.addEventListener("DOMContentLoaded", () => {
@@ -269,14 +256,6 @@
         const hoje = new Date();
         const mesAtual = hoje.getMonth(); // 0 = Janeiro, 11 = Dezembro
         const ehDezembro = mesAtual === 11 || MODO_TESTE_NATAL;
-
-        // Listener para mensagens do iframe (Controlar botão de fechar)
-        window.addEventListener('message', (event) => {
-            if (event.data.action === 'toggleCloseButton') {
-                const closeBtn = document.getElementById("close-christmas-modal");
-                if (closeBtn) closeBtn.style.display = event.data.visible ? 'block' : 'none';
-            }
-        });
 
         // --- Ajuste de Viewport para Mobile (Safari/Chrome) ---
         function setViewportHeight() {
@@ -388,24 +367,6 @@
                 });
             });
           }
-        }
-
-        // --- Lógica do Modal de Natal ---
-        const christmasModal = document.getElementById("christmas-modal");
-        if (ehDezembro && christmasModal) {
-            const closeBtn = document.getElementById("close-christmas-modal");
-            
-            // Abre o modal automaticamente após 2 segundos
-            setTimeout(() => {
-                christmasModal.classList.add("show");
-            }, 2000);
-
-            const fecharModal = () => christmasModal.classList.remove("show");
-
-            if (closeBtn) closeBtn.addEventListener("click", fecharModal);
-            christmasModal.addEventListener("click", (e) => {
-                if (e.target === christmasModal || e.target.classList.contains("modal-backdrop")) fecharModal();
-            });
         }
       });
     </script>
