@@ -2112,17 +2112,6 @@
       </div>
     </div>
 
-    <!-- Botão Voltar ao Topo -->
-    <button
-      id="back-to-top"
-      class="fixed bottom-28 right-4 md:right-8 z-20 bg-white text-[#D4AF37] border-2 border-[#D4AF37] p-3 rounded-full shadow-lg transition-all duration-300 opacity-0 invisible hover:bg-gray-50 focus:outline-none transform translate-y-4"
-      aria-label="Voltar ao topo"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-      </svg>
-    </button>
-
     <div
       class="fixed bottom-8 z-30 flex items-center justify-center gap-4 left-1/2 -translate-x-1/2 md:left-auto md:right-8 md:translate-x-0"
     >
@@ -2192,22 +2181,6 @@
         const popupOverlay = document.getElementById("natal-popup-overlay");
         const closeButton = document.getElementById("natal-popup-close");
         const natalHeaderIcon = document.getElementById("natal-header-icon-container");
-
-        // --- Botão Voltar ao Topo ---
-        const backToTopBtn = document.getElementById("back-to-top");
-        if (backToTopBtn) {
-          window.addEventListener("scroll", () => {
-            if (window.scrollY > 300) {
-              backToTopBtn.classList.remove("opacity-0", "invisible", "translate-y-4");
-              backToTopBtn.classList.add("opacity-100", "visible", "translate-y-0");
-            } else {
-              backToTopBtn.classList.add("opacity-0", "invisible", "translate-y-4");
-              backToTopBtn.classList.remove("opacity-100", "visible", "translate-y-0");
-            }
-          }, { passive: true });
-
-          backToTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
-        }
 
         // Listener para mensagens do iframe (Controlar botão de fechar)
         window.addEventListener('message', (event) => {
