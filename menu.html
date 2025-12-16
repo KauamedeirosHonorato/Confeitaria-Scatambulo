@@ -43,22 +43,26 @@
         background-color: rgba(0, 0, 0, 0.85);
         backdrop-filter: blur(5px); /* Efeito de desfoque no fundo */
         z-index: 9999; /* Garante que fique acima de tudo */
-        display: none;
+        display: flex; /* Always display flex, but control visibility/opacity */
         align-items: center;
         justify-content: center;
         padding: 1rem;
+        visibility: hidden; /* Initial state for transition */
+        opacity: 0; /* Initial state for transition */
+        transition: opacity 0.3s ease, visibility 0.3s ease; /* Transition properties */
       }
 
       #natal-popup-overlay.active {
-        opacity: 1;
+        visibility: visible; /* Show when active */
+        opacity: 1; /* Fade in when active */
       }
 
       #natal-popup-content {
         position: relative;
         width: 100%;
-        max-width: 550px;
-        height: 90vh;
-        max-height: 650px;
+        max-width: 1024px; /* Aumentado para caber o site de natal */
+        height: 100%;
+        max-height: 90vh;
         background: transparent; /* Fundo transparente para o iframe brilhar */
         border-radius: 20px;
         overflow: hidden;
@@ -75,44 +79,14 @@
         opacity: 1;
       }
 
-      #natal-popup-close {
-        position: absolute;
-        top: -15px;
-        right: -15px;
-        width: 38px;
-        height: 38px;
-        background: #c0392b;
-        color: white;
-        border: 2px solid white;
-        border-radius: 50%;
-        font-size: 1.6rem;
-        line-height: 36px;
-        text-align: center;
-        cursor: pointer;
-        z-index: 10;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-        transition: transform 0.2s ease-out, background-color 0.2s;
-      }
-
       @media (max-width: 600px) {
-        #natal-popup-close {
-          top: 0px;
-          right: 0px;
-          width: 32px;
-          height: 32px;
-          font-size: 1.3rem;
-          line-height: 30px;
-        }
         #natal-popup-content {
-          height: 80vh;
-          width: 95%;
+          height: 90vh;
+          max-height: 90vh;
+          width: 100%;
           max-width: none;
+          border-radius: 1rem;
         }
-      }
-
-      #natal-popup-close:hover {
-        transform: scale(1.1);
-        background: #e74c3c;
       }
 
       /* --- Ilha Dinâmica de Natal (Mobile) --- */
@@ -329,7 +303,7 @@
                   onclick="openEmbalagensModal()"
                   class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
-                  Ver embalagens
+                  Ver Informações
                 </button>
                 <a
                   href="#"
@@ -409,7 +383,7 @@
                   onclick="openEmbalagensModal()"
                   class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
-                  Ver embalagens
+                  Ver Informações
                 </button>
                 <a
                   href="#"
@@ -494,7 +468,7 @@
                   onclick="openEmbalagensModal()"
                   class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
-                  Ver embalagens
+                  Ver Informações
                 </button>
                 <a
                   href="#"
@@ -572,7 +546,7 @@
                   onclick="openEmbalagensModal()"
                   class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
-                  Ver embalagens
+                  Ver Informações
                 </button>
                 <a
                   href="#"
@@ -650,7 +624,7 @@
                   onclick="openEmbalagensModal()"
                   class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
-                  Ver embalagens
+                  Ver Informações
                 </button>
                 <a
                   href="#"
@@ -728,7 +702,7 @@
                   onclick="openEmbalagensModal()"
                   class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
-                  Ver embalagens
+                  Ver Informações
                 </button>
                 <a
                   href="#"
@@ -806,7 +780,7 @@
                   onclick="openEmbalagensModal()"
                   class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
-                  Ver embalagens
+                  Ver Informações
                 </button>
                 <a
                   href="#"
@@ -884,7 +858,7 @@
                   onclick="openEmbalagensModal()"
                   class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
-                  Ver embalagens
+                  Ver Informações
                 </button>
                 <a
                   href="#"
@@ -962,7 +936,7 @@
                   onclick="openEmbalagensModal()"
                   class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
-                  Ver embalagens
+                  Ver Informações
                 </button>
                 <a
                   href="#"
@@ -1040,7 +1014,7 @@
                   onclick="openEmbalagensModal()"
                   class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
-                  Ver embalagens
+                  Ver Informações
                 </button>
                 <a
                   href="#"
@@ -1117,7 +1091,7 @@
                   onclick="openEmbalagensModal()"
                   class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
-                  Ver embalagens
+                  Ver Informações
                 </button>
                 <a
                   href="#"
@@ -1194,7 +1168,7 @@
                   onclick="openEmbalagensModal()"
                   class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
-                  Ver embalagens
+                  Ver Informações
                 </button>
                 <a
                   href="#"
@@ -1274,7 +1248,7 @@
                   onclick="openEmbalagensModal()"
                   class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
-                  Ver embalagens
+                  Ver Informações
                 </button>
                 <a
                   href="#"
@@ -1354,7 +1328,7 @@
                   onclick="openEmbalagensModal()"
                   class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
-                  Ver embalagens
+                  Ver Informações
                 </button>
                 <a
                   href="#"
@@ -1388,7 +1362,17 @@
             </h3>
             <ul class="space-y-2 text-gray-600">
               <li>
-                <span class="font-semibold">Pagamento:</span> PIX - CARTÃO
+                <span class="font-semibold">Pagamento:</span> PIX - CARTÃO - 
+                <div class="relative inline-block group cursor-help">
+                  <span class="font-bold text-green-600 border-b border-dashed border-green-600">LINK DE PAGAMENTO</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block ml-0.5 text-green-600 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-3 bg-gray-800 text-white text-xs rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 text-center pointer-events-none">
+                    Enviamos um link seguro para você pagar com cartão de crédito ou débito à distância.
+                    <div class="absolute top-full left-1/2 transform -translate-x-1/2 border-8 border-transparent border-t-gray-800"></div>
+                  </div>
+                </div>
               </li>
               <li>
                 <span class="font-semibold">Taxa de Entrega:</span> Consultar o
@@ -1463,15 +1447,14 @@
       </button>
     </div>
 
-    <div id="natal-popup-overlay" aria-modal="true" role="dialog">
-      <div id="natal-popup-content">
-       
-        <iframe
-          id="natal-iframe"
-          src=""
-          style="width: 100%; height: 100%; border: 0; border-radius: 15px"
-          loading="lazy"
-        ></iframe>
+    <div id="natal-popup-overlay" aria-modal="true" role="dialog" class="fixed inset-0 bg-black bg-opacity-75 z-50 hidden items-center justify-center p-4">
+      <div id="natal-popup-content" class="bg-white rounded-2xl shadow-xl w-full h-[90vh] sm:max-w-5xl relative overflow-hidden flex flex-col items-center text-center">
+        <button id="natal-popup-close" class="absolute top-4 right-4 bg-gray-100 rounded-full p-1 text-gray-500 hover:text-gray-800 hover:bg-gray-200 transition-colors z-10" aria-label="Fechar modal">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+        <iframe src="newnatal.html" class="w-full h-full border-0"></iframe>
       </div>
     </div>
 
@@ -1915,16 +1898,16 @@
               id="sunday-delivery-notice"
               class="hidden mt-2 text-sm text-blue-800 bg-blue-100 border border-blue-300 p-3 rounded-lg"
             >
-              <strong class="font-bold">Aviso:</strong> Encomendas para domingo
-              só podem ser entregues até às 12:00. Pedidos feitos para o mesmo
-              dia após esse horário não serão atendidos.
+              <strong class="font-bold">Aviso:</strong> Pedidos feitos no sabado sao entregues no domingo apenas
             </div>
             <div
-              id="saturday-delivery-notice"
-              class="hidden mt-2 text-sm text-blue-800 bg-blue-100 border border-blue-300 p-3 rounded-lg"
+              id="holiday-delivery-notice"
+              class="hidden mt-3 p-4 bg-red-100 border-l-4 border-red-600 text-red-800 rounded shadow-md animate-pulse"
             >
-              <strong class="font-bold">Aviso:</strong> Pedidos Encomendados
-              sábado, serão entregues domingo até 12:00.
+              <div class="flex items-center gap-2 font-bold uppercase text-sm">
+                🚫 Não haverá atendimento nos dias 25/12/2025 e 01/01/2026
+              </div>
+              <p class="text-xs font-normal mt-1 text-red-700">Nossa equipe estará de folga. Por favor, selecione outra data para sua encomenda.</p>
             </div>
           </div>
           <div class="md:col-span-2">
@@ -2203,8 +2186,15 @@
         const natalGiftButton = document.getElementById("natal-gift-main");
         const popupOverlay = document.getElementById("natal-popup-overlay");
         const closeButton = document.getElementById("natal-popup-close");
-        const natalIframe = document.getElementById("natal-iframe");
         const natalHeaderIcon = document.getElementById("natal-header-icon-container");
+
+        // Listener para mensagens do iframe (Controlar botão de fechar)
+        window.addEventListener('message', (event) => {
+            if (event.data.action === 'toggleCloseButton') {
+                const closeBtn = document.getElementById("natal-popup-close");
+                if (closeBtn) closeBtn.style.display = event.data.visible ? 'block' : 'none';
+            }
+        });
  
         // --- Lógica do Natal (Pop-up e Botão) ---
         if (ehPeriodoDeNatal) {
@@ -2212,31 +2202,24 @@
             natalHeaderIcon.classList.remove("hidden");
           }
  
-          // Lógica do Pop-up para abrir ao carregar a página
-          if (popupOverlay && natalIframe) {
-            natalIframe.src = "newnatal.html?modal=true";
-            popupOverlay.style.display = "flex";
-            setTimeout(() => {
+          const openPopup = () => {
+            if (popupOverlay) {
               popupOverlay.classList.add("active");
               document.body.style.overflow = "hidden";
-            }, 10);
-          }
- 
-          const openPopupFromClick = () => {
-            popupOverlay.style.display = "flex";
-            popupOverlay.classList.add("active")
-            document.body.style.overflow = "hidden";
+            }
           };
  
           const closePopup = () => {
-            popupOverlay.classList.remove("active");
-            document.body.style.overflow = "";
-            setTimeout(() => {
-              popupOverlay.style.display = "none";
-            }, 300);
+            if (popupOverlay) {
+              popupOverlay.classList.remove("active");
+              document.body.style.overflow = "";
+            }
           };
  
-          if (natalGiftButton) natalGiftButton.addEventListener("click", openPopupFromClick);
+          // Open popup on page load
+          openPopup();
+ 
+          if (natalGiftButton) natalGiftButton.addEventListener("click", openPopup);
           if (closeButton) closeButton.addEventListener("click", closePopup);
           if (popupOverlay) {
             popupOverlay.addEventListener("click", (event) => {
@@ -2276,24 +2259,5 @@
       });
     </script>
     <script src="datepicker.js" defer></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const saturdayNotice = document.getElementById("saturday-delivery-notice");
-        flatpickr("#data_entrega", {
-          locale: "pt",
-          minDate: "today",
-          disable: [
-            function (date) {
-              // Disable Sundays
-              return date.getDay() === 0;
-            },
-          ],
-          onChange: function (selectedDates, dateStr, instance) {
-            const isSaturday = selectedDates.length > 0 && selectedDates[0].getDay() === 6;
-            saturdayNotice.classList.toggle("hidden", !isSaturday);
-          },
-        });
-      });
-    </script>
   </body>
 </html>

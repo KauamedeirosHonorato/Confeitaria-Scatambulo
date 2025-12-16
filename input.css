@@ -1,3 +1,131 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Configuração Base */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    /* Permite scroll na página principal, o JS vai travar quando abrir modal */
+    overflow-x: hidden;
+    overflow-y: auto; 
+    background-color: #450a0a;
+}
+
+.font-serif { font-family: 'Playfair Display', serif; }
+
+/* Neve */
+.snowflake {
+    position: fixed;
+    top: -20px;
+    color: rgba(255, 255, 255, 0.9);
+    pointer-events: none;
+    z-index: 40;
+    will-change: transform, opacity;
+    animation: snow-fall linear infinite;
+    text-shadow: 0 0 3px rgba(255,255,255,0.4);
+}
+
+@keyframes snow-fall {
+    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+    20% { opacity: 0.9; }
+    100% { transform: translateY(110vh) translateX(20px) rotate(360deg); opacity: 0.2; }
+}
+
+/* --- ESTILOS DOS MODAIS --- */
+.modal-wrapper {
+    transition: visibility 0s linear 0.3s, opacity 0.3s ease; 
+    opacity: 0; 
+    pointer-events: none; 
+    visibility: hidden;
+}
+.modal-wrapper.show { 
+    transition-delay: 0s; 
+    visibility: visible; 
+    opacity: 1; 
+    pointer-events: auto; 
+}
+
+.modal-backdrop { transition: opacity 300ms ease-in-out; opacity: 0; }
+.modal-wrapper.show .modal-backdrop { opacity: 1; }
+
+.modal-panel { 
+    transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 300ms ease-in-out; 
+    opacity: 0; 
+    transform: scale(0.95) translateY(20px); 
+}
+.modal-wrapper.show .modal-panel { 
+    opacity: 1; 
+    transform: scale(1) translateY(0); 
+}
+
+/* --- AJUSTES MOBILE (FULLSCREEN) --- */
+@media (max-width: 640px) {
+    .modal-wrapper { padding: 1rem !important; }
+    
+    /* Modal Principal ocupa 100% no mobile */
+    #christmas-modal .modal-panel {
+        width: 100% !important;
+        height: 90vh !important; /* Altura ajustada */
+        max-height: none !important;
+        border-radius: 1.5rem !important;
+        margin: 0 !important;
+    }
+    
+    /* Sub-modais flutuantes no mobile */
+    #modal-pagamento .modal-panel, 
+    #modal-entrega .modal-panel, 
+    #modal-horarios .modal-panel {
+        width: 92% !important;
+        max-height: 90vh !important; /* Mais altura disponível */
+        border-radius: 1rem !important;
+    }
+}
+
+/* Botões de Navegação Interna */
+.nav-button {
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    border-color: rgba(254, 226, 226, 0.5);
+}
+.nav-button:active {
+    background-color: #fef2f2;
+    transform: scale(0.98);
+}
+
+/* Scrollbar */
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(180, 83, 9, 0.3); border-radius: 20px; }
+
+/* Botão Premium */
+.btn-premium {
+    background-size: 200% auto;
+    transition: all 0.5s;
+}
+.btn-premium:hover { background-position: right center; letter-spacing: 0.05em; }
+.btn-premium:active { transform: scale(0.98); }
+
+/* Glass Card */
+.glass-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Ajustes Telas Pequenas */
+@media (max-height: 680px) {
+    .logo-wrapper { width: 8rem !important; height: 8rem !important; }
+    h1 { font-size: 2.2rem !important; margin-bottom: 0.2rem !important; }
+    p.desc-text { margin-bottom: 1rem !important; font-size: 0.9rem !important; }
+    .countdown-wrapper { margin-bottom: 1.5rem !important; }
+    footer { padding-bottom: 0.5rem !important; }
+}

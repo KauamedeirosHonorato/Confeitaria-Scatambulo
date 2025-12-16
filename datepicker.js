@@ -83,6 +83,9 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         }
       }
+
+      // Dispara o evento 'change' para garantir que o carrinho.js valide o horário e exiba a mensagem "Fechamos às 12:00" se necessário
+      instance.element.dispatchEvent(new Event('change', { bubbles: true }));
     },
   };
 
@@ -142,10 +145,8 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     },
     disable: [
-      function (date) {
-        // Retorne true para desabilitar dias específicos.
-        return false;
-      },
+      "2025-12-25",
+      "2026-01-01"
     ],
     onChange: function (selectedDates, dateStr, instance) {
       const selectedDate = selectedDates[0];
@@ -195,20 +196,17 @@ document.addEventListener("DOMContentLoaded", function () {
             "Domingo entregamos das <strong>08:00 às 12:00</strong>.";
         }
 
-        // Se já tiver um horário preenchido maior que 12:00, corrige automaticamente
-        const currentInicioStr =
-          document.getElementById("horario_inicio").value;
-        if (currentInicioStr) {
-          const [h, m] = currentInicioStr.split(":").map(Number);
-          if (h > 12 || (h === 12 && m > 0)) {
-            timePickerInicio.setDate("12:00", true);
-          }
-        }
+        // Define horário padrão para Domingo: 08:00 às 12:00
+        timePickerInicio.setDate("08:00", true);
+        timePickerFim.setDate("12:00", true);
       } else if (dayOfWeek === 6) {
         // Sábado - Exibe o aviso de sábado
         if (saturdayDeliveryNotice)
           saturdayDeliveryNotice.classList.remove("hidden");
       }
+
+      // DISPARA O EVENTO 'CHANGE' MANUALMENTE PARA O CARRINHO.JS DETECTAR A MUDANÇA
+      instance.element.dispatchEvent(new Event('change', { bubbles: true }));
     },
   });
 });

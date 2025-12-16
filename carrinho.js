@@ -225,8 +225,9 @@
   };
 
   function parseSizeAndPrice(optionText) {
-    const weightMatch = optionText.match(/(\d+,\d+|\d+)\s*(k?g)/i);
-    const priceMatch = optionText.match(/\+\s*R\$\s*(\d+,\d+)/);
+    // Regex aprimorado para aceitar ponto ou vírgula nos decimais (ex: 1.5kg ou 1,5kg)
+    const weightMatch = optionText.match(/(\d+[.,]\d+|\d+)\s*(k?g)/i);
+    const priceMatch = optionText.match(/\+\s*R\$\s*(\d+[.,]\d+)/);
 
     let weightInKg = 0;
     if (weightMatch) {
@@ -266,11 +267,25 @@
     const size = selectedOption.text;
 
     const uniqueId = `${cakeName}-${size}`.replace(/\s+/g, "-");
-    if (cart.some((item) => item.id === uniqueId)) return;
+    
+    // Se o item já existe, garante o feedback visual e retorna
+    if (cart.some((item) => item.id === uniqueId)) {
+        buttonElement.textContent = "Adicionado";
+        buttonElement.classList.add("bg-green-500", "cursor-not-allowed");
+        buttonElement.classList.remove("btn-gold-metallic");
+        return;
+    }
 
     const { weightInKg, packagingCost } = parseSizeAndPrice(size);
-    const cakePricePerKg = cakePrices[cakeName] || 150;
-    const itemPrice = weightInKg * cakePricePerKg + packagingCost;
+    
+    let cakePricePerKg = cakePrices[cakeName];
+    if (cakePricePerKg === undefined) {
+        console.warn(`Preço base não encontrado para: "${cakeName}". Usando valor padrão de R$ 150.`);
+        cakePricePerKg = 150;
+    }
+    
+    // Arredonda para 2 casas decimais para evitar erros de ponto flutuante
+    const itemPrice = Math.round((weightInKg * cakePricePerKg + packagingCost) * 100) / 100;
 
     cart.push({ id: uniqueId, name: cakeName, size, price: itemPrice });
     saveCartToStorage();
@@ -449,6 +464,7 @@
     };
     
     function updateCheckoutTotal() {
+      // IMPORTANTE: Os IDs (10, 20, 30) devem estar sincronizados com os values do <select> no HTML
       const subtotalElement = document.getElementById("checkout-subtotal");
       const deliveryFeeElement = document.getElementById(
         "checkout-delivery-fee"
@@ -500,6 +516,11 @@
 
     // --- FUNÇÕES AUXILIARES DE DATA/HORA ---
     const isToday = () => {
+      if (dataInput._flatpickr && dataInput._flatpickr.selectedDates.length > 0) {
+        const sel = dataInput._flatpickr.selectedDates[0];
+        const now = new Date();
+        return sel.toDateString() === now.toDateString();
+      }
       if (!dataInput.value) return false;
       const [y, m, d] = dataInput.value.split("-");
       const sel = new Date(y, m - 1, d);
@@ -512,25 +533,92 @@
       const [h, m] = timeStr.split(":").map(Number);
       return h * 60 + m;
     };
+    
+    const getClosingTime = () => {
+      // Prioriza a data do objeto flatpickr para evitar erros de fuso/string
+      if (dataInput._flatpickr && dataInput._flatpickr.selectedDates.length > 0) {
+          const sel = dataInput._flatpickr.selectedDates[0];
+          if (sel.getDay() === 0) return { minutes: 12 * 60, str: "12:00" };
+      } else if (dataInput.value) {
+          const [y, m, d] = dataInput.value.split("-");
+          const sel = new Date(y, m - 1, d);
+          if (sel.getDay() === 0) return { minutes: 12 * 60, str: "12:00" };
+      }
+      return { minutes: 18 * 60, str: "18:00" };
+    };
     // ----------------------------------------
 
     const updateTimeInputsState = () => {
+      // Limpa avisos de erro ao mudar a data
+      if (timeNotice) timeNotice.classList.add("hidden");
+      if (timeNoticeMsg) timeNoticeMsg.textContent = "";
+
+      // --- Lógica de Feriado (25/12 e 01/01) ---
+      const holidayNotice = document.getElementById("holiday-delivery-notice");
+      if (holidayNotice) holidayNotice.classList.add("hidden");
+
+      // Habilita campos por padrão (caso tenham sido desabilitados antes)
+      inicioInput.disabled = false;
+      fimInput.disabled = false;
+      inicioInput.classList.remove("cursor-not-allowed", "bg-gray-100");
+      fimInput.classList.remove("cursor-not-allowed", "bg-gray-100");
+
+      // -----------------------------------------
+
+      // Atualiza texto informativo sobre horário
+      const deliveryInfo = document.getElementById("delivery-time-info");
+      if (deliveryInfo) {
+          const { str } = getClosingTime();
+          deliveryInfo.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>Nosso horário de entregas é das <strong>08:00 às ${str}</strong>.</span>
+          `;
+      }
+
+      // Lógica para Domingo: Preencher 08:00 - 12:00
+      const { minutes: closingMinutes } = getClosingTime();
+      let isSunday = false;
+      
+      if (closingMinutes === 12 * 60) { // Se o fechamento for 12:00, é domingo
+        isSunday = true;
+        // Apenas define o padrão se os campos estiverem vazios ou fora do limite
+        const currentStart = timeToMinutes(inicioInput.value);
+        if (currentStart === 0 || currentStart > closingMinutes) {
+           if (inicioInput._flatpickr) inicioInput._flatpickr.setDate("08:00", false);
+           else inicioInput.value = "08:00";
+           
+           if (fimInput._flatpickr) fimInput._flatpickr.setDate("12:00", false);
+           else fimInput.value = "12:00";
+        }
+      }
+
       // Dispara a validação do horário de início caso a data mude
       if (inicioInput.value) {
-        inicioInput.dispatchEvent(new Event("change"));
+        // Se for domingo e NÃO for hoje, não dispara o change para manter o 08:00 - 12:00
+        // Se for hoje, dispara para validar se 08:00 já passou
+        if (!isSunday || isToday()) {
+            inicioInput.dispatchEvent(new Event("change"));
+        }
       }
 
       if (isToday()) {
         fimInput.setAttribute("readonly", true);
+        // Desabilita o flatpickr se existir para evitar popup
+        if (fimInput._flatpickr) fimInput._flatpickr._input.disabled = true;
         fimInput.classList.add("bg-gray-100", "cursor-not-allowed");
       } else {
         fimInput.removeAttribute("readonly");
+        if (fimInput._flatpickr) fimInput._flatpickr._input.disabled = false;
         fimInput.classList.remove("bg-gray-100", "cursor-not-allowed");
       }
     };
 
     if (dataInput) {
       dataInput.addEventListener("change", updateTimeInputsState);
+      // Garante que a validação rode ao carregar (caso haja data preenchida automaticamente)
+      updateTimeInputsState();
     }
 
     if (inicioInput && fimInput) {
@@ -551,7 +639,7 @@
 
         // Limites da Loja (em minutos)
         const ABERTURA = 8 * 60; // 08:00
-        const FECHAMENTO = 18 * 60; // 18:00
+        const { minutes: FECHAMENTO, str: FECHAMENTO_STR } = getClosingTime();
         const currentMinutes = hora * 60 + minuto;
 
         let errorMsg = "";
@@ -563,53 +651,52 @@
           adjustedTime = "08:00";
           hora = 8;
           minuto = 0;
-        } else if (currentMinutes > FECHAMENTO) {
-          errorMsg = "Fechamos às 18:00.";
-          adjustedTime = "18:00";
-          hora = 18;
-          minuto = 0;
+        } else if (currentMinutes >= FECHAMENTO) { // Se for IGUAL ao fechamento (12:00), também não pode INICIAR
+          errorMsg = `Fechamos às ${FECHAMENTO_STR}.`;
+          adjustedTime = FECHAMENTO_STR;
+          const [hClose, mClose] = FECHAMENTO_STR.split(":").map(Number);
+          hora = hClose;
+          minuto = mClose;
         }
 
         // 2. Validação de antecedência para hoje
         if (!errorMsg && isToday()) {
           const now = new Date();
-          const currentNowMinutes = now.getHours() * 60 + now.getMinutes();
-          const antecedenciaMinima = 120; // 2 horas em minutos
-
-          // Se escolheu um horário muito próximo (menos de 2h)
-          if (currentMinutes < currentNowMinutes + antecedenciaMinima) {
-            errorMsg = "Para hoje, precisamos de no mínimo 2h de antecedência.";
-            // Sugere horário para daqui 2h (arredondando a hora seguinte)
-            const novaHora = now.getHours() + 2;
-            hora = novaHora;
-            minuto = 0;
-            adjustedTime = `${String(novaHora).padStart(2, "0")}:00`;
-          }
-
-          // Regra específica: Se for hoje e a sugestão passar das 18h ou já for tarde
-          if (hora * 60 + minuto > FECHAMENTO) {
-            errorMsg =
-              "Infelizmente já encerramos os pedidos para entrega hoje.";
-            adjustedTime = "18:00";
-            hora = 18;
-          } else if (now.getHours() >= 16) {
-            // Se já são 16h, 16+2 = 18h (limite), então avisa
-            errorMsg =
-              "Pedidos para hoje encerram às 16:00 (para entregar até às 18:00).";
-            adjustedTime = "18:00"; // Trava no limite
-            hora = 18;
+          // Calcula o horário mínimo permitido (agora + 2 horas)
+          const minDeliveryTime = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+          
+          // Verifica se virou o dia (passou da meia-noite no cálculo) ou se passou do fechamento
+          if (minDeliveryTime.getDate() !== now.getDate()) {
+             errorMsg = "Infelizmente já encerramos os pedidos para entrega hoje.";
+             adjustedTime = FECHAMENTO_STR;
+             const [hClose, mClose] = FECHAMENTO_STR.split(":").map(Number);
+             hora = hClose; minuto = mClose;
+          } else {
+              const minDeliveryMinutes = minDeliveryTime.getHours() * 60 + minDeliveryTime.getMinutes();
+              
+              if (minDeliveryMinutes > FECHAMENTO) {
+                 errorMsg = `Infelizmente já encerramos os pedidos para entrega hoje (necessário 2h de antecedência até às ${FECHAMENTO_STR}).`;
+                 adjustedTime = FECHAMENTO_STR;
+                 const [hClose, mClose] = FECHAMENTO_STR.split(":").map(Number);
+                 hora = hClose; minuto = mClose;
+              } else if (currentMinutes < minDeliveryMinutes) {
+                 errorMsg = `Para hoje, precisamos de no mínimo 2h de antecedência.`;
+                 hora = minDeliveryTime.getHours();
+                 minuto = minDeliveryTime.getMinutes();
+                 adjustedTime = `${String(hora).padStart(2, "0")}:${String(minuto).padStart(2, "0")}`;
+              }
           }
         }
 
         // Aplica ajustes se necessário
         if (adjustedTime) {
-          this.value = adjustedTime;
+          if (this._flatpickr) this._flatpickr.setDate(adjustedTime, false);
+          else this.value = adjustedTime;
         } else {
           // Formata bonitinho se estiver tudo certo
-          this.value =
-            String(hora).padStart(2, "0") +
-            ":" +
-            String(minuto).padStart(2, "0");
+          const formatted = String(hora).padStart(2, "0") + ":" + String(minuto).padStart(2, "0");
+          if (this._flatpickr) this._flatpickr.setDate(formatted, false);
+          else this.value = formatted;
         }
 
         // Exibir erro se houver
@@ -622,41 +709,57 @@
 
         // Auto-preencher horário final (+ 2 horas)
         let horaFinal = hora + 2;
-        if (horaFinal > 18) horaFinal = 18; // Teto de 18h
-        fimInput.value = String(horaFinal).padStart(2, "0") + ":00";
+        let minutoFinal = minuto;
+        
+        // Verifica teto de FECHAMENTO
+        if (horaFinal * 60 + minutoFinal > FECHAMENTO) {
+            const [hClose, mClose] = FECHAMENTO_STR.split(":").map(Number);
+            horaFinal = hClose;
+            minutoFinal = mClose;
+        }
+        
+        const finalStr = String(horaFinal).padStart(2, "0") + ":" + String(minutoFinal).padStart(2, "0");
+        if (fimInput._flatpickr) fimInput._flatpickr.setDate(finalStr, false);
+        else fimInput.value = finalStr;
       });
 
       // Validação do campo FIM (só permite se NÃO for hoje, pois hoje é auto-calc)
       fimInput.addEventListener("change", function () {
-        if (isToday()) return; // Ignora se for hoje
+        if (isToday()) return;
 
-        let horaFim = parseInt(this.value.replace(/\D/g, ""));
-        let horaInicio = parseInt(inicioInput.value.replace(/\D/g, ""));
+        const horaFimEmMinutos = timeToMinutes(this.value);
+        const horaInicioEmMinutos = timeToMinutes(inicioInput.value);
+        const { minutes: FECHAMENTO, str: FECHAMENTO_STR } = getClosingTime();
 
         if (timeNotice) timeNotice.classList.add("hidden");
 
-        if (isNaN(horaFim)) return;
+        if (horaFimEmMinutos === 0) return;
 
-        if (horaFim > 18) {
+        if (horaFimEmMinutos > FECHAMENTO) {
           if (timeNotice && timeNoticeMsg) {
-            timeNoticeMsg.textContent = "Fechamos às 18:00.";
+            timeNoticeMsg.textContent = `Nosso horário de entregas é das 08:00 às ${FECHAMENTO_STR}.`;
             timeNotice.classList.remove("hidden");
           }
-          this.value = "18:00";
-          horaFim = 18;
+          if (this._flatpickr) this._flatpickr.setDate(FECHAMENTO_STR, false);
+          else this.value = FECHAMENTO_STR;
+          return;
         }
 
-        if (!isNaN(horaInicio) && horaFim <= horaInicio) {
+        if (horaInicioEmMinutos > 0 && horaFimEmMinutos < horaInicioEmMinutos) {
           if (timeNotice && timeNoticeMsg) {
             timeNoticeMsg.textContent =
               "O horário final deve ser após o horário de início.";
             timeNotice.classList.remove("hidden");
           }
-          this.value = ""; // Limpa para forçar correção
+          if (this._flatpickr) this._flatpickr.clear();
+          else this.value = ""; 
           return;
         }
 
-        this.value = horaFim.toString().padStart(2, "0") + ":00";
+        const hora = Math.floor(horaFimEmMinutos / 60);
+        const formatted = String(hora).padStart(2, "0") + ":00";
+        if (this._flatpickr) this._flatpickr.setDate(formatted, false);
+        else this.value = formatted;
       });
     }
 
@@ -810,11 +913,26 @@
           return;
         }
 
+        // Check de feriado antes de enviar
+        const holidayNotice = document.getElementById("holiday-delivery-notice");
+        if (holidayNotice && !holidayNotice.classList.contains("hidden")) {
+          window.showCustomAlert(
+            "Não realizamos entregas nos dias 25/12/2025 e 01/01/2026. Por favor, escolha outra data.",
+            "Data Indisponível"
+          );
+          return;
+        }
+
         const formData = new FormData(form);
         const details = Object.fromEntries(formData.entries());
 
+        const now = new Date();
+        const dataPedido = now.toLocaleDateString("pt-BR");
+        const horaPedido = now.toLocaleTimeString("pt-BR", { hour: '2-digit', minute: '2-digit' });
+
         const numeroWhatsApp = "554499024212";
-        let message = "Olá, Angela! Gostaria de encomendar:\n\n";
+        let message = "Olá, Angela! Gostaria de encomendar:\n";
+        message += `📅 Pedido realizado em: ${dataPedido} às ${horaPedido}\n\n`;
         message += "--- ITENS DO PEDIDO ---\n\n";
         let itemsTotalPrice = 0;
 
