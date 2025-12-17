@@ -106,52 +106,17 @@
           <a href="./menu.html" class="tracking-wide hover:opacity-80 transition-opacity">Scatambulo</a>
         </h1>
         <nav
-          class="hidden md:flex items-center space-x-8 text-base font-medium text-text-light"
+          class="flex items-center space-x-8 text-base font-medium text-text-light"
         >
           <a
             href="./menu.html"
             class="font-semibold text-primary hover:text-amber-600 transition-colors duration-200"
-            >&larr; Voltar ao Menu Principal</a
+            >
+            <span class="md:hidden">&larr; Voltar</span>
+            <span class="hidden md:inline">&larr; Voltar ao Menu Principal</span>
+          </a
           >
         </nav>
-        <button
-          id="mobile-menu-button"
-          class="md:hidden text-text-light hover:text-primary"
-          aria-controls="mobile-menu"
-          aria-expanded="false"
-          aria-label="Abrir menu"
-        >
-          <svg
-            class="w-7 h-7"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            ></path>
-          </svg>
-        </button>
-      </div>
-      <div
-        id="mobile-menu"
-        class="hidden md:hidden bg-background border-t border-gray-100"
-      >
-        <a href="#" class="filter-btn block py-3 px-6 text-text hover:bg-gray-50" data-filter="all">Todos</a>
-        <a href="#" class="filter-btn block py-3 px-6 text-text hover:bg-gray-50" data-filter="batizado">Batizado</a>
-        <a href="#" class="filter-btn block py-3 px-6 text-text hover:bg-gray-50" data-filter="aniversario">Aniversário</a>
-        <a href="#" class="filter-btn block py-3 px-6 text-text hover:bg-gray-50" data-filter="casamento">Casamento</a>
-        <a href="#" class="filter-btn block py-3 px-6 text-text hover:bg-gray-50" data-filter="corporativo">Corporativo</a>
-        <a href="#" class="filter-btn block py-3 px-6 text-text hover:bg-gray-50" data-filter="natal">Natal</a>
-        <a
-          href="./menu.html"
-          class="block py-3 px-6 text-primary font-semibold hover:bg-gray-50 border-t"
-          >&larr; Voltar ao Menu</a
-        >
       </div>
     </header>
 
@@ -504,10 +469,11 @@
       setTimeout(hideLoader, 4000); // Fallback de segurança
 
       document.addEventListener("DOMContentLoaded", () => {
-        initMobileMenu();
+        initFilters();
         initLightbox();
         initWhatsAppLoadingOverlay(); // Initialize the WhatsApp loading overlay
         initBackToTop();
+        initToastSwipe(); // Inicializa a lógica de swipe para toasts
       });
 
       // Function to handle WhatsApp link clicks with loading overlay
@@ -535,20 +501,74 @@
         });
       }
 
-      function initMobileMenu() {
-        const menuButton = document.getElementById("mobile-menu-button");
-        const mobileMenu = document.getElementById("mobile-menu");
-        if (!menuButton || !mobileMenu) return;
+      function initFilters() {
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const cards = document.querySelectorAll('.pote-card');
 
-        menuButton.addEventListener("click", () => {
-          const isExpanded = mobileMenu.classList.toggle("hidden");
-          menuButton.setAttribute("aria-expanded", !isExpanded);
+        filterBtns.forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const filter = btn.getAttribute('data-filter');
+
+            // Update Active State for Desktop Buttons
+            if (btn.tagName === 'BUTTON') {
+                document.querySelectorAll('button.filter-btn').forEach(b => {
+                    // Reset to inactive
+                    b.classList.remove('bg-stone-900', 'text-[#D4AF37]', 'border-stone-900', 'shadow-lg', 'scale-105');
+                    b.classList.add('bg-white', 'text-gray-600', 'border-gray-200');
+                });
+                // Set active
+                btn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200');
+                btn.classList.add('bg-stone-900', 'text-[#D4AF37]', 'border-stone-900', 'shadow-lg', 'scale-105');
+            }
+
+            // Filter Cards
+            cards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                if (filter === 'all' || category === filter) {
+                    card.classList.remove('hidden');
+                    card.classList.add('animate-fade-in-up');
+                } else {
+                    card.classList.add('hidden');
+                    card.classList.remove('animate-fade-in-up');
+                }
+            });
+          });
         });
+      }
 
-        document.querySelectorAll("#mobile-menu a").forEach((link) => {
-          link.addEventListener("click", () => {
-            mobileMenu.classList.add("hidden");
-            menuButton.setAttribute("aria-expanded", "false");
+      function initFilters() {
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const cards = document.querySelectorAll('.pote-card');
+
+        filterBtns.forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const filter = btn.getAttribute('data-filter');
+
+            // Update Active State for Desktop Buttons
+            if (btn.tagName === 'BUTTON') {
+                document.querySelectorAll('button.filter-btn').forEach(b => {
+                    // Reset to inactive
+                    b.classList.remove('bg-stone-900', 'text-[#D4AF37]', 'border-stone-900', 'shadow-lg', 'scale-105');
+                    b.classList.add('bg-white', 'text-gray-600', 'border-gray-200');
+                });
+                // Set active
+                btn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200');
+                btn.classList.add('bg-stone-900', 'text-[#D4AF37]', 'border-stone-900', 'shadow-lg', 'scale-105');
+            }
+
+            // Filter Cards
+            cards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                if (filter === 'all' || category === filter) {
+                    card.classList.remove('hidden');
+                    card.classList.add('animate-fade-in-up');
+                } else {
+                    card.classList.add('hidden');
+                    card.classList.remove('animate-fade-in-up');
+                }
+            });
           });
         });
       }
@@ -614,6 +634,71 @@
         backToTopBtn.addEventListener("click", () => {
           window.scrollTo({ top: 0, behavior: "smooth" });
         });
+      }
+
+      function initToastSwipe() {
+        // Observa a adição de elementos no corpo da página para detectar o toast
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            mutation.addedNodes.forEach((node) => {
+              // Verifica se o elemento adicionado parece ser um toast
+              // Nota: Se o seu toast tiver uma classe específica diferente, adicione aqui
+              if (node.nodeType === 1 && (
+                  node.classList.contains('toast-notification') || 
+                  node.id.includes('toast') ||
+                  node.className.includes('toast')
+              )) {
+                addSwipeLogic(node);
+              }
+            });
+          });
+        });
+
+        observer.observe(document.body, { childList: true });
+      }
+
+      function addSwipeLogic(element) {
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const threshold = 75; // Distância mínima para considerar swipe
+
+        element.addEventListener('touchstart', (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+          element.style.transition = 'none'; // Remove transição para movimento fluido imediato
+        }, { passive: true });
+
+        element.addEventListener('touchmove', (e) => {
+          const currentX = e.changedTouches[0].screenX;
+          const diff = currentX - touchStartX;
+          
+          // Move o elemento horizontalmente e diminui opacidade
+          element.style.transform = `translateX(${diff}px)`;
+          element.style.opacity = 1 - Math.abs(diff) / 300;
+        }, { passive: true });
+
+        element.addEventListener('touchend', (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          const diff = touchEndX - touchStartX;
+
+          // Restaura a transição suave
+          element.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+
+          if (Math.abs(diff) > threshold) {
+            // Swipe confirmado: joga para fora da tela
+            const direction = diff > 0 ? 1 : -1;
+            element.style.transform = `translateX(${direction * window.innerWidth}px)`;
+            element.style.opacity = '0';
+            
+            // Remove o elemento do DOM após a animação
+            setTimeout(() => {
+              if (element.parentNode) element.parentNode.removeChild(element);
+            }, 300);
+          } else {
+            // Swipe cancelado: volta para o centro
+            element.style.transform = 'translateX(0)';
+            element.style.opacity = '1';
+          }
+        }, { passive: true });
       }
     </script>
     <script src="carrinho.js" defer></script>

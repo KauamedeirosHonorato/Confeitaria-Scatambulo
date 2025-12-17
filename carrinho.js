@@ -371,7 +371,7 @@
   function showToast(message) {
     const toast = document.createElement("div");
     toast.className =
-      "fixed top-6 right-6 z-[9999] flex items-center gap-4 p-4 bg-white/90 backdrop-blur-xl border border-white/50 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-500 transform translate-y-[-20px] opacity-0 hover:shadow-[0_8px_30px_rgb(0,0,0,0.15)]";
+      "fixed top-6 right-6 z-[9999] flex items-center gap-4 p-4 bg-white/90 backdrop-blur-xl border border-white/50 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-500 transform translate-y-[-20px] opacity-0 hover:shadow-[0_8px_30px_rgb(0,0,0,0.15)] pr-12 overflow-hidden";
     toast.innerHTML = `
         <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 bg-[#D4AF37] rounded-full shadow-sm">
             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -382,11 +382,57 @@
             <span class="font-playfair font-bold text-gray-800 text-base">Adicionado</span>
             <span class="text-sm text-gray-600 font-medium leading-tight">${message}</span>
         </div>
+        <!-- Ícone de Mãozinha para indicar Swipe -->
+        <div class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400/50 flex flex-col items-center animate-pulse pointer-events-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"></path>
+            </svg>
+        </div>
+        <!-- Barra de Progresso -->
+        <div class="absolute bottom-0 left-0 h-1 bg-[#D4AF37] w-full transition-all ease-linear" style="transition-duration: 3000ms;"></div>
     `;
+
+    // Lógica de Swipe para remover o toast
+    let touchStartX = 0;
+    const threshold = 75;
+
+    toast.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      toast.style.transition = 'none';
+    }, { passive: true });
+
+    toast.addEventListener('touchmove', (e) => {
+      const currentX = e.changedTouches[0].screenX;
+      const diff = currentX - touchStartX;
+      toast.style.transform = `translateX(${diff}px)`;
+      toast.style.opacity = 1 - Math.abs(diff) / 300;
+    }, { passive: true });
+
+    toast.addEventListener('touchend', (e) => {
+      const touchEndX = e.changedTouches[0].screenX;
+      const diff = touchEndX - touchStartX;
+      toast.style.transition = ''; // Restaura a transição do CSS
+
+      if (Math.abs(diff) > threshold) {
+        const direction = diff > 0 ? 1 : -1;
+        toast.style.transform = `translateX(${direction * window.innerWidth}px)`;
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 500);
+      } else {
+        toast.style.transform = '';
+        toast.style.opacity = '';
+      }
+    }, { passive: true });
+
     document.body.appendChild(toast);
 
     requestAnimationFrame(() => {
       toast.classList.remove("translate-y-[-20px]", "opacity-0");
+      // Anima a barra de progresso para 0%
+      const progressBar = toast.lastElementChild;
+      if (progressBar) {
+          progressBar.style.width = "0%";
+      }
     });
 
     setTimeout(() => {
