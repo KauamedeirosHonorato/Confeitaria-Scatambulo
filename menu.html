@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="menu.css" />
@@ -62,7 +62,7 @@
         width: 100%;
         max-width: 1024px; /* Aumentado para caber o site de natal */
         height: 100%;
-        max-height: 90vh;
+        max-height: 96vh;
         background: transparent; /* Fundo transparente para o iframe brilhar */
         border-radius: 20px;
         overflow: hidden;
@@ -79,13 +79,14 @@
         opacity: 1;
       }
 
-      @media (max-width: 600px) {
+      /* Ajustes para dispositivos móveis para o modal de Natal */
+      @media (max-width: 768px) {
         #natal-popup-content {
-          height: 90vh;
-          max-height: 90vh;
+          height: 88vh; /* Altura reduzida para melhor visualização */
+          max-height: 88vh; /* Garante que não ultrapasse a altura */
           width: 100%;
           max-width: none;
-          border-radius: 1rem;
+          border-radius: 1.5rem; /* Bordas mais arredondadas para um look moderno */
         }
       }
 
@@ -107,9 +108,97 @@
           }
         }
       }
+
+      /* --- Tema de Natal Elegante (Ativado via JS) --- */
+      body.christmas-theme {
+        background-color: #fffbf7; /* Creme muito suave */
+        background-image: radial-gradient(#d4af37 0.5px, transparent 0.5px);
+        background-size: 40px 40px; /* Textura de pontos dourados sutis */
+      }
+
+      body.christmas-theme h1, 
+      body.christmas-theme h2, 
+      body.christmas-theme h3 {
+        font-family: 'Playfair Display', serif; /* Fonte serifada elegante */
+        /* color: #7f1d1d; */ /* Cor de Natal desativada para usar o padrão do site */
+      }
+
+      body.christmas-theme header {
+        border-bottom: 2px solid #D4AF37;
+      }
+
+      /* Ajuste nos botões para combinar com o tema - Desativado para usar o padrão */
+      /*
+      body.christmas-theme .btn-gold-metallic {
+        background: linear-gradient(to right, #7f1d1d, #991b1b);
+        color: #fff;
+        border: 1px solid #D4AF37;
+      }
+      body.christmas-theme .btn-gold-metallic:hover {
+        background: linear-gradient(to right, #991b1b, #b91c1c);
+        transform: translateY(-2px);
+      } */
+
+      /* Efeito de Neve Sutil */
+      .snowflake {
+        position: fixed;
+        top: -10px;
+        z-index: 9999;
+        user-select: none;
+        pointer-events: none;
+        color: #d4af37; /* Neve dourada/creme */
+        opacity: 0.3;
+        font-size: 1em;
+        animation: fall linear forwards;
+      }
+
+      @keyframes fall {
+        to {
+          transform: translateY(105vh);
+        }
+      }
+
+      /* --- Animação de Pulsação Suave --- */
+      @keyframes gentle-pulse {
+        0%, 100% { transform: scale(1); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        50% { transform: scale(1.05); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); }
+      }
+      .animate-gentle-pulse {
+        animation: gentle-pulse 2s infinite ease-in-out;
+      }
+
+      /* --- Debug Alert Styling --- */
+      .debug-alert {
+        border: 4px dashed #ef4444; /* red-500 */
+        background-color: #fef2f2; /* red-50 */
+      }
+      .debug-alert #custom-alert-title {
+        color: #991b1b; /* red-800 */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+      .debug-alert #custom-alert-title::before {
+        content: '🐞';
+        font-size: 1.5rem;
+      }
     </style>
   </head>
   <body class="bg-stone-50 font-['Poppins']">
+    <!-- Page Loader -->
+    <div id="page-loader" class="fixed inset-0 bg-stone-50 z-[9999] flex items-center justify-center transition-opacity duration-700 ease-out">
+      <div class="relative w-20 h-20">
+        <!-- The static part of the circle -->
+        <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+        <!-- The spinning part -->
+        <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+        <!-- The SC logo -->
+        <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-3xl font-bold text-[#D4AF37]">
+          SC
+        </div>
+      </div>
+    </div>
     <!-- Ilha Dinâmica de Natal para Mobile -->
     <div
       id="natal-dynamic-island"
@@ -228,10 +317,147 @@
           </div>
         </div>
       </section>
+
+      <!-- Seção Destaques da Semana (Carrossel) -->
+      <section id="destaques-semana" class="mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center">
+          ✨ Destaques da Semana
+        </h2>
+        <div class="relative w-full h-[380px] md:h-[680px] rounded-2xl overflow-hidden shadow-2xl group mx-auto" style="max-width: 90%;">
+          
+          <!-- Slide 1 -->
+          <div class="carousel-slide absolute inset-0 transition-opacity duration-1000 opacity-100">
+            <div class="absolute inset-0 flex items-center justify-center bg-gray-200">
+                <div class="relative w-12 h-12">
+                    <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                    <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                    <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                </div>
+            </div>
+            <img src="sabores/NuvemDeMorango.jpg" alt="Nuvem de Morango" class="relative z-10 w-full h-full object-cover transform group-hover:scale-105 transition-all duration-[2000ms] opacity-0" style="object-position: center 20%;" onload="this.classList.remove('opacity-0')">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-6 md:p-10">
+              <span class="text-[#D4AF37] font-bold tracking-widest uppercase text-xs md:text-sm mb-2">O Queridinho</span>
+              <h3 class="text-white text-3xl md:text-5xl font-bold mb-2 font-['Playfair_Display']">Nuvem de Morango</h3>
+              <p class="text-gray-200 text-sm md:text-base mb-6 max-w-xl hidden sm:block">A combinação perfeita de brigadeiro branco, morangos frescos e creme Ninho.</p>
+              <select class="cake-size-select hidden">
+                <option value="Oval 1kg (sem custo)" selected>Oval 1kg (sem custo)</option>
+              </select>
+              <a href="#" onclick="addToCart('Nuvem de Morango', this); return false;" class="bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-full w-fit hover:bg-white transition-colors shadow-lg animate-gentle-pulse">
+                Encomendar Agora
+              </a>
+            </div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="carousel-slide absolute inset-0 transition-opacity duration-1000 opacity-0">
+            <div class="absolute inset-0 flex items-center justify-center bg-gray-200">
+                <div class="relative w-12 h-12">
+                    <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                    <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                    <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                </div>
+            </div>
+            <img src="sabores/DoceDeLeite.jpg" alt="Doce de Leite Trufado" class="relative z-10 w-full h-full object-cover transform group-hover:scale-105 transition-all duration-[2000ms] opacity-0" onload="this.classList.remove('opacity-0')">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-6 md:p-10">
+              <span class="text-[#D4AF37] font-bold tracking-widest uppercase text-xs md:text-sm mb-2">Clássico Irresistível</span>
+              <h3 class="text-white text-3xl md:text-5xl font-bold mb-2 font-['Playfair_Display']">Doce de Leite Trufado</h3>
+              <p class="text-gray-200 text-sm md:text-base mb-6 max-w-xl hidden sm:block">Cremosidade inigualável com o toque especial do nosso crocante artesanal.</p>
+              <select class="cake-size-select hidden">
+                <option value="Oval 1kg (sem custo)" selected>Oval 1kg (sem custo)</option>
+              </select>
+              <a href="#" onclick="addToCart('Doce de Leite Trufado', this); return false;" class="bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-full w-fit hover:bg-white transition-colors shadow-lg animate-gentle-pulse">
+                Encomendar Agora
+              </a>
+            </div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="carousel-slide absolute inset-0 transition-opacity duration-1000 opacity-0">
+            <div class="absolute inset-0 flex items-center justify-center bg-gray-200">
+                <div class="relative w-12 h-12">
+                    <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                    <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                    <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                </div>
+            </div>
+            <img src="sabores/StrogonoffDeNozes.jpg" alt="Strogonoff de Nozes" class="relative z-10 w-full h-full object-cover transform group-hover:scale-105 transition-all duration-[2000ms] opacity-0" onload="this.classList.remove('opacity-0')">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-6 md:p-10">
+              <span class="text-[#D4AF37] font-bold tracking-widest uppercase text-xs md:text-sm mb-2">Sofisticação</span>
+              <h3 class="text-white text-3xl md:text-5xl font-bold mb-2 font-['Playfair_Display']">Strogonoff de Nozes</h3>
+              <p class="text-gray-200 text-sm md:text-base mb-6 max-w-xl hidden sm:block">Para paladares exigentes: nozes selecionadas e um creme suave.</p>
+              <select class="cake-size-select hidden">
+                <option value="Oval 1kg (sem custo)" selected>Oval 1kg (sem custo)</option>
+              </select>
+              <a href="#" onclick="addToCart('Strogonoff de Nozes (sem coco)', this); return false;" class="bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-full w-fit hover:bg-white transition-colors shadow-lg animate-gentle-pulse">
+                Encomendar Agora
+              </a>
+            </div>
+          </div>
+
+          <!-- Slide 4 (Floresta Branca) -->
+          <div class="carousel-slide absolute inset-0 transition-opacity duration-1000 opacity-0">
+            <div class="absolute inset-0 flex items-center justify-center bg-gray-200">
+                <div class="relative w-12 h-12">
+                    <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                    <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                    <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                </div>
+            </div>
+            <img src="sabores/FlorestaBranca.jpg" alt="Floresta Branca" class="relative z-10 w-full h-full object-cover transform group-hover:scale-105 transition-all duration-[2000ms] opacity-0" onload="this.classList.remove('opacity-0')">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-6 md:p-10">
+              <span class="text-[#D4AF37] font-bold tracking-widest uppercase text-xs md:text-sm mb-2">Novidade Especial</span>
+              <h3 class="text-white text-3xl md:text-5xl font-bold mb-2 font-['Playfair_Display']">Floresta Branca</h3>
+              <p class="text-gray-200 text-sm md:text-base mb-6 max-w-xl hidden sm:block">Brigadeiro branco, cereja, creme Ninho, chantilly fresco e raspas de chocolate.</p>
+               <select class="cake-size-select hidden">
+                <option value="Oval 1kg (sem custo)" selected>Oval 1kg (sem custo)</option>
+              </select>
+              <a href="#" onclick="addToCart('Floresta Branca', this); return false;" class="bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-full w-fit hover:bg-white transition-colors shadow-lg animate-gentle-pulse">
+                Encomendar Agora
+              </a>
+            </div>
+          </div>
+
+          <!-- Botões de Navegação -->
+          <button id="prev-slide" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-3 rounded-full backdrop-blur-sm transition-all z-20 focus:outline-none" aria-label="Slide Anterior">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          
+          <button id="next-slide" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-3 rounded-full backdrop-blur-sm transition-all z-20 focus:outline-none" aria-label="Próximo Slide">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          <!-- Indicadores -->
+          <div class="absolute bottom-6 right-6 flex gap-2 z-10">
+            <div class="w-2 h-2 rounded-full bg-white/50 carousel-dot active:bg-[#D4AF37]"></div>
+            <div class="w-2 h-2 rounded-full bg-white/50 carousel-dot"></div>
+            <div class="w-2 h-2 rounded-full bg-white/50 carousel-dot"></div>
+            <div class="w-2 h-2 rounded-full bg-white/50 carousel-dot"></div>
+          </div>
+        </div>
+      </section>
+
       <section id="sabores" class="mb-12">
         <h2 class="text-3xl md:text-4xl font-bold mb-2 text-center">
           Sabores de Bolos
         </h2>
+        
+        <!-- Barra de Busca -->
+        <div class="max-w-md mx-auto mb-8 mt-4 relative px-4">
+          <input 
+            type="text" 
+            id="cake-search" 
+            placeholder="Buscar sabor (ex: Morango, Nozes...)" 
+            class="w-full px-5 py-3 rounded-full border border-gray-300 focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 outline-none shadow-sm transition-all pl-12 text-gray-700"
+          >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 absolute left-8 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+
         <div
           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-stretch"
         >
@@ -239,13 +465,23 @@
             class="relative bg-[#FAF8F0] p-1 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between overflow-hidden group"
           >
             <div class="best-seller-badge">Mais Vendido</div>
-            <img
-              loading="lazy"
-              src="sabores/NuvemDeMorango.jpg"
-              alt="Bolo Nuvem de Morango"
-              id="nuvem-de-morango-img"
-              class="w-full cake-card-image"
-            />
+            <div class="relative w-full aspect-[4/5] bg-gray-100 overflow-hidden rounded-t-lg">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="relative w-12 h-12">
+                        <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                        <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                        <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                    </div>
+                </div>
+                <img
+                  loading="lazy"
+                  src="sabores/NuvemDeMorango.jpg"
+                  alt="Bolo Nuvem de Morango"
+                  id="nuvem-de-morango-img"
+                  class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
+                  onload="this.classList.remove('opacity-0')"
+                />
+            </div>
             <div
               class="card-content p-4 flex flex-col justify-between flex-grow"
             >
@@ -319,13 +555,23 @@
             class="relative bg-[#FAF8F0] p-1 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between overflow-hidden group"
           >
             <div class="best-seller-badge">Mais Vendido</div>
-            <img
-              loading="lazy"
-              src="sabores/DoceDeLeite.jpg"
-              alt="Bolo Doce de Leite Trufado"
-              id="doce-de-leite-img"
-              class="w-full cake-card-image"
-            />
+            <div class="relative w-full aspect-[4/5] bg-gray-100 overflow-hidden rounded-t-lg">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="relative w-12 h-12">
+                        <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                        <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                        <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                    </div>
+                </div>
+                <img
+                  loading="lazy"
+                  src="sabores/DoceDeLeite.jpg"
+                  alt="Bolo Doce de Leite Trufado"
+                  id="doce-de-leite-img"
+                  class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
+                  onload="this.classList.remove('opacity-0')"
+                />
+            </div>
             <div
               class="card-content p-4 flex flex-col justify-between flex-grow"
             >
@@ -399,12 +645,22 @@
             class="relative bg-[#FAF8F0] p-1 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between overflow-hidden group"
           >
             <div class="best-seller-badge">Mais Vendido</div>
-            <img
-              loading="lazy"
-              src="sabores/StrogonoffDeNozes.jpg"
-              alt="Bolo Strogonoff de Nozes"
-              class="w-full cake-card-image"
-            />
+            <div class="relative w-full aspect-[4/5] bg-gray-100 overflow-hidden rounded-t-lg">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="relative w-12 h-12">
+                        <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                        <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                        <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                    </div>
+                </div>
+                <img
+                  loading="lazy"
+                  src="sabores/StrogonoffDeNozes.jpg"
+                  alt="Bolo Strogonoff de Nozes"
+                  class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
+                  onload="this.classList.remove('opacity-0')"
+                />
+            </div>
             <div
               class="card-content p-4 flex flex-col justify-between flex-grow"
             >
@@ -483,12 +739,22 @@
           <div
             class="relative bg-[#FAF8F0] p-1 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between overflow-hidden group"
           >
-            <img
-              loading="lazy"
-              src="././sabores/UvaCrocante.jpg"
-              alt="Bolo Uva Crocante"
-              class="w-full cake-card-image"
-            />
+            <div class="relative w-full aspect-[4/5] bg-gray-100 overflow-hidden rounded-t-lg">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="relative w-12 h-12">
+                        <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                        <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                        <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                    </div>
+                </div>
+                <img
+                  loading="lazy"
+                  src="././sabores/UvaCrocante.jpg"
+                  alt="Bolo Uva Crocante"
+                  class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
+                  onload="this.classList.remove('opacity-0')"
+                />
+            </div>
             <div
               class="card-content p-4 flex flex-col justify-between flex-grow"
             >
@@ -561,12 +827,22 @@
           <div
             class="relative bg-[#FAF8F0] p-1 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between overflow-hidden group"
           >
-            <img
-              loading="lazy"
-              src="sabores/BoloDeCafe.jpg"
-              alt="Bolo Brigadeiro de Café"
-              class="w-full cake-card-image"
-            />
+            <div class="relative w-full aspect-[4/5] bg-gray-100 overflow-hidden rounded-t-lg">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="relative w-12 h-12">
+                        <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                        <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                        <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                    </div>
+                </div>
+                <img
+                  loading="lazy"
+                  src="sabores/BoloDeCafe.jpg"
+                  alt="Bolo Brigadeiro de Café"
+                  class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
+                  onload="this.classList.remove('opacity-0')"
+                />
+            </div>
             <div
               class="card-content p-4 flex flex-col justify-between flex-grow"
             >
@@ -639,12 +915,22 @@
           <div
             class="bg-[#FAF8F0] p-1 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between overflow-hidden group"
           >
-            <img
-              loading="lazy"
-              src="sabores/MorangoComSuspiro.jpg"
-              alt="Bolo Morango com Suspiro"
-              class="w-full cake-card-image"
-            />
+            <div class="relative w-full aspect-[4/5] bg-gray-100 overflow-hidden rounded-t-lg">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="relative w-12 h-12">
+                        <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                        <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                        <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                    </div>
+                </div>
+                <img
+                  loading="lazy"
+                  src="sabores/MorangoComSuspiro.jpg"
+                  alt="Bolo Morango com Suspiro"
+                  class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
+                  onload="this.classList.remove('opacity-0')"
+                />
+            </div>
             <div
               class="card-content p-4 flex flex-col justify-between flex-grow"
             >
@@ -717,12 +1003,22 @@
           <div
             class="bg-[#FAF8F0] p-1 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between overflow-hidden group"
           >
-            <img
-              loading="lazy"
-              src="sabores/BoloDeSensacao.jpg"
-              alt="Bolo Sensação"
-              class="w-full cake-card-image"
-            />
+            <div class="relative w-full aspect-[4/5] bg-gray-100 overflow-hidden rounded-t-lg">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="relative w-12 h-12">
+                        <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                        <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                        <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                    </div>
+                </div>
+                <img
+                  loading="lazy"
+                  src="sabores/BoloDeSensacao.jpg"
+                  alt="Bolo Sensação"
+                  class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
+                  onload="this.classList.remove('opacity-0')"
+                />
+            </div>
             <div
               class="card-content p-4 flex flex-col justify-between flex-grow"
             >
@@ -795,12 +1091,22 @@
           <div
             class="bg-[#FAF8F0] p-1 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between overflow-hidden group"
           >
-            <img
-              loading="lazy"
-              src="sabores/AbacaxiComCoco.jpg"
-              alt="Bolo Abacaxi com Coco"
-              class="w-full cake-card-image"
-            />
+            <div class="relative w-full aspect-[4/5] bg-gray-100 overflow-hidden rounded-t-lg">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="relative w-12 h-12">
+                        <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                        <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                        <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                    </div>
+                </div>
+                <img
+                  loading="lazy"
+                  src="sabores/AbacaxiComCoco.jpg"
+                  alt="Bolo Abacaxi com Coco"
+                  class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
+                  onload="this.classList.remove('opacity-0')"
+                />
+            </div>
             <div
               class="card-content p-4 flex flex-col justify-between flex-grow"
             >
@@ -873,12 +1179,22 @@
           <div
             class="bg-[#FAF8F0] p-1 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between overflow-hidden group"
           >
-            <img
-              loading="lazy"
-              src="sabores/OlhoDesogra.jpg"
-              alt="Bolo Olho de Sogra"
-              class="w-full cake-card-image"
-            />
+            <div class="relative w-full aspect-[4/5] bg-gray-100 overflow-hidden rounded-t-lg">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="relative w-12 h-12">
+                        <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                        <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                        <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                    </div>
+                </div>
+                <img
+                  loading="lazy"
+                  src="sabores/OlhoDesogra.jpg"
+                  alt="Bolo Olho de Sogra"
+                  class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
+                  onload="this.classList.remove('opacity-0')"
+                />
+            </div>
             <div
               class="card-content p-4 flex flex-col justify-between flex-grow"
             >
@@ -951,12 +1267,22 @@
           <div
             class="bg-[#FAF8F0] p-1 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between overflow-hidden group"
           >
-            <img
-              loading="lazy"
-              src="sabores/Casadinho.jpg"
-              alt="Bolo Casadinho"
-              class="w-full cake-card-image"
-            />
+            <div class="relative w-full aspect-[4/5] bg-gray-100 overflow-hidden rounded-t-lg">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="relative w-12 h-12">
+                        <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                        <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                        <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                    </div>
+                </div>
+                <img
+                  loading="lazy"
+                  src="sabores/Casadinho.jpg"
+                  alt="Bolo Casadinho"
+                  class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
+                  onload="this.classList.remove('opacity-0')"
+                />
+            </div>
             <div
               class="card-content p-4 flex flex-col justify-between flex-grow"
             >
@@ -1029,12 +1355,22 @@
           <div
             class="bg-[#FAF8F0] p-1 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between overflow-hidden group"
           >
-            <img
-              loading="lazy"
-              src="sabores/BoloDeBrigadeiro.jpg"
-              alt="Bolo de Brigadeiro"
-              class="w-full cake-card-image"
-            />
+            <div class="relative w-full aspect-[4/5] bg-gray-100 overflow-hidden rounded-t-lg">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="relative w-12 h-12">
+                        <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                        <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                        <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                    </div>
+                </div>
+                <img
+                  loading="lazy"
+                  src="sabores/BoloDeBrigadeiro.jpg"
+                  alt="Bolo de Brigadeiro"
+                  class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
+                  onload="this.classList.remove('opacity-0')"
+                />
+            </div>
             <div
               class="card-content p-4 flex flex-col justify-between flex-grow"
             >
@@ -1106,12 +1442,22 @@
           <div
             class="bg-[#FAF8F0] p-1 rounded-lg shadow-xl border border-gray-200 flex flex-col justify-between overflow-hidden group"
           >
-            <img
-              loading="lazy"
-              src="sabores/TrufaDeNutella.jpg"
-              alt="Bolo Trufa de Nutella"
-              class="w-full cake-card-image"
-            />
+            <div class="relative w-full aspect-[4/5] bg-gray-100 overflow-hidden rounded-t-lg">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="relative w-12 h-12">
+                        <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                        <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                        <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                    </div>
+                </div>
+                <img
+                  loading="lazy"
+                  src="sabores/TrufaDeNutella.jpg"
+                  alt="Bolo Trufa de Nutella"
+                  class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
+                  onload="this.classList.remove('opacity-0')"
+                />
+            </div>
             <div
               class="card-content p-4 flex flex-col justify-between flex-grow"
             >
@@ -1185,12 +1531,22 @@
           <div
             class="bg-[#FAF8F0] p-1 rounded-lg shadow-xl border-2 border-[#D4AF37] flex flex-col justify-between overflow-hidden group"
           >
-            <img
-              loading="lazy"
-              src="sabores/PistacheComFrutasVermelhas.jpg"
-              alt="Bolo Pistache com Frutas Vermelhas"
-              class="w-full cake-card-image"
-            />
+            <div class="relative w-full aspect-[4/5] bg-gray-100 overflow-hidden rounded-t-lg">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="relative w-12 h-12">
+                        <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                        <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                        <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                    </div>
+                </div>
+                <img
+                  loading="lazy"
+                  src="sabores/PistacheComFrutasVermelhas.jpg"
+                  alt="Bolo Pistache com Frutas Vermelhas"
+                  class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
+                  onload="this.classList.remove('opacity-0')"
+                />
+            </div>
             <div
               class="card-content p-4 flex flex-col justify-between flex-grow"
             >
@@ -1265,12 +1621,22 @@
             class="relative bg-[#FAF8F0] p-1 rounded-lg shadow-xl border-2 border-[#D4AF37] flex flex-col justify-between overflow-hidden group"
           >
             <div class="best-seller-badge bg-[#D4AF37] text-black">Novo</div>
-            <img
-              loading="lazy"
-              src="sabores/FlorestaBranca.jpg"
-              alt="Bolo Floresta Branca"
-              class="w-full cake-card-image bg-gray-200"
-            />
+            <div class="relative w-full aspect-[4/5] bg-gray-100 overflow-hidden rounded-t-lg">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="relative w-12 h-12">
+                        <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                        <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                        <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                    </div>
+                </div>
+                <img
+                  loading="lazy"
+                  src="sabores/FlorestaBranca.jpg"
+                  alt="Bolo Floresta Branca"
+                  class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
+                  onload="this.classList.remove('opacity-0')"
+                />
+            </div>
             <div
               class="card-content p-4 flex flex-col justify-between flex-grow"
             >
@@ -1448,7 +1814,7 @@
     </div>
 
     <div id="natal-popup-overlay" aria-modal="true" role="dialog" class="fixed inset-0 bg-black bg-opacity-75 z-50 hidden items-center justify-center p-4">
-      <div id="natal-popup-content" class="bg-white rounded-2xl shadow-xl w-full h-[90vh] sm:max-w-5xl relative overflow-hidden flex flex-col items-center text-center">
+      <div id="natal-popup-content" class="bg-white rounded-2xl shadow-xl w-full h-[96vh] sm:max-w-5xl relative overflow-hidden flex flex-col items-center text-center">
         <button id="natal-popup-close" class="absolute top-4 right-4 bg-gray-100 rounded-full p-1 text-gray-500 hover:text-gray-800 hover:bg-gray-200 transition-colors z-10" aria-label="Fechar modal">
           <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -1568,7 +1934,7 @@
       class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden flex items-center justify-center p-4"
     >
       <div
-        class="bg-white rounded-lg shadow-lg max-w-md w-full relative flex flex-col max-h-[85vh]"
+        class="bg-white rounded-lg shadow-lg max-w-md w-full relative flex flex-col max-h-[95vh]"
       >
         <!-- Cabeçalho do Modal -->
         <div class="flex justify-between items-center p-4 border-b flex-shrink-0">
@@ -1594,8 +1960,8 @@
         </div>
         <!-- Conteúdo Rolável -->
         <div class="p-6 overflow-y-auto">
-          <video id="video-embalagens" controls class="w-full h-auto rounded-md">
-            <source src="VideoEmbalagens/VideoAngela.mp4" type="video/mp4" />
+          <video id="video-embalagens" controls class="w-full h-auto rounded-md" preload="none">
+            <source data-src="VideoEmbalagens/VideoAngela.mp4" type="video/mp4" />
             Seu navegador não suporta o elemento de vídeo.
           </video>
           <p class="mt-4 text-gray-600">Informações sobre as embalagens.</p>
@@ -1905,6 +2271,13 @@
             </div>
           </div>
           <div class="md:col-span-2">
+            <label class="block text-sm font-medium">Será retirada no local?</label>
+            <div class="mt-2 flex gap-6">
+                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="retirada" value="nao" class="h-4 w-4 text-[#D4AF37] focus:ring-offset-0 focus:ring-2 focus:ring-[#D4AF37]" checked><span class="text-sm font-medium">Não, desejo entrega</span></label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="retirada" value="sim" class="h-4 w-4 text-[#D4AF37] focus:ring-offset-0 focus:ring-2 focus:ring-[#D4AF37]"><span class="text-sm font-medium">Sim, vou retirar</span></label>
+            </div>
+          </div>
+          <div class="md:col-span-2">
             <label for="cep" class="block text-sm font-medium">CEP:</label>
             <div class="relative mt-1">
               <input
@@ -2026,7 +2399,7 @@
               required
               class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-[#D4AF37] focus:border-[#D4AF37]"
             >
-              <option disabled selected>Selecione uma Cidade</option>
+              <option value="" disabled selected>Selecione a Cidade</option>
               <option value="10">Marialva-PR R$ 10,00</option>
               <option value="20">Maringa-PR R$ 25,00</option>
               <option value="30">Sarandi-PR R$ 25,00</option>
@@ -2165,6 +2538,20 @@
     <script src="carrinho.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
+      // --- Page Loader Logic ---
+      const hideLoader = () => {
+        const loader = document.getElementById('page-loader');
+        if (loader && !loader.classList.contains('opacity-0')) {
+          loader.classList.add('opacity-0');
+          setTimeout(() => {
+            loader.style.display = 'none';
+          }, 700); // Match CSS transition duration
+        }
+      };
+
+      window.addEventListener('load', hideLoader);
+      setTimeout(hideLoader, 4000); // Fallback de segurança
+
       /* --- Script de Natal --- */
       document.addEventListener("DOMContentLoaded", () => {
         // --- CONFIGURAÇÕES ---
@@ -2174,13 +2561,56 @@
         const hoje = new Date();
         const mesAtual = hoje.getMonth(); // 0 = Janeiro, 11 = Dezembro
         const diaAtual = hoje.getDate();
-        const ehPeriodoDeNatal =
-          (mesAtual === 11 && diaAtual >= 1 && diaAtual <= 25) || MODO_TESTE_NATAL;
- 
+        const ehPeriodoDeNatal = (mesAtual === 11 && diaAtual >= 20 && diaAtual <= 26) || MODO_TESTE_NATAL;
         const natalGiftButton = document.getElementById("natal-gift-main");
         const popupOverlay = document.getElementById("natal-popup-overlay");
         const closeButton = document.getElementById("natal-popup-close");
         const natalHeaderIcon = document.getElementById("natal-header-icon-container");
+
+        // --- Botão Voltar ao Topo ---
+        const backToTopBtn = document.getElementById("back-to-top");
+        if (backToTopBtn) {
+          window.addEventListener("scroll", () => {
+            if (window.scrollY > 300) {
+              backToTopBtn.classList.remove("opacity-0", "invisible", "translate-y-4");
+              backToTopBtn.classList.add("opacity-100", "visible", "translate-y-0");
+            } else {
+              backToTopBtn.classList.add("opacity-0", "invisible", "translate-y-4");
+              backToTopBtn.classList.remove("opacity-100", "visible", "translate-y-0");
+            }
+          }, { passive: true });
+
+          backToTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+        }
+
+        // --- Lógica Modal Embalagens (Lazy Load Vídeo) ---
+        window.openEmbalagensModal = () => {
+            const modal = document.getElementById('embalagens-modal');
+            const video = document.getElementById('video-embalagens');
+            if(modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                // Carrega o vídeo apenas ao abrir
+                if(video) {
+                    const source = video.querySelector('source');
+                    if(source && source.dataset.src && !source.src) {
+                        source.src = source.dataset.src;
+                        video.load();
+                    }
+                }
+            }
+        };
+        
+        // Fechar modal de embalagens
+        const closeEmbalagensBtn = document.querySelector('#embalagens-modal .close-button');
+        if(closeEmbalagensBtn) {
+            closeEmbalagensBtn.addEventListener('click', () => {
+                document.getElementById('embalagens-modal').classList.add('hidden');
+                document.getElementById('embalagens-modal').classList.remove('flex');
+                const video = document.getElementById('video-embalagens');
+                if(video) video.pause();
+            });
+        }
 
         // Listener para mensagens do iframe (Controlar botão de fechar)
         window.addEventListener('message', (event) => {
@@ -2192,6 +2622,31 @@
  
         // --- Lógica do Natal (Pop-up e Botão) ---
         if (ehPeriodoDeNatal) {
+          // 1. Ativa o Tema Visual Elegante
+          document.body.classList.add('christmas-theme');
+
+          // 2. Cria o efeito de neve leve
+          const createSnowflake = () => {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.textContent = '❄';
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = Math.random() * 5 + 5 + 's'; // 5 a 10s
+            snowflake.style.opacity = Math.random() * 0.3 + 0.1; // Bem sutil
+            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+            
+            document.body.appendChild(snowflake);
+            
+            // Remove o floco após a animação
+            setTimeout(() => {
+              snowflake.remove();
+            }, 10000);
+          };
+          // Gera flocos a cada 400ms (suave)
+          setInterval(() => {
+            if (!document.hidden) createSnowflake(); // OTIMIZAÇÃO: Pausa neve em segundo plano
+          }, 400);
+
           if (natalHeaderIcon) {
             natalHeaderIcon.classList.remove("hidden");
           }
@@ -2277,8 +2732,137 @@
                 locale: { firstDayOfWeek: 0 }
             });
         }
+
+        /* --- Carrossel de Destaques --- */
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.carousel-dot');
+        const prevBtn = document.getElementById('prev-slide');
+        const nextBtn = document.getElementById('next-slide');
+        let currentSlide = 0;
+        let slideInterval;
+        
+        if (slides.length > 0) {
+            const showSlide = (index) => {
+                // Ajuste de índice circular
+                if (index >= slides.length) currentSlide = 0;
+                else if (index < 0) currentSlide = slides.length - 1;
+                else currentSlide = index;
+
+                slides.forEach((slide, i) => {
+                    if (i === currentSlide) {
+                        slide.classList.remove('opacity-0');
+                        slide.classList.add('opacity-100');
+                        slide.style.zIndex = '10';
+                        slide.style.pointerEvents = 'auto';
+                        if(dots[i]) {
+                            dots[i].classList.add('bg-[#D4AF37]', 'w-6');
+                            dots[i].classList.remove('bg-white/50', 'w-2');
+                        }
+                    } else {
+                        slide.classList.remove('opacity-100');
+                        slide.classList.add('opacity-0');
+                        slide.style.zIndex = '0';
+                        slide.style.pointerEvents = 'none';
+                        if(dots[i]) {
+                            dots[i].classList.remove('bg-[#D4AF37]', 'w-6');
+                            dots[i].classList.add('bg-white/50', 'w-2');
+                        }
+                    }
+                });
+            };
+
+            const nextSlide = () => {
+                showSlide(currentSlide + 1);
+                resetInterval();
+            };
+
+            const prevSlide = () => {
+                showSlide(currentSlide - 1);
+                resetInterval();
+            };
+
+            const resetInterval = () => {
+                clearInterval(slideInterval);
+                slideInterval = setInterval(() => {
+                    if (!document.hidden) showSlide(currentSlide + 1); // OTIMIZAÇÃO: Pausa carrossel em segundo plano
+                }, 5000);
+            };
+
+            // Event Listeners
+            if (nextBtn) nextBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                nextSlide();
+            });
+            if (prevBtn) prevBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                prevSlide();
+            });
+
+            // Suporte a Gestos de Toque (Swipe)
+            const carouselContainer = slides[0].parentElement;
+            
+            // Pausa no Hover (Melhoria de UX)
+            carouselContainer.addEventListener('mouseenter', () => clearInterval(slideInterval));
+            carouselContainer.addEventListener('mouseleave', resetInterval);
+
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            carouselContainer.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            carouselContainer.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, { passive: true });
+
+            const handleSwipe = () => {
+                const threshold = 50; // Sensibilidade do swipe
+                if (touchStartX - touchEndX > threshold) nextSlide(); // Deslizou p/ esquerda -> Próximo
+                if (touchEndX - touchStartX > threshold) prevSlide(); // Deslizou p/ direita -> Anterior
+            };
+
+            // Inicializa o primeiro slide
+            showSlide(0);
+            resetInterval();
+        }
+
+        /* --- Busca de Sabores em Tempo Real --- */
+        const searchInput = document.getElementById('cake-search');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase().trim();
+                const cards = document.querySelectorAll('#sabores .grid > div');
+                
+                cards.forEach(card => {
+                    const title = card.querySelector('h3')?.innerText.toLowerCase() || '';
+                    const desc = card.querySelector('p.text-gray-500')?.innerText.toLowerCase() || '';
+                    
+                    if (title.includes(term) || desc.includes(term)) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            });
+        }
       });
     </script>
     <script src="datepicker.js" defer></script>
+
+    <div id="custom-alert-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4" role="dialog" aria-modal="true">
+      <div class="bg-white p-6 rounded-2xl shadow-xl max-w-sm w-full relative mx-4 text-center">
+        <button id="custom-alert-x-close" class="absolute top-4 right-4 bg-gray-100 rounded-full p-1 text-gray-500 hover:text-gray-800 hover:bg-gray-200 transition-colors" aria-label="Fechar modal">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <h3 id="custom-alert-title" class="text-2xl font-bold text-gray-800 mb-3">Aviso</h3>
+        <p id="custom-alert-message" class="text-gray-600 mb-6"></p>
+        <button id="custom-alert-close" class="bg-[#D4AF37] text-black font-semibold py-2 px-6 rounded-lg hover:bg-[#f5e6b3] transition-colors">
+          Fechar
+        </button>
+      </div>
+    </div>
+
   </body>
 </html>

@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
 
@@ -33,42 +33,84 @@
               background: "#FFFFFF",
               text: "#1A1A1A",
               "text-light": "#6B7280",
+              gold: "#D4AF37",
             },
             boxShadow: {
               custom: "0 4px 15px rgba(0, 0, 0, 0.05)",
               "hover-custom": "0 8px 25px rgba(0, 0, 0, 0.1)",
             },
+            keyframes: {
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              fadeInDown: {
+                '0%': { opacity: '0', transform: 'translateY(-20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              shimmer: {
+                '0%': { transform: 'translateX(-100%)' },
+                '100%': { transform: 'translateX(100%)' },
+              }
+            },
+            animation: {
+              'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
+              'fade-in-down': 'fadeInDown 0.8s ease-out forwards',
+              'shimmer': 'shimmer 1.5s ease-in-out',
+            }
           },
         },
       };
     </script>
+    <style>
+      @keyframes shimmer-effect {
+        0% { transform: translateX(-100%) skewX(-15deg); }
+        100% { transform: translateX(100%) skewX(-15deg); }
+      }
+
+      /* Aplica o brilho apenas na área da imagem (primeira div relativa) */
+      .pote-card.is-shimmering > div.relative::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /* Brilho mais sutil e elegante */
+        background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.0) 30%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0.0) 70%, transparent 100%);
+        animation: shimmer-effect 1.2s ease-in-out;
+        pointer-events: none;
+        z-index: 20;
+      }
+    </style>
   </head>
-  <body class="bg-background text-text font-sans">
-    <header class="bg-background shadow-custom sticky top-0 z-20">
+  <body class="bg-stone-50 text-text font-sans selection:bg-primary selection:text-white">
+    <!-- Page Loader -->
+    <div id="page-loader" class="fixed inset-0 bg-stone-50 z-[9999] flex items-center justify-center transition-opacity duration-700 ease-out">
+      <div class="relative w-20 h-20">
+        <!-- The static part of the circle -->
+        <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+        <!-- The spinning part -->
+        <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+        <!-- The SC logo -->
+        <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-3xl font-bold text-[#D4AF37]">
+          SC
+        </div>
+      </div>
+    </div>
+    <header class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-30 border-b border-stone-100">
       <div
         class="container mx-auto px-6 py-4 flex justify-between items-center"
       >
-        <h1 class="text-3xl font-bold text-primary">
-          <a href="./menu.html" class="tracking-wide">Scatambulo</a>
+        <h1 class="text-2xl font-bold text-primary font-['Playfair_Display']">
+          <a href="./menu.html" class="tracking-wide hover:opacity-80 transition-opacity">Scatambulo</a>
         </h1>
         <nav
           class="hidden md:flex items-center space-x-8 text-base font-medium text-text-light"
         >
-          <a href="#batizado" class="hover:text-primary transition-colors duration-200"
-            >Batizado</a
-          >
-          <a href="#aniversario" class="hover:text-primary transition-colors duration-200"
-            >Aniversário</a
-          >
-          <a href="#casamento" class="hover:text-primary transition-colors duration-200"
-            >Casamento</a
-          >
-          <a href="#corporativo" class="hover:text-primary transition-colors duration-200"
-            >Corporativo</a
-          >
           <a
             href="./menu.html"
-            class="font-semibold text-primary hover:text-amber-600 transition-colors duration-200 ml-4"
+            class="font-semibold text-primary hover:text-amber-600 transition-colors duration-200"
             >&larr; Voltar ao Menu Principal</a
           >
         </nav>
@@ -99,39 +141,12 @@
         id="mobile-menu"
         class="hidden md:hidden bg-background border-t border-gray-100"
       >
-        <a href="#batizado" class="block py-3 px-6 text-text hover:bg-gray-50"
-          >Batizado</a
-        >
-        <a
-          href="#aniversario"
-          class="block py-3 px-6 text-text hover:bg-gray-50"
-          >Aniversário</a
-        >
-        <a
-          href="#casamento"
-          class="block py-3 px-6 text-text hover:bg-gray-50"
-          >Casamento</a
-        >
-        <a
-          href="#corporativo"
-          class="block py-3 px-6 text-text hover:bg-gray-50"
-          >Corporativo</a
-        >
-        <a
-          href="#confraternizacao"
-          class="block py-3 px-6 text-text hover:bg-gray-50"
-          >Confraternização</a
-        >
-        <a
-          href="#datas-comemorativas"
-          class="block py-3 px-6 text-text hover:bg-gray-50"
-          >Datas Comemorativas</a
-        >
-        <a
-          href="#lembrancinhas"
-          class="block py-3 px-6 text-text hover:bg-gray-50"
-          >Lembrancinhas</a
-        >
+        <a href="#" class="filter-btn block py-3 px-6 text-text hover:bg-gray-50" data-filter="all">Todos</a>
+        <a href="#" class="filter-btn block py-3 px-6 text-text hover:bg-gray-50" data-filter="batizado">Batizado</a>
+        <a href="#" class="filter-btn block py-3 px-6 text-text hover:bg-gray-50" data-filter="aniversario">Aniversário</a>
+        <a href="#" class="filter-btn block py-3 px-6 text-text hover:bg-gray-50" data-filter="casamento">Casamento</a>
+        <a href="#" class="filter-btn block py-3 px-6 text-text hover:bg-gray-50" data-filter="corporativo">Corporativo</a>
+        <a href="#" class="filter-btn block py-3 px-6 text-text hover:bg-gray-50" data-filter="natal">Natal</a>
         <a
           href="./menu.html"
           class="block py-3 px-6 text-primary font-semibold hover:bg-gray-50 border-t"
@@ -140,219 +155,254 @@
       </div>
     </header>
 
-    <main class="container mx-auto px-4 py-12 md:py-16 max-w-6xl">
-      <section class="text-center mb-16 md:mb-20">
-        <h2 class="text-4xl md:text-5xl font-bold mb-4 text-text">
+    <main class="container mx-auto px-4 py-12 md:py-16 max-w-7xl">
+      <!-- Hero Section -->
+      <section class="text-center mb-12 md:mb-16 animate-fade-in-down">
+        <span class="text-primary font-semibold tracking-widest uppercase text-sm mb-2 block">Lembrancinhas Exclusivas</span>
+        <h2 class="text-4xl md:text-6xl font-bold mb-6 text-gray-900 font-['Playfair_Display']">
           Bolos no Potinho
         </h2>
-        <p class="text-lg text-text-light max-w-3xl mx-auto leading-relaxed">
-          Nossas criações exclusivas, perfeitas como lembrancinhas personalizadas e
-          deliciosas para cada celebração especial.
+        <p class="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed mb-8">
+          Transforme seus momentos especiais em memórias doces. Personalize cada detalhe para combinar perfeitamente com sua celebração.
         </p>
-        <p class="text-xl font-medium text-text mt-8">
-          A partir de R$ 25,00 a unidade.<br />
-          <span class="text-base font-normal text-text-light"
-            >(Opção Pistache: R$ 35,00 a unidade)</span
-          >
-        </p>
+        
+        <div class="flex flex-col items-center gap-2">
+          <div class="inline-flex items-center gap-2 bg-white px-6 py-3 rounded-full shadow-sm border border-gray-100">
+            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+            <p class="text-sm font-medium text-gray-700">
+              A partir de <span class="text-primary font-bold">R$ 25,00</span> a unidade
+            </p>
+          </div>
+          <p class="text-xs text-gray-500">(Exceto Pistache)</p>
+        </div>
       </section>
 
-      <div class="flex flex-wrap justify-center gap-x-12 gap-y-16">
-        <section id="batizado" class="scroll-mt-24">
-          <h3
-            class="text-3xl md:text-4xl font-bold text-center text-text mb-10"
-          >
-            Batizado
-          </h3>
-          <div class="flex flex-wrap justify-center gap-4">
-            <img
-              loading="lazy"
-              src="potes/Batizado.jpg"
-              alt="Bolo no pote para batizado, design 1"
-              class="w-full max-w-md aspect-square object-cover rounded-xl shadow-custom gallery-item"
-            />
-          </div>
-          <div class="mt-8 text-center">
-            <a
-              href="https://api.whatsapp.com/send/?phone=554499024212&text=Oi!%20Tudo%20bem!?,%20Gostaria%20de%20Encomendar%20potinhos%20de%20Batizado&type=phone_number&app_absent=0"
-              target="_blank" rel="noopener noreferrer"
-              class="inline-block bg-primary text-background font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-amber-600 transition-all duration-300 transform hover:scale-105"
-              >Encomendar Potinho</a
-            >
-            
-          </div>
-        </section>
-
-        <section id="confraternizacao" class="scroll-mt-24">
-          <h3
-            class="text-3xl md:text-4xl font-bold text-center text-text mb-10"
-          >
-            Confraternização
-          </h3>
-          <div class="flex flex-wrap justify-center gap-4">
-            <img
-              loading="lazy"
-              src="potes/Confraternizacao.jpg"
-              alt="Bolo no pote para confraternização"
-              class="w-full max-w-md aspect-square object-cover rounded-xl shadow-custom gallery-item"
-            />
-          </div>
-          <div class="mt-8 text-center">
-            <a
-              href="https://api.whatsapp.com/send/?phone=554499024212&text=Oi!%20Tudo%20bem!?,%20Gostaria%20de%20Encomendar%20potinhos%20de%20Confraterniza%C3%A7%C3%A3o&type=phone_number&app_absent=0"
-              target="_blank" rel="noopener noreferrer"
-              class="inline-block bg-primary text-background font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-amber-600 transition-all duration-300 transform hover:scale-105"
-              >Encomendar Potinho</a
-            >
-          </div>
-        </section>
-
-        <section id="corporativo" class="scroll-mt-24">
-          <h3
-            class="text-3xl md:text-4xl font-bold text-center text-text mb-10"
-          >
-            Corporativo
-          </h3>
-          <div class="flex flex-wrap justify-center gap-4">
-            <img
-              loading="lazy"
-              src="potes/corporativo.jpg"
-              alt="Bolo no pote para evento corporativo"
-              class="w-full max-w-md aspect-square object-cover rounded-xl shadow-custom gallery-item"
-            />
-          </div>
-          <div class="mt-8 text-center">
-            <a
-              href="https://api.whatsapp.com/send/?phone=554499024212&text=Oi!%20Tudo%20bem!?,%20Gostaria%20de%20Encomendar%20potinhos%20Corporativos&type=phone_number&app_absent=0"
-              target="_blank" rel="noopener noreferrer"
-              class="inline-block bg-primary text-background font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-amber-600 transition-all duration-300 transform hover:scale-105"
-              >Encomendar Potinho</a
-            >
-          </div>
-        </section>
-
-        <section id="casamento" class="scroll-mt-24">
-          <h3
-            class="text-3xl md:text-4xl font-bold text-center text-text mb-10"
-          >
-            Casamento
-          </h3>
-          <div class="flex flex-wrap justify-center gap-4">
-            <img
-              loading="lazy"
-              src="potes/casamento.jpg"
-              alt="Bolo no pote para casamento"
-              class="w-full max-w-md aspect-square object-cover rounded-xl shadow-custom gallery-item"
-            />
-          </div>
-          <div class="mt-8 text-center">
-            <a
-              href="https://api.whatsapp.com/send/?phone=554499024212&text=Oi!%20Tudo%20bem!?,%20Gostaria%20de%20Encomendar%20potinhos%20de%20Casamento&type=phone_number&app_absent=0"
-              target="_blank" rel="noopener noreferrer"
-              class="inline-block bg-primary text-background font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-amber-600 transition-all duration-300 transform hover:scale-105"
-              >Encomendar Potinho</a
-            >
-          </div>
-        </section>
-
-        <section id="aniversario" class="scroll-mt-24">
-          <h3
-            class="text-3xl md:text-4xl font-bold text-center text-text mb-10"
-          >
-            Aniversário
-          </h3>
-          <div class="flex flex-wrap justify-center gap-4">
-            <img
-              loading="lazy"
-              src="potes/Aniversario.jpg"
-              alt="Bolo no pote para aniversário"
-              class="w-full max-w-md aspect-square object-cover rounded-xl shadow-custom gallery-item"
-            />
-          </div>
-          <div class="mt-8 text-center">
-            <a
-              href="https://api.whatsapp.com/send/?phone=554499024212&text=Oi!%20Tudo%20bem!?,%20Gostaria%20de%20Encomendar%20potinhos%20de%20Anivers%C3%A1rio&type=phone_number&app_absent=0"
-              target="_blank" rel="noopener noreferrer"
-              class="inline-block bg-primary text-background font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-amber-600 transition-all duration-300 transform hover:scale-105"
-              >Encomendar Potinho</a
-            >
-          </div>
-        </section>
-
-        <section id="datas-comemorativas" class="scroll-mt-24">
-          <h3
-            class="text-3xl md:text-4xl font-bold text-center text-text mb-10"
-          >
-            Datas Comemorativas: Natal
-          </h3>
-          <div class="relative inline-block">
-            <div class="absolute top-4 right-4 z-10 bg-blue-500 text-white text-sm font-semibold px-3 py-1 rounded-md shadow-lg">Novo</div>
-            <img
-              loading="lazy"
-              src="potes/Natal.jpg"
-              alt="Bolo no pote para o Natal"
-              class="w-full max-w-md aspect-square object-cover rounded-xl shadow-custom gallery-item"
-            />
-          </div>
-          <div class="mt-8 text-center">
-            <a
-              href="https://api.whatsapp.com/send/?phone=554499024212&text=Oi!%20Tudo%20bem!?,%20Gostaria%20de%20Encomendar%20potinhos%20de%20Natal&type=phone_number&app_absent=0"
-              target="_blank" rel="noopener noreferrer"
-              class="inline-block bg-primary text-background font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-amber-600 transition-all duration-300 transform hover:scale-105"
-              >Encomendar Potinho</a
-            >
-          </div>
-        </section>
-
-        <section id="lembrancinhas" class="scroll-mt-24">
-          <h3
-            class="text-3xl md:text-4xl font-bold text-center text-text mb-10"
-          >
-            Lembrancinhas
-          </h3>
-          <div class="flex flex-wrap justify-center gap-4">
-            <img
-              loading="lazy"
-              src="potes/Lembrancinha.jpg"
-              alt="Bolo no pote como lembrancinha"
-              class="w-full max-w-md aspect-square object-cover rounded-xl shadow-custom gallery-item"
-            />
-          </div>
-          <div class="mt-8 text-center">
-            <a
-              href="https://api.whatsapp.com/send/?phone=554499024212&text=Oi!%20Tudo%20bem!?,%20Gostaria%20de%20Encomendar%20potinhos%20de%20Lembrancinha&type=phone_number&app_absent=0"
-              target="_blank"
-              class="inline-block bg-primary text-background font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-amber-600 transition-all duration-300 transform hover:scale-105"
-              >Encomendar Potinho</a
-            >
-          </div>
-        </section>
+      <!-- Filtros -->
+      <div class="flex flex-wrap justify-center gap-3 mb-12 sticky top-24 z-20 py-4 bg-stone-50/95 backdrop-blur-sm rounded-xl">
+        <button class="filter-btn px-6 py-2 rounded-full border transition-all duration-300 bg-stone-900 text-[#D4AF37] border-stone-900 shadow-lg scale-105" data-filter="all">Todos</button>
+        <button class="filter-btn px-6 py-2 rounded-full border border-gray-200 transition-all duration-300 bg-white text-gray-600 hover:bg-gray-50 hover:border-[#D4AF37] hover:text-[#D4AF37]" data-filter="batizado">Batizado</button>
+        <button class="filter-btn px-6 py-2 rounded-full border border-gray-200 transition-all duration-300 bg-white text-gray-600 hover:bg-gray-50 hover:border-[#D4AF37] hover:text-[#D4AF37]" data-filter="aniversario">Aniversário</button>
+        <button class="filter-btn px-6 py-2 rounded-full border border-gray-200 transition-all duration-300 bg-white text-gray-600 hover:bg-gray-50 hover:border-[#D4AF37] hover:text-[#D4AF37]" data-filter="casamento">Casamento</button>
+        <button class="filter-btn px-6 py-2 rounded-full border border-gray-200 transition-all duration-300 bg-white text-gray-600 hover:bg-gray-50 hover:border-[#D4AF37] hover:text-[#D4AF37]" data-filter="corporativo">Corporativo</button>
+        <button class="filter-btn px-6 py-2 rounded-full border border-gray-200 transition-all duration-300 bg-white text-gray-600 hover:bg-gray-50 hover:border-[#D4AF37] hover:text-[#D4AF37]" data-filter="natal">Natal</button>
       </div>
-      </main>
 
-    <!-- Botão Flutuante para Personalização -->
-    <button
-      id="personalize-tab"
-      class="fixed bottom-8 right-8 w-16 h-16 bg-primary text-background rounded-full shadow-lg z-10 flex items-center justify-center floating-btn"
-      aria-label="Personalizar potinho"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-8 w-8"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        stroke-width="2"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
-        />
-      </svg>
-    </button>
+      <!-- Grid de Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
+        <!-- Card Batizado -->
+        <div class="pote-card animate-fade-in-up group relative bg-white rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden" data-category="batizado">
+          <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="relative w-12 h-12">
+                    <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                    <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                    <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                </div>
+            </div>
+            <img src="potes/Batizado.jpg" alt="Batizado" loading="lazy" class="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 gallery-item cursor-pointer opacity-0" onload="this.classList.remove('opacity-0')">
+            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none"></div>
+            <button class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-primary p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 gallery-trigger" aria-label="Ver detalhes">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>
+            </button>
+          </div>
+          <div class="p-6 flex flex-col flex-grow">
+            <div class="mb-4">
+              <span class="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">Ocasião</span>
+              <h3 class="font-['Playfair_Display'] text-2xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">Batizado</h3>
+              <p class="text-sm text-gray-500 leading-relaxed">Delicadeza em cada detalhe para celebrar este momento sagrado.</p>
+            </div>
+            <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+              <a href="https://api.whatsapp.com/send/?phone=554499024212&text=Ol%C3%A1%2C%20Angela%21%20%F0%9F%91%8B%0AGostaria%20de%20um%20or%C3%A7amento%20para%20*Bolos%20no%20Pote*.%0ATema%3A%20*Batizado*%20%F0%9F%95%8A%EF%B8%8F" target="_blank" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
+                Encomendar Agora
+              </a>
+            </div>
+          </div>
+        </div>
 
+        <!-- Card Confraternização -->
+        <div class="pote-card animate-fade-in-up group relative bg-white rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden" data-category="corporativo">
+          <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="relative w-12 h-12">
+                    <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                    <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                    <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                </div>
+            </div>
+            <img src="potes/Confraternizacao.jpg" alt="Confraternização" loading="lazy" class="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 gallery-item cursor-pointer opacity-0" onload="this.classList.remove('opacity-0')">
+            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none"></div>
+            <button class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-primary p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 gallery-trigger">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>
+            </button>
+          </div>
+          <div class="p-6 flex flex-col flex-grow">
+            <div class="mb-4">
+              <span class="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">Evento</span>
+              <h3 class="font-['Playfair_Display'] text-2xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">Confraternização</h3>
+              <p class="text-sm text-gray-500 leading-relaxed">Adoce o final de ano da sua equipe com elegância.</p>
+            </div>
+            <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+              <a href="https://api.whatsapp.com/send/?phone=554499024212&text=Ol%C3%A1%2C%20Angela%21%20%F0%9F%91%8B%0AGostaria%20de%20um%20or%C3%A7amento%20para%20*Bolos%20no%20Pote*.%0ATema%3A%20*Confraterniza%C3%A7%C3%A3o*%20%F0%9F%A5%82" target="_blank" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
+                Encomendar Agora
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Corporativo -->
+        <div class="pote-card animate-fade-in-up group relative bg-white rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden" data-category="corporativo">
+          <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="relative w-12 h-12">
+                    <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                    <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                    <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                </div>
+            </div>
+            <img src="potes/corporativo.jpg" alt="Corporativo" loading="lazy" class="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 gallery-item cursor-pointer opacity-0" onload="this.classList.remove('opacity-0')">
+            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none"></div>
+            <button class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-primary p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 gallery-trigger">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>
+            </button>
+          </div>
+          <div class="p-6 flex flex-col flex-grow">
+            <div class="mb-4">
+              <span class="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">Empresarial</span>
+              <h3 class="font-['Playfair_Display'] text-2xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">Corporativo</h3>
+              <p class="text-sm text-gray-500 leading-relaxed">Brindes personalizados que marcam presença.</p>
+            </div>
+            <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+              <a href="https://api.whatsapp.com/send/?phone=554499024212&text=Ol%C3%A1%2C%20Angela%21%20%F0%9F%91%8B%0AGostaria%20de%20um%20or%C3%A7amento%20para%20*Bolos%20no%20Pote*.%0ATema%3A%20*Corporativo*%20%F0%9F%92%BC" target="_blank" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
+                Encomendar Agora
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Casamento -->
+        <div class="pote-card animate-fade-in-up group relative bg-white rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden" data-category="casamento">
+          <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="relative w-12 h-12">
+                    <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                    <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                    <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                </div>
+            </div>
+            <img src="potes/casamento.jpg" alt="Casamento" loading="lazy" class="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 gallery-item cursor-pointer opacity-0" onload="this.classList.remove('opacity-0')">
+            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none"></div>
+            <button class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-primary p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 gallery-trigger">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>
+            </button>
+          </div>
+          <div class="p-6 flex flex-col flex-grow">
+            <div class="mb-4">
+              <span class="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">Cerimônia</span>
+              <h3 class="font-['Playfair_Display'] text-2xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">Casamento</h3>
+              <p class="text-sm text-gray-500 leading-relaxed">Lembrança sofisticada para o dia mais importante.</p>
+            </div>
+            <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+              <a href="https://api.whatsapp.com/send/?phone=554499024212&text=Ol%C3%A1%2C%20Angela%21%20%F0%9F%91%8B%0AGostaria%20de%20um%20or%C3%A7amento%20para%20*Bolos%20no%20Pote*.%0ATema%3A%20*Casamento*%20%F0%9F%92%8D" target="_blank" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
+                Encomendar Agora
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Aniversário -->
+        <div class="pote-card animate-fade-in-up group relative bg-white rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden" data-category="aniversario">
+          <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="relative w-12 h-12">
+                    <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                    <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                    <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                </div>
+            </div>
+            <img src="potes/Aniversario.jpg" alt="Aniversário" loading="lazy" class="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 gallery-item cursor-pointer opacity-0" onload="this.classList.remove('opacity-0')">
+            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none"></div>
+            <button class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-primary p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 gallery-trigger">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>
+            </button>
+          </div>
+          <div class="p-6 flex flex-col flex-grow">
+            <div class="mb-4">
+              <span class="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">Festa</span>
+              <h3 class="font-['Playfair_Display'] text-2xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">Aniversário</h3>
+              <p class="text-sm text-gray-500 leading-relaxed">A alegria da festa continua em casa.</p>
+            </div>
+            <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+              <a href="https://api.whatsapp.com/send/?phone=554499024212&text=Ol%C3%A1%2C%20Angela%21%20%F0%9F%91%8B%0AGostaria%20de%20um%20or%C3%A7amento%20para%20*Bolos%20no%20Pote*.%0ATema%3A%20*Anivers%C3%A1rio*%20%F0%9F%8E%82" target="_blank" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
+                Encomendar Agora
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Natal -->
+        <div class="pote-card animate-fade-in-up group relative bg-white rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden" data-category="natal">
+          <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
+            <div class="absolute top-4 left-4 z-10 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">Edição Limitada</div>
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="relative w-12 h-12">
+                    <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                    <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                    <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                </div>
+            </div>
+            <img src="potes/Natal.jpg" alt="Natal" loading="lazy" class="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 gallery-item cursor-pointer opacity-0" onload="this.classList.remove('opacity-0')">
+            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none"></div>
+            <button class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-primary p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 gallery-trigger">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>
+            </button>
+          </div>
+          <div class="p-6 flex flex-col flex-grow">
+            <div class="mb-4">
+              <span class="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">Datas Comemorativas</span>
+              <h3 class="font-['Playfair_Display'] text-2xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">Natal</h3>
+              <p class="text-sm text-gray-500 leading-relaxed">O presente perfeito para quem você ama.</p>
+            </div>
+            <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+              <a href="https://api.whatsapp.com/send/?phone=554499024212&text=Ol%C3%A1%2C%20Angela%21%20%F0%9F%91%8B%0AGostaria%20de%20um%20or%C3%A7amento%20para%20*Bolos%20no%20Pote*.%0ATema%3A%20*Natal*%20%F0%9F%8E%84" target="_blank" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
+                Encomendar Agora
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Lembrancinha -->
+        <div class="pote-card animate-fade-in-up group relative bg-white rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden" data-category="batizado">
+          <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="relative w-12 h-12">
+                    <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                    <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                    <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
+                </div>
+            </div>
+            <img src="potes/Lembrancinha.jpg" alt="Lembrancinha" loading="lazy" class="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 gallery-item cursor-pointer opacity-0" onload="this.classList.remove('opacity-0')">
+            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none"></div>
+            <button class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-primary p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 gallery-trigger">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>
+            </button>
+          </div>
+          <div class="p-6 flex flex-col flex-grow">
+            <div class="mb-4">
+              <span class="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">Geral</span>
+              <h3 class="font-['Playfair_Display'] text-2xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">Lembrancinhas</h3>
+              <p class="text-sm text-gray-500 leading-relaxed">Pequenos gestos que deixam grandes marcas.</p>
+            </div>
+            <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+              <a href="https://api.whatsapp.com/send/?phone=554499024212&text=Ol%C3%A1%2C%20Angela%21%20%F0%9F%91%8B%0AGostaria%20de%20um%20or%C3%A7amento%20para%20*Bolos%20no%20Pote*.%0ATema%3A%20*Lembrancinhas*%20%F0%9F%8E%81" target="_blank" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
+                Encomendar Agora
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
 
     <footer class="bg-background mt-12 py-8 border-t border-gray-100">
       <div class="container mx-auto text-center text-text-light text-sm">
@@ -360,34 +410,104 @@
       </div>
     </footer>
 
+    <!-- Botão Voltar ao Topo -->
+    <button
+      id="back-to-top"
+      class="fixed bottom-8 right-8 bg-primary text-background p-3 rounded-full shadow-lg z-40 opacity-0 invisible translate-y-4 transition-all duration-300 hover:bg-amber-600 focus:outline-none"
+      aria-label="Voltar ao topo"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+      </svg>
+    </button>
+
     <div
       id="lightbox"
-      class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden items-center justify-center p-4"
+      class="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 hidden items-center justify-center p-4 transition-opacity duration-300"
       role="dialog"
       aria-modal="true"
     >
-      <div class="relative">
+      <div class="relative max-w-4xl w-full bg-white rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row animate-fade-in-down max-h-[90vh] md:max-h-none overflow-y-auto md:overflow-visible">
         <button
-          class="lightbox-close absolute top-3 right-3 z-10 text-white bg-black bg-opacity-50 rounded-full w-10 h-10 flex items-center justify-center text-3xl leading-none font-light opacity-80 hover:opacity-100 transition-opacity duration-200"
+          class="lightbox-close absolute top-4 right-4 z-20 text-gray-500 bg-white/80 rounded-full w-10 h-10 flex items-center justify-center hover:bg-white hover:text-red-500 transition-all duration-200 shadow-md"
           aria-label="Fechar imagem"
         >
-          &times;
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
         </button>
-        <img
-          id="lightbox-img"
-          src=""
-          alt="Imagem ampliada do bolo no pote"
-          class="max-w-[90vw] max-h-[85vh] rounded-lg shadow-2xl"
-        />
+        
+        <div class="w-full md:w-1/2 bg-gray-100 flex items-center justify-center relative">
+          <img
+            id="lightbox-img"
+            src=""
+            alt="Detalhe do bolo"
+            class="w-full h-full object-cover max-h-[40vh] md:max-h-[80vh]"
+          />
+          <!-- Indicador de Scroll para Mobile -->
+          <div class="absolute bottom-4 left-1/2 -translate-x-1/2 md:hidden flex flex-col items-center animate-bounce z-10 pointer-events-none">
+            <div class="bg-black/30 backdrop-blur-sm rounded-full p-2 border border-white/30 shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-center">
+          <span class="text-primary font-bold tracking-widest uppercase text-xs mb-2">Detalhes do Produto</span>
+          <h3 class="font-['Playfair_Display'] text-2xl md:text-3xl font-bold text-gray-900 mb-4">Bolo no Potinho</h3>
+          <p class="text-gray-600 leading-relaxed mb-6">
+            Nossos bolos no pote são montados artesanalmente com camadas generosas de recheio e massa fofinha. 
+            Perfeitos para lembrancinhas de eventos ou para adoçar o seu dia.
+          </p>
+          
+          <div class="space-y-3 mb-8">
+            <div class="flex items-center gap-3 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              <span>Personalização de fita e adesivo</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              <span>Ingredientes selecionados</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              <span>Pedido mínimo sob consulta</span>
+            </div>
+          </div>
+
+          <a href="https://api.whatsapp.com/send/?phone=554499024212" target="_blank" class="w-full text-center bg-primary text-white font-bold py-3 md:py-4 rounded-xl hover:bg-amber-600 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+            Encomendar Agora
+          </a>
+        </div>
       </div>
     </div>
 
     <script>
+      // --- Page Loader Logic ---
+      const hideLoader = () => {
+        const loader = document.getElementById('page-loader');
+        if (loader && !loader.classList.contains('opacity-0')) {
+          loader.classList.add('opacity-0');
+          setTimeout(() => {
+            loader.style.display = 'none';
+          }, 700); // Match CSS transition duration
+        }
+      };
+
+      window.addEventListener('load', hideLoader);
+      setTimeout(hideLoader, 4000); // Fallback de segurança
+
       document.addEventListener("DOMContentLoaded", () => {
         initMobileMenu();
         initLightbox();
-        initPersonalizePanel();
         initWhatsAppLoadingOverlay(); // Initialize the WhatsApp loading overlay
+        initBackToTop();
       });
 
       // Function to handle WhatsApp link clicks with loading overlay
@@ -439,15 +559,28 @@
 
         const lightboxImg = lightbox.querySelector("#lightbox-img");
         const galleryImages = document.querySelectorAll(".gallery-item");
+        const galleryTriggers = document.querySelectorAll(".gallery-trigger");
         const closeButton = lightbox.querySelector(".lightbox-close");
 
         if (!lightboxImg) return;
 
-        galleryImages.forEach((img) => {
-          img.addEventListener("click", () => {
-            lightboxImg.src = img.src;
+        const openLightbox = (src) => {
+            lightboxImg.src = src;
             lightbox.classList.remove("hidden");
             lightbox.classList.add("flex"); // Garante o flex para centralizar
+        };
+
+        galleryImages.forEach((img) => {
+          img.addEventListener("click", () => openLightbox(img.src));
+        });
+
+        galleryTriggers.forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation(); // Evita clique duplo se estiver dentro de outro elemento clicável
+            // Encontra a imagem dentro do mesmo card
+            const card = btn.closest('.pote-card');
+            const img = card.querySelector('.gallery-item');
+            if(img) openLightbox(img.src);
           });
         });
 
@@ -464,21 +597,26 @@
         if (closeButton) closeButton.addEventListener("click", closeLightbox);
       }
 
-      /**
-       * NOVO: Controla o painel de personalização de potinhos
-       */
-      function initPersonalizePanel() {
-        const openButton = document.getElementById("personalize-tab");
-        if (!openButton) return;
+      function initBackToTop() {
+        const backToTopBtn = document.getElementById("back-to-top");
+        if (!backToTopBtn) return;
 
-        openButton.addEventListener("click", () => {
-          document.getElementById('packaging-video').scrollIntoView({
-            behavior: 'smooth'
-          });
+        window.addEventListener("scroll", () => {
+          if (window.scrollY > 300) {
+            backToTopBtn.classList.remove("opacity-0", "invisible", "translate-y-4");
+            backToTopBtn.classList.add("opacity-100", "visible", "translate-y-0");
+          } else {
+            backToTopBtn.classList.add("opacity-0", "invisible", "translate-y-4");
+            backToTopBtn.classList.remove("opacity-100", "visible", "translate-y-0");
+          }
         });
+
+        backToTopBtn.addEventListener("click", () => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      }
     </script>
     <script src="carrinho.js" defer></script>
-    <script src="packaging_modals.js" defer></script>
     <div id="loading-overlay" class="fixed inset-0 bg-background bg-opacity-80 z-50 flex items-center justify-center hidden">
       <div class="flex flex-col items-center space-y-4">
         <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary"></div>

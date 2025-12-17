@@ -87,22 +87,6 @@
         transition: transform 0.1s ease-in-out;
       }
 
-      /* Animação do Presente na Ilha */
-      #island-gift-icon {
-        animation: jump 2s ease-in-out infinite;
-      }
-
-      /* --- Animações Gerais --- */
-      @keyframes jump {
-        0%, 50%, 100% { transform: translateY(0); }
-        25% { transform: translateY(-4px); }
-      }
-
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-
       /* --- Neve de Natal Melhorada --- */
       #snow-container {
         position: fixed;
@@ -140,10 +124,39 @@
   </head>
 
   <body class="bg-black text-white">
-    
+    <!-- Page Loader -->
+    <div id="page-loader" class="fixed inset-0 bg-black z-[9999] flex items-center justify-center transition-opacity duration-700 ease-out">
+      <div class="relative w-20 h-20">
+        <!-- The static part of the circle -->
+        <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+        <!-- The spinning part -->
+        <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+        <!-- The SC logo -->
+        <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-3xl font-bold text-[#D4AF37]">
+          SC
+        </div>
+      </div>
+    </div>
     <div id="snow-container"></div>
 
     <div id="dynamic-island-container"></div>
+
+    <!-- Overlay de Ano Novo (Apenas 01/01) -->
+    <div id="new-year-overlay" class="fixed inset-0 z-[110] hidden items-center justify-center bg-black/90 backdrop-blur-md transition-opacity duration-700 opacity-0">
+      <div class="text-center p-6 relative z-10 animate-fade-in-down">
+        <h2 class="text-5xl md:text-7xl font-bold text-[#D4AF37] mb-6 drop-shadow-[0_0_15px_rgba(212,175,55,0.5)]">
+          ✨ Feliz Ano Novo! ✨
+        </h2>
+        <p class="text-white text-lg md:text-2xl max-w-lg mx-auto leading-relaxed font-light">
+          Que seu ano seja repleto de doçura, conquistas e momentos inesquecíveis.
+        </p>
+        <button id="close-new-year" class="mt-10 px-10 py-3 bg-transparent border-2 border-[#D4AF37] text-[#D4AF37] rounded-full text-lg font-semibold hover:bg-[#D4AF37] hover:text-black transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:shadow-[0_0_30px_rgba(212,175,55,0.6)]">
+          Celebrar 🥂
+        </button>
+      </div>
+      <!-- Efeito de brilho de fundo -->
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#D4AF37]/20 via-transparent to-transparent pointer-events-none"></div>
+    </div>
 
     <div class="fixed top-0 left-0 w-full h-full z-0 overflow-hidden">
       <video
@@ -247,6 +260,22 @@
     </div>
 
     <script>
+      // --- Page Loader Logic ---
+      const hideLoader = () => {
+        const loader = document.getElementById('page-loader');
+        if (loader && !loader.classList.contains('opacity-0')) {
+          loader.classList.add('opacity-0');
+          setTimeout(() => {
+            loader.style.display = 'none';
+          }, 700); // Match CSS transition duration
+        }
+      };
+
+      window.addEventListener('load', hideLoader);
+      
+      // Fallback de segurança: remove o loader após 4s mesmo se a página não tiver carregado tudo
+      setTimeout(hideLoader, 4000);
+
       /* --- Script de Configuração e Lógica --- */
       document.addEventListener("DOMContentLoaded", () => {
         // --- CONFIGURAÇÕES ---
@@ -255,7 +284,28 @@
         // --- Datas ---
         const hoje = new Date();
         const mesAtual = hoje.getMonth(); // 0 = Janeiro, 11 = Dezembro
-        const ehDezembro = mesAtual === 11 || MODO_TESTE_NATAL;
+        const diaAtual = hoje.getDate();
+        const ehDezembro = (mesAtual === 11 && diaAtual >= 20 && diaAtual <= 26) || MODO_TESTE_NATAL;
+
+        // --- Lógica de Ano Novo (01/01) ---
+        if (mesAtual === 0 && diaAtual === 1) {
+            const newYearOverlay = document.getElementById("new-year-overlay");
+            const closeNewYearBtn = document.getElementById("close-new-year");
+            
+            if (newYearOverlay) {
+                // Mostra o overlay
+                newYearOverlay.classList.remove("hidden");
+                // Pequeno delay para a transição de opacidade
+                setTimeout(() => newYearOverlay.classList.remove("opacity-0"), 100);
+
+                if (closeNewYearBtn) {
+                    closeNewYearBtn.addEventListener("click", () => {
+                        newYearOverlay.classList.add("opacity-0");
+                        setTimeout(() => newYearOverlay.classList.add("hidden"), 700);
+                    });
+                }
+            }
+        }
 
         // --- Ajuste de Viewport para Mobile (Safari/Chrome) ---
         function setViewportHeight() {

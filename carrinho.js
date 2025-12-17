@@ -3,6 +3,14 @@
     return;
   }
 
+  // --- OTIMIZAÇÃO: Constantes Regex e Formatador para evitar recriação ---
+  const WEIGHT_REGEX = /(\d+[.,]\d+|\d+)\s*(k?g)/i;
+  const PRICE_REGEX = /\+\s*R\$\s*(\d+[.,]\d+)/;
+  const BRL_FORMATTER = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+
   // --- Função para resetar o botão de compra ao mudar opções (UX) ---
   function initSelectChangeReset() {
     document
@@ -11,7 +19,7 @@
         select.addEventListener("change", function () {
           const card = this.closest('.relative, [class*="bg-[#FAF8F0]"]');
           const button = card.querySelector(
-            "button[onclick^='addToCart'], button[onclick^='addStrogonoffToCart']"
+            "a[onclick^='addToCart'], a[onclick^='addStrogonoffToCart']"
           );
 
           // Reseta o botão para o estado original se já tiver sido clicado
@@ -22,6 +30,87 @@
           }
         });
       });
+  }
+
+  // --- OTIMIZAÇÃO: Lazy Loading Automático para Imagens ---
+  function initImageOptimization() {
+    const images = document.querySelectorAll("img");
+    images.forEach((img, index) => {
+      if (img.hasAttribute("loading")) return;
+      // Pula as 3 primeiras imagens (Logo/Banner) para não prejudicar o LCP (Largest Contentful Paint)
+      // Aplica lazy loading em todas as outras para economizar dados e acelerar o carregamento inicial
+      if (index > 2) img.setAttribute("loading", "lazy");
+    });
+  }
+
+  // --- FUNÇÃO DE FILTRO PARA BOLOS NO POTE ---
+  function initPotesFilter() {
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const poteCards = document.querySelectorAll(".pote-card");
+
+    if (filterButtons.length === 0) return;
+
+    filterButtons.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        // Remove estilo ativo de todos
+        filterButtons.forEach((b) => {
+          b.classList.remove("bg-stone-900", "text-[#D4AF37]", "shadow-lg", "scale-105", "border-stone-900");
+          b.classList.add("bg-white", "text-gray-600", "border-gray-200", "hover:bg-gray-50");
+        });
+
+        // Adiciona estilo ativo ao clicado
+        btn.classList.remove("bg-white", "text-gray-600", "border-gray-200", "hover:bg-gray-50");
+        btn.classList.add("bg-stone-900", "text-[#D4AF37]", "shadow-lg", "scale-105", "border-stone-900");
+
+        const category = btn.getAttribute("data-filter");
+
+        poteCards.forEach((card) => {
+          const cardCategory = card.getAttribute("data-category");
+          
+          // Reset da animação para garantir que ela ocorra novamente
+          card.classList.remove("animate-fade-in-up");
+          void card.offsetWidth; // Força o reflow
+
+          if (category === "all" || cardCategory === category) {
+            card.classList.remove("hidden");
+            card.classList.add("flex"); // Garante que o card volte a aparecer
+            card.classList.add("animate-fade-in-up");
+          } else {
+            card.classList.add("hidden");
+            card.classList.remove("flex");
+          }
+        });
+      });
+    });
+  }
+
+  // --- EFEITO DE BRILHO PERIÓDICO NOS CARDS ---
+  function initShimmerEffect() {
+    const SHIMMER_INTERVAL = 3500; // Intervalo em milissegundos
+
+    setInterval(() => {
+      if (document.hidden) return; // OTIMIZAÇÃO: Pausa animação se a aba estiver oculta
+
+      // Pega todos os cards visíveis na tela
+      const cards = Array.from(document.querySelectorAll('.pote-card:not(.hidden)'));
+      if (cards.length === 0) return;
+
+      // Filtra os cards que não estão atualmente animando
+      const availableCards = cards.filter(c => !c.classList.contains('is-shimmering'));
+      if (availableCards.length === 0) return;
+
+      // Escolhe um card aleatório para aplicar o efeito
+      const cardToShimmer = availableCards[Math.floor(Math.random() * availableCards.length)];
+
+      cardToShimmer.classList.add('is-shimmering');
+
+      // Remove a classe após a animação terminar para que possa ser re-aplicada
+      cardToShimmer.addEventListener('animationend', () => {
+        cardToShimmer.classList.remove('is-shimmering');
+      }, { once: true });
+
+    }, SHIMMER_INTERVAL);
   }
 
   function initMobileMenu() {
@@ -75,11 +164,26 @@
     const videoEmbalagens = document.getElementById("video-embalagens");
 
     if (embalagensModal) {
+      embalagensModal.classList.add(
+        "transition-opacity",
+        "duration-300",
+        "ease-out",
+        "opacity-0"
+      );
+
       const closeButton = embalagensModal.querySelector(".close-button");
+      let closeTimeout;
 
       window.openEmbalagensModal = () => {
+        clearTimeout(closeTimeout);
         embalagensModal.classList.remove("hidden");
-        if (videoEmbalagens) videoEmbalagens.play();
+        requestAnimationFrame(() => {
+          embalagensModal.classList.remove("opacity-0");
+        });
+        if (videoEmbalagens) {
+          videoEmbalagens.src = "VideoEmbalagens/VideoAngela.mp4";
+          videoEmbalagens.play();
+        }
       };
 
       const openButtons = [
@@ -97,11 +201,15 @@
       });
 
       const closeEmbalagensModal = () => {
-        embalagensModal.classList.add("hidden");
+        embalagensModal.classList.add("opacity-0");
         if (videoEmbalagens) {
           videoEmbalagens.pause();
           videoEmbalagens.currentTime = 0;
         }
+        closeTimeout = setTimeout(() => {
+          embalagensModal.classList.add("hidden");
+          if (videoEmbalagens) videoEmbalagens.src = "";
+        }, 300);
       };
 
       if (closeButton)
@@ -123,36 +231,47 @@
       "close-saber-mais-modal"
     );
 
+    // Configuração inicial de classes para animação
+    if (saberMaisModal) {
+      saberMaisModal.classList.add(
+        "transition-opacity",
+        "duration-300",
+        "ease-out",
+        "opacity-0"
+      );
+    }
+
+    let closeTimeout;
+
     const openModal = () => {
       if (saberMaisModal) {
+        clearTimeout(closeTimeout);
         saberMaisModal.classList.remove("hidden");
+        requestAnimationFrame(() => {
+          saberMaisModal.classList.remove("opacity-0");
+        });
         document.body.classList.add("overflow-hidden"); // Trava o scroll do body
       }
     };
 
     const closeModal = () => {
       if (saberMaisModal) {
-        saberMaisModal.classList.add("hidden");
-        document.body.classList.remove("overflow-hidden"); // Libera o scroll do body
+        saberMaisModal.classList.add("opacity-0");
+        closeTimeout = setTimeout(() => {
+          saberMaisModal.classList.add("hidden");
+          document.body.classList.remove("overflow-hidden"); // Libera o scroll do body
+        }, 300);
       }
     };
 
-    window.openSaberMaisModal = () => {
-      if (saberMaisModal) saberMaisModal.classList.remove("hidden");
-      openModal();
-    };
+    window.openSaberMaisModal = openModal;
 
     if (closeSaberMaisModalButton) {
-      closeSaberMaisModalButton.addEventListener("click", () => {
-        if (saberMaisModal) saberMaisModal.classList.add("hidden");
-      });
       closeSaberMaisModalButton.addEventListener("click", closeModal);
     }
 
     if (saberMaisModal) {
       saberMaisModal.addEventListener("click", (event) => {
-        if (event.target === saberMaisModal)
-          saberMaisModal.classList.add("hidden");
         if (event.target === saberMaisModal) closeModal();
       });
     }
@@ -161,7 +280,8 @@
       "saber-mais-embalagens"
     );
     if (saberMaisEmbalagensButton) {
-      saberMaisEmbalagensButton.addEventListener("click", () => {
+      saberMaisEmbalagensButton.addEventListener("click", (e) => {
+        e.preventDefault();
         window.openSaberMaisModal();
       });
     }
@@ -226,8 +346,8 @@
 
   function parseSizeAndPrice(optionText) {
     // Regex aprimorado para aceitar ponto ou vírgula nos decimais (ex: 1.5kg ou 1,5kg)
-    const weightMatch = optionText.match(/(\d+[.,]\d+|\d+)\s*(k?g)/i);
-    const priceMatch = optionText.match(/\+\s*R\$\s*(\d+[.,]\d+)/);
+    const weightMatch = optionText.match(WEIGHT_REGEX);
+    const priceMatch = optionText.match(PRICE_REGEX);
 
     let weightInKg = 0;
     if (weightMatch) {
@@ -245,10 +365,34 @@
 
   function formatCurrency(value) {
     if (typeof value !== "number") value = 0;
-    return value.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
+    return BRL_FORMATTER.format(value);
+  }
+
+  function showToast(message) {
+    const toast = document.createElement("div");
+    toast.className =
+      "fixed top-6 right-6 z-[9999] flex items-center gap-4 p-4 bg-white/90 backdrop-blur-xl border border-white/50 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-500 transform translate-y-[-20px] opacity-0 hover:shadow-[0_8px_30px_rgb(0,0,0,0.15)]";
+    toast.innerHTML = `
+        <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 bg-[#D4AF37] rounded-full shadow-sm">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </div>
+        <div class="flex flex-col">
+            <span class="font-playfair font-bold text-gray-800 text-base">Adicionado</span>
+            <span class="text-sm text-gray-600 font-medium leading-tight">${message}</span>
+        </div>
+    `;
+    document.body.appendChild(toast);
+
+    requestAnimationFrame(() => {
+      toast.classList.remove("translate-y-[-20px]", "opacity-0");
     });
+
+    setTimeout(() => {
+      toast.classList.add("opacity-0", "translate-y-[-20px]");
+      setTimeout(() => toast.remove(), 500);
+    }, 3000);
   }
 
   function addStrogonoffToCart(buttonElement) {
@@ -261,7 +405,7 @@
   }
 
   function addToCart(cakeName, buttonElement) {
-    const card = buttonElement.closest('.relative, [class*="bg-[#FAF8F0]"]');
+    const card = buttonElement.closest('.carousel-slide') || buttonElement.closest('.group');
     const selectElement = card.querySelector(".cake-size-select");
     const selectedOption = selectElement.options[selectElement.selectedIndex];
     const size = selectedOption.text;
@@ -291,6 +435,8 @@
     saveCartToStorage();
 
     updateCart();
+
+    showToast(`${cakeName} adicionado ao carrinho!`);
 
     // Feedback visual do botão
     buttonElement.textContent = "Adicionado";
@@ -335,6 +481,7 @@
 
     let totalPrice = 0;
     if (cart.length > 0) {
+      const fragment = document.createDocumentFragment(); // OTIMIZAÇÃO: Fragmento para reduzir reflows
       cart.forEach((item) => {
         totalPrice += item.price;
         const itemElement = document.createElement("div");
@@ -356,8 +503,9 @@
                 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
             </svg>
           </button>`;
-        cartItemsPanel.appendChild(itemElement);
+        fragment.appendChild(itemElement);
       });
+      cartItemsPanel.appendChild(fragment);
       checkoutButton.style.display = "block";
       if (cartTotalElement)
         cartTotalElement.textContent = formatCurrency(totalPrice);
@@ -376,7 +524,7 @@
     if (cart.length === 0) {
       document
         .querySelectorAll(
-          "button[onclick^='addToCart'], button[onclick^='addStrogonoffToCart']"
+          "a[onclick^='addToCart'], a[onclick^='addStrogonoffToCart']"
         )
         .forEach((button) => {
           button.textContent = "Encomendar agora";
@@ -397,6 +545,7 @@
     let totalPrice = 0;
 
     if (cart.length > 0) {
+      const fragment = document.createDocumentFragment(); // OTIMIZAÇÃO: Fragmento para reduzir reflows
       cart.forEach((item) => {
         totalPrice += item.price;
         const itemCard = document.createElement("div");
@@ -420,8 +569,9 @@
               Remover
             </button>
           </div>`;
-        cartItemsContainer.appendChild(itemCard);
+        fragment.appendChild(itemCard);
       });
+      cartItemsContainer.appendChild(fragment);
 
       checkoutButton.style.display = "inline-block";
     } else {
@@ -443,18 +593,63 @@
     ];
     const closeButton = document.getElementById("close-checkout-modal");
     const form = document.getElementById("checkout-form");
+    const retiradaRadios = document.querySelectorAll('input[name="retirada"]');
 
     const openModal = (e) => {
       e.preventDefault();
       checkoutModal.classList.remove("hidden");
       checkoutModal.classList.add("flex");
       updateCheckoutTotal(); // Atualiza os totais sempre que o modal é aberto
+      handleRetiradaChange(); // Verifica o estado da opção de entrega
     };
 
     const closeModal = () => {
       checkoutModal.classList.add("hidden");
       checkoutModal.classList.remove("flex");
     };
+
+    // --- LÓGICA PARA OPÇÃO DE RETIRADA ---
+    const valorEntregaSelect = document.getElementById("valor_entrega");
+    const addressFieldsToToggle = ["cep", "endereco", "num", "ap", "predio", "bairro", "cidade"];
+
+    function toggleAddressFields(shouldDisable) {
+      const fieldsToHandle = [...addressFieldsToToggle, "valor_entrega"];
+
+      fieldsToHandle.forEach(id => {
+        const field = document.getElementById(id);
+        if (field) {
+          field.disabled = shouldDisable;
+          if (['cep', 'endereco', 'num', 'bairro', 'cidade'].includes(id)) {
+            field.required = !shouldDisable;
+          }
+          
+          if (shouldDisable) {
+            field.classList.add("bg-gray-100", "cursor-not-allowed");
+            field.value = ''; // Limpa o valor ao desabilitar
+          } else {
+            field.classList.remove("bg-gray-100", "cursor-not-allowed");
+          }
+        }
+      });
+      // Limpa o aviso do CEP se os campos forem desabilitados
+      if (shouldDisable) {
+        const cepNotice = document.getElementById("cep-notice");
+        if (cepNotice) {
+            cepNotice.classList.add("hidden");
+            cepNotice.textContent = "";
+        }
+      }
+    }
+
+    function handleRetiradaChange() {
+      const isRetirada = document.querySelector('input[name="retirada"]:checked')?.value === 'sim';
+      toggleAddressFields(isRetirada);
+      if (isRetirada && valorEntregaSelect) {
+        valorEntregaSelect.value = "0"; // Define valor 0 para cálculo
+      }
+      updateCheckoutTotal();
+    }
+    // --- FIM DA LÓGICA DE RETIRADA ---
 
     // --- LÓGICA PARA ATUALIZAR TOTAIS NO CHECKOUT ---
     const CIDADES_ATENDIDAS = {
@@ -482,10 +677,11 @@
       }
 
       const itemsSubtotal = cart.reduce((sum, item) => sum + item.price, 0);
-      const selectedDeliveryId = valorEntregaSelect.value;
       
+      const isRetirada = document.querySelector('input[name="retirada"]:checked')?.value === 'sim';
+      const selectedDeliveryId = isRetirada ? "0" : valorEntregaSelect.value;
       const deliveryCity = Object.values(CIDADES_ATENDIDAS).find(c => c.id === selectedDeliveryId);
-      const deliveryCost = deliveryCity ? deliveryCity.taxa : 0;
+      const deliveryCost = isRetirada ? 0 : (deliveryCity ? deliveryCity.taxa : 0);
 
       const finalTotal = itemsSubtotal + deliveryCost;
 
@@ -498,11 +694,67 @@
     window.updateCheckoutTotal = updateCheckoutTotal;
 
     // Adiciona um listener para quando o usuário muda a taxa manualmente
-    const valorEntregaSelect = document.getElementById("valor_entrega");
-    if (valorEntregaSelect) {
+    if (valorEntregaSelect) { // Listener para quando a cidade é escolhida
       valorEntregaSelect.addEventListener("change", updateCheckoutTotal);
     }
+    // Listener para os botões de rádio de retirada
+    retiradaRadios.forEach(radio => radio.addEventListener('change', handleRetiradaChange));
     // --- FIM DA LÓGICA DE TOTAIS ---
+
+    // --- FUNÇÕES DE PERSISTÊNCIA DE ENDEREÇO (LocalStorage) ---
+    function saveAddressToStorage(details) {
+      try {
+        const addressData = {
+          nome: details.nome,
+          cep: details.cep,
+          endereco: details.endereco,
+          num: details.num,
+          ap: details.ap,
+          predio: details.predio,
+          bairro: details.bairro,
+          cidade: details.cidade,
+          valor_entrega: details.valor_entrega,
+        };
+        localStorage.setItem("userAddress", JSON.stringify(addressData));
+      } catch (e) {
+        console.warn("Não foi possível salvar o endereço.", e);
+      }
+    }
+
+    function loadAddressFromStorage() {
+      try {
+        const saved = localStorage.getItem("userAddress");
+        if (!saved) return;
+        const data = JSON.parse(saved);
+
+        const setVal = (id, val) => {
+          const el = document.getElementById(id);
+          if (el) el.value = val || "";
+        };
+
+        setVal("nome", data.nome);
+        setVal("cep", data.cep);
+        setVal("endereco", data.endereco);
+        setVal("num", data.num);
+        setVal("ap", data.ap);
+        setVal("predio", data.predio);
+        setVal("bairro", data.bairro);
+        setVal("cidade", data.cidade);
+
+        const valorEntregaSelect = document.getElementById("valor_entrega");
+        if (valorEntregaSelect && data.valor_entrega) {
+          valorEntregaSelect.value = data.valor_entrega;
+          updateCheckoutTotal();
+        }
+      } catch (e) {
+        console.warn("Erro ao carregar endereço salvo.", e);
+      }
+    }
+
+    // Carrega o endereço salvo assim que o modal é inicializado
+    loadAddressFromStorage();
+
+    handleRetiradaChange(); // Define o estado inicial dos campos de endereço
 
     openButtons.forEach((btn) => {
       if (btn) btn.addEventListener("click", openModal);
@@ -820,6 +1072,7 @@
     ) {
       cepInput.addEventListener("input", async () => {
 
+        if (cepInput.disabled || document.querySelector('input[name="retirada"]:checked')?.value === 'sim') return; // Ignora se o campo estiver desabilitado
         const cep = cepInput.value.replace(/\D/g, ""); // Remove caracteres não numéricos
         clearNotice();
 
@@ -828,7 +1081,7 @@
           enderecoInput.value = "";
           bairroInput.value = "";
           cidadeInput.value = "";
-          valorEntregaInput.value = "Selecione uma Cidade";
+          valorEntregaInput.value = "";
           updateCheckoutTotal();
           return;
         }
@@ -846,7 +1099,7 @@
               enderecoInput.value = "";
               bairroInput.value = "";
               cidadeInput.value = "";
-              valorEntregaInput.value = "Selecione uma Cidade";
+              valorEntregaInput.value = "";
               updateCheckoutTotal();
             } else {
               // Normalização da cidade retornada pela API (remove acentos e põe minúsculo)
@@ -875,7 +1128,7 @@
                 enderecoInput.value = "";
                 bairroInput.value = "";
                 cidadeInput.value = "";
-                valorEntregaInput.value = "Selecione uma Cidade";
+                valorEntregaInput.value = "";
               }
             }
           } catch (error) {
@@ -884,7 +1137,7 @@
             enderecoInput.value = "";
             bairroInput.value = "";
             cidadeInput.value = "";
-            valorEntregaInput.value = "Selecione uma Cidade";
+            valorEntregaInput.value = "";
           } finally {
             cepSpinner.classList.add("hidden"); // Hide spinner
           }
@@ -926,6 +1179,8 @@
         const formData = new FormData(form);
         const details = Object.fromEntries(formData.entries());
 
+        saveAddressToStorage(details); // Salva o endereço para a próxima vez
+
         const now = new Date();
         const dataPedido = now.toLocaleDateString("pt-BR");
         const horaPedido = now.toLocaleTimeString("pt-BR", { hour: '2-digit', minute: '2-digit' });
@@ -956,21 +1211,31 @@
 
         message += `Total do Pedido: ${formatCurrency(grandTotal)}\n\n\n`;
 
-        message += "--- DADOS PARA ENTREGA ---\n";
+        const isRetirada = details.retirada === 'sim';
+
+        message += isRetirada ? "--- DADOS PARA RETIRADA ---\n" : "--- DADOS PARA ENTREGA ---\n";
         message += `Nome: ${details.nome}\n`;
         message += `Vela de brinde?: ${details.vela}\n`;
-        message += `Data de entrega: ${details.data_entrega
-
+        
+        const dateLabel = isRetirada ? "Data de retirada" : "Data de entrega";
+        message += `${dateLabel}: ${details.data_entrega
           .split("-")
           .reverse()
           .join("/")}\n`;
-        message += `Horário para entrega: entre ${details.horario_inicio}h e ${details.horario_fim}h\n`;
-        message += `CEP: ${details.cep}\n`;
-        message += `Endereço: ${details.endereco}, Nº ${details.num}\n`;
-        if (details.ap) message += `Ap: ${details.ap}\n`;
-        if (details.predio) message += `Prédio: ${details.predio}\n`;
-        message += `Bairro: ${details.bairro}\n`;
-        message += `Cidade: ${details.cidade}\n\n\n`;
+        
+        const timeLabel = isRetirada ? "Horário para retirada" : "Horário para entrega";
+        message += `${timeLabel}: entre ${details.horario_inicio}h e ${details.horario_fim}h\n`;
+
+        if (!isRetirada) {
+          message += `CEP: ${details.cep}\n`;
+          message += `Endereço: ${details.endereco}, Nº ${details.num}\n`;
+          if (details.ap) message += `Ap: ${details.ap}\n`;
+          if (details.predio) message += `Prédio: ${details.predio}\n`;
+          message += `Bairro: ${details.bairro}\n`;
+          message += `Cidade: ${details.cidade}\n\n\n`;
+        } else {
+          message += `Modalidade: Retirada no local\n\n\n`;
+        }
 
         message += "📌\n";
         message += " Aviso Importante\n";
@@ -1051,6 +1316,11 @@
       modalContent.innerHTML = "";
       const clonedCard = cardToClone.cloneNode(true);
       clonedCard.removeAttribute("id");
+
+      // OTIMIZAÇÃO: Garante que a imagem dentro do modal carregue com lazy loading
+      const clonedImg = clonedCard.querySelector("img");
+      if (clonedImg) clonedImg.setAttribute("loading", "lazy");
+
       modalContent.appendChild(clonedCard);
 
       const newAddToCartButton = clonedCard.querySelector(
@@ -1105,9 +1375,19 @@
 
     const titleEl = document.getElementById("custom-alert-title");
     const messageEl = document.getElementById("custom-alert-message");
+    const modalContent = modal.querySelector('div'); // Get the content div
 
     if (titleEl) titleEl.textContent = title;
     if (messageEl) messageEl.textContent = message;
+
+    // Add/remove a class for styling based on the title
+    if (modalContent) {
+      if (title === 'Debug') {
+          modalContent.classList.add('debug-alert');
+      } else {
+          modalContent.classList.remove('debug-alert');
+      }
+    }
 
     modal.classList.remove("hidden");
     modal.classList.add("flex");
@@ -1144,6 +1424,9 @@
     initCheckoutModal();
     initNovidadeModal();
     initSelectChangeReset(); // Inicializa o reset dos botões
+    initImageOptimization(); // Inicializa otimização de imagens
+    initPotesFilter(); // Inicializa o filtro de bolos no pote
+    initShimmerEffect(); // Adiciona o efeito de brilho nos cards
 
     if (document.getElementById("cart-items")) displayCartItemsOnCartPage();
 

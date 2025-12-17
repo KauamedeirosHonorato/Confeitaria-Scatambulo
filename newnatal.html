@@ -479,8 +479,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (modal.classList.contains('show')) return;
         modal.classList.add('show');
         lockScroll();
-        sessionStorage.setItem('natalModalShown', 'true');
-        // Notifica o pai para esconder o botão de fechar
         window.parent.postMessage({ action: 'toggleCloseButton', visible: false }, '*');
     };
 
@@ -547,8 +545,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.getElementById('countdown');
         if (!container) return;
 
-        let target = new Date(new Date().getFullYear(), 11, 25);
-        if (Date.now() > target) target.setFullYear(target.getFullYear() + 1);
+        const now = new Date();
+        let target = new Date(now.getFullYear(), 11, 25); // Alvo inicial: Natal
+
+        // Se já passou o Natal, muda o alvo para o Ano Novo (01/01 do próximo ano)
+        if (now > target) {
+            target = new Date(now.getFullYear() + 1, 0, 1);
+        }
 
         const update = () => {
             const diff = target - Date.now();
@@ -557,7 +560,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (document.getElementById('countdown')) {
                     container.innerHTML =
                         `<div class="glass-card p-4 rounded-xl text-white font-bold text-2xl animate-pulse">
-                            🎄 Feliz Natal!
+                            ✨ Boas Festas!
                         </div>`;
                 }
                 return;
