@@ -371,7 +371,7 @@
   function showToast(message) {
     const toast = document.createElement("div");
     toast.className =
-      "fixed top-6 right-6 z-[9999] flex items-center gap-4 p-4 bg-white/90 backdrop-blur-xl border border-white/50 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-500 transform translate-y-[-20px] opacity-0 hover:shadow-[0_8px_30px_rgb(0,0,0,0.15)] pr-12 overflow-hidden";
+      "fixed top-24 right-4 md:right-6 z-[9999] max-w-[90vw] md:max-w-md flex items-center gap-4 p-4 bg-white/90 backdrop-blur-xl border border-white/50 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-500 transform translate-y-[-20px] opacity-0 hover:shadow-[0_8px_30px_rgb(0,0,0,0.15)] pr-12 overflow-hidden";
     toast.innerHTML = `
         <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 bg-[#D4AF37] rounded-full shadow-sm">
             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -1264,13 +1264,16 @@
         message += `Vela de brinde?: ${details.vela}\n`;
         
         const dateLabel = isRetirada ? "Data de retirada" : "Data de entrega";
-        message += `${dateLabel}: ${details.data_entrega
+        const dataValue = (dataInput && dataInput.value) ? dataInput.value : (details.data_entrega || "");
+        message += `${dateLabel}: ${dataValue
           .split("-")
           .reverse()
           .join("/")}\n`;
         
         const timeLabel = isRetirada ? "Horário para retirada" : "Horário para entrega";
-        message += `${timeLabel}: entre ${details.horario_inicio}h e ${details.horario_fim}h\n`;
+        const inicioValue = (inicioInput && inicioInput.value) ? inicioInput.value : (details.horario_inicio || "");
+        const fimValue = (fimInput && fimInput.value) ? fimInput.value : (details.horario_fim || "");
+        message += `${timeLabel}: entre ${inicioValue}h e ${fimValue}h\n`;
 
         if (!isRetirada) {
           message += `CEP: ${details.cep}\n`;
