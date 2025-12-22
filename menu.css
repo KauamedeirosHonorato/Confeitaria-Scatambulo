@@ -9,23 +9,6 @@ h2 {
 section {
   scroll-margin-top: 80px;
 }
-.side-tab {
-  position: fixed;
-  left: 0;
-  top: 45%;
-  -webkit-transform: rotate(-90deg) translateX(-50%);
-  transform: rotate(-90deg) translateX(-50%);
-  -webkit-transform-origin: left top;
-  transform-origin: left top;
-  background-color: #d4af37;
-  color: #000000;
-  padding: 8px 16px;
-  border-radius: 6px 6px 0 0;
-  cursor: pointer;
-  z-index: 30;
-  font-size: 14px;
-  font-weight: 600;
-}
 .side-name-right {
   position: fixed;
   right: 0;
@@ -42,12 +25,7 @@ section {
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-/* Esconde o nome lateral em telas menores (móveis) */
-@media (max-width: 768px) {
-  .side-name-right {
-    display: none;
-  }
-}
+
 .btn-gold-metallic {
   background-color: #d4af37;
   color: #000000;
@@ -105,22 +83,7 @@ section {
   object-fit: contain; /* Ensure the whole video is visible */
 }
 
-@media (min-width: 768px) {
-  .embalagens-modal-content {
-    max-width: 700px; /* Adjust max-width for desktop to be slightly smaller */
-  }
-}
 
-
-@media (max-width: 768px) {
-  .modal-content {
-    padding: 1.5rem;
-    max-width: 95%;
-  }
-  .embalagens-modal-content .grid {
-    grid-template-columns: 1fr; /* Coluna única em telas pequenas */
-  }
-}
 
 .close-button {
   position: absolute;
@@ -178,13 +141,7 @@ section {
   transition: transform 0.3s ease-in-out; /* Adiciona transição suave para o zoom */
 }
 
-@media (min-width: 768px) {
-  .cake-card-image {
-    object-fit: contain; /* Mostra a imagem inteira sem cortar */
-    object-position: center; /* Centraliza a imagem no corte */
-    background-color: transparent; /* Remove o fundo no desktop */
-  }
-}
+
 
 /* Efeito de zoom na imagem ao passar o mouse sobre o card pai */
 .group:hover .cake-card-image {

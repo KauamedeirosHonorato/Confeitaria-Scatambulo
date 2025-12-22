@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
             } catch (e) {
-                console.log('Erro ao acessar o pai:', e);
+                
             }
         }
         

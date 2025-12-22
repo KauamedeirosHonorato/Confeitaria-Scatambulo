@@ -12,7 +12,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="menu.css" />
+    <link rel="stylesheet" href="style.css" />
     <style>
       .video-container {
         position: relative;
@@ -151,85 +151,7 @@
 
 
     
-    <script src="carrinho.js" defer></script>
-    <script>
-      const video = document.getElementById('packaging-video');
-      const videoOverlays = document.getElementById('video-overlays');
-      const packagingInfo = document.getElementById('packaging-info');
-      const packagingName = document.getElementById('packaging-name');
-      const packagingDescription = document.getElementById('packaging-description');
-      const packagingPrice = document.getElementById('packaging-price');
-      const selectPackagingBtn = document.getElementById('select-packaging-btn');
+    <script src="main.js"></script>
 
-      // Define packaging data with video timestamps and overlay positions
-      const packagingData = [
-        {
-          name: 'Oval 500g',
-          description: 'Embalagem oval de 500g, ideal para pequenas celebrações.',
-          price: 'R$ 0,00', // Sem custo adicional
-          time: 5, // seconds
-          position: { top: '30%', left: '10%', width: '20%', height: '15%' }
-        },
-        {
-          name: 'Taça 1kg',
-          description: 'Embalagem em formato de taça de 1kg, elegante e prática.',
-          price: 'R$ 20,00',
-          time: 10,
-          position: { top: '40%', left: '40%', width: '20%', height: '15%' }
-        },
-        {
-          name: 'Caixa 2kg',
-          description: 'Caixa de 2kg, perfeita para transporte seguro e apresentação.',
-          price: 'R$ 44,00',
-          time: 15,
-          position: { top: '50%', left: '70%', width: '20%', height: '15%' }
-        }
-        // Add more packaging options as needed
-      ];
-
-      let currentOverlay = null;
-
-      video.addEventListener('timeupdate', () => {
-        packagingData.forEach(data => {
-          if (video.currentTime >= data.time && video.currentTime < data.time + 3 && currentOverlay !== data.name) {
-            // Show overlay
-            if (currentOverlay) {
-              document.getElementById(`overlay-${currentOverlay.replace(/\s/g, '-')}`).remove();
-            }
-            const overlay = document.createElement('div');
-            overlay.id = `overlay-${data.name.replace(/\s/g, '-')}`;
-            overlay.classList.add('overlay-item');
-            overlay.classList.add('active');
-            overlay.style.top = data.position.top;
-            overlay.style.left = data.position.left;
-            overlay.style.width = data.position.width;
-            overlay.style.height = data.position.height;
-            overlay.textContent = data.name;
-            overlay.addEventListener('click', () => showPackagingDetails(data));
-            videoOverlays.appendChild(overlay);
-            currentOverlay = data.name;
-          } else if (video.currentTime >= data.time + 3 && currentOverlay === data.name) {
-            // Hide overlay
-            if (document.getElementById(`overlay-${data.name.replace(/\s/g, '-')}`)) {
-                document.getElementById(`overlay-${data.name.replace(/\s/g, '-')}`).remove();
-            }
-            currentOverlay = null;
-          }
-        });
-      });
-
-      function showPackagingDetails(data) {
-        video.pause();
-        packagingName.textContent = data.name;
-        packagingDescription.textContent = data.description;
-        packagingPrice.textContent = data.price;
-        packagingInfo.classList.remove('hidden');
-        selectPackagingBtn.onclick = () => {
-          window.addPackagingToCart(data.name, data.description, data.price);
-          window.location.href = "carrinho.html";
-        };
-      }
-
-      </script>
   </body>
 </html>

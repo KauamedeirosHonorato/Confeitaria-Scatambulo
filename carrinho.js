@@ -3,6 +3,42 @@
     return;
   }
 
+  // --- GLOBAL MODAL MANAGEMENT ---
+  function closeAllModals() {
+    const modalIds = [
+      "info-modal", "policy-modal", "tutorial-modal", "embalagens-modal", 
+      "saber-mais-modal", "checkout-modal", "novidade-modal", 
+      "packaging-selection-modal", "custom-alert-modal", "natal-popup-overlay", 
+      "cart-panel-overlay", "success-modal"
+    ];
+
+    modalIds.forEach(id => {
+      const modal = document.getElementById(id);
+      if (modal) {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex", "active", "block");
+      }
+    });
+
+    const natalPopup = document.getElementById("natal-popup-overlay");
+    if (natalPopup) {
+        natalPopup.classList.remove("active");
+    }
+
+    const cartPanel = document.getElementById("cart-panel");
+    if (cartPanel) {
+        cartPanel.classList.add("translate-x-full");
+    }
+
+    // Pause any videos that might be playing in modals
+    document.querySelectorAll('#tutorial-modal video, #embalagens-modal video').forEach(video => video.pause());
+
+    // Restore body scroll that might have been disabled
+    document.body.classList.remove("overflow-hidden");
+    document.body.style.overflow = "";
+  }
+  window.closeAllModals = closeAllModals; // Expose for menu.html
+
   // --- OTIMIZAÇÃO: Constantes Regex e Formatador para evitar recriação ---
   const WEIGHT_REGEX = /(\d+[.,]\d+|\d+)\s*(k?g)/i;
   const PRICE_REGEX = /\+\s*R\$\s*(\d+[.,]\d+)/;
@@ -115,42 +151,99 @@
 
   function initMobileMenu() {
     const menuButton = document.getElementById("mobile-menu-button");
+    const closeButton = document.getElementById("mobile-menu-close-button");
     const mobileMenu = document.getElementById("mobile-menu");
+    const overlay = document.getElementById("mobile-menu-overlay");
+
+    const openMenu = () => {
+      if (!mobileMenu || !overlay) return;
+      // Show overlay
+      overlay.classList.remove('opacity-0', 'invisible');
+      // Show menu
+      mobileMenu.classList.remove('translate-x-full');
+      // Prevent body scroll
+      document.body.classList.add('overflow-hidden');
+    };
+
+    const closeMenu = () => {
+      if (!mobileMenu || !overlay) return;
+      // Hide overlay
+      overlay.classList.add('opacity-0', 'invisible');
+      // Hide menu
+      mobileMenu.classList.add('translate-x-full');
+      // Restore body scroll
+      document.body.classList.remove('overflow-hidden');
+    };
+
     if (menuButton) {
-      menuButton.addEventListener("click", () => {
-        if (mobileMenu) mobileMenu.classList.toggle("hidden");
-      });
+      menuButton.addEventListener("click", openMenu);
     }
+    if (closeButton) {
+      closeButton.addEventListener("click", closeMenu);
+    }
+    if (overlay) {
+      overlay.addEventListener("click", closeMenu);
+    }
+
+    // Close menu when a link is clicked
     document
-      .querySelectorAll("#mobile-menu a, #mobile-menu button")
+      .querySelectorAll("#mobile-menu a")
       .forEach((link) => {
-        link.addEventListener("click", () => {
-          if (mobileMenu) mobileMenu.classList.add("hidden");
-        });
+        link.addEventListener("click", closeMenu);
       });
   }
 
   function initModals() {
     const infoModal = document.getElementById("info-modal");
     const policyModal = document.getElementById("policy-modal");
+    const tutorialModal = document.getElementById("tutorial-modal");
 
     const infoTab = document.getElementById("info-tab");
     if (infoTab)
-      infoTab.addEventListener("click", () =>
-        infoModal.classList.remove("hidden")
-      );
+      infoTab.addEventListener("click", () => {
+        closeAllModals();
+        infoModal.classList.remove("hidden");
+        infoModal.classList.add("flex");
+      });
+
+    const tutorialTab = document.getElementById("tutorial-tab");
+    if (tutorialTab)
+      tutorialTab.addEventListener("click", () => {
+        closeAllModals();
+        tutorialModal.classList.remove("hidden");
+        tutorialModal.classList.add("flex");
+      });
 
     const policyTab = document.getElementById("policy-tab");
     if (policyTab)
-      policyTab.addEventListener("click", () =>
-        policyModal.classList.remove("hidden")
-      );
+      policyTab.addEventListener("click", () => {
+        closeAllModals();
+        policyModal.classList.remove("hidden");
+        policyModal.classList.add("flex");
+      });
 
     const closeInfoModal = document.getElementById("close-info-modal");
     if (closeInfoModal)
       closeInfoModal.addEventListener("click", () =>
         infoModal.classList.add("hidden")
       );
+
+    const closeTutorialModal = document.getElementById("close-tutorial-modal");
+    if (closeTutorialModal)
+      closeTutorialModal.addEventListener("click", () => {
+        tutorialModal.classList.add("hidden");
+        const video = document.getElementById("video-tutorial");
+        if (video) video.pause();
+      });
+
+    if (tutorialModal)
+      tutorialModal.addEventListener("click", (e) => {
+        if (e.target === tutorialModal) {
+            tutorialModal.classList.add("hidden");
+            const video = document.getElementById("video-tutorial");
+            if (video) video.pause();
+        }
+      });
 
     const closePolicyModal = document.getElementById("close-policy-modal");
     if (closePolicyModal)
@@ -175,6 +268,7 @@
       let closeTimeout;
 
       window.openEmbalagensModal = () => {
+        closeAllModals();
         clearTimeout(closeTimeout);
         embalagensModal.classList.remove("hidden");
         requestAnimationFrame(() => {
@@ -218,10 +312,6 @@
       embalagensModal.addEventListener("click", (event) => {
         if (event.target === embalagensModal) closeEmbalagensModal();
       });
-    } else {
-      console.warn(
-        "Elemento 'embalagens-modal' não encontrado. O modal de embalagens pode não funcionar."
-      );
     }
   }
 
@@ -245,6 +335,7 @@
 
     const openModal = () => {
       if (saberMaisModal) {
+        closeAllModals();
         clearTimeout(closeTimeout);
         saberMaisModal.classList.remove("hidden");
         requestAnimationFrame(() => {
@@ -294,6 +385,7 @@
     const closeCartButton = document.getElementById("close-cart-panel");
 
     const openCartPanel = () => {
+      closeAllModals();
       cartPanel.classList.remove("translate-x-full");
       cartOverlay.classList.remove("hidden");
     };
@@ -314,7 +406,6 @@
   try {
     cart = JSON.parse(localStorage.getItem("shoppingCart")) || [];
   } catch (e) {
-    console.warn("Could not access localStorage. Cart will not be saved.", e);
     cart = [];
   }
 
@@ -322,7 +413,7 @@
     try {
       localStorage.setItem("shoppingCart", JSON.stringify(cart));
     } catch (e) {
-      console.warn("Could not access localStorage. Cart will not be saved.", e);
+      // Fails silently if localStorage is not available
     }
   }
 
@@ -470,7 +561,6 @@
     
     let cakePricePerKg = cakePrices[cakeName];
     if (cakePricePerKg === undefined) {
-        console.warn(`Preço base não encontrado para: "${cakeName}". Usando valor padrão de R$ 150.`);
         cakePricePerKg = 150;
     }
     
@@ -536,8 +626,8 @@
         itemElement.innerHTML = `
           <div>
             <p class="font-semibold text-gray-800">${item.name}</p>
-            <p class="text-sm text-gray-600">${
-              item.type === "packaging" ? item.size : item.size
+            <p class="text-sm text-gray-600">${ 
+              item.type === "packaging" ? item.size : item.size 
             } - ${formatCurrency(item.price)}</p>
           </div>
           <button onclick="removeFromCart('${
@@ -599,10 +689,10 @@
         itemCard.innerHTML = `
           <div class="bg-white p-4 rounded-lg shadow-md h-full flex flex-col justify-between">
             <div>
-              <h2 class="text-xl font-bold font-playfair text-gray-800">${
+              <h2 class="text-xl font-bold font-playfair text-gray-800">${ 
                 item.name
               }</h2>
-              <p class="text-gray-600">${
+              <p class="text-gray-600">${ 
                 item.type === "packaging" ? item.size : item.size
               }</p>
               <p class="font-semibold text-gray-800 mt-2">${formatCurrency(
@@ -643,6 +733,7 @@
 
     const openModal = (e) => {
       e.preventDefault();
+      closeAllModals();
       checkoutModal.classList.remove("hidden");
       checkoutModal.classList.add("flex");
       updateCheckoutTotal(); // Atualiza os totais sempre que o modal é aberto
@@ -763,7 +854,7 @@
         };
         localStorage.setItem("userAddress", JSON.stringify(addressData));
       } catch (e) {
-        console.warn("Não foi possível salvar o endereço.", e);
+        // Fails silently if localStorage is not available
       }
     }
 
@@ -793,7 +884,7 @@
           updateCheckoutTotal();
         }
       } catch (e) {
-        console.warn("Erro ao carregar endereço salvo.", e);
+        // Fails silently if localStorage is not available
       }
     }
 
@@ -968,7 +1059,8 @@
              errorMsg = "Infelizmente já encerramos os pedidos para entrega hoje.";
              adjustedTime = FECHAMENTO_STR;
              const [hClose, mClose] = FECHAMENTO_STR.split(":").map(Number);
-             hora = hClose; minuto = mClose;
+             hora = hClose;
+             minuto = mClose;
           } else {
               const minDeliveryMinutes = minDeliveryTime.getHours() * 60 + minDeliveryTime.getMinutes();
               
@@ -976,7 +1068,8 @@
                  errorMsg = `Infelizmente já encerramos os pedidos para entrega hoje (necessário 2h de antecedência até às ${FECHAMENTO_STR}).`;
                  adjustedTime = FECHAMENTO_STR;
                  const [hClose, mClose] = FECHAMENTO_STR.split(":").map(Number);
-                 hora = hClose; minuto = mClose;
+                 hora = hClose;
+                 minuto = mClose;
               } else if (currentMinutes < minDeliveryMinutes) {
                  errorMsg = `Para hoje, precisamos de no mínimo 2h de antecedência.`;
                  hora = minDeliveryTime.getHours();
@@ -1152,7 +1245,7 @@
               const cidadeNormalizada = data.localidade
                 .toLowerCase()
                 .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "");
+                .replace(/[̀-ͯ]/g, "");
 
               // Verifica se a cidade normalizada existe no nosso mapa
               const cidadeAtendida = CIDADES_ATENDIDAS[cidadeNormalizada];
@@ -1178,7 +1271,6 @@
               }
             }
           } catch (error) {
-            console.error("Erro ao buscar CEP:", error);
             setNotice("Erro ao buscar CEP. Tente novamente.", "error");
             enderecoInput.value = "";
             bairroInput.value = "";
@@ -1234,7 +1326,7 @@
         const numeroWhatsApp = "554499024212";
         let message = "Olá, Angela! Gostaria de encomendar:\n";
         message += `📅 Pedido realizado em: ${dataPedido} às ${horaPedido}\n\n`;
-        message += "--- ITENS DO PEDIDO ---\n\n";
+        message += "--- ITENS DO PEDIDO ---\\n\n";
         let itemsTotalPrice = 0;
 
         cart.forEach((item) => {
@@ -1259,7 +1351,7 @@
 
         const isRetirada = details.retirada === 'sim';
 
-        message += isRetirada ? "--- DADOS PARA RETIRADA ---\n" : "--- DADOS PARA ENTREGA ---\n";
+        message += isRetirada ? "--- DADOS PARA RETIRADA ---\\n" : "--- DADOS PARA ENTREGA ---\\n";
         message += `Nome: ${details.nome}\n`;
         message += `Vela de brinde?: ${details.vela}\n`;
         
@@ -1356,9 +1448,9 @@
     }
 
     const openModal = () => {
+      closeAllModals();
       // Verifica se o card para clonar existe antes de tentar
       if (!cardToClone) {
-        console.warn("Card 'Floresta Branca' não encontrado para clonagem.");
         return;
       }
 
@@ -1416,6 +1508,7 @@
   }
 
   window.showCustomAlert = (message, title = "Aviso") => {
+    closeAllModals();
     const modal = document.getElementById("custom-alert-modal");
     if (!modal) {
       alert(`${title}: ${message}`);

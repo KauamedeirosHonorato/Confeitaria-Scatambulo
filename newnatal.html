@@ -56,6 +56,7 @@
         }
     </script>
 
+    <link rel="stylesheet" href="style.css" />
     <style>
         /* Configuração Base */
         html, body {
@@ -113,33 +114,7 @@
             transform: scale(1) translateY(0); 
         }
 
-        /* --- AJUSTES MOBILE (FULLSCREEN) --- */
-        @media (max-width: 640px) {
-            .modal-wrapper { padding: 0 !important; }
-            
-            /* Modal Principal ocupa 100% no mobile */
-            #christmas-modal .modal-panel {
-                width: 100% !important;
-                height: 100% !important; /* Ocupa toda a altura do iframe */
-                max-height: none !important;
-                border-radius: 0 !important;
-                margin: 0 !important;
-            }
-            
-            /* Sub-modais como Bottom Sheets no mobile */
-            #modal-pagamento, #modal-entrega, #modal-horarios {
-                align-items: flex-end !important;
-            }
 
-            #modal-pagamento .modal-panel, 
-            #modal-entrega .modal-panel, 
-            #modal-horarios .modal-panel {
-                width: 100% !important;
-                max-height: 85vh !important;
-                border-radius: 1.5rem 1.5rem 0 0 !important;
-                margin: 0 !important;
-            }
-        }
 
         /* Botões de Navegação Interna */
         .nav-button {
@@ -177,14 +152,7 @@
             border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
-        /* Ajustes Telas Pequenas */
-        @media (max-height: 680px) {
-            .logo-wrapper { width: 8rem !important; height: 8rem !important; }
-            h1 { font-size: 2.2rem !important; margin-bottom: 0.2rem !important; }
-            p.desc-text { margin-bottom: 1rem !important; font-size: 0.9rem !important; }
-            .countdown-wrapper { margin-bottom: 1.5rem !important; }
-            footer { padding-bottom: 0.5rem !important; }
-        }
+
 
         /* Esconder botão de fechar principal quando em iframe */
         body.in-iframe #btn-fechar-principal {

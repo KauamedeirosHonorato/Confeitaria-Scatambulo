@@ -12,7 +12,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="menu.css" />
+    <link rel="stylesheet" href="style.css" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
@@ -167,6 +167,16 @@
         animation: gentle-pulse 2s infinite ease-in-out;
       }
 
+      /* --- Animação de Pulso para o Carrinho --- */
+      @keyframes cart-pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.15); }
+      }
+      .animate-cart-pulse {
+        /* Usa uma curva de easing que "estica" um pouco para um efeito mais vivo */
+        animation: cart-pulse 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
       /* --- Debug Alert Styling --- */
       .debug-alert {
         border: 4px dashed #ef4444; /* red-500 */
@@ -182,6 +192,105 @@
       .debug-alert #custom-alert-title::before {
         content: '🐞';
         font-size: 1.5rem;
+      }
+
+      /* Animação do Modal de Embalagens */
+      @keyframes modalSlideUp {
+        from { opacity: 0; transform: translateY(100px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-modal-entry {
+        animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      .animate-fade-in {
+        animation: fadeIn 0.3s ease-out forwards;
+      }
+
+      /* Animação de Pulsação para Aba Lateral */
+      @keyframes pulse-attention {
+        0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+      }
+      .animate-pulse-attention {
+        animation: pulse-attention 2s infinite;
+      }
+
+      /* Posicionamento das Abas Laterais */
+      #side-tabs-container {
+        position: fixed;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 90;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        pointer-events: none;
+      }
+
+      .side-tab {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        padding: 1.5rem 0.8rem;
+        background: #D4AF37;
+        border: 1px solid #b5952f;
+        border-left: 0;
+        border-radius: 0 1rem 1rem 0;
+        box-shadow: 4px 4px 15px rgba(0,0,0,0.15);
+        cursor: pointer;
+        transition: all 0.3s;
+        font-weight: 700;
+        color: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        letter-spacing: 0.05em;
+        pointer-events: auto;
+        position: relative; /* Necessário para posicionar o tooltip */
+        margin-bottom: 0.5rem; /* Adiciona pequena margem entre os botões */
+      }
+      .side-tab:hover {
+        background: #f5e6b3;
+        color: black;
+        padding-left: 1rem;
+        transform: translateX(5px);
+      }
+      
+      /* Ícones dentro das abas */
+      .side-tab svg {
+        transform: rotate(-90deg); /* Ajusta a orientação do ícone */
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+
+      /* Ajustes Responsivos para Abas Laterais */
+      @media (max-width: 768px) {
+        .side-tab {
+          padding: 1rem 0.5rem;
+          font-size: 0.8rem;
+        }
+        .side-tab svg {
+          width: 1rem;
+          height: 1rem;
+        }
+      }
+
+      /* Animação de Shake para Erro */
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+        20%, 40%, 60%, 80% { transform: translateX(4px); }
+      }
+      .animate-shake {
+        animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
       }
     </style>
   </head>
@@ -199,6 +308,25 @@
         </div>
       </div>
     </div>
+    <script>
+      // Script isolado para garantir que o loader desapareça mesmo se houver erros em outros scripts
+      (function() {
+        const hideLoader = () => {
+          const loader = document.getElementById('page-loader');
+          if (loader) {
+            loader.classList.add('opacity-0');
+            setTimeout(() => { loader.style.display = 'none'; }, 700);
+          }
+        };
+        
+        if (document.readyState === 'complete') {
+          hideLoader();
+        } else {
+          window.addEventListener('load', hideLoader);
+        }
+        setTimeout(hideLoader, 3000); // Fallback de segurança
+      })();
+    </script>
     <!-- Ilha Dinâmica de Natal para Mobile -->
     <div
       id="natal-dynamic-island"
@@ -223,7 +351,7 @@
     >
       Angela Scatambulo
     </div>
-    <header class="bg-white shadow-md sticky top-0 z-20">
+    <header class="bg-white/90 backdrop-blur-md shadow-md sticky top-0 z-20">
       <div
         class="container mx-auto px-6 py-4 flex justify-between items-center"
       >
@@ -248,7 +376,7 @@
             >Voltar à Bio</a
           >
         </nav>
-        <button id="mobile-menu-button" class="md:hidden text-gray-700">
+        <button id="mobile-menu-button" class="md:hidden text-gray-700 p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]" aria-label="Abrir menu principal">
           <svg
             class="w-6 h-6"
             fill="none"
@@ -265,35 +393,60 @@
           </svg>
         </button>
       </div>
-      <div
-        id="mobile-menu"
-        class="hidden md:hidden bg-white border-t border-gray-200"
-      >
-        <a
-          href="#sabores"
-          class="block py-3 px-6 text-gray-700 hover:bg-gray-50 transition-colors"
-          >Sabores</a
-        >
-        <a
-          href="./potes.html"
-          class="block py-3 px-6 text-gray-700 hover:bg-gray-50 transition-colors"
-          >Potinhos</a
-        >
-        <a
-          href="#informacoes"
-          class="block py-3 px-6 text-gray-700 hover:bg-gray-50 transition-colors"
-          >Informações</a
-        >
-        <a
-          href="./index.html"
-          class="block py-3 px-6 text-[#D4AF37] font-semibold hover:bg-gray-50 transition-colors border-t border-gray-200"
-          >&larr; Voltar à Bio</a
-        >
-      </div>
     </header>
 
-    <div id="info-tab" class="side-tab">Informações</div>
-    <div id="policy-tab" class="side-tab">Políticas</div>
+    <!-- Overlay do Menu Mobile -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[140] opacity-0 invisible transition-opacity duration-300"></div>
+
+    <!-- Menu Lateral Mobile -->
+    <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-full w-4/5 max-w-xs bg-white shadow-2xl z-[150] transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+        <div class="p-4 flex justify-between items-center border-b border-gray-100">
+            <h2 class="font-bold text-lg text-[#D4AF37] font-['Playfair_Display']">Menu</h2>
+            <button id="mobile-menu-close-button" class="p-2 -mr-2 text-gray-500 hover:text-gray-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <nav class="flex-grow p-4 space-y-2">
+            <a href="#sabores" class="block py-3 px-4 rounded-lg text-gray-700 font-medium hover:bg-stone-100 hover:text-[#D4AF37] transition-colors">
+                Sabores
+            </a>
+            <a href="./potes.html" class="block py-3 px-4 rounded-lg text-gray-700 font-medium hover:bg-stone-100 hover:text-[#D4AF37] transition-colors">
+                Potinhos
+            </a>
+            <a href="#informacoes" class="block py-3 px-4 rounded-lg text-gray-700 font-medium hover:bg-stone-100 hover:text-[#D4AF37] transition-colors">
+                Informações
+            </a>
+        </nav>
+        <div class="p-4 border-t border-gray-100">
+            <a href="./index.html" class="block py-3 px-4 rounded-lg text-[#D4AF37] font-bold bg-stone-50 hover:bg-stone-100 transition-colors flex items-center gap-2">
+                <span>&larr;</span> Voltar à Bio
+            </a>
+        </div>
+    </div>
+
+    <div id="side-tabs-container">
+
+        <div id="tutorial-tab" class="side-tab animate-pulse-attention group">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span>Como Pedir</span>
+            <!-- Tooltip -->
+            <div class="hidden md:block absolute left-full ml-4 top-1/2 -translate-y-1/2 w-48 p-3 bg-gray-900 text-white text-xs rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 shadow-xl pointer-events-none z-50 text-center" style="writing-mode: horizontal-tb;">
+                <p class="font-bold text-[#D4AF37] mb-1">Tutorial Rápido</p>
+                <p class="leading-tight text-gray-300">Tutorial para encomendar um pedido.</p>
+                <div class="absolute top-1/2 -left-2 -translate-y-1/2 border-8 border-transparent border-r-gray-900"></div>
+            </div>
+        </div>
+        <div id="policy-tab" class="side-tab group">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+            <span>Políticas</span>
+            <!-- Tooltip -->
+            <div class="hidden md:block absolute left-full ml-4 top-1/2 -translate-y-1/2 w-48 p-3 bg-gray-900 text-white text-xs rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 shadow-xl pointer-events-none z-50 text-center" style="writing-mode: horizontal-tb;">
+                <p class="font-bold text-[#D4AF37] mb-1">Políticas da Loja</p>
+                <p class="leading-tight text-gray-300">Conheça as regras de cancelamento e funcionamento.</p>
+                <div class="absolute top-1/2 -left-2 -translate-y-1/2 border-8 border-transparent border-r-gray-900"></div>
+            </div>
+        </div>
+    </div>
 
     <main class="container mx-auto p-4 md:p-8">
       <section class="mb-12">
@@ -340,9 +493,24 @@
               <h3 class="text-white text-3xl md:text-5xl font-bold mb-2 font-['Playfair_Display']">Nuvem de Morango</h3>
               <p class="text-gray-200 text-sm md:text-base mb-6 max-w-xl hidden sm:block">A combinação perfeita de brigadeiro branco, morangos frescos e creme Ninho.</p>
               <select class="cake-size-select hidden">
+                <option value="Oval 500g (sem custo)">Oval 500g (sem custo)</option>
+                <option value="Taça 500g (+ R$ 15,00)">Taça 500g (+ R$ 15,00)</option>
+                <option value="Box 500g (+ R$ 15,00)">Box 500g (+ R$ 15,00)</option>
                 <option value="Oval 1kg (sem custo)" selected>Oval 1kg (sem custo)</option>
+                <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
+                <option value="Box 1kg (+ R$ 20,00)">Box 1kg (+ R$ 20,00)</option>
+                <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
+                <option value="Oval 1,5kg (sem custo)">Oval 1,5kg (sem custo)</option>
+                <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
+                <option value="Box 1,5kg (+ R$ 25,00)">Box 1,5kg (+ R$ 25,00)</option>
+                <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
+                <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
+                <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
+                <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
+                <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
+                <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
               </select>
-              <a href="#" onclick="addToCart('Nuvem de Morango', this); return false;" class="bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-full w-fit hover:bg-white transition-colors shadow-lg animate-gentle-pulse">
+              <a href="#" onclick="initiateOrder('Nuvem de Morango', this); return false;" class="bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-full w-fit hover:bg-white transition-colors shadow-lg animate-gentle-pulse">
                 Encomendar Agora
               </a>
             </div>
@@ -363,9 +531,24 @@
               <h3 class="text-white text-3xl md:text-5xl font-bold mb-2 font-['Playfair_Display']">Doce de Leite Trufado</h3>
               <p class="text-gray-200 text-sm md:text-base mb-6 max-w-xl hidden sm:block">Cremosidade inigualável com o toque especial do nosso crocante artesanal.</p>
               <select class="cake-size-select hidden">
+                <option value="Oval 500g (sem custo)">Oval 500g (sem custo)</option>
+                <option value="Taça 500g (+ R$ 15,00)">Taça 500g (+ R$ 15,00)</option>
+                <option value="Box 500g (+ R$ 15,00)">Box 500g (+ R$ 15,00)</option>
                 <option value="Oval 1kg (sem custo)" selected>Oval 1kg (sem custo)</option>
+                <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
+                <option value="Box 1kg (+ R$ 20,00)">Box 1kg (+ R$ 20,00)</option>
+                <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
+                <option value="Oval 1,5kg (sem custo)">Oval 1,5kg (sem custo)</option>
+                <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
+                <option value="Box 1,5kg (+ R$ 25,00)">Box 1,5kg (+ R$ 25,00)</option>
+                <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
+                <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
+                <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
+                <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
+                <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
+                <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
               </select>
-              <a href="#" onclick="addToCart('Doce de Leite Trufado', this); return false;" class="bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-full w-fit hover:bg-white transition-colors shadow-lg animate-gentle-pulse">
+              <a href="#" onclick="initiateOrder('Doce de Leite Trufado', this); return false;" class="bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-full w-fit hover:bg-white transition-colors shadow-lg animate-gentle-pulse">
                 Encomendar Agora
               </a>
             </div>
@@ -386,9 +569,24 @@
               <h3 class="text-white text-3xl md:text-5xl font-bold mb-2 font-['Playfair_Display']">Strogonoff de Nozes</h3>
               <p class="text-gray-200 text-sm md:text-base mb-6 max-w-xl hidden sm:block">Para paladares exigentes: nozes selecionadas e um creme suave.</p>
               <select class="cake-size-select hidden">
+                <option value="Oval 500g (sem custo)">Oval 500g (sem custo)</option>
+                <option value="Taça 500g (+ R$ 15,00)">Taça 500g (+ R$ 15,00)</option>
+                <option value="Box 500g (+ R$ 15,00)">Box 500g (+ R$ 15,00)</option>
                 <option value="Oval 1kg (sem custo)" selected>Oval 1kg (sem custo)</option>
+                <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
+                <option value="Box 1kg (+ R$ 20,00)">Box 1kg (+ R$ 20,00)</option>
+                <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
+                <option value="Oval 1,5kg (sem custo)">Oval 1,5kg (sem custo)</option>
+                <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
+                <option value="Box 1,5kg (+ R$ 25,00)">Box 1,5kg (+ R$ 25,00)</option>
+                <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
+                <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
+                <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
+                <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
+                <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
+                <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
               </select>
-              <a href="#" onclick="addToCart('Strogonoff de Nozes (sem coco)', this); return false;" class="bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-full w-fit hover:bg-white transition-colors shadow-lg animate-gentle-pulse">
+              <a href="#" onclick="initiateOrder('Strogonoff de Nozes (sem coco)', this); return false;" class="bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-full w-fit hover:bg-white transition-colors shadow-lg animate-gentle-pulse">
                 Encomendar Agora
               </a>
             </div>
@@ -409,9 +607,24 @@
               <h3 class="text-white text-3xl md:text-5xl font-bold mb-2 font-['Playfair_Display']">Floresta Branca</h3>
               <p class="text-gray-200 text-sm md:text-base mb-6 max-w-xl hidden sm:block">Brigadeiro branco, cereja, creme Ninho, chantilly fresco e raspas de chocolate.</p>
                <select class="cake-size-select hidden">
+                <option value="Oval 500g (sem custo)">Oval 500g (sem custo)</option>
+                <option value="Taça 500g (+ R$ 15,00)">Taça 500g (+ R$ 15,00)</option>
+                <option value="Box 500g (+ R$ 15,00)">Box 500g (+ R$ 15,00)</option>
                 <option value="Oval 1kg (sem custo)" selected>Oval 1kg (sem custo)</option>
+                <option value="Taça 1kg">Taça 1kg (+ R$ 20,00)</option>
+                <option value="Box 1kg (+ R$ 20,00)">Box 1kg (+ R$ 20,00)</option>
+                <option value="Caixa 1kg">Caixa 1kg (+ R$ 36,00)</option>
+                <option value="Oval 1,5kg (sem custo)">Oval 1,5kg (sem custo)</option>
+                <option value="Taça 1,5kg">Taça 1,5kg (+ R$ 25,00)</option>
+                <option value="Box 1,5kg (+ R$ 25,00)">Box 1,5kg (+ R$ 25,00)</option>
+                <option value="Taça 2kg">Taça 2kg (+ R$ 25,00)</option>
+                <option value="Caixa 2kg">Caixa 2kg (+ R$ 44,00)</option>
+                <option value="Taça 3kg">Taça 3kg (+ R$ 40,00)</option>
+                <option value="Caixa 3kg">Caixa 3kg (+ R$ 62,00)</option>
+                <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
+                <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
               </select>
-              <a href="#" onclick="addToCart('Floresta Branca', this); return false;" class="bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-full w-fit hover:bg-white transition-colors shadow-lg animate-gentle-pulse">
+              <a href="#" onclick="initiateOrder('Floresta Branca', this); return false;" class="bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-full w-fit hover:bg-white transition-colors shadow-lg animate-gentle-pulse">
                 Encomendar Agora
               </a>
             </div>
@@ -502,7 +715,7 @@
                 </p>
                 <select
                   id="size-nuvem-morango"
-                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select hidden"
                 >
                   <option value="Oval 500g (sem custo)">
                     Oval 500g (sem custo)
@@ -543,7 +756,7 @@
                 </button>
                 <a
                   href="#"
-                  onclick="addToCart('Nuvem de Morango', this)"
+                  onclick="initiateOrder('Nuvem de Morango', this)"
                   class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center mt-4"
                   >Encomendar agora</a
                 >
@@ -592,7 +805,7 @@
                 </p>
                 <select
                   id="size-doce-leite"
-                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select hidden"
                 >
                   <option value="Oval 500g (sem custo)">
                     Oval 500g (sem custo)
@@ -633,7 +846,7 @@
                 </button>
                 <a
                   href="#"
-                  onclick="addToCart('Doce de Leite Trufado', this)"
+                  onclick="initiateOrder('Doce de Leite Trufado', this)"
                   class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center mt-4"
                   >Encomendar agora</a
                 >
@@ -687,7 +900,7 @@
                 </select>
                 <select
                   id="size-strogonoff-nozes"
-                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select hidden"
                 >
                   <option value="Oval 500g (sem custo)">
                     Oval 500g (sem custo)
@@ -728,7 +941,7 @@
                 </button>
                 <a
                   href="#"
-                  onclick="addStrogonoffToCart(this)"
+                  onclick="initiateOrder('Strogonoff de Nozes', this, true)"
                   class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center mt-4"
                   >Encomendar agora</a
                 >
@@ -775,7 +988,7 @@
                 </p>
                 <select
                   id="size-uva-crocante"
-                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select hidden"
                 >
                   <option value="Oval 500g (sem custo)">
                     Oval 500g (sem custo)
@@ -816,7 +1029,7 @@
                 </button>
                 <a
                   href="#"
-                  onclick="addToCart('Uva Crocante', this)"
+                  onclick="initiateOrder('Uva Crocante', this)"
                   class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center mt-4"
                   >Encomendar agora</a
                 >
@@ -863,7 +1076,7 @@
                 </p>
                 <select
                   id="size-brigadeiro-cafe"
-                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select hidden"
                 >
                   <option value="Oval 500g (sem custo)">
                     Oval 500g (sem custo)
@@ -904,7 +1117,7 @@
                 </button>
                 <a
                   href="#"
-                  onclick="addToCart('Brigadeiro de Café', this)"
+                  onclick="initiateOrder('Brigadeiro de Café', this)"
                   class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center mt-4"
                   >Encomendar agora</a
                 >
@@ -951,7 +1164,7 @@
                 </p>
                 <select
                   id="size-morango-suspiro"
-                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select hidden"
                 >
                   <option value="Oval 500g (sem custo)">
                     Oval 500g (sem custo)
@@ -992,7 +1205,7 @@
                 </button>
                 <a
                   href="#"
-                  onclick="addToCart('Morango com Suspiro', this)"
+                  onclick="initiateOrder('Morango com Suspiro', this)"
                   class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center mt-4"
                   >Encomendar agora</a
                 >
@@ -1039,7 +1252,7 @@
                 </p>
                 <select
                   id="size-sensacao"
-                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select hidden"
                 >
                   <option value="Oval 500g (sem custo)">
                     Oval 500g (sem custo)
@@ -1080,7 +1293,7 @@
                 </button>
                 <a
                   href="#"
-                  onclick="addToCart('Sensação', this)"
+                  onclick="initiateOrder('Sensação', this)"
                   class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center mt-4"
                   >Encomendar agora</a
                 >
@@ -1127,7 +1340,7 @@
                 </p>
                 <select
                   id="size-abacaxi-coco"
-                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select hidden"
                 >
                   <option value="Oval 500g (sem custo)">
                     Oval 500g (sem custo)
@@ -1168,7 +1381,7 @@
                 </button>
                 <a
                   href="#"
-                  onclick="addToCart('Abacaxi com Coco', this)"
+                  onclick="initiateOrder('Abacaxi com Coco', this)"
                   class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center mt-4"
                   >Encomendar agora</a
                 >
@@ -1215,7 +1428,7 @@
                 </p>
                 <select
                   id="size-olho-sogra"
-                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select hidden"
                 >
                   <option value="Oval 500g (sem custo)">
                     Oval 500g (sem custo)
@@ -1256,7 +1469,7 @@
                 </button>
                 <a
                   href="#"
-                  onclick="addToCart('Olho de Sogra', this)"
+                  onclick="initiateOrder('Olho de Sogra', this)"
                   class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center mt-4"
                   >Encomendar agora</a
                 >
@@ -1303,7 +1516,7 @@
                 </p>
                 <select
                   id="size-casadinho"
-                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select hidden"
                 >
                   <option value="Oval 500g (sem custo)">
                     Oval 500g (sem custo)
@@ -1344,7 +1557,7 @@
                 </button>
                 <a
                   href="#"
-                  onclick="addToCart('Casadinho', this)"
+                  onclick="initiateOrder('Casadinho', this)"
                   class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center mt-4"
                   >Encomendar agora</a
                 >
@@ -1390,7 +1603,7 @@
                 </p>
                 <select
                   id="size-brigadeiro"
-                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select hidden"
                 >
                   <option value="Oval 500g (sem custo)">
                     Oval 500g (sem custo)
@@ -1431,7 +1644,7 @@
                 </button>
                 <a
                   href="#"
-                  onclick="addToCart('Brigadeiro', this)"
+                  onclick="initiateOrder('Brigadeiro', this)"
                   class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center mt-4"
                   >Encomendar agora</a
                 >
@@ -1477,7 +1690,7 @@
                 </p>
                 <select
                   id="size-trufa-nutella"
-                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select hidden"
                 >
                   <option value="Oval 500g (sem custo)">
                     Oval 500g (sem custo)
@@ -1518,7 +1731,7 @@
                 </button>
                 <a
                   href="#"
-                  onclick="addToCart('Trufa de Nutella', this)"
+                  onclick="initiateOrder('Trufa de Nutella', this)"
                   class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center mt-4"
                   >Encomendar agora</a
                 >
@@ -1567,7 +1780,7 @@
                 </p>
                 <select
                   id="size-pistache"
-                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select hidden"
                 >
                   <option value="Oval 500g (sem custo)">
                     Oval 500g (sem custo)
@@ -1608,7 +1821,7 @@
                 </button>
                 <a
                   href="#"
-                  onclick="addToCart('Pistache com Frutas Vermelhas', this)"
+                  onclick="initiateOrder('Pistache com Frutas Vermelhas', this)"
                   class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center mt-4"
                   >Encomendar agora</a
                 >
@@ -1657,7 +1870,7 @@
                 </p>
                 <select
                   id="size-floresta-branca"
-                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select"
+                  class="w-full p-2 border rounded-md bg-white text-sm mb-3 cake-size-select hidden"
                 >
                   <option value="Oval 500g (sem custo)">
                     Oval 500g (sem custo)
@@ -1698,7 +1911,7 @@
                 </button>
                 <a
                   href="#"
-                  onclick="addToCart('Floresta Branca', this)"
+                  onclick="initiateOrder('Floresta Branca', this)"
                   class="inline-block btn-gold-metallic py-2 px-4 rounded-lg text-sm w-full text-center mt-4"
                   >Encomendar agora</a
                 >
@@ -1809,11 +2022,11 @@
         class="bg-transparent border-none cursor-pointer p-0"
         aria-label="Abrir pop-up de Natal"
       >
-        
+        <img src="./DocesNatal/presente.png" alt="Presente de Natal" class="w-16 h-16 drop-shadow-2xl filter hover:brightness-110 transition-all">
       </button>
     </div>
 
-    <div id="natal-popup-overlay" aria-modal="true" role="dialog" class="fixed inset-0 bg-black bg-opacity-75 z-50 hidden items-center justify-center p-4">
+    <div id="natal-popup-overlay" aria-modal="true" role="dialog" class="fixed inset-0 bg-black bg-opacity-75 z-50 items-center justify-center p-4">
       <div id="natal-popup-content" class="bg-white rounded-2xl shadow-xl w-full h-[96vh] sm:max-w-5xl relative overflow-hidden flex flex-col items-center text-center">
         <button id="natal-popup-close" class="absolute top-4 right-4 bg-gray-100 rounded-full p-1 text-gray-500 hover:text-gray-800 hover:bg-gray-200 transition-colors z-10" aria-label="Fechar modal">
           <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1826,9 +2039,9 @@
 
     <div
       id="info-modal"
-      class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden flex items-center justify-center"
+      class="fixed inset-0 bg-black bg-opacity-50 z-[100] hidden flex items-center justify-center p-4 animate-fade-in"
     >
-      <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full relative">
+      <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg max-w-md w-full relative">
         <button
           id="close-info-modal"
           class="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
@@ -1855,10 +2068,10 @@
 
     <div
       id="policy-modal"
-      class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden flex items-center justify-center p-4"
+      class="fixed inset-0 bg-black bg-opacity-50 z-[100] hidden flex items-center justify-center p-4 animate-fade-in"
     >
       <div
-        class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full relative flex flex-col max-h-[85vh]"
+        class="bg-white p-4 md:p-6 rounded-lg shadow-lg max-w-md w-full relative flex flex-col max-h-[85vh]"
       >
         <div class="flex justify-between items-center mb-4 flex-shrink-0">
           <h3 class="text-xl font-semibold">Políticas da Confeitaria</h3>
@@ -1930,46 +2143,104 @@
     </div>
 
     <div
-      id="embalagens-modal"
-      class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden flex items-center justify-center p-4"
+      id="tutorial-modal"
+      class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4 animate-fade-in"
     >
       <div
-        class="bg-white rounded-lg shadow-lg max-w-md w-full relative flex flex-col max-h-[95vh]"
+        class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full relative flex flex-col max-h-[90vh] overflow-hidden transform transition-all"
       >
         <!-- Cabeçalho do Modal -->
-        <div class="flex justify-between items-center p-4 border-b flex-shrink-0">
-          <h3 class="text-xl font-semibold">Sobre as Embalagens</h3>
+        <div class="flex justify-between items-center p-5 border-b border-gray-100 bg-stone-50">
+          <div>
+            <h3 class="text-2xl font-['Playfair_Display'] font-bold text-gray-800">Como Fazer seu Pedido</h3>
+            <p class="text-xs text-gray-500 mt-1">Um guia rápido para sua encomenda</p>
+          </div>
           <button
-            class="close-button text-gray-500 hover:text-gray-700"
+            id="close-tutorial-modal"
+            class="text-gray-400 hover:text-red-500 transition-colors p-2 rounded-full hover:bg-gray-100"
           >
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              ></path>
-            </svg>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
           </button>
         </div>
         <!-- Conteúdo Rolável -->
-        <div class="p-6 overflow-y-auto">
-          <video id="video-embalagens" controls class="w-full h-auto rounded-md" preload="none">
-            <source data-src="VideoEmbalagens/VideoAngela.mp4" type="video/mp4" />
-            Seu navegador não suporta o elemento de vídeo.
-          </video>
-          <p class="mt-4 text-gray-600">Informações sobre as embalagens.</p>
+        <div class="p-3 md:p-6 overflow-y-auto custom-scrollbar bg-white">
+          <div class="relative w-full rounded-xl overflow-hidden shadow-lg bg-black mb-6">
+            <video id="video-tutorial" controls class="w-full h-auto" preload="none">
+                <source src="./VideoEmbalagens/VideoComoPedir.mp4" type="video/mp4">
+                Seu navegador não suporta o elemento de vídeo.
+            </video>
+          </div>
+          <p class="text-center text-sm text-gray-500">Siga os passos no vídeo para escolher seu bolo, tamanho, embalagem e finalizar o pedido.</p>
+        </div>
+        <!-- Footer -->
+        <div class="p-5 border-t border-gray-100 bg-gray-50">
+          <button id="close-tutorial-modal-footer" class="w-full bg-white border-2 border-gray-300 text-gray-700 font-bold py-3 px-6 rounded-xl hover:bg-gray-100 transition-all duration-300 flex items-center justify-center gap-2 shadow-sm hover:shadow-md">Fechar Tutorial</button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="embalagens-modal"
+      class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4 animate-fade-in"
+    >
+      <div
+        class="bg-white rounded-2xl shadow-2xl max-w-lg w-full relative flex flex-col max-h-[90vh] overflow-hidden transform transition-all"
+      >
+        <!-- Cabeçalho do Modal -->
+        <div class="flex justify-between items-center p-5 border-b border-gray-100 bg-stone-50">
+          <div>
+            <h3 class="text-2xl font-['Playfair_Display'] font-bold text-gray-800">Nossas Embalagens</h3>
+            <p class="text-xs text-gray-500 mt-1">Beleza e segurança para o seu bolo</p>
+          </div>
+          <button
+            class="close-button text-gray-400 hover:text-red-500 transition-colors p-2 rounded-full hover:bg-gray-100"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+        <!-- Conteúdo Rolável -->
+        <div class="p-6 overflow-y-auto custom-scrollbar">
+          <!-- Container de Vídeo -->
+          <div class="relative w-full rounded-xl overflow-hidden shadow-lg bg-black mb-6 group">
+            <video id="video-embalagens" controls class="w-full h-auto" preload="none">
+              <source data-src="VideoEmbalagens/VideoAngela.mp4" type="video/mp4" />
+              Seu navegador não suporta o elemento de vídeo.
+            </video>
+          </div>
+
+          <div class="space-y-4">
+            <p class="text-gray-600 leading-relaxed text-sm text-center">
+              Acreditamos que a experiência começa pelos olhos. Por isso, selecionamos embalagens que valorizam cada camada do seu bolo, garantindo que ele chegue perfeito ao destino.
+            </p>
+
+            <!-- Destaques -->
+            <div class="grid grid-cols-3 gap-2 py-2">
+              <div class="flex flex-col items-center text-center p-2 bg-stone-50 rounded-lg border border-stone-100">
+                  <span class="text-2xl mb-1">🎁</span>
+                  <span class="text-[10px] font-bold text-gray-600 uppercase tracking-wide">Presenteável</span>
+              </div>
+              <div class="flex flex-col items-center text-center p-2 bg-stone-50 rounded-lg border border-stone-100">
+                  <span class="text-2xl mb-1">✨</span>
+                  <span class="text-[10px] font-bold text-gray-600 uppercase tracking-wide">Premium</span>
+              </div>
+              <div class="flex flex-col items-center text-center p-2 bg-stone-50 rounded-lg border border-stone-100">
+                  <span class="text-2xl mb-1">🛡️</span>
+                  <span class="text-[10px] font-bold text-gray-600 uppercase tracking-wide">Seguro</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="p-5 border-t border-gray-100 bg-gray-50">
           <button
             id="saber-mais-embalagens"
-            class="mt-4 w-full btn-gold-metallic py-2 px-4 rounded-lg text-sm text-center"
+            class="w-full bg-white border-2 border-[#D4AF37] text-[#D4AF37] font-bold py-3 px-6 rounded-xl hover:bg-[#D4AF37] hover:text-white transition-all duration-300 flex items-center justify-center gap-2 shadow-sm hover:shadow-md"
           >
-            Saber Mais
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Ver Tabela de Tamanhos e Preços
           </button>
         </div>
       </div>
@@ -1977,7 +2248,7 @@
 
     <div
       id="saber-mais-modal"
-      class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden flex items-center justify-center p-4"
+      class="fixed inset-0 bg-black bg-opacity-50 z-[100] hidden flex items-center justify-center p-4 animate-fade-in"
     >
       <div
         class="bg-white rounded-lg shadow-lg max-w-md w-full relative flex flex-col max-h-[85vh]"
@@ -2006,7 +2277,7 @@
           </button>
         </div>
         <!-- Conteúdo Rolável -->
-        <div class="p-6 space-y-4 text-sm text-gray-600 overflow-y-auto">
+        <div class="p-4 md:p-6 space-y-4 text-sm text-gray-600 overflow-y-auto">
           <p class="font-semibold mb-2 text-base">TODAS OPÇÕES DE EMBALAGENS</p>
           <p class="font-semibold mb-1">Embalagens de 500 gr</p>
           <ul class="list-disc list-inside ml-4 mb-2">
@@ -2061,11 +2332,11 @@
 
     <div
       id="cart-panel-overlay"
-      class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"
+      class="fixed inset-0 bg-black bg-opacity-50 z-[100] hidden animate-fade-in"
     ></div>
     <div
       id="cart-panel"
-      class="fixed top-0 right-0 h-full w-full max-w-sm bg-cover bg-center shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-50"
+      class="fixed top-0 right-0 h-full w-full sm:max-w-sm bg-cover bg-center shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-[110]"
       style="background-image: url('./Avatar/AvatarCarrinho.png')"
     >
       <div class="flex flex-col h-full">
@@ -2118,7 +2389,7 @@
             class="w-full text-center block bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-lg text-lg hover:bg-[#f5e6b3] transition-transform transform hover:scale-105"
             style="display: none"
           >
-            Encomendar pelo WhatsApp
+            Encomendar
           </a>
         </div>
       </div>
@@ -2126,12 +2397,12 @@
 
     <div
       id="checkout-modal"
-      class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"
+      class="fixed inset-0 bg-black bg-opacity-60 z-[100] hidden items-center justify-center p-4 animate-fade-in"
       role="dialog"
       aria-modal="true"
     >
       <div
-        class="bg-white p-6 rounded-2xl shadow-xl max-w-lg w-full relative mx-4 max-h-[90vh] overflow-y-auto"
+        class="bg-white p-4 md:p-6 rounded-2xl shadow-xl max-w-lg w-full relative mx-4 max-h-[90vh] overflow-y-auto"
       >
         <button
           id="close-checkout-modal"
@@ -2181,7 +2452,7 @@
             />
           </div>
           <div>
-            <label for="data_entrega" class="block text-sm font-medium"
+            <label id="label-data" for="data_entrega" class="block text-sm font-medium"
               >Data de entrega:</label
             >
             <input
@@ -2194,7 +2465,7 @@
             />
           </div>
           <div>
-            <label class="block text-sm font-medium"
+            <label id="label-horario" class="block text-sm font-medium"
               >Horário para entrega:</label
             >
             <div class="flex items-center gap-2 mt-1">
@@ -2273,10 +2544,12 @@
           <div class="md:col-span-2">
             <label class="block text-sm font-medium">Será retirada no local?</label>
             <div class="mt-2 flex gap-6">
-                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="retirada" value="nao" class="h-4 w-4 text-[#D4AF37] focus:ring-offset-0 focus:ring-2 focus:ring-[#D4AF37]" checked><span class="text-sm font-medium">Não, desejo entrega</span></label>
-                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="retirada" value="sim" class="h-4 w-4 text-[#D4AF37] focus:ring-offset-0 focus:ring-2 focus:ring-[#D4AF37]"><span class="text-sm font-medium">Sim, vou retirar</span></label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="retirada" value="nao" class="h-4 w-4 text-[#D4AF37] focus:ring-offset-0 focus:ring-2 focus:ring-[#D4AF37]" required><span class="text-sm font-medium">Não, desejo entrega</span></label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="retirada" value="sim" class="h-4 w-4 text-[#D4AF37] focus:ring-offset-0 focus:ring-2 focus:ring-[#D4AF37]" required><span class="text-sm font-medium">Sim, vou retirar</span></label>
             </div>
           </div>
+          
+          <div id="delivery-fields-container" class="md:col-span-2 grid md:grid-cols-2 gap-x-6 gap-y-4">
           <div class="md:col-span-2">
             <label for="cep" class="block text-sm font-medium">CEP:</label>
             <div class="relative mt-1">
@@ -2405,6 +2678,7 @@
               <option value="30">Sarandi-PR R$ 25,00</option>
             </select>
           </div>
+          </div>
 
           <div class="md:col-span-2 flex items-center gap-4 border-t pt-4 mt-2">
             <img
@@ -2463,7 +2737,7 @@
 
     <div
       id="novidade-modal"
-      class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"
+      class="fixed inset-0 bg-black bg-opacity-60 z-[100] hidden items-center justify-center p-4 animate-fade-in"
       role="dialog"
       aria-modal="true"
     >
@@ -2535,27 +2809,99 @@
       </button>
     </div>
 
-    <script src="carrinho.js" defer></script>
+    <!-- Modal de Seleção de Embalagem -->
+    <div id="packaging-selection-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true">
+        <!-- Backdrop com Blur -->
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity animate-fade-in" onclick="closePackagingSelectionModal()"></div>
+        
+        <!-- Modal Content -->
+        <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg flex flex-col max-h-[90vh] animate-modal-entry overflow-hidden transform transition-all">
+            
+            <!-- Header -->
+            <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-stone-50">
+                <div>
+                    <h3 class="text-xl font-['Playfair_Display'] font-bold text-gray-800">Escolha a Embalagem</h3>
+                    <p class="text-xs text-gray-500 mt-1">Personalize a apresentação do seu bolo</p>
+                </div>
+                <button onclick="closePackagingSelectionModal()" class="text-gray-400 hover:text-red-500 transition-colors p-2 rounded-full hover:bg-gray-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            </div>
+            
+            <!-- Search -->
+            <div class="p-4 bg-white border-b border-gray-50">
+                <div class="relative">
+                    <input type="text" id="packaging-search-input" placeholder="Buscar (ex: Taça, 1kg...)" 
+                        class="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#D4AF37]/20 focus:border-[#D4AF37] outline-none text-sm transition-all placeholder-gray-400">
+                <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </div>
+            </div>
+
+            <!-- Options List -->
+            <div id="packaging-options-container" class="flex-1 overflow-y-auto p-4 space-y-2 custom-scrollbar bg-gray-50/50">
+                <!-- Options will be injected here -->
+            </div>
+
+            <!-- Footer -->
+            <div class="p-5 border-t border-gray-100 bg-white">
+                <div id="packaging-error-msg" class="hidden text-red-500 text-xs text-center mb-3 font-medium bg-red-50 p-2 rounded-lg border border-red-100">
+                    Por favor, selecione uma opção para continuar.
+                </div>
+                <button id="confirm-packaging-btn" class="w-full bg-[#D4AF37] text-white font-bold py-4 px-6 rounded-xl hover:bg-[#b5952f] active:scale-[0.98] transition-all shadow-lg shadow-[#D4AF37]/20 flex items-center justify-center gap-2">
+                    <span>Confirmar e Encomendar</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal NFC-e (Novo) -->
+    <div id="nfce-modal" class="fixed inset-0 bg-black bg-opacity-60 z-[110] hidden items-center justify-center p-4 animate-fade-in" role="dialog" aria-modal="true">
+      <div class="bg-white p-6 rounded-2xl shadow-xl max-w-md w-full relative mx-4 max-h-[90vh] overflow-y-auto">
+        <h3 class="text-xl font-bold text-center text-[#D4AF37] mb-6">Deseja Nota Fiscal (NFC-e)?</h3>
+        
+        <div id="nfce-initial-options" class="flex justify-center gap-4 mb-2">
+          <button id="nfce-no-btn" class="px-8 py-3 border border-gray-300 rounded-xl hover:bg-gray-100 font-medium transition-colors">Não</button>
+          <button id="nfce-yes-btn" class="px-8 py-3 bg-[#D4AF37] text-white rounded-xl hover:bg-[#b5952f] font-bold shadow-lg transition-colors">Sim</button>
+        </div>
+
+        <div id="nfce-details" class="hidden space-y-4 mt-6 border-t pt-4 animate-fade-in">
+          <div>
+            <label for="nfce-document" class="block text-sm font-medium text-gray-700 mb-1">CPF ou CNPJ</label>
+            <input type="text" id="nfce-document" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#D4AF37] focus:border-[#D4AF37] outline-none transition-all" placeholder="Digite apenas números">
+          </div>
+
+          <div id="cnpj-fields" class="hidden space-y-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
+            <div>
+              <label for="nfce-company-name" class="block text-sm font-medium text-gray-700 mb-1">Nome Fantasia / Razão Social</label>
+              <input type="text" id="nfce-company-name" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#D4AF37] focus:border-[#D4AF37] outline-none transition-all">
+            </div>
+            
+            <div>
+               <div class="flex items-center justify-between mb-1">
+                  <label for="nfce-company-address" class="block text-sm font-medium text-gray-700">Endereço da Empresa</label>
+                  <button type="button" id="use-delivery-address-btn" class="text-xs text-[#D4AF37] font-bold hover:underline">Utilizar endereço de entrega</button>
+               </div>
+               <input type="text" id="nfce-company-address" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#D4AF37] focus:border-[#D4AF37] outline-none transition-all">
+            </div>
+          </div>
+
+          <button id="nfce-confirm-btn" class="w-full bg-[#D4AF37] text-white font-bold py-3 rounded-xl hover:bg-[#b5952f] mt-4 shadow-md transition-transform active:scale-95">
+            Confirmar e Enviar Pedido
+          </button>
+        </div>
+      </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="main.js" defer></script>
     <script>
-      // --- Page Loader Logic ---
-      const hideLoader = () => {
-        const loader = document.getElementById('page-loader');
-        if (loader && !loader.classList.contains('opacity-0')) {
-          loader.classList.add('opacity-0');
-          setTimeout(() => {
-            loader.style.display = 'none';
-          }, 700); // Match CSS transition duration
-        }
-      };
-
-      window.addEventListener('load', hideLoader);
-      setTimeout(hideLoader, 4000); // Fallback de segurança
-
       /* --- Script de Natal --- */
       document.addEventListener("DOMContentLoaded", () => {
         // --- CONFIGURAÇÕES ---
-        const MODO_TESTE_NATAL = true; // Mude para false em produção
+        const MODO_TESTE_NATAL = false; // Mude para false em produção
  
         // --- Datas ---
         const hoje = new Date();
@@ -2585,6 +2931,7 @@
 
         // --- Lógica Modal Embalagens (Lazy Load Vídeo) ---
         window.openEmbalagensModal = () => {
+            if (window.closeAllModals) window.closeAllModals();
             const modal = document.getElementById('embalagens-modal');
             const video = document.getElementById('video-embalagens');
             if(modal) {
@@ -2614,7 +2961,8 @@
 
         // Listener para mensagens do iframe (Controlar botão de fechar)
         window.addEventListener('message', (event) => {
-            if (event.data.action === 'toggleCloseButton') {
+            // Validação robusta para ignorar mensagens de extensões ou fontes desconhecidas
+            if (event.data && typeof event.data === 'object' && event.data.action === 'toggleCloseButton') {
                 const closeBtn = document.getElementById("natal-popup-close");
                 if (closeBtn) closeBtn.style.display = event.data.visible ? 'block' : 'none';
             }
@@ -2648,11 +2996,14 @@
           }, 400);
 
           if (natalHeaderIcon) {
+            natalHeaderIcon.innerHTML = '🎅';
             natalHeaderIcon.classList.remove("hidden");
+            natalHeaderIcon.classList.add("text-2xl", "ml-2");
           }
  
           const openPopup = () => {
             if (popupOverlay) {
+              if (window.closeAllModals) window.closeAllModals();
               // Lazy Load: Carrega o iframe apenas ao abrir o modal
               const iframe = popupOverlay.querySelector('iframe');
               if (iframe && iframe.getAttribute('src') === 'about:blank') {
@@ -2702,7 +3053,7 @@
             if (natalDynamicLink) {
               natalDynamicLink.addEventListener("click", (e) => {
                 e.preventDefault();
-                openPopupFromClick();
+                openPopup();
               });
             }
           }
@@ -2714,6 +3065,79 @@
 
       /* --- Melhorias de UX do Formulário --- */
       document.addEventListener("DOMContentLoaded", () => {
+        // --- 1. Lógica do Menu Lateral Mobile ---
+        const mobileMenuBtn = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileMenuCloseBtn = document.getElementById('mobile-menu-close-button');
+        const body = document.body;
+
+        const openMenu = () => {
+            if (mobileMenu && mobileMenuOverlay) {
+                mobileMenu.classList.remove('translate-x-full');
+                mobileMenu.classList.add('translate-x-0');
+                mobileMenuOverlay.classList.remove('opacity-0', 'invisible');
+                body.classList.add('overflow-hidden'); // Impede o scroll do fundo
+            }
+        };
+
+        const closeMenu = () => {
+            if (mobileMenu && mobileMenuOverlay) {
+                mobileMenu.classList.remove('translate-x-0');
+                mobileMenu.classList.add('translate-x-full');
+                mobileMenuOverlay.classList.add('opacity-0', 'invisible');
+                body.classList.remove('overflow-hidden');
+            }
+        };
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openMenu();
+            });
+        }
+
+        if (mobileMenuCloseBtn) {
+            mobileMenuCloseBtn.addEventListener('click', closeMenu);
+        }
+
+        if (mobileMenuOverlay) {
+            mobileMenuOverlay.addEventListener('click', closeMenu);
+        }
+
+        // Fecha o menu ao clicar em um link dentro dele
+        if (mobileMenu) {
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+        }
+
+        // --- 2. Lógica de Entrega vs Retirada ---
+        const deliveryContainer = document.getElementById('delivery-fields-container');
+        const deliveryInputs = deliveryContainer.querySelectorAll('input, select');
+        const radioRetirada = document.querySelectorAll('input[name="retirada"]');
+
+        function toggleDeliveryFields() {
+            const isRetirada = document.querySelector('input[name="retirada"]:checked')?.value === 'sim';
+            
+            if (isRetirada) {
+                deliveryContainer.classList.add('hidden');
+                // Remove obrigatoriedade dos campos ocultos
+                deliveryInputs.forEach(input => input.removeAttribute('required'));
+            } else {
+                deliveryContainer.classList.remove('hidden');
+                // Restaura obrigatoriedade (exceto opcionais como complemento/ap)
+                deliveryInputs.forEach(input => {
+                    if (input.id !== 'ap' && input.id !== 'predio') {
+                        input.setAttribute('required', 'true');
+                    }
+                });
+            }
+        }
+
+        // Adiciona evento aos radios
+        radioRetirada.forEach(radio => radio.addEventListener('change', toggleDeliveryFields));
+
         // Máscara de CEP (00000-000)
         const cepInput = document.getElementById('cep');
         if (cepInput) {
@@ -2725,12 +3149,8 @@
         }
 
         // Configuração do Calendário (Bloquear datas passadas)
-        if (typeof flatpickr !== 'undefined') {
-            flatpickr("#data_entrega", {
-                dateFormat: "d/m/Y",
-                minDate: "today", // Impede seleção de datas passadas
-                locale: { firstDayOfWeek: 0 }
-            });
+        if (document.getElementById('data_entrega')) {
+            // A lógica do flatpickr foi movida para main.js dentro de initCheckoutModal
         }
 
         /* --- Carrossel de Destaques --- */
@@ -2847,11 +3267,342 @@
                 });
             });
         }
+
+        /* --- Lógica do Modal de Embalagens --- */
+        let pendingCakeName = null;
+        let pendingButton = null;
+        let isPendingStrogonoff = false;
+
+        // Helper para ícones e porções
+        function getPackagingDetails(text) {
+            const lower = text.toLowerCase();
+            let icon = '';
+            let servings = '';
+
+            // Ícones SVG baseados no tipo
+            if (lower.includes('oval')) {
+                icon = `<div class="w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center text-stone-500"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="12" cy="12" rx="10" ry="6"></ellipse></svg></div>`;
+            } else if (lower.includes('taça')) {
+                icon = `<div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-600"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9v2a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V9"></path><line x1="6" y1="9" x2="18" y2="9"></line><line x1="12" y1="17" x2="12" y2="21"></line><line x1="8" y1="21" x2="16" y2="21"></line></svg></div>`;
+            } else if (lower.includes('box') || lower.includes('caixa')) {
+                icon = `<div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg></div>`;
+            } else {
+                icon = `<div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg></div>`;
+            }
+
+            // Estimativa de porções baseada no peso
+            if (lower.includes('500g')) servings = 'Serve aprox. 4 pessoas';
+            else if (lower.includes('1kg')) servings = 'Serve aprox. 8 pessoas';
+            else if (lower.includes('1,5kg') || lower.includes('1.5kg')) servings = 'Serve aprox. 12 pessoas';
+            else if (lower.includes('2kg')) servings = 'Serve aprox. 18 pessoas';
+            else if (lower.includes('3kg')) servings = 'Serve aprox. 28 pessoas';
+            else if (lower.includes('4kg')) servings = 'Serve aprox. 38 pessoas';
+            else if (lower.includes('5kg')) servings = 'Serve aprox. 48 pessoas';
+
+            return { icon, servings };
+        }
+
+        // Helper para extrair peso em gramas para ordenação
+        function getWeightInGrams(text) {
+            const match = text.match(/(\d+(?:[.,]\d+)?)\s*(k?g)/i);
+            if (!match) return 999999; // Se não encontrar peso, joga para o final
+            let val = parseFloat(match[1].replace(',', '.'));
+            if (match[2].toLowerCase() === 'kg') {
+                val *= 1000;
+            }
+            return val;
+        }
+
+        // Helper para prioridade de tipo
+        function getPackagingTypePriority(text) {
+            const lower = text.toLowerCase();
+            if (lower.includes('oval')) return 1;
+            if (lower.includes('taça')) return 2;
+            if (lower.includes('box')) return 3;
+            if (lower.includes('caixa')) return 4;
+            return 5;
+        }
+
+        window.initiateOrder = function(cakeName, btnElement, isStrogonoff = false) {
+            if (window.closeAllModals) window.closeAllModals();
+            pendingCakeName = cakeName;
+            pendingButton = btnElement;
+            isPendingStrogonoff = isStrogonoff;
+
+            // Encontra o select associado ao botão
+            let container = btnElement.closest('.card-content');
+            if (!container) {
+                // Tenta encontrar no slide do carrossel
+                container = btnElement.closest('.carousel-slide');
+                if (!container) container = btnElement.parentElement; // Fallback
+            }
+
+            const select = container ? container.querySelector('.cake-size-select') : null;
+            
+            if (!select) {
+                // Se não encontrar select, assume que não tem variação e adiciona direto
+                if (isStrogonoff) {
+                    if (typeof window.addStrogonoffToCart === 'function') window.addStrogonoffToCart(btnElement);
+                } else {
+                    if (typeof window.addToCart === 'function') window.addToCart(cakeName, btnElement);
+                }
+                return;
+            }
+
+            // Reseta o campo de busca
+            const searchInput = document.getElementById('packaging-search-input');
+            if (searchInput) {
+                searchInput.value = '';
+            }
+
+            const optionsContainer = document.getElementById('packaging-options-container');
+            optionsContainer.innerHTML = '';
+
+            // Garante que o botão esteja habilitado (validação será no clique)
+            const confirmBtn = document.getElementById('confirm-packaging-btn');
+            if (confirmBtn) {
+                confirmBtn.disabled = false;
+                confirmBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+            // Remove mensagem de erro anterior
+            const existingError = document.getElementById('packaging-error-msg');
+            if (existingError) existingError.classList.add('hidden');
+
+            // Função para atualizar o estilo visual da seleção
+            const updateSelectionVisuals = () => {
+                const labels = optionsContainer.querySelectorAll('label');
+                labels.forEach(lbl => {
+                    const radio = lbl.querySelector('input[type="radio"]');
+                    if (radio.checked) {
+                        lbl.classList.remove('border-gray-200', 'bg-white');
+                        lbl.classList.add('border-[#D4AF37]', 'bg-[#FAF8F0]', 'ring-1', 'ring-[#D4AF37]', 'shadow-sm');
+                    } else {
+                        lbl.classList.add('border-gray-200', 'bg-white');
+                        lbl.classList.remove('border-[#D4AF37]', 'bg-[#FAF8F0]', 'ring-1', 'ring-[#D4AF37]', 'shadow-sm');
+                    }
+                });
+            };
+
+            // Ordena as opções por Tipo e depois por Peso
+            const sortedOptions = Array.from(select.options).sort((a, b) => {
+                const typeA = getPackagingTypePriority(a.text);
+                const typeB = getPackagingTypePriority(b.text);
+                
+                if (typeA !== typeB) return typeA - typeB;
+
+                const wA = getWeightInGrams(a.text);
+                const wB = getWeightInGrams(b.text);
+                return wA - wB;
+            });
+
+            let lastType = null;
+
+            sortedOptions.forEach((opt, index) => {
+                const typePriority = getPackagingTypePriority(opt.text);
+                let typeLabel = typePriority === 1 ? 'Oval' : typePriority === 2 ? 'Taça' : typePriority === 3 ? 'Box' : typePriority === 4 ? 'Caixa' : 'Outros';
+                
+                if (typeLabel !== lastType) {
+                    const header = document.createElement('div');
+                    header.className = 'sticky top-0 z-10 bg-gray-50/95 backdrop-blur-sm px-2 py-2 text-xs font-bold text-gray-400 uppercase tracking-wider mt-2 mb-1';
+                    header.textContent = typeLabel;
+                    optionsContainer.appendChild(header);
+                    lastType = typeLabel;
+                }
+
+                const label = document.createElement('label');
+                label.className = 'flex items-center p-3 border border-gray-200 bg-white rounded-xl cursor-pointer hover:border-[#D4AF37]/50 hover:bg-[#FAF8F0]/50 transition-all duration-200 group relative overflow-hidden';
+                
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'packaging-option';
+                radio.value = opt.value;
+                radio.className = 'form-radio h-5 w-5 text-[#D4AF37] border-gray-300 focus:ring-[#D4AF37] transition-transform duration-200';
+
+                // Atualiza o select original quando o radio muda
+                radio.onchange = () => {
+                    select.value = radio.value;
+                    updateSelectionVisuals();
+                    
+                    // Remove estilos de erro ao selecionar
+                    const labels = optionsContainer.querySelectorAll('label');
+                    labels.forEach(l => l.classList.remove('border-red-500', 'ring-red-500', 'ring-1'));
+                    const errorMsg = document.getElementById('packaging-error-msg');
+                    if (errorMsg) errorMsg.classList.add('hidden');
+                };
+
+                const { icon, servings } = getPackagingDetails(opt.text);
+
+                const iconContainer = document.createElement('div');
+                iconContainer.className = 'ml-3 flex-shrink-0';
+                iconContainer.innerHTML = icon;
+
+                const textContainer = document.createElement('div');
+                textContainer.className = 'ml-3 flex-grow';
+
+                const titleDiv = document.createElement('div');
+                titleDiv.className = 'text-gray-700 font-medium group-hover:text-gray-900';
+                
+                let html = opt.text;
+                // Destaca o preço (+ R$ XX,XX)
+                html = html.replace(/(\(\+\s*R\$\s*[\d,]+\))/g, '<span class="block text-sm font-bold text-green-600 mt-0.5">$1</span>');
+                // Destaca (sem custo)
+                html = html.replace(/(\(sem custo\))/gi, '<span class="block text-sm font-bold text-gray-400 mt-0.5 uppercase tracking-wide">$1</span>');
+                
+                if (opt.text.toLowerCase().includes('oval 1kg')) {
+                    html += '<span class="absolute top-0 right-0 bg-[#D4AF37] text-white text-[10px] font-bold px-2 py-1 rounded-bl-lg uppercase tracking-wide shadow-sm">Recomendado</span>';
+                }
+
+                titleDiv.innerHTML = html;
+
+                const servingsDiv = document.createElement('div');
+                servingsDiv.className = 'text-xs text-gray-500 mt-0.5';
+                servingsDiv.textContent = servings;
+
+                textContainer.appendChild(titleDiv);
+                if (servings) textContainer.appendChild(servingsDiv);
+
+                label.appendChild(iconContainer);
+                label.appendChild(textContainer);
+                label.appendChild(radio); // Move radio to end for better layout
+                optionsContainer.appendChild(label);
+            });
+
+            updateSelectionVisuals(); // Aplica estilo inicial
+
+            const modal = document.getElementById('packaging-selection-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        };
+
+        // Lógica de filtro de busca
+        const packagingSearchInput = document.getElementById('packaging-search-input');
+        if (packagingSearchInput) {
+            packagingSearchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                const container = document.getElementById('packaging-options-container');
+                const labels = container.querySelectorAll('label');
+                
+                labels.forEach(label => {
+                    const text = label.textContent.toLowerCase();
+                    if (text.includes(query)) {
+                        label.classList.remove('hidden');
+                        label.classList.add('flex');
+                    } else {
+                        label.classList.add('hidden');
+                        label.classList.remove('flex');
+                    }
+                });
+            });
+        }
+
+        window.closePackagingSelectionModal = function() {
+            const modal = document.getElementById('packaging-selection-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        };
+
+        // Fecha o modal ao clicar no backdrop (fundo escuro)
+        const packagingModal = document.getElementById('packaging-selection-modal');
+        if (packagingModal) {
+            packagingModal.addEventListener('click', (e) => {
+                if (e.target === packagingModal) {
+                    closePackagingSelectionModal();
+                }
+            });
+        }
+
+        function confirmPackagingOrder() {
+            const optionsContainer = document.getElementById('packaging-options-container');
+            const selected = optionsContainer.querySelector('input[type="radio"]:checked');
+
+            if (!selected) {
+                // Feedback visual de erro (piscar borda vermelha)
+                const labels = optionsContainer.querySelectorAll('label');
+                labels.forEach(label => {
+                    label.classList.add('border-red-500', 'ring-1', 'ring-red-500', 'animate-pulse');
+                    setTimeout(() => label.classList.remove('animate-pulse'), 500);
+                });
+
+                let errorMsg = document.getElementById('packaging-error-msg');
+                if (!errorMsg) {
+                    errorMsg = document.createElement('p');
+                    errorMsg.id = 'packaging-error-msg';
+                    errorMsg.className = 'text-red-500 text-sm text-center mb-2 font-bold';
+                    errorMsg.textContent = 'Por favor, selecione uma opção.';
+                    const btn = document.getElementById('confirm-packaging-btn');
+                    btn.parentElement.insertBefore(errorMsg, btn);
+                }
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+
+            if (pendingButton) {
+                if (isPendingStrogonoff) {
+                    if (typeof window.addStrogonoffToCart === 'function') {
+                        window.addStrogonoffToCart(pendingButton);
+                    } else {
+                        console.error("Função addStrogonoffToCart não encontrada.");
+                    }
+                } else {
+                    if (typeof window.addToCart === 'function') {
+                        window.addToCart(pendingCakeName, pendingButton);
+                    } else {
+                        console.error("Função addToCart não encontrada.");
+                    }
+                }
+                closePackagingSelectionModal();
+            }
+        }
+
+        document.getElementById('confirm-packaging-btn').addEventListener('click', confirmPackagingOrder);
+
+        // --- Lógica do Botão Novidade ---
+        const novidadeBtn = document.querySelector('#novidade-island button');
+        const novidadeModal = document.getElementById('novidade-modal');
+        const closeNovidadeBtn = document.getElementById('close-novidade-modal-footer');
+        
+        if (novidadeBtn && novidadeModal) {
+            novidadeBtn.addEventListener('click', () => {
+                novidadeModal.classList.remove('hidden');
+                novidadeModal.classList.add('flex');
+                // Opcional: Adicionar conteúdo se estiver vazio
+                const content = document.getElementById('novidade-modal-content');
+                if (content && !content.innerHTML.trim()) {
+                    content.innerHTML = '<p class="text-center text-gray-600 mt-4">Em breve, novas delícias de Natal por aqui! 🎄</p>';
+                }
+            });
+        }
+        
+        if (closeNovidadeBtn && novidadeModal) {
+             closeNovidadeBtn.addEventListener('click', () => {
+                novidadeModal.classList.add('hidden');
+                novidadeModal.classList.remove('flex');
+            });
+        }
+
+        // --- Lógica para o novo botão de fechar do modal de tutorial ---
+        const closeTutorialFooterBtn = document.getElementById('close-tutorial-modal-footer');
+        const closeTutorialHeaderBtn = document.getElementById('close-tutorial-modal');
+        const tutorialModal = document.getElementById('tutorial-modal');
+        
+        if (tutorialModal) {
+            const closeAndPause = () => {
+                tutorialModal.classList.add('hidden');
+                tutorialModal.classList.remove('flex');
+                const video = document.getElementById('video-tutorial');
+                if (video) video.pause();
+            };
+            if (closeTutorialFooterBtn) {
+              closeTutorialFooterBtn.addEventListener('click', closeAndPause);
+            }
+            if (closeTutorialHeaderBtn) {
+              closeTutorialHeaderBtn.addEventListener('click', closeAndPause);
+            }
+        }
       });
     </script>
-    <script src="datepicker.js" defer></script>
-
-    <div id="custom-alert-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4" role="dialog" aria-modal="true">
+    
+    <div id="custom-alert-modal" class="fixed inset-0 bg-black bg-opacity-60 z-[100] hidden items-center justify-center p-4 animate-fade-in" role="dialog" aria-modal="true">
       <div class="bg-white p-6 rounded-2xl shadow-xl max-w-sm w-full relative mx-4 text-center">
         <button id="custom-alert-x-close" class="absolute top-4 right-4 bg-gray-100 rounded-full p-1 text-gray-500 hover:text-gray-800 hover:bg-gray-200 transition-colors" aria-label="Fechar modal">
             <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>

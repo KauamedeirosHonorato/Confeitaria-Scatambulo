@@ -18,7 +18,12 @@
     />
 
     <link rel="stylesheet" href="Potes.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
 
+    <link rel="stylesheet" href="responsive.css" />
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
@@ -81,6 +86,95 @@
         animation: shimmer-effect 1.2s ease-in-out;
         pointer-events: none;
         z-index: 20;
+      }
+
+      /* Custom Flatpickr Styles */
+      .flatpickr-day.disabled,
+      .flatpickr-day.disabled:hover {
+        background: #f8fafc !important; /* Fundo mais claro (slate-50) */
+        color: #cbd5e1 !important; /* Texto mais apagado (slate-300) */
+        cursor: not-allowed;
+        border-color: #f1f5f9 !important; /* Borda sutil (slate-100) */
+        text-decoration: line-through; /* Adiciona um risco para indicar bloqueio */
+        text-decoration-color: #e2e8f0; /* Cor do risco (slate-200) */
+      }
+
+      /* --- Flatpickr Custom Theme --- */
+      .flatpickr-calendar {
+        font-family: 'Poppins', sans-serif;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        border: 1px solid #f0f0f0;
+        width: 320px;
+      }
+      .flatpickr-current-month {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1A1A1A;
+        padding-top: 12px;
+      }
+      .flatpickr-prev-month, .flatpickr-next-month {
+        color: #D4AF37;
+        fill: #D4AF37;
+        top: 14px;
+        padding: 4px;
+        transition: background-color 0.2s;
+        border-radius: 8px;
+      }
+      .flatpickr-prev-month:hover, .flatpickr-next-month:hover {
+        color: #b89a31;
+        fill: #b89a31;
+        background-color: #f5e6b3;
+      }
+      .flatpickr-weekdays {
+        margin-top: 8px;
+      }
+      .flatpickr-weekday {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        color: #b89a31;
+        text-transform: uppercase;
+        font-size: 0.65rem;
+      }
+      .flatpickr-day {
+        color: #333;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        font-weight: 500;
+      }
+      .flatpickr-day:hover {
+        background-color: #fdf8e6;
+        color: #1A1A1A;
+      }
+      .flatpickr-day.today {
+        border-color: #D4AF37;
+        color: #b89a31;
+      }
+      .flatpickr-day.today:hover {
+          background-color: #f5e6b3;
+          border-color: #D4AF37;
+          color: #1A1A1A;
+      }
+      .flatpickr-day.selected,
+      .flatpickr-day.startRange,
+      .flatpickr-day.endRange {
+        background-color: #D4AF37;
+        border-color: #D4AF37;
+        color: #1A1A1A; /* Dark text for contrast */
+        font-weight: bold;
+      }
+      .flatpickr-day.selected:hover {
+        background-color: #b89a31;
+      }
+
+      /* --- iOS/Safari Compatibility Fixes --- */
+      #potinho-order-modal input[type="text"],
+      #potinho-order-modal input[type="number"],
+      #potinho-order-modal select {
+        -webkit-appearance: none;
+        appearance: none;
       }
     </style>
   </head>
@@ -178,9 +272,9 @@
               <p class="text-sm text-gray-500 leading-relaxed">Delicadeza em cada detalhe para celebrar este momento sagrado.</p>
             </div>
             <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
-              <a href="https://api.whatsapp.com/send/?phone=554499024212&text=Ol%C3%A1%2C%20Angela%21%20%F0%9F%91%8B%0AGostaria%20de%20um%20or%C3%A7amento%20para%20*Bolos%20no%20Pote*.%0ATema%3A%20*Batizado*%20%F0%9F%95%8A%EF%B8%8F" target="_blank" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
+              <button onclick="openPotinhoModal('Batizado')" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
                 Encomendar Agora
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -208,9 +302,9 @@
               <p class="text-sm text-gray-500 leading-relaxed">Adoce o final de ano da sua equipe com elegância.</p>
             </div>
             <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
-              <a href="https://api.whatsapp.com/send/?phone=554499024212&text=Ol%C3%A1%2C%20Angela%21%20%F0%9F%91%8B%0AGostaria%20de%20um%20or%C3%A7amento%20para%20*Bolos%20no%20Pote*.%0ATema%3A%20*Confraterniza%C3%A7%C3%A3o*%20%F0%9F%A5%82" target="_blank" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
+              <button onclick="openPotinhoModal('Confraternização')" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
                 Encomendar Agora
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -238,9 +332,9 @@
               <p class="text-sm text-gray-500 leading-relaxed">Brindes personalizados que marcam presença.</p>
             </div>
             <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
-              <a href="https://api.whatsapp.com/send/?phone=554499024212&text=Ol%C3%A1%2C%20Angela%21%20%F0%9F%91%8B%0AGostaria%20de%20um%20or%C3%A7amento%20para%20*Bolos%20no%20Pote*.%0ATema%3A%20*Corporativo*%20%F0%9F%92%BC" target="_blank" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
+              <button onclick="openPotinhoModal('Corporativo')" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
                 Encomendar Agora
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -268,9 +362,9 @@
               <p class="text-sm text-gray-500 leading-relaxed">Lembrança sofisticada para o dia mais importante.</p>
             </div>
             <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
-              <a href="https://api.whatsapp.com/send/?phone=554499024212&text=Ol%C3%A1%2C%20Angela%21%20%F0%9F%91%8B%0AGostaria%20de%20um%20or%C3%A7amento%20para%20*Bolos%20no%20Pote*.%0ATema%3A%20*Casamento*%20%F0%9F%92%8D" target="_blank" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
+              <button onclick="openPotinhoModal('Casamento')" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
                 Encomendar Agora
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -298,9 +392,9 @@
               <p class="text-sm text-gray-500 leading-relaxed">A alegria da festa continua em casa.</p>
             </div>
             <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
-              <a href="https://api.whatsapp.com/send/?phone=554499024212&text=Ol%C3%A1%2C%20Angela%21%20%F0%9F%91%8B%0AGostaria%20de%20um%20or%C3%A7amento%20para%20*Bolos%20no%20Pote*.%0ATema%3A%20*Anivers%C3%A1rio*%20%F0%9F%8E%82" target="_blank" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
+              <button onclick="openPotinhoModal('Aniversário')" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
                 Encomendar Agora
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -329,9 +423,9 @@
               <p class="text-sm text-gray-500 leading-relaxed">O presente perfeito para quem você ama.</p>
             </div>
             <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
-              <a href="https://api.whatsapp.com/send/?phone=554499024212&text=Ol%C3%A1%2C%20Angela%21%20%F0%9F%91%8B%0AGostaria%20de%20um%20or%C3%A7amento%20para%20*Bolos%20no%20Pote*.%0ATema%3A%20*Natal*%20%F0%9F%8E%84" target="_blank" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
+              <button onclick="openPotinhoModal('Natal')" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
                 Encomendar Agora
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -359,9 +453,9 @@
               <p class="text-sm text-gray-500 leading-relaxed">Pequenos gestos que deixam grandes marcas.</p>
             </div>
             <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
-              <a href="https://api.whatsapp.com/send/?phone=554499024212&text=Ol%C3%A1%2C%20Angela%21%20%F0%9F%91%8B%0AGostaria%20de%20um%20or%C3%A7amento%20para%20*Bolos%20no%20Pote*.%0ATema%3A%20*Lembrancinhas*%20%F0%9F%8E%81" target="_blank" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
+              <button onclick="openPotinhoModal('Lembrancinhas')" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
                 Encomendar Agora
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -453,6 +547,89 @@
       </div>
     </div>
 
+    <!-- Modal de Pedido de Potinho -->
+    <div id="potinho-order-modal" class="fixed inset-0 bg-black bg-opacity-60 z-[100] hidden items-center justify-center p-4 animate-fade-in" role="dialog" aria-modal="true">
+      <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl max-w-2xl w-full relative mx-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
+        <button id="close-potinho-modal" class="absolute top-4 right-4 bg-gray-100 rounded-full p-1 text-gray-500 hover:text-gray-800 hover:bg-gray-200 transition-colors" aria-label="Fechar modal">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        
+        <div class="text-center mb-6">
+            <span class="text-sm font-semibold text-primary tracking-widest uppercase">Encomenda</span>
+            <h3 class="text-3xl font-bold text-gray-900 font-['Playfair_Display'] mt-1">Bolo no Potinho</h3>
+        </div>
+
+        <form id="potinho-order-form" class="flex flex-col md:flex-row md:gap-x-8">
+            <!-- Coluna da Esquerda: Sabor e Tema -->
+            <div class="md:w-1/2 space-y-4">
+                <div>
+                    <label for="potinho-name" class="block text-sm font-medium text-gray-700">Tema da Ocasião:</label>
+                    <input type="text" id="potinho-name" name="potinho-name" readonly class="mt-1 block w-full p-3 border border-gray-200 bg-gray-50 rounded-lg shadow-sm text-lg font-semibold text-gray-800">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">1. Escolha o Sabor:</label>
+                    <div id="potinho-flavors-list" class="grid grid-cols-3 gap-3 p-1">
+                        <!-- Sabores serão inseridos via JavaScript -->
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Selecione um sabor para o seu pedido.</p>
+                </div>
+            </div>
+
+            <!-- Coluna da Direita: Detalhes -->
+            <div class="md:w-1/2 mt-6 md:mt-0">
+                <h4 class="text-sm font-medium text-gray-700 mb-2">2. Detalhes da Encomenda</h4>
+                <div class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="potinho-quantity" class="block text-xs font-medium text-gray-600">Quantidade:</label>
+                            <input type="number" id="potinho-quantity" name="quantity" min="10" value="10" required class="mt-1 block w-full p-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary" placeholder="Mín. 10">
+                        </div>
+                        <div>
+                            <label for="potinho-payment" class="block text-xs font-medium text-gray-600">Pagamento:</label>
+                            <select id="potinho-payment" name="payment" required class="mt-1 block w-full p-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary">
+                                <option value="" disabled selected>Selecione...</option>
+                                <option value="Pix">Pix</option>
+                                <option value="Cartão Débito/Crédito">Cartão</option>
+                                <option value="Link de Pagamento">Link</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="potinho-date" class="block text-xs font-medium text-gray-600 mb-1">Data Entrega:</label>
+                        <input type="text" id="potinho-date" name="date" required class="block w-full p-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary" placeholder="Selecione a data">
+                        <p id="potinho-date-notice" class="text-xs text-gray-500 mt-1"></p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-gray-600 mb-1">Período de Entrega:</label>
+                        <div id="potinho-time-slots" class="grid grid-cols-2 gap-2">
+                            <!-- Botões de período serão inseridos via JS -->
+                        </div>
+                        <div id="potinho-delivery-notice" class="text-sm text-amber-700 h-5 mt-1 -mb-2 text-center"></div>
+                    </div>
+                    
+                    <div class="border-t border-gray-200 pt-4">
+                         <h4 class="text-sm font-medium text-gray-700 mb-2">3. Seus Dados</h4>
+                        <div>
+                            <label for="potinho-customer-name" class="block text-xs font-medium text-gray-600">Seu Nome Completo:</label>
+                            <input type="text" id="potinho-customer-name" name="customer-name" required class="mt-1 block w-full p-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary" placeholder="Nome e Sobrenome">
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" class="w-full text-center bg-primary text-white font-bold py-3.5 rounded-xl hover:bg-amber-600 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                            Enviar Pedido via WhatsApp
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
     <script>
       // --- Page Loader Logic ---
       const hideLoader = () => {
@@ -468,111 +645,327 @@
       window.addEventListener('load', hideLoader);
       setTimeout(hideLoader, 4000); // Fallback de segurança
 
+      // O script main.js agora cuida da inicialização dos filtros e efeitos.
+      // As funções abaixo são específicas para esta página.
       document.addEventListener("DOMContentLoaded", () => {
-        initFilters();
         initLightbox();
-        initWhatsAppLoadingOverlay(); // Initialize the WhatsApp loading overlay
         initBackToTop();
-        initToastSwipe(); // Inicializa a lógica de swipe para toasts
+        initPotinhoOrderModal();
       });
 
-      // Function to handle WhatsApp link clicks with loading overlay
-      function initWhatsAppLoadingOverlay() {
-        const loadingOverlay = document.getElementById("loading-overlay");
-        const whatsappLinks = document.querySelectorAll('a[href^="https://api.whatsapp.com/send/"]');
+      function initPotinhoOrderModal() {
+          const modal = document.getElementById('potinho-order-modal');
+          if (!modal) return;
 
-        if (!loadingOverlay || whatsappLinks.length === 0) return;
+          const form = document.getElementById('potinho-order-form');
+          const closeBtn = document.getElementById('close-potinho-modal');
+          const nameInput = document.getElementById('potinho-name');
+          const quantityInput = document.getElementById('potinho-quantity');
+          const customerNameInput = document.getElementById('potinho-customer-name');
+          const flavorsContainer = document.getElementById('potinho-flavors-list');
+          const dateInput = document.getElementById('potinho-date');
+          const dateNotice = document.getElementById('potinho-date-notice');
+          const timeSlotsContainer = document.getElementById('potinho-time-slots');
+          const deliveryNotice = document.getElementById('potinho-delivery-notice');
+          
+          let selectedFlavor = null;
+          let selectedTime = null;
 
-        whatsappLinks.forEach(link => {
-          link.addEventListener("click", (event) => {
-            event.preventDefault(); // Prevent default link behavior
+          const flavorsWithImages = [
+            { name: "Nuvem de Morango", img: "sabores/NuvemDeMorango.jpg" },
+            { name: "Doce de Leite Trufado", img: "sabores/DoceDeLeite.jpg" },
+            { name: "Strogonoff de Nozes", img: "sabores/StrogonoffDeNozes.jpg" },
+            { name: "Uva Crocante", img: "sabores/UvaCrocante.jpg" },
+            { name: "Brigadeiro de Café", img: "sabores/BoloDeCafe.jpg" },
+            { name: "Morango com Suspiro", img: "sabores/MorangoComSuspiro.jpg" },
+            { name: "Sensação", img: "sabores/BoloDeSensacao.jpg" },
+            { name: "Abacaxi com Coco", img: "sabores/AbacaxiComCoco.jpg" },
+            { name: "Olho de Sogra", img: "sabores/OlhoDeSogra.jpg" },
+            { name: "Casadinho", img: "sabores/Casadinho.jpg" },
+            { name: "Brigadeiro", img: "sabores/BoloDeBrigadeiro.jpg" },
+            { name: "Trufa de Nutella", img: "sabores/TrufaDeNutella.jpg" },
+            { name: "Pistache c/ Frutas Vermelhas", img: "sabores/PistacheComFrutasVermelhas.jpg" },
+            { name: "Floresta Branca", img: "sabores/FlorestaBranca.jpg" }
+          ];
 
-            loadingOverlay.classList.remove("hidden"); // Show loading overlay
+          const timeSlots = [
+              { label: "Manhã", value: "08:00 - 12:00" },
+              { label: "Tarde", value: "13:00 - 18:00" }
+          ];
 
-            // Open WhatsApp link in a new tab
-            window.open(link.href, "_blank");
+          // Popula a lista de sabores
+          if (flavorsContainer && flavorsContainer.children.length === 0) {
+             flavorsWithImages.forEach(flavor => {
+                 const flavorCard = document.createElement('div');
+                 flavorCard.className = 'relative aspect-square rounded-lg cursor-pointer group overflow-hidden border-2 border-transparent hover:border-primary transition-colors';
+                 flavorCard.dataset.flavorName = flavor.name;
+                 flavorCard.innerHTML = `
+                    <img src="${flavor.img}" alt="${flavor.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    <span class="absolute bottom-1 left-0 right-0 text-center text-white text-xs font-semibold p-1">${flavor.name}</span>
+                    <div class="absolute inset-0 bg-primary/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </div>`;
+                 flavorCard.addEventListener('click', () => {
+                    flavorsContainer.querySelectorAll('.flavor-card').forEach(card => card.classList.remove('border-primary', 'ring-2', 'ring-primary'));
+                    flavorCard.classList.add('border-primary', 'ring-2', 'ring-primary');
+                    selectedFlavor = flavor.name;
+                    savePotinhoForm();
+                 });
+                 flavorCard.classList.add('flavor-card');
+                 flavorsContainer.appendChild(flavorCard);
+             });
+          }
 
-            // Hide loading overlay after a short delay (e.g., 3 seconds)
-            // This is a fixed delay as we cannot detect when the new tab has loaded
-            setTimeout(() => {
-              loadingOverlay.classList.add("hidden");
-            }, 3000);
-          });
-        });
-      }
+          // Popula os botões de período
+          if (timeSlotsContainer && timeSlotsContainer.children.length === 0) {
+              timeSlots.forEach(slot => {
+                  const timeButton = document.createElement('button');
+                  timeButton.type = 'button';
+                  timeButton.className = 'w-full text-center p-2 border border-gray-300 rounded-lg shadow-sm text-sm transition-colors bg-white text-gray-700 hover:border-primary';
+                  timeButton.dataset.value = slot.value;
+                  timeButton.innerHTML = `<span class="font-semibold">${slot.label}</span><br><span class="text-xs">${slot.value}</span>`;
+                  
+                  timeButton.addEventListener('click', () => {
+                      if (timeButton.disabled) return;
+                      timeSlotsContainer.querySelectorAll('button').forEach(btn => {
+                          btn.classList.remove('bg-primary', 'text-black', 'border-primary', 'font-bold');
+                          btn.classList.add('bg-white', 'text-gray-700');
+                      });
+                      timeButton.classList.add('bg-primary', 'text-black', 'border-primary', 'font-bold');
+                      timeButton.classList.remove('bg-white', 'text-gray-700');
+                      selectedTime = slot.value;
+                      savePotinhoForm();
+                  });
+                  timeSlotsContainer.appendChild(timeButton);
+              });
+          }
 
-      function initFilters() {
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const cards = document.querySelectorAll('.pote-card');
-
-        filterBtns.forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const filter = btn.getAttribute('data-filter');
-
-            // Update Active State for Desktop Buttons
-            if (btn.tagName === 'BUTTON') {
-                document.querySelectorAll('button.filter-btn').forEach(b => {
-                    // Reset to inactive
-                    b.classList.remove('bg-stone-900', 'text-[#D4AF37]', 'border-stone-900', 'shadow-lg', 'scale-105');
-                    b.classList.add('bg-white', 'text-gray-600', 'border-gray-200');
-                });
-                // Set active
-                btn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200');
-                btn.classList.add('bg-stone-900', 'text-[#D4AF37]', 'border-stone-900', 'shadow-lg', 'scale-105');
+          const getMinDateForPotinhos = () => {
+            const daysInAdvance = 7;
+            const minDate = new Date();
+            minDate.setDate(minDate.getDate() + daysInAdvance);
+            minDate.setHours(0,0,0,0);
+            if(dateNotice) {
+              dateNotice.textContent = `Antecedência mínima de ${daysInAdvance} dias.`;
             }
+            return minDate;
+          };
 
-            // Filter Cards
-            cards.forEach(card => {
-                const category = card.getAttribute('data-category');
-                if (filter === 'all' || category === filter) {
-                    card.classList.remove('hidden');
-                    card.classList.add('animate-fade-in-up');
-                } else {
-                    card.classList.add('hidden');
-                    card.classList.remove('animate-fade-in-up');
+          let fpInstance;
+          if (dateInput && window.flatpickr) {
+            fpInstance = flatpickr(dateInput, {
+                dateFormat: "d/m/Y",
+                minDate: getMinDateForPotinhos(),
+                locale: {
+                    firstDayOfWeek: 0,
+                    weekdays: { shorthand: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"], longhand: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"] },
+                    months: { shorthand: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], longhand: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"] }
+                },
+                disable: [
+                    "2025-12-25",
+                    "2026-01-01"
+                ],
+                onChange: function(selectedDates, dateStr, instance) {
+                    const selectedDate = selectedDates[0];
+                    if (!selectedDate) return;
+
+                    const dayOfWeek = selectedDate.getDay(); // 0 = Domingo
+                    const timeSlotsButtons = timeSlotsContainer.querySelectorAll('button');
+                    const manhaButton = Array.from(timeSlotsButtons).find(btn => btn.dataset.value.includes('08:00'));
+                    const tardeButton = Array.from(timeSlotsButtons).find(btn => btn.dataset.value.includes('13:00'));
+
+                    // Reset state
+                    if (manhaButton) {
+                        manhaButton.disabled = false;
+                        manhaButton.classList.remove('opacity-50', 'cursor-not-allowed', 'line-through');
+                    }
+                    if (tardeButton) {
+                        tardeButton.disabled = false;
+                        tardeButton.classList.remove('opacity-50', 'cursor-not-allowed', 'line-through');
+                    }
+                    if (deliveryNotice) {
+                        deliveryNotice.textContent = '';
+                    }
+
+                    if (dayOfWeek === 0) { // Domingo
+                        if (tardeButton) {
+                            tardeButton.disabled = true;
+                            tardeButton.classList.add('opacity-50', 'cursor-not-allowed', 'line-through');
+                        }
+                        if (deliveryNotice) {
+                            deliveryNotice.textContent = 'Aos domingos, apenas período da manhã.';
+                        }
+                        // If tarde was selected, deselect it
+                        if (selectedTime === tardeButton.dataset.value) {
+                            tardeButton.classList.remove('bg-primary', 'text-black', 'border-primary', 'font-bold');
+                            tardeButton.classList.add('bg-white', 'text-gray-700');
+                            selectedTime = null;
+                        }
+                    }
                 }
             });
-          });
-        });
-      }
+          }
+          
+          const formFields = ['potinho-quantity', 'potinho-date', 'potinho-payment', 'potinho-customer-name'];
+          const storageKey = 'potinhoFormData';
 
-      function initFilters() {
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const cards = document.querySelectorAll('.pote-card');
-
-        filterBtns.forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const filter = btn.getAttribute('data-filter');
-
-            // Update Active State for Desktop Buttons
-            if (btn.tagName === 'BUTTON') {
-                document.querySelectorAll('button.filter-btn').forEach(b => {
-                    // Reset to inactive
-                    b.classList.remove('bg-stone-900', 'text-[#D4AF37]', 'border-stone-900', 'shadow-lg', 'scale-105');
-                    b.classList.add('bg-white', 'text-gray-600', 'border-gray-200');
-                });
-                // Set active
-                btn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200');
-                btn.classList.add('bg-stone-900', 'text-[#D4AF37]', 'border-stone-900', 'shadow-lg', 'scale-105');
-            }
-
-            // Filter Cards
-            cards.forEach(card => {
-                const category = card.getAttribute('data-category');
-                if (filter === 'all' || category === filter) {
-                    card.classList.remove('hidden');
-                    card.classList.add('animate-fade-in-up');
-                } else {
-                    card.classList.add('hidden');
-                    card.classList.remove('animate-fade-in-up');
-                }
+          const savePotinhoForm = () => {
+            const data = {};
+            formFields.forEach(id => {
+                const field = document.getElementById(id);
+                if (field) data[id] = field.value;
             });
-          });
-        });
-      }
+            if (selectedFlavor) data.flavor = selectedFlavor;
+            if (selectedTime) data.time = selectedTime;
+            localStorage.setItem(storageKey, JSON.stringify(data));
+          };
 
+          const loadPotinhoForm = () => {
+            try {
+                const savedData = localStorage.getItem(storageKey);
+                if (savedData) {
+                    const data = JSON.parse(savedData);
+                    formFields.forEach(id => {
+                        const field = document.getElementById(id);
+                        if (field && data[id]) field.value = data[id];
+                    });
+                    if (data.flavor) {
+                        selectedFlavor = data.flavor;
+                        const flavorCard = flavorsContainer.querySelector(`[data-flavor-name="${data.flavor}"]`);
+                        if (flavorCard) {
+                            flavorsContainer.querySelectorAll('.flavor-card').forEach(card => card.classList.remove('border-primary', 'ring-2', 'ring-primary'));
+                            flavorCard.classList.add('border-primary', 'ring-2', 'ring-primary');
+                        }
+                    }
+                    if (data.time) {
+                        selectedTime = data.time;
+                        const timeButton = timeSlotsContainer.querySelector(`[data-value="${data.time}"]`);
+                        if (timeButton) {
+                            timeSlotsContainer.querySelectorAll('button').forEach(btn => {
+                                btn.classList.remove('bg-primary', 'text-black', 'border-primary', 'font-bold');
+                                btn.classList.add('bg-white', 'text-gray-700');
+                            });
+                            timeButton.classList.add('bg-primary', 'text-black', 'border-primary', 'font-bold');
+                            timeButton.classList.remove('bg-white', 'text-gray-700');
+                        }
+                    }
+                }
+            } catch(e) { console.error("Erro ao carregar dados do formulário de potinhos.", e); }
+          };
+
+          form.addEventListener('input', savePotinhoForm);
+
+          window.openPotinhoModal = (theme) => {
+              if (nameInput) nameInput.value = theme;
+              loadPotinhoForm();
+
+              if (customerNameInput && !customerNameInput.value) {
+                  try {
+                      const savedAddress = localStorage.getItem('userAddress');
+                      if (savedAddress) {
+                          const data = JSON.parse(savedAddress);
+                          if (data.nome) customerNameInput.value = data.nome;
+                      }
+                  } catch(e) {}
+              }
+
+              modal.classList.remove('hidden');
+              modal.classList.add('flex');
+              if (fpInstance) {
+                  fpInstance.set('minDate', getMinDateForPotinhos());
+                  // Trigger onChange manually in case the loaded date is a Sunday
+                  if (fpInstance.selectedDates.length > 0) {
+                      fpInstance.config.onChange(fpInstance.selectedDates, fpInstance.input.value, fpInstance);
+                  }
+              }
+          };
+
+          const closeModal = () => {
+              modal.classList.add('hidden');
+              modal.classList.remove('flex');
+          };
+
+          if (closeBtn) closeBtn.addEventListener('click', closeModal);
+          modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+          if (form) {
+              form.addEventListener('submit', (e) => {
+                  e.preventDefault();
+                  const theme = nameInput.value;
+                  const quantity = quantityInput.value;
+                  const customerName = customerNameInput.value;
+                  const date = document.getElementById('potinho-date').value;
+                  const payment = document.getElementById('potinho-payment').value;
+
+                  if (!selectedFlavor) {
+                      if(window.showToast) window.showToast('Por favor, selecione um sabor.', 'error');
+                      else alert('Por favor, selecione um sabor.');
+                      flavorsContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                      return;
+                  }
+
+                  if (!date) {
+                      if(window.showToast) window.showToast('Por favor, selecione uma data.', 'error');
+                      else alert('Por favor, selecione uma data.');
+                      dateInput.focus();
+                      return;
+                  }
+
+                  if (!selectedTime) {
+                      if(window.showToast) window.showToast('Por favor, selecione um período de entrega.', 'error');
+                      else alert('Por favor, selecione um período de entrega.');
+                      timeSlotsContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                      return;
+                  }
+                  
+                  if (parseInt(quantity, 10) < 10) {
+                      if(window.showToast) window.showToast('A quantidade mínima é de 10 unidades.', 'error');
+                      else alert('A quantidade mínima é de 10 unidades.');
+                      quantityInput.focus();
+                      return;
+                  }
+
+                  if (!customerName.trim()) {
+                      alert('Por favor, insira seu nome.');
+                      customerNameInput.focus();
+                      return;
+                  }
+                  
+                  try {
+                      const savedAddress = localStorage.getItem('userAddress');
+                      let addressData = savedAddress ? JSON.parse(savedAddress) : {};
+                      addressData.nome = customerName;
+                      localStorage.setItem('userAddress', JSON.stringify(addressData));
+                  } catch(e) {}
+
+                  const numeroWhatsApp = "554499024212";
+                  let message = `Olá, Angela! 👋\nGostaria de fazer uma encomenda de *Bolo no Pote*.\n\n📋 *DETALHES DO PEDIDO*\n───────────────────\n`;
+                  message += `🍰 *Tema:* ${theme}\n`;
+                  message += `🍦 *Sabor:* ${selectedFlavor}\n`;
+                  message += `🔢 *Quantidade:* ${quantity} unidades\n`;
+                  message += `📅 *Data:* ${date}\n`;
+                  message += `⏰ *Período:* ${selectedTime}\n`;
+                  message += `💳 *Pagamento:* ${payment}\n`;
+                  message += `👤 *Nome:* ${customerName}\n\n`;
+                  message += `Aguardo a confirmação! Obrigada!`;
+
+                  const whatsappUrl = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(message)}`;
+                  
+                  const loadingOverlay = document.getElementById("loading-overlay");
+                  if(loadingOverlay) loadingOverlay.classList.remove("hidden");
+                  window.open(whatsappUrl, "_blank");
+                  setTimeout(() => { if(loadingOverlay) loadingOverlay.classList.add("hidden"); }, 3000);
+                  closeModal();
+                  localStorage.removeItem(storageKey);
+                  selectedFlavor = null;
+                  selectedTime = null;
+                  flavorsContainer.querySelectorAll('.flavor-card').forEach(card => card.classList.remove('border-primary', 'ring-2', 'ring-primary'));
+                  timeSlotsContainer.querySelectorAll('button').forEach(btn => btn.classList.remove('bg-primary', 'text-black', 'border-primary', 'font-bold'));
+              });
+          }
+      }
+      
       function initLightbox() {
         const lightbox = document.getElementById("lightbox");
         if (!lightbox) return;
@@ -636,144 +1029,12 @@
         });
       }
 
-      function initToastSwipe() {
-        // Observa a adição de elementos no corpo da página para detectar o toast
-        const observer = new MutationObserver((mutations) => {
-          mutations.forEach((mutation) => {
-            mutation.addedNodes.forEach((node) => {
-              // Verifica se o elemento adicionado parece ser um toast
-              // Nota: Se o seu toast tiver uma classe específica diferente, adicione aqui
-              if (node.nodeType === 1 && (
-                  node.classList.contains('toast-notification') || 
-                  node.id.includes('toast') ||
-                  node.className.includes('toast')
-              )) {
-                addSwipeLogic(node);
-              }
-            });
-          });
-        });
-
-        observer.observe(document.body, { childList: true });
-      }
-
-      function addSwipeLogic(element) {
-        let touchStartX = 0;
-        let touchEndX = 0;
-        const threshold = 75; // Distância mínima para considerar swipe
-
-        element.addEventListener('touchstart', (e) => {
-          touchStartX = e.changedTouches[0].screenX;
-          element.style.transition = 'none'; // Remove transição para movimento fluido imediato
-        }, { passive: true });
-
-        element.addEventListener('touchmove', (e) => {
-          const currentX = e.changedTouches[0].screenX;
-          const diff = currentX - touchStartX;
-          
-          // Move o elemento horizontalmente e diminui opacidade
-          element.style.transform = `translateX(${diff}px)`;
-          element.style.opacity = 1 - Math.abs(diff) / 300;
-        }, { passive: true });
-
-        element.addEventListener('touchend', (e) => {
-          touchEndX = e.changedTouches[0].screenX;
-          const diff = touchEndX - touchStartX;
-
-          // Restaura a transição suave
-          element.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-
-          if (Math.abs(diff) > threshold) {
-            // Swipe confirmado: joga para fora da tela
-            const direction = diff > 0 ? 1 : -1;
-            element.style.transform = `translateX(${direction * window.innerWidth}px)`;
-            element.style.opacity = '0';
-            
-            // Remove o elemento do DOM após a animação
-            setTimeout(() => {
-              if (element.parentNode) element.parentNode.removeChild(element);
-            }, 300);
-          } else {
-            // Swipe cancelado: volta para o centro
-            element.style.transform = 'translateX(0)';
-            element.style.opacity = '1';
-          }
-        }, { passive: true });
-      }
     </script>
-    <script src="carrinho.js" defer></script>
+    <script src="main.js" defer></script>
     <div id="loading-overlay" class="fixed inset-0 bg-background bg-opacity-80 z-50 flex items-center justify-center hidden">
       <div class="flex flex-col items-center space-y-4">
         <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary"></div>
         <p class="text-text text-lg font-semibold">Abrindo WhatsApp...</p>
-      </div>
-    </div>
-
-    <!-- Packaging Details Modal -->
-    <div
-      id="packaging-details-modal"
-      class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden flex items-center justify-center"
-    >
-      <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full relative mx-4">
-        <button
-          id="close-packaging-details-modal"
-          class="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-          aria-label="Fechar detalhes da embalagem"
-        >
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            ></path>
-          </svg>
-        </button>
-        <h3 class="text-xl font-semibold mb-4 text-primary">Detalhes Adicionais de Embalagem</h3>
-        <p class="font-semibold mb-2 text-text">TODAS OPÇÕES DE EMBALAGENS</p>
-        <p class="font-semibold mb-1 text-text">Embalagens de 500 gr</p>
-        <ul class="list-disc list-inside ml-4 mb-2 text-text-light">
-          <li>Oval 500 gr: sem custo</li>
-          <li>Taça 500 gr: R$ 15,00 + o quilo do bolo</li>
-          <li>Box 500 gr: R$ 15,00 + quilo do bolo</li>
-        </ul>
-        <p class="font-semibold mb-1 text-text">Embalagens de 1 k</p>
-        <ul class="list-disc list-inside ml-4 mb-2 text-text-light">
-          <li>Oval: sem custo</li>
-          <li>Taça 1 k: R$ 20,00 + o quilo do bolo</li>
-          <li>Box 1 k: R$ 20,00 + quilo do bolo</li>
-          <li>Caixa 1 k: R$ 36,00 + quilo do bolo</li>
-        </ul>
-        <p class="font-semibold mb-1 text-text">Embalagens de 1,5</p>
-        <ul class="list-disc list-inside ml-4 mb-2 text-text-light">
-          <li>Oval: sem custo</li>
-          <li>Taça 1,5: R$ 25,00</li>
-          <li>Box 1,5: R$ 25,00</li>
-        </ul>
-        <p class="font-semibold mb-1 text-text">Embalagens de 2 k</p>
-        <ul class="list-disc list-inside ml-4 mb-2 text-text-light">
-          <li>Taça 2 k: R$ 25,00 + o quilo</li>
-          <li>Caixa 2 k: R$ 44,00 + o quilo do bolo</li>
-        </ul>
-        <p class="font-semibold mb-1 text-text">Embalagens de 3 k</p>
-        <ul class="list-disc list-inside ml-4 mb-2 text-text-light">
-          <li>Taça 3 k: R$ 40,00 + quilo do bolo</li>
-          <li>Caixa 3 k: R$ 62,00 + quilo do bolo</li>
-        </ul>
-        <p class="font-semibold mb-1 text-text">Embalagens de 4 k</p>
-        <ul class="list-disc list-inside ml-4 mb-2 text-text-light">
-          <li>Caixa 4 k: R$ 72,00 + quilo do bolo</li>
-        </ul>
-        <p class="font-semibold mb-1 text-text">Embalagens de 5 k</p>
-        <ul class="list-disc list-inside ml-4 mb-2 text-text-light">
-          <li>Caixa 5 k: R$ 87,00 + quilo do bolo</li>
-        </ul>
       </div>
     </div>
 

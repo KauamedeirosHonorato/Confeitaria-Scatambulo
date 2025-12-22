@@ -13,6 +13,8 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -20,6 +22,7 @@
       rel="stylesheet"
     />
 
+    <link rel="stylesheet" href="style.css" />
     <style>
       /* --- Estilos Globais --- */
       body {
@@ -137,6 +140,21 @@
         </div>
       </div>
     </div>
+    <script>
+      // Script para ocultar o loader assim que a página carregar
+      (function() {
+        const hideLoader = () => {
+          const loader = document.getElementById('page-loader');
+          if (loader) {
+            loader.classList.add('opacity-0');
+            setTimeout(() => { loader.style.display = 'none'; }, 700);
+          }
+        };
+        if (document.readyState === 'complete') hideLoader();
+        else window.addEventListener('load', hideLoader);
+        setTimeout(hideLoader, 3000); // Fallback de segurança
+      })();
+    </script>
     <div id="snow-container"></div>
 
     <div id="dynamic-island-container"></div>
@@ -165,7 +183,6 @@
         loop
         playsinline
         preload="auto"
-        poster="./VideoFundo/poster-placeholder.jpg"
         class="w-full h-full object-cover opacity-90"
       >
         <source src="./VideoFundo/Cena1.mp4" type="video/mp4" />
@@ -259,166 +276,9 @@
       </main>
     </div>
 
-    <script>
-      // --- Page Loader Logic ---
-      const hideLoader = () => {
-        const loader = document.getElementById('page-loader');
-        if (loader && !loader.classList.contains('opacity-0')) {
-          loader.classList.add('opacity-0');
-          setTimeout(() => {
-            loader.style.display = 'none';
-          }, 700); // Match CSS transition duration
-        }
-      };
 
-      window.addEventListener('load', hideLoader);
-      
-      // Fallback de segurança: remove o loader após 4s mesmo se a página não tiver carregado tudo
-      setTimeout(hideLoader, 4000);
 
-      /* --- Script de Configuração e Lógica --- */
-      document.addEventListener("DOMContentLoaded", () => {
-        // --- CONFIGURAÇÕES ---
-        const MODO_TESTE_NATAL = true;
-
-        // --- Datas ---
-        const hoje = new Date();
-        const mesAtual = hoje.getMonth(); // 0 = Janeiro, 11 = Dezembro
-        const diaAtual = hoje.getDate();
-        const ehDezembro = (mesAtual === 11 && diaAtual >= 20 && diaAtual <= 26) || MODO_TESTE_NATAL;
-
-        // --- Lógica de Ano Novo (01/01) ---
-        if (mesAtual === 0 && diaAtual === 1) {
-            const newYearOverlay = document.getElementById("new-year-overlay");
-            const closeNewYearBtn = document.getElementById("close-new-year");
-            
-            if (newYearOverlay) {
-                // Mostra o overlay
-                newYearOverlay.classList.remove("hidden");
-                // Pequeno delay para a transição de opacidade
-                setTimeout(() => newYearOverlay.classList.remove("opacity-0"), 100);
-
-                if (closeNewYearBtn) {
-                    closeNewYearBtn.addEventListener("click", () => {
-                        newYearOverlay.classList.add("opacity-0");
-                        setTimeout(() => newYearOverlay.classList.add("hidden"), 700);
-                    });
-                }
-            }
-        }
-
-        // --- Ajuste de Viewport para Mobile (Safari/Chrome) ---
-        function setViewportHeight() {
-          const vh = window.innerHeight * 0.01; 
-          document.documentElement.style.setProperty("--vh", `${vh}px`);
-          const mainContainer = document.getElementById("main-container");
-          if (mainContainer) {
-            mainContainer.style.minHeight = window.innerHeight + "px";
-          }
-        }
-        window.addEventListener("resize", setViewportHeight);
-        setViewportHeight();
-
-        // --- Função para criar a neve (Configuração SLOW) ---
-        function setupSnowEffect() {
-          const snowContainer = document.getElementById("snow-container");
-          if (!snowContainer) return;
-
-          // Limpa flocos existentes se houver
-          snowContainer.innerHTML = '';
-
-          const snowflakeCount = 60; // Quantidade de flocos
-          
-          for (let i = 0; i < snowflakeCount; i++) {
-            const snowflake = document.createElement("div");
-            snowflake.className = "snowflake";
-            
-            // Tamanho aleatório
-            const size = Math.random() * 4 + 2; // Entre 2px e 6px
-            
-            // Posição horizontal aleatória
-            const leftPos = Math.random() * 100;
-            
-            // Duração da queda: Entre 10s e 25s (BEM LENTO)
-            const fallDuration = Math.random() * 15 + 10; 
-            
-            // Duração do balanço lateral: Entre 3s e 8s
-            const swayDuration = Math.random() * 5 + 3;
-            
-            // Delay para começar (negativo para começar já caindo)
-            const delay = Math.random() * -20;
-            
-            // Opacidade aleatória
-            const opacity = Math.random() * 0.6 + 0.2;
-
-            // Aplica estilos
-            snowflake.style.left = `${leftPos}vw`;
-            snowflake.style.width = `${size}px`;
-            snowflake.style.height = `${size}px`;
-            snowflake.style.opacity = opacity;
-            snowflake.style.animationDuration = `${fallDuration}s, ${swayDuration}s`;
-            snowflake.style.animationDelay = `${delay}s, ${delay}s`;
-            
-            // Adiciona desfoque em alguns flocos para profundidade
-            if (Math.random() > 0.6) {
-                snowflake.style.filter = `blur(${Math.random()}px)`;
-            }
-
-            snowContainer.appendChild(snowflake);
-          }
-        }
-
-        // --- Lógica da Ilha Dinâmica (iPhone) ---
-        const islandContainer = document.getElementById("dynamic-island-container");
-        const ua = navigator.userAgent;
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
-        
-        // Ativa a neve se for período de natal
-        if (ehDezembro) setupSnowEffect();
-
-        if (isMobile && islandContainer) {
-          let islandContent = "";
-          let islandLink = "";
-          let islandElementId = "dynamic-island";
-
-          if (ehDezembro) {
-            islandLink = "https://www.instagram.com/angelabolosartesanais";
-            islandContent = `<span id="island-text">@angelabolosartesanais</span>`;
-          }
-          
-          const islandHTML = `
-            <a href="${islandLink}" ${!ehDezembro ? 'target="_blank" rel="noopener noreferrer"' : ''} style="text-decoration: none;">
-              <div id="${islandElementId}">
-                ${islandContent}
-              </div>
-            </a>`;
-            
-          islandContainer.innerHTML = islandHTML;
-          
-          const dynamicIsland = document.getElementById(islandElementId);
-
-          if (dynamicIsland) {
-            setTimeout(() => {
-              dynamicIsland.classList.add("visible");
-            }, 0);
-
-            const islandLinkElement = dynamicIsland.parentElement;
-            const events = ['mousedown', 'touchstart'];
-            events.forEach(event => {
-                islandLinkElement.addEventListener(event, () => {
-                    dynamicIsland.classList.add('tapped');
-                });
-            });
-
-            const releaseEvents = ['mouseup', 'mouseleave', 'touchend'];
-            releaseEvents.forEach(event => {
-                islandLinkElement.addEventListener(event, () => {
-                    dynamicIsland.classList.remove('tapped');
-                });
-            });
-          }
-        }
-      });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="main.js" defer></script>
   </body>
 </html>

@@ -1,0 +1,337 @@
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #faf8f0; /* Branco Perolado */
+  color: #1c1c1c; /* Cinza Carvão */
+}
+h2 {
+  color: #d4af37;
+}
+section {
+  scroll-margin-top: 80px;
+}
+.side-name-right {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  -webkit-transform: rotate(-90deg) translateY(50%) translateX(50%);
+  transform: rotate(-90deg) translateY(50%) translateX(50%);
+  -webkit-transform-origin: right center;
+  transform-origin: right center;
+  color: #d4af37; /* Dourado Metálico */
+  font-size: 48px;
+  z-index: 30;
+  letter-spacing: 1px;
+  pointer-events: none;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+
+.btn-gold-metallic {
+  background-color: #d4af37;
+  color: #000000;
+  font-weight: 600;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  border: 1px solid #d4af37;
+}
+.btn-gold-metallic:hover {
+  background-color: #f5e6b3; /* Champagne Claro */
+  border-color: #f5e6b3;
+  -webkit-transform: translateY(-2px);
+  transform: translateY(-2px);
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  background: #faf8f0; /* Branco Perolado */
+  padding: 2rem;
+  border-radius: 0.5rem;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+}
+
+.embalagens-modal-content {
+  max-width: 900px;
+}
+
+.embalagens-modal-content .video-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio (9 / 16 * 100) */
+  height: 0;
+  overflow: hidden;
+  margin-bottom: 1rem; /* Add some space below the video */
+}
+
+.embalagens-modal-content .video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Ensure the whole video is visible */
+}
+
+
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #888;
+}
+#floating-cart.jump {
+  animation: jump 0.5s;
+}
+
+@keyframes jump {
+  0% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+  50% {
+    -webkit-transform: translateY(-15px);
+    transform: translateY(-15px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+.cake-size-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D4AF37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1.2em;
+  padding-right: 2.5rem; /* Espaço para a seta */
+  border-color: #d4af37; /* Borda dourada */
+  -webkit-transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.cake-size-select:focus {
+  outline: none;
+  border-color: #f5e6b3; /* Dourado mais claro ao focar */
+  -webkit-box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25); /* Sombra de foco suave */
+}
+
+.cake-card-image {
+  width: 100%;
+  object-fit: cover; /* Garante que a imagem preencha o espaço no mobile */
+  background-color: #f0ede5; /* Um fundo suave para preencher o espaço vazio */
+  transition: transform 0.3s ease-in-out; /* Adiciona transição suave para o zoom */
+}
+
+
+
+/* Efeito de zoom na imagem ao passar o mouse sobre o card pai */
+.group:hover .cake-card-image {
+  transform: scale(1.05); /* Aumenta a imagem em 5% */
+}
+
+/* Ajuste específico para a imagem do Bolo Nuvem de Morango */
+#nuvem-de-morango-img {
+  object-position: center 20%; /* Move o foco da imagem para cima (mostra mais da parte de cima) */
+}
+
+.best-seller-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: #d4af37; /* Dourado */
+  color: #000000;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive styles for modals */
+
+/* General mobile and iOS optimizations */
+body {
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+/* Make the modal background cover the entire screen */
+.modal-overlay {
+  padding: 1rem;
+  -webkit-transform: translate3d(0, 0, 0); /* Promote to a hardware layer */
+  perspective: 1000px;
+}
+
+/* Make the modal content responsive */
+.modal-content {
+  width: 95%;
+  max-width: 500px;
+  padding: 1.5rem;
+}
+
+/* Make the packaging modal responsive */
+.embalagens-modal-content {
+  max-width: 95%;
+}
+
+/* Make the video container responsive */
+.embalagens-modal-content .video-container {
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+}
+
+/* Make the Christmas popup responsive */
+#natal-popup-content {
+  width: 100%;
+  max-width: none;
+  height: 88vh;
+  max-height: 88vh;
+  border-radius: 1.5rem;
+}
+
+/* 3D effect for modals */
+.modal-3d {
+  transform-style: preserve-3d;
+  animation: open-modal 0.5s forwards;
+}
+
+@keyframes open-modal {
+  from {
+    transform: rotateY(90deg);
+  }
+  to {
+    transform: rotateY(0deg);
+  }
+}
+
+/* Specific styles for mobile devices */
+@media (max-width: 768px) {
+  /* Make the side tabs responsive */
+  #side-tabs-container {
+    display: none; /* Hide side tabs on mobile */
+  }
+
+  /* Make the main header responsive */
+  header {
+    padding: 1rem;
+  }
+
+  /* Make the mobile menu button visible on mobile */
+  #mobile-menu-button {
+    display: block;
+  }
+
+  /* Hide the desktop navigation on mobile */
+  header nav {
+    display: none;
+  }
+
+  /* Show the mobile menu when active */
+  #mobile-menu.hidden {
+    display: none;
+  }
+
+  #mobile-menu:not(.hidden) {
+    display: block;
+  }
+
+  /* Modal Principal ocupa 100% no mobile */
+  #christmas-modal .modal-panel {
+    width: 100% !important;
+    height: 90vh !important; /* Altura ajustada */
+    max-height: none !important;
+    border-radius: 1.5rem !important;
+    margin: 0 !important;
+  }
+
+  /* Sub-modais flutuantes no mobile */
+  #modal-pagamento .modal-panel,
+  #modal-entrega .modal-panel,
+  #modal-horarios .modal-panel {
+    width: 92% !important;
+    max-height: 90vh !important; /* Mais altura disponível */
+    border-radius: 1rem !important;
+  }
+
+  .modal-wrapper {
+    padding: 1rem !important;
+  }
+
+  .logo-wrapper {
+    width: 8rem !important;
+    height: 8rem !important;
+  }
+  h1 {
+    font-size: 2.2rem !important;
+    margin-bottom: 0.2rem !important;
+  }
+  p.desc-text {
+    margin-bottom: 1rem !important;
+    font-size: 0.9rem !important;
+  }
+  .countdown-wrapper {
+    margin-bottom: 1.5rem !important;
+  }
+  footer {
+    padding-bottom: 0.5rem !important;
+  }
+}
+
+/* styles for loading overlay */
+#loading-overlay {
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Custom styles for packaging video and overlays */
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px; /* Adjust as needed */
+  margin: 0 auto;
+}
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Allow clicks to pass through by default */
+}
+.overlay-item {
+  position: absolute;
+  background-color: rgba(212, 175, 55, 0.8); /* Gold metallic with transparency */
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  pointer-events: auto; /* Make this item clickable */
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+}
+.overlay-item.active {
+  opacity: 1;
+}

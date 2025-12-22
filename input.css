@@ -62,28 +62,7 @@ html, body {
     transform: scale(1) translateY(0); 
 }
 
-/* --- AJUSTES MOBILE (FULLSCREEN) --- */
-@media (max-width: 640px) {
-    .modal-wrapper { padding: 1rem !important; }
-    
-    /* Modal Principal ocupa 100% no mobile */
-    #christmas-modal .modal-panel {
-        width: 100% !important;
-        height: 90vh !important; /* Altura ajustada */
-        max-height: none !important;
-        border-radius: 1.5rem !important;
-        margin: 0 !important;
-    }
-    
-    /* Sub-modais flutuantes no mobile */
-    #modal-pagamento .modal-panel, 
-    #modal-entrega .modal-panel, 
-    #modal-horarios .modal-panel {
-        width: 92% !important;
-        max-height: 90vh !important; /* Mais altura disponível */
-        border-radius: 1rem !important;
-    }
-}
+
 
 /* Botões de Navegação Interna */
 .nav-button {
@@ -119,13 +98,4 @@ html, body {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-/* Ajustes Telas Pequenas */
-@media (max-height: 680px) {
-    .logo-wrapper { width: 8rem !important; height: 8rem !important; }
-    h1 { font-size: 2.2rem !important; margin-bottom: 0.2rem !important; }
-    p.desc-text { margin-bottom: 1rem !important; font-size: 0.9rem !important; }
-    .countdown-wrapper { margin-bottom: 1.5rem !important; }
-    footer { padding-bottom: 0.5rem !important; }
 }
