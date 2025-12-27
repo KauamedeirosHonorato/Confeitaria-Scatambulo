@@ -335,3 +335,456 @@ body {
 .overlay-item.active {
   opacity: 1;
 }
+
+.carousel-container {
+  max-width: 90%;
+}
+
+.carousel-img-focus {
+  object-position: center 20%;
+}
+
+
+/* --- Botão Flutuante de Natal (Abaixo dos botões principais) --- */
+#natal-gift-main {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* --- Pop-up de Natal --- */
+#natal-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(5px); /* Efeito de desfoque no fundo */
+  z-index: 9999; /* Garante que fique acima de tudo */
+  display: flex; /* Always display flex, but control visibility/opacity */
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  visibility: hidden; /* Initial state for transition */
+  opacity: 0; /* Initial state for transition */
+  transition: opacity 0.3s ease, visibility 0.3s ease; /* Transition properties */
+}
+
+#natal-popup-overlay.active {
+  visibility: visible; /* Show when active */
+  opacity: 1; /* Fade in when active */
+}
+
+#natal-popup-content {
+  position: relative;
+  width: 100%;
+  max-width: 1024px; /* Aumentado para caber o site de natal */
+  height: 100%;
+  max-height: 96vh;
+  background: transparent; /* Fundo transparente para o iframe brilhar */
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  transform: scale(0.95);
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.3s ease;
+}
+
+/* Classe para animar entrada do modal */
+#natal-popup-overlay.active #natal-popup-content {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Ajustes para dispositivos móveis para o modal de Natal */
+@media (max-width: 768px) {
+  #natal-popup-content {
+    height: 88vh; /* Altura reduzida para melhor visualização */
+    max-height: 88vh; /* Garante que não ultrapasse a altura */
+    width: 100%;
+    max-width: none;
+    border-radius: 1.5rem; /* Bordas mais arredondadas para um look moderno */
+  }
+}
+
+/* --- Ilha Dinâmica de Natal (Mobile) --- */
+@media (max-width: 768px) {
+  #natal-dynamic-island.visible {
+    display: block;
+    animation: slideDownFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes slideDownFadeIn {
+    from {
+      transform: translateY(-40px) translateX(-50%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0) translateX(-50%);
+      opacity: 1;
+    }
+  }
+}
+
+/* --- Tema de Natal Elegante (Ativado via JS) --- */
+body.christmas-theme {
+  background-color: #fffbf7; /* Creme muito suave */
+  background-image: radial-gradient(#d4af37 0.5px, transparent 0.5px);
+  background-size: 40px 40px; /* Textura de pontos dourados sutis */
+}
+
+body.christmas-theme h1, 
+body.christmas-theme h2, 
+body.christmas-theme h3 {
+  font-family: 'Playfair Display', serif; /* Fonte serifada elegante */
+  /* color: #7f1d1d; */ /* Cor de Natal desativada para usar o padrão do site */
+}
+
+body.christmas-theme header {
+  border-bottom: 2px solid #D4AF37;
+}
+
+/* Ajuste nos botões para combinar com o tema - Desativado para usar o padrão */
+/*
+body.christmas-theme .btn-gold-metallic {
+  background: linear-gradient(to right, #7f1d1d, #991b1b);
+  color: #fff;
+  border: 1px solid #D4AF37;
+}
+body.christmas-theme .btn-gold-metallic:hover {
+  background: linear-gradient(to right, #991b1b, #b91c1c);
+  transform: translateY(-2px);
+} */
+
+/* Efeito de Neve Sutil */
+.snowflake {
+  position: fixed;
+  top: -10px;
+  z-index: 9999;
+  user-select: none;
+  pointer-events: none;
+  color: #d4af37; /* Neve dourada/creme */
+  opacity: 0.3;
+  font-size: 1em;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(105vh);
+  }
+}
+
+/* --- Animação de Pulsação Suave --- */
+@keyframes gentle-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+  50% { transform: scale(1.05); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); }
+}
+.animate-gentle-pulse {
+  animation: gentle-pulse 2s infinite ease-in-out;
+}
+
+/* --- Animação de Pulso para o Carrinho --- */
+@keyframes cart-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+.animate-cart-pulse {
+  /* Usa uma curva de easing que "estica" um pouco para um efeito mais vivo */
+  animation: cart-pulse 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* --- Debug Alert Styling --- */
+.debug-alert {
+  border: 4px dashed #ef4444; /* red-500 */
+  background-color: #fef2f2; /* red-50 */
+}
+.debug-alert #custom-alert-title {
+  color: #991b1b; /* red-800 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.debug-alert #custom-alert-title::before {
+  content: '🐞';
+  font-size: 1.5rem;
+}
+
+/* Animação do Modal de Embalagens */
+@keyframes modalSlideUp {
+  from { opacity: 0; transform: translateY(100px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-modal-entry {
+  animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Animação de Pulsação para Aba Lateral */
+@keyframes pulse-attention {
+  0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+}
+.animate-pulse-attention {
+  animation: pulse-attention 2s infinite;
+}
+
+/* Posicionamento das Abas Laterais */
+#side-tabs-container {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  pointer-events: none;
+}
+
+.side-tab {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  padding: 1.5rem 0.8rem;
+  background: #D4AF37;
+  border: 1px solid #b5952f;
+  border-left: 0;
+  border-radius: 0 1rem 1rem 0;
+  box-shadow: 4px 4px 15px rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 700;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  pointer-events: auto;
+  position: relative; /* Necessário para posicionar o tooltip */
+  margin-bottom: 0.5rem; /* Adiciona pequena margem entre os botões */
+}
+.side-tab:hover {
+  background: #f5e6b3;
+  color: black;
+  padding-left: 1rem;
+  transform: translateX(5px);
+}
+
+/* Ícones dentro das abas */
+.side-tab svg {
+  transform: rotate(-90deg); /* Ajusta a orientação do ícone */
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Ajustes Responsivos para Abas Laterais */
+@media (max-width: 768px) {
+  .side-tab {
+    padding: 1rem 0.5rem;
+    font-size: 0.8rem;
+  }
+  .side-tab svg {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+/* Animação de Shake para Erro */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+  20%, 40%, 60%, 80% { transform: translateX(4px); }
+}
+.animate-shake {
+  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* styles for loading overlay */
+#loading-overlay {
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Custom styles for packaging video and overlays */
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px; /* Adjust as needed */
+  margin: 0 auto;
+}
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Allow clicks to pass through by default */
+}
+.overlay-item {
+  position: absolute;
+  background-color: rgba(212, 175, 55, 0.8); /* Gold metallic with transparency */
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  pointer-events: auto; /* Make this item clickable */
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+}
+.overlay-item.active {
+  opacity: 1;
+}
+
+/* Responsive styles for modals */
+
+/* General mobile and iOS optimizations */
+body {
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+/* Make the modal background cover the entire screen */
+.modal-overlay {
+  padding: 1rem;
+  -webkit-transform: translate3d(0, 0, 0); /* Promote to a hardware layer */
+  perspective: 1000px;
+}
+
+/* Make the modal content responsive */
+.modal-content {
+  width: 95%;
+  max-width: 500px;
+  padding: 1.5rem;
+}
+
+/* Make the packaging modal responsive */
+.embalagens-modal-content {
+  max-width: 95%;
+}
+
+/* Make the video container responsive */
+.embalagens-modal-content .video-container {
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+}
+
+/* Make the Christmas popup responsive */
+#natal-popup-content {
+  width: 100%;
+  max-width: none;
+  height: 88vh;
+  max-height: 88vh;
+  border-radius: 1.5rem;
+}
+
+/* 3D effect for modals */
+.modal-3d {
+  transform-style: preserve-3d;
+  animation: open-modal 0.5s forwards;
+}
+
+@keyframes open-modal {
+  from {
+    transform: rotateY(90deg);
+  }
+  to {
+    transform: rotateY(0deg);
+  }
+}
+
+/* Specific styles for mobile devices */
+@media (max-width: 768px) {
+  /* Make the side tabs responsive */
+  #side-tabs-container {
+    display: none; /* Hide side tabs on mobile */
+  }
+
+  /* Make the main header responsive */
+  header {
+    padding: 1rem;
+  }
+
+  /* Make the mobile menu button visible on mobile */
+  #mobile-menu-button {
+    display: block;
+  }
+
+  /* Hide the desktop navigation on mobile */
+  header nav {
+    display: none;
+  }
+
+  /* Show the mobile menu when active */
+  #mobile-menu.hidden {
+    display: none;
+  }
+
+  #mobile-menu:not(.hidden) {
+    display: block;
+  }
+
+  /* Modal Principal ocupa 100% no mobile */
+  #christmas-modal .modal-panel {
+    width: 100% !important;
+    height: 90vh !important; /* Altura ajustada */
+    max-height: none !important;
+    border-radius: 1.5rem !important;
+    margin: 0 !important;
+  }
+
+  /* Sub-modais flutuantes no mobile */
+  #modal-pagamento .modal-panel,
+  #modal-entrega .modal-panel,
+  #modal-horarios .modal-panel {
+    width: 92% !important;
+    max-height: 90vh !important; /* Mais altura disponível */
+    border-radius: 1rem !important;
+  }
+
+  .modal-wrapper {
+    padding: 1rem !important;
+  }
+
+  .logo-wrapper {
+    width: 8rem !important;
+    height: 8rem !important;
+  }
+  h1 {
+    font-size: 2.2rem !important;
+    margin-bottom: 0.2rem !important;
+  }
+  p.desc-text {
+    margin-bottom: 1rem !important;
+    font-size: 0.9rem !important;
+  }
+  .countdown-wrapper {
+    margin-bottom: 1.5rem !important;
+  }
+  footer {
+    padding-bottom: 0.5rem !important;
+  }
+}

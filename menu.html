@@ -17,282 +17,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
     />
-    <style>
-      /* --- Botão Flutuante de Natal (Abaixo dos botões principais) --- */
-      #natal-gift-main {
-        animation: float 3s ease-in-out infinite;
-      }
 
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
-      }
-
-      /* --- Pop-up de Natal --- */
-      #natal-popup-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.85);
-        backdrop-filter: blur(5px); /* Efeito de desfoque no fundo */
-        z-index: 9999; /* Garante que fique acima de tudo */
-        display: flex; /* Always display flex, but control visibility/opacity */
-        align-items: center;
-        justify-content: center;
-        padding: 1rem;
-        visibility: hidden; /* Initial state for transition */
-        opacity: 0; /* Initial state for transition */
-        transition: opacity 0.3s ease, visibility 0.3s ease; /* Transition properties */
-      }
-
-      #natal-popup-overlay.active {
-        visibility: visible; /* Show when active */
-        opacity: 1; /* Fade in when active */
-      }
-
-      #natal-popup-content {
-        position: relative;
-        width: 100%;
-        max-width: 1024px; /* Aumentado para caber o site de natal */
-        height: 100%;
-        max-height: 96vh;
-        background: transparent; /* Fundo transparente para o iframe brilhar */
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
-        transform: scale(0.95);
-        opacity: 0;
-        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-          opacity 0.3s ease;
-      }
-
-      /* Classe para animar entrada do modal */
-      #natal-popup-overlay.active #natal-popup-content {
-        transform: scale(1);
-        opacity: 1;
-      }
-
-      /* Ajustes para dispositivos móveis para o modal de Natal */
-      @media (max-width: 768px) {
-        #natal-popup-content {
-          height: 88vh; /* Altura reduzida para melhor visualização */
-          max-height: 88vh; /* Garante que não ultrapasse a altura */
-          width: 100%;
-          max-width: none;
-          border-radius: 1.5rem; /* Bordas mais arredondadas para um look moderno */
-        }
-      }
-
-      /* --- Ilha Dinâmica de Natal (Mobile) --- */
-      @media (max-width: 768px) {
-        #natal-dynamic-island.visible {
-          display: block;
-          animation: slideDownFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        @keyframes slideDownFadeIn {
-          from {
-            transform: translateY(-40px) translateX(-50%);
-            opacity: 0;
-          }
-          to {
-            transform: translateY(0) translateX(-50%);
-            opacity: 1;
-          }
-        }
-      }
-
-      /* --- Tema de Natal Elegante (Ativado via JS) --- */
-      body.christmas-theme {
-        background-color: #fffbf7; /* Creme muito suave */
-        background-image: radial-gradient(#d4af37 0.5px, transparent 0.5px);
-        background-size: 40px 40px; /* Textura de pontos dourados sutis */
-      }
-
-      body.christmas-theme h1, 
-      body.christmas-theme h2, 
-      body.christmas-theme h3 {
-        font-family: 'Playfair Display', serif; /* Fonte serifada elegante */
-        /* color: #7f1d1d; */ /* Cor de Natal desativada para usar o padrão do site */
-      }
-
-      body.christmas-theme header {
-        border-bottom: 2px solid #D4AF37;
-      }
-
-      /* Ajuste nos botões para combinar com o tema - Desativado para usar o padrão */
-      /*
-      body.christmas-theme .btn-gold-metallic {
-        background: linear-gradient(to right, #7f1d1d, #991b1b);
-        color: #fff;
-        border: 1px solid #D4AF37;
-      }
-      body.christmas-theme .btn-gold-metallic:hover {
-        background: linear-gradient(to right, #991b1b, #b91c1c);
-        transform: translateY(-2px);
-      } */
-
-      /* Efeito de Neve Sutil */
-      .snowflake {
-        position: fixed;
-        top: -10px;
-        z-index: 9999;
-        user-select: none;
-        pointer-events: none;
-        color: #d4af37; /* Neve dourada/creme */
-        opacity: 0.3;
-        font-size: 1em;
-        animation: fall linear forwards;
-      }
-
-      @keyframes fall {
-        to {
-          transform: translateY(105vh);
-        }
-      }
-
-      /* --- Animação de Pulsação Suave --- */
-      @keyframes gentle-pulse {
-        0%, 100% { transform: scale(1); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-        50% { transform: scale(1.05); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); }
-      }
-      .animate-gentle-pulse {
-        animation: gentle-pulse 2s infinite ease-in-out;
-      }
-
-      /* --- Animação de Pulso para o Carrinho --- */
-      @keyframes cart-pulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.15); }
-      }
-      .animate-cart-pulse {
-        /* Usa uma curva de easing que "estica" um pouco para um efeito mais vivo */
-        animation: cart-pulse 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-      }
-
-      /* --- Debug Alert Styling --- */
-      .debug-alert {
-        border: 4px dashed #ef4444; /* red-500 */
-        background-color: #fef2f2; /* red-50 */
-      }
-      .debug-alert #custom-alert-title {
-        color: #991b1b; /* red-800 */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-      }
-      .debug-alert #custom-alert-title::before {
-        content: '🐞';
-        font-size: 1.5rem;
-      }
-
-      /* Animação do Modal de Embalagens */
-      @keyframes modalSlideUp {
-        from { opacity: 0; transform: translateY(100px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-      .animate-modal-entry {
-        animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      }
-      
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-      .animate-fade-in {
-        animation: fadeIn 0.3s ease-out forwards;
-      }
-
-      /* Animação de Pulsação para Aba Lateral */
-      @keyframes pulse-attention {
-        0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
-        70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
-      }
-      .animate-pulse-attention {
-        animation: pulse-attention 2s infinite;
-      }
-
-      /* Posicionamento das Abas Laterais */
-      #side-tabs-container {
-        position: fixed;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 90;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        pointer-events: none;
-      }
-
-      .side-tab {
-        writing-mode: vertical-rl;
-        text-orientation: mixed;
-        padding: 1.5rem 0.8rem;
-        background: #D4AF37;
-        border: 1px solid #b5952f;
-        border-left: 0;
-        border-radius: 0 1rem 1rem 0;
-        box-shadow: 4px 4px 15px rgba(0,0,0,0.15);
-        cursor: pointer;
-        transition: all 0.3s;
-        font-weight: 700;
-        color: black;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        font-size: 0.9rem;
-        letter-spacing: 0.05em;
-        pointer-events: auto;
-        position: relative; /* Necessário para posicionar o tooltip */
-        margin-bottom: 0.5rem; /* Adiciona pequena margem entre os botões */
-      }
-      .side-tab:hover {
-        background: #f5e6b3;
-        color: black;
-        padding-left: 1rem;
-        transform: translateX(5px);
-      }
-      
-      /* Ícones dentro das abas */
-      .side-tab svg {
-        transform: rotate(-90deg); /* Ajusta a orientação do ícone */
-        width: 1.25rem;
-        height: 1.25rem;
-      }
-
-      /* Ajustes Responsivos para Abas Laterais */
-      @media (max-width: 768px) {
-        .side-tab {
-          padding: 1rem 0.5rem;
-          font-size: 0.8rem;
-        }
-        .side-tab svg {
-          width: 1rem;
-          height: 1rem;
-        }
-      }
-
-      /* Animação de Shake para Erro */
-      @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
-        20%, 40%, 60%, 80% { transform: translateX(4px); }
-      }
-      .animate-shake {
-        animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
-      }
-    </style>
   </head>
   <body class="bg-stone-50 font-['Poppins']">
     <!-- Page Loader -->
@@ -347,7 +72,6 @@
     </div>
     <div
       class="fixed -right-16 top-1/2 -translate-y-1/2 text-[#D4AF37]/50 rotate-[-90deg] origin-bottom-right text-5xl pointer-events-none hidden md:block"
-      style="font-family: 'Poppins', sans-serif"
     >
       Angela Scatambulo
     </div>
@@ -476,7 +200,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center">
           ✨ Destaques da Semana
         </h2>
-        <div class="relative w-full h-[380px] md:h-[680px] rounded-2xl overflow-hidden shadow-2xl group mx-auto" style="max-width: 90%;">
+        <div class="relative w-full h-[380px] md:h-[680px] rounded-2xl overflow-hidden shadow-2xl group mx-auto carousel-container">
           
           <!-- Slide 1 -->
           <div class="carousel-slide absolute inset-0 transition-opacity duration-1000 opacity-100">
@@ -487,7 +211,7 @@
                     <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
                 </div>
             </div>
-            <img src="sabores/NuvemDeMorango.jpg" alt="Nuvem de Morango" class="relative z-10 w-full h-full object-cover transform group-hover:scale-105 transition-all duration-[2000ms] opacity-0" style="object-position: center 20%;" onload="this.classList.remove('opacity-0')">
+            <img src="sabores/NuvemDeMorango.jpg" alt="Nuvem de Morango" class="relative z-10 w-full h-full object-cover transform group-hover:scale-105 transition-all duration-[2000ms] opacity-0 carousel-img-focus">
             <div class="absolute inset-0 z-20 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-6 md:p-10">
               <span class="text-[#D4AF37] font-bold tracking-widest uppercase text-xs md:text-sm mb-2">O Queridinho</span>
               <h3 class="text-white text-3xl md:text-5xl font-bold mb-2 font-['Playfair_Display']">Nuvem de Morango</h3>
@@ -510,7 +234,7 @@
                 <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
                 <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
               </select>
-              <a href="#" onclick="initiateOrder('Nuvem de Morango', this); return false;" class="bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-full w-fit hover:bg-white transition-colors shadow-lg animate-gentle-pulse">
+              <a href="#" onclick="initiateOrder('Nuvem de Morango', this)" data-cake-name="Nuvem de Morango" class="btn-initiate-order bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-full w-fit hover:bg-white transition-colors shadow-lg animate-gentle-pulse">
                 Encomendar Agora
               </a>
             </div>
@@ -525,7 +249,7 @@
                     <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
                 </div>
             </div>
-            <img src="sabores/DoceDeLeite.jpg" alt="Doce de Leite Trufado" class="relative z-10 w-full h-full object-cover transform group-hover:scale-105 transition-all duration-[2000ms] opacity-0" onload="this.classList.remove('opacity-0')">
+            <img src="sabores/DoceDeLeite.jpg" alt="Doce de Leite Trufado" class="relative z-10 w-full h-full object-cover transform group-hover:scale-105 transition-all duration-[2000ms] opacity-0">
             <div class="absolute inset-0 z-20 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-6 md:p-10">
               <span class="text-[#D4AF37] font-bold tracking-widest uppercase text-xs md:text-sm mb-2">Clássico Irresistível</span>
               <h3 class="text-white text-3xl md:text-5xl font-bold mb-2 font-['Playfair_Display']">Doce de Leite Trufado</h3>
@@ -548,7 +272,7 @@
                 <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
                 <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
               </select>
-              <a href="#" onclick="initiateOrder('Doce de Leite Trufado', this); return false;" class="bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-full w-fit hover:bg-white transition-colors shadow-lg animate-gentle-pulse">
+              <a href="#" onclick="initiateOrder('Doce de Leite Trufado', this)" data-cake-name="Doce de Leite Trufado" class="btn-initiate-order bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-full w-fit hover:bg-white transition-colors shadow-lg animate-gentle-pulse">
                 Encomendar Agora
               </a>
             </div>
@@ -563,7 +287,7 @@
                     <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
                 </div>
             </div>
-            <img src="sabores/StrogonoffDeNozes.jpg" alt="Strogonoff de Nozes" class="relative z-10 w-full h-full object-cover transform group-hover:scale-105 transition-all duration-[2000ms] opacity-0" onload="this.classList.remove('opacity-0')">
+            <img src="sabores/StrogonoffDeNozes.jpg" alt="Strogonoff de Nozes" class="relative z-10 w-full h-full object-cover transform group-hover:scale-105 transition-all duration-[2000ms] opacity-0">
             <div class="absolute inset-0 z-20 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-6 md:p-10">
               <span class="text-[#D4AF37] font-bold tracking-widest uppercase text-xs md:text-sm mb-2">Sofisticação</span>
               <h3 class="text-white text-3xl md:text-5xl font-bold mb-2 font-['Playfair_Display']">Strogonoff de Nozes</h3>
@@ -586,7 +310,7 @@
                 <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
                 <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
               </select>
-              <a href="#" onclick="initiateOrder('Strogonoff de Nozes (sem coco)', this); return false;" class="bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-full w-fit hover:bg-white transition-colors shadow-lg animate-gentle-pulse">
+              <a href="#" onclick="initiateOrder('Strogonoff de Nozes', this, true)" data-cake-name="Strogonoff de Nozes (sem coco)" data-has-options="true" class="btn-initiate-order bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-full w-fit hover:bg-white transition-colors shadow-lg animate-gentle-pulse">
                 Encomendar Agora
               </a>
             </div>
@@ -601,7 +325,7 @@
                     <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
                 </div>
             </div>
-            <img src="sabores/FlorestaBranca.jpg" alt="Floresta Branca" class="relative z-10 w-full h-full object-cover transform group-hover:scale-105 transition-all duration-[2000ms] opacity-0" onload="this.classList.remove('opacity-0')">
+            <img src="sabores/FlorestaBranca.jpg" alt="Floresta Branca" class="relative z-10 w-full h-full object-cover transform group-hover:scale-105 transition-all duration-[2000ms] opacity-0">
             <div class="absolute inset-0 z-20 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-6 md:p-10">
               <span class="text-[#D4AF37] font-bold tracking-widest uppercase text-xs md:text-sm mb-2">Novidade Especial</span>
               <h3 class="text-white text-3xl md:text-5xl font-bold mb-2 font-['Playfair_Display']">Floresta Branca</h3>
@@ -624,7 +348,7 @@
                 <option value="Caixa 4kg">Caixa 4kg (+ R$ 72,00)</option>
                 <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
               </select>
-              <a href="#" onclick="initiateOrder('Floresta Branca', this); return false;" class="bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-full w-fit hover:bg-white transition-colors shadow-lg animate-gentle-pulse">
+              <a href="#" onclick="initiateOrder('Floresta Branca', this)" data-cake-name="Floresta Branca" class="btn-initiate-order bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-full w-fit hover:bg-white transition-colors shadow-lg animate-gentle-pulse">
                 Encomendar Agora
               </a>
             </div>
@@ -692,7 +416,6 @@
                   alt="Bolo Nuvem de Morango"
                   id="nuvem-de-morango-img"
                   class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
-                  onload="this.classList.remove('opacity-0')"
                 />
             </div>
             <div
@@ -749,8 +472,7 @@
                   <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
                 </select>
                 <button
-                  onclick="openEmbalagensModal()"
-                  class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
+                  class="btn-open-embalagens mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
                   Ver Informações
                 </button>
@@ -782,7 +504,6 @@
                   alt="Bolo Doce de Leite Trufado"
                   id="doce-de-leite-img"
                   class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
-                  onload="this.classList.remove('opacity-0')"
                 />
             </div>
             <div
@@ -839,8 +560,7 @@
                   <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
                 </select>
                 <button
-                  onclick="openEmbalagensModal()"
-                  class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
+                  class="btn-open-embalagens mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
                   Ver Informações
                 </button>
@@ -871,7 +591,6 @@
                   src="sabores/StrogonoffDeNozes.jpg"
                   alt="Bolo Strogonoff de Nozes"
                   class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
-                  onload="this.classList.remove('opacity-0')"
                 />
             </div>
             <div
@@ -934,8 +653,7 @@
                   <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
                 </select>
                 <button
-                  onclick="openEmbalagensModal()"
-                  class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
+                  class="btn-open-embalagens mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
                   Ver Informações
                 </button>
@@ -962,10 +680,10 @@
                 </div>
                 <img
                   loading="lazy"
-                  src="././sabores/UvaCrocante.jpg"
+                  src="sabores/UvaCrocante.jpg"
                   alt="Bolo Uva Crocante"
+                  id="uva-crocante-img"
                   class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
-                  onload="this.classList.remove('opacity-0')"
                 />
             </div>
             <div
@@ -1022,8 +740,7 @@
                   <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
                 </select>
                 <button
-                  onclick="openEmbalagensModal()"
-                  class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
+                  class="btn-open-embalagens mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
                   Ver Informações
                 </button>
@@ -1053,7 +770,6 @@
                   src="sabores/BoloDeCafe.jpg"
                   alt="Bolo Brigadeiro de Café"
                   class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
-                  onload="this.classList.remove('opacity-0')"
                 />
             </div>
             <div
@@ -1110,8 +826,7 @@
                   <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
                 </select>
                 <button
-                  onclick="openEmbalagensModal()"
-                  class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
+                  class="btn-open-embalagens mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
                   Ver Informações
                 </button>
@@ -1141,7 +856,6 @@
                   src="sabores/MorangoComSuspiro.jpg"
                   alt="Bolo Morango com Suspiro"
                   class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
-                  onload="this.classList.remove('opacity-0')"
                 />
             </div>
             <div
@@ -1198,8 +912,7 @@
                   <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
                 </select>
                 <button
-                  onclick="openEmbalagensModal()"
-                  class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
+                  class="btn-open-embalagens mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
                   Ver Informações
                 </button>
@@ -1229,7 +942,6 @@
                   src="sabores/BoloDeSensacao.jpg"
                   alt="Bolo Sensação"
                   class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
-                  onload="this.classList.remove('opacity-0')"
                 />
             </div>
             <div
@@ -1286,8 +998,7 @@
                   <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
                 </select>
                 <button
-                  onclick="openEmbalagensModal()"
-                  class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
+                  class="btn-open-embalagens mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
                   Ver Informações
                 </button>
@@ -1317,7 +1028,6 @@
                   src="sabores/AbacaxiComCoco.jpg"
                   alt="Bolo Abacaxi com Coco"
                   class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
-                  onload="this.classList.remove('opacity-0')"
                 />
             </div>
             <div
@@ -1374,8 +1084,7 @@
                   <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
                 </select>
                 <button
-                  onclick="openEmbalagensModal()"
-                  class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
+                  class="btn-open-embalagens mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
                   Ver Informações
                 </button>
@@ -1405,7 +1114,6 @@
                   src="sabores/OlhoDesogra.jpg"
                   alt="Bolo Olho de Sogra"
                   class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
-                  onload="this.classList.remove('opacity-0')"
                 />
             </div>
             <div
@@ -1462,8 +1170,7 @@
                   <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
                 </select>
                 <button
-                  onclick="openEmbalagensModal()"
-                  class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
+                  class="btn-open-embalagens mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
                   Ver Informações
                 </button>
@@ -1493,7 +1200,6 @@
                   src="sabores/Casadinho.jpg"
                   alt="Bolo Casadinho"
                   class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
-                  onload="this.classList.remove('opacity-0')"
                 />
             </div>
             <div
@@ -1550,8 +1256,7 @@
                   <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
                 </select>
                 <button
-                  onclick="openEmbalagensModal()"
-                  class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
+                  class="btn-open-embalagens mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
                   Ver Informações
                 </button>
@@ -1581,7 +1286,6 @@
                   src="sabores/BoloDeBrigadeiro.jpg"
                   alt="Bolo de Brigadeiro"
                   class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
-                  onload="this.classList.remove('opacity-0')"
                 />
             </div>
             <div
@@ -1637,8 +1341,7 @@
                   <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
                 </select>
                 <button
-                  onclick="openEmbalagensModal()"
-                  class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
+                  class="btn-open-embalagens mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
                   Ver Informações
                 </button>
@@ -1668,7 +1371,6 @@
                   src="sabores/TrufaDeNutella.jpg"
                   alt="Bolo Trufa de Nutella"
                   class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
-                  onload="this.classList.remove('opacity-0')"
                 />
             </div>
             <div
@@ -1724,8 +1426,7 @@
                   <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
                 </select>
                 <button
-                  onclick="openEmbalagensModal()"
-                  class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
+                  class="btn-open-embalagens mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
                   Ver Informações
                 </button>
@@ -1757,7 +1458,6 @@
                   src="sabores/PistacheComFrutasVermelhas.jpg"
                   alt="Bolo Pistache com Frutas Vermelhas"
                   class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
-                  onload="this.classList.remove('opacity-0')"
                 />
             </div>
             <div
@@ -1814,8 +1514,7 @@
                   <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
                 </select>
                 <button
-                  onclick="openEmbalagensModal()"
-                  class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
+                  class="btn-open-embalagens mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
                   Ver Informações
                 </button>
@@ -1847,7 +1546,6 @@
                   src="sabores/FlorestaBranca.jpg"
                   alt="Bolo Floresta Branca"
                   class="relative z-10 w-full h-full object-cover cake-card-image transition-opacity duration-500 opacity-0"
-                  onload="this.classList.remove('opacity-0')"
                 />
             </div>
             <div
@@ -1904,8 +1602,7 @@
                   <option value="Caixa 5kg">Caixa 5kg (+ R$ 87,00)</option>
                 </select>
                 <button
-                  onclick="openEmbalagensModal()"
-                  class="mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
+                  class="btn-open-embalagens mt-2 w-full p-2 border border-[#D4AF37] text-[#D4AF37] rounded-md bg-white text-sm hover:bg-[#D4AF37] hover:text-white transition-colors"
                 >
                   Ver Informações
                 </button>
@@ -2066,79 +1763,72 @@
       </div>
     </div>
 
-    <div
-      id="policy-modal"
-      class="fixed inset-0 bg-black bg-opacity-50 z-[100] hidden flex items-center justify-center p-4 animate-fade-in"
-    >
-      <div
-        class="bg-white p-4 md:p-6 rounded-lg shadow-lg max-w-md w-full relative flex flex-col max-h-[85vh]"
-      >
-        <div class="flex justify-between items-center mb-4 flex-shrink-0">
-          <h3 class="text-xl font-semibold">Políticas da Confeitaria</h3>
-          <button
-            id="close-policy-modal"
-            class="text-gray-500 hover:text-gray-700"
-          >
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              ></path>
-            </svg>
-          </button>
+    <div id="policy-modal" class="fixed inset-0 bg-black bg-opacity-60 z-[100] hidden items-center justify-center p-4 animate-fade-in" role="dialog" aria-modal="true" aria-labelledby="policy-modal-title">
+      <div class="bg-white p-0 rounded-2xl shadow-2xl max-w-lg w-full relative flex flex-col max-h-[90vh] overflow-hidden transform transition-all">
+        
+        <!-- Cabeçalho do Modal -->
+        <div class="flex justify-between items-center p-5 border-b border-gray-100 bg-stone-50">
+            <div class="flex items-center gap-3">
+                <div class="bg-[#D4AF37]/10 p-2 rounded-full">
+                    <svg class="w-6 h-6 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                </div>
+                <h2 id="policy-modal-title" class="text-xl font-['Playfair_Display'] font-bold text-gray-800">Políticas da Confeitaria</h2>
+            </div>
+            <button id="close-policy-modal" class="text-gray-400 hover:text-red-500 transition-colors p-2 rounded-full hover:bg-gray-100" aria-label="Fechar modal">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
         </div>
-        <div class="space-y-3 text-sm text-gray-600 overflow-y-auto">
-          <p class="font-bold text-center text-base">
-            🧁 Política de Cancelamento – Confeitaria Scatambulo
-          </p>
-          <p>
-            Para garantir a qualidade da produção e o bom andamento dos pedidos,
-            siga as orientações abaixo em caso de cancelamento:
-          </p>
-          <p class="font-bold text-base pt-2">
-            1. Grandes eventos e pedidos acima de 20 potinhos
-          </p>
-          <ul class="list-disc list-inside ml-4 space-y-1">
-            <li>
-              O cancelamento deve ser solicitado com mínimo de 72 horas de
-              antecedência.
-            </li>
-            <li>
-              Caso o cancelamento seja feito após esse prazo, 50% do valor total
-              da encomenda será retido para cobrir custos de produção.
-            </li>
-            <li>Não haverá reembolso integral nesses casos.</li>
-          </ul>
-          <p class="font-bold text-base pt-2">2. Pedidos de até 20 potinhos</p>
-          <ul class="list-disc list-inside ml-4 space-y-1">
-            <li>
-              O cancelamento deve ser solicitado com mínimo de 36 horas de
-              antecedência.
-            </li>
-            <li>Após esse prazo, o valor pago não será reembolsado.</li>
-          </ul>
-          <p class="font-bold text-base pt-2">
-            3. Pedidos com prazo curto (entrega em até 24 horas)
-          </p>
-          <ul class="list-disc list-inside ml-4 space-y-1">
-            <li>
-              Para pedidos com prazo de 1 dia (24 horas), o cancelamento pode
-              ser solicitado em até 12 horas após a confirmação do pedido.
-            </li>
-            <li>
-              Passado esse limite, o cancelamento não será aceito e não haverá
-              reembolso.
-            </li>
-          </ul>
+
+        <!-- Conteúdo Rolável -->
+        <div class="p-6 space-y-4 text-gray-700 overflow-y-auto custom-scrollbar">
+            <p class="text-center text-sm mb-6 bg-gray-50 p-3 rounded-lg border border-gray-200">
+                Para garantir a qualidade da nossa produção e o bom andamento dos pedidos, pedimos que siga as orientações abaixo em caso de cancelamento.
+            </p>
+
+            <div>
+                <h3 class="font-bold text-base text-gray-800 mb-2">1. Pedidos Grandes</h3>
+                <p class="text-xs text-gray-500 mb-2">(Grandes eventos e pedidos acima de 20 potinhos)</p>
+                <ul class="list-disc list-inside ml-4 space-y-2 text-sm">
+                    <li>O cancelamento deve ser solicitado com no mínimo <strong>72 horas de antecedência</strong>.</li>
+                    <li>
+                        Caso o cancelamento seja feito após esse prazo, <strong>50% do valor total</strong> da encomenda será retido para cobrir custos de produção e ingredientes já adquiridos.
+                    </li>
+                    <li>Não haverá reembolso integral para cancelamentos fora do prazo.</li>
+                </ul>
+            </div>
+
+            <div class="border-t border-gray-100 pt-4">
+                <h3 class="font-bold text-base text-gray-800 mb-2">2. Pedidos Pequenos</h3>
+                <p class="text-xs text-gray-500 mb-2">(Até 20 potinhos)</p>
+                <ul class="list-disc list-inside ml-4 space-y-2 text-sm">
+                    <li>O cancelamento deve ser solicitado com no mínimo <strong>36 horas de antecedência</strong>.</li>
+                    <li>Após este prazo, o valor já pago (sinal) não será reembolsado.</li>
+                </ul>
+            </div>
+
+            <div class="border-t border-gray-100 pt-4">
+                <h3 class="font-bold text-base text-gray-800 mb-2">3. Pedidos de Última Hora</h3>
+                 <p class="text-xs text-gray-500 mb-2">(Encomendas com entrega em 24 horas ou menos)</p>
+                <ul class="list-disc list-inside ml-4 space-y-2 text-sm">
+                    <li>
+                        O cancelamento pode ser solicitado em até <strong>12 horas após a confirmação</strong> do pedido.
+                    </li>
+                    <li>
+                        Passado esse limite, o cancelamento não poderá ser realizado e não haverá reembolso do valor.
+                    </li>
+                </ul>
+            </div>
+
+            <p class="text-xs text-gray-500 pt-4 text-center">
+                Agradecemos a compreensão. Nossas políticas visam garantir a melhor experiência e qualidade para todos os nossos clientes.
+            </p>
         </div>
+        
+        <!-- Footer do Modal -->
+        <div class="p-4 bg-stone-50 border-t border-gray-100">
+             <button id="close-policy-modal-footer" class="w-full bg-[#D4AF37] text-black font-bold py-3 px-6 rounded-xl hover:bg-amber-500 transition-all duration-300 shadow-md hover:shadow-lg">Entendi</button>
+        </div>
+
       </div>
     </div>
 
@@ -2858,43 +2548,62 @@
     </div>
 
     <!-- Modal NFC-e (Novo) -->
-    <div id="nfce-modal" class="fixed inset-0 bg-black bg-opacity-60 z-[110] hidden items-center justify-center p-4 animate-fade-in" role="dialog" aria-modal="true">
-      <div class="bg-white p-6 rounded-2xl shadow-xl max-w-md w-full relative mx-4 max-h-[90vh] overflow-y-auto">
-        <h3 class="text-xl font-bold text-center text-[#D4AF37] mb-6">Deseja Nota Fiscal (NFC-e)?</h3>
-        
-        <div id="nfce-initial-options" class="flex justify-center gap-4 mb-2">
-          <button id="nfce-no-btn" class="px-8 py-3 border border-gray-300 rounded-xl hover:bg-gray-100 font-medium transition-colors">Não</button>
-          <button id="nfce-yes-btn" class="px-8 py-3 bg-[#D4AF37] text-white rounded-xl hover:bg-[#b5952f] font-bold shadow-lg transition-colors">Sim</button>
-        </div>
-
-        <div id="nfce-details" class="hidden space-y-4 mt-6 border-t pt-4 animate-fade-in">
-          <div>
-            <label for="nfce-document" class="block text-sm font-medium text-gray-700 mb-1">CPF ou CNPJ</label>
-            <input type="text" id="nfce-document" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#D4AF37] focus:border-[#D4AF37] outline-none transition-all" placeholder="Digite apenas números">
-          </div>
-
-          <div id="cnpj-fields" class="hidden space-y-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
-            <div>
-              <label for="nfce-company-name" class="block text-sm font-medium text-gray-700 mb-1">Nome Fantasia / Razão Social</label>
-              <input type="text" id="nfce-company-name" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#D4AF37] focus:border-[#D4AF37] outline-none transition-all">
+          <div id="nfce-modal" class="fixed inset-0 bg-black bg-opacity-60 z-[110] hidden items-center justify-center p-4 animate-fade-in" role="dialog" aria-modal="true">
+            <div class="bg-white p-6 rounded-2xl shadow-xl max-w-md w-full relative mx-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
+              
+              <button id="nfce-close-btn" class="absolute top-4 right-4 bg-gray-100 rounded-full p-1 text-gray-500 hover:text-gray-800 hover:bg-gray-200 transition-colors" aria-label="Fechar modal">
+                  <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+              </button>
+    
+              <h3 class="text-xl font-bold text-center text-gray-800 mb-2 font-['Playfair_Display']">Identificação na Nota Fiscal</h3>
+              <p class="text-center text-sm text-gray-500 mb-6">Como você gostaria de ser identificado na NFC-e?</p>
+              
+              <div class="space-y-3">
+                  <label class="block p-4 border border-gray-200 rounded-xl cursor-pointer has-[:checked]:bg-amber-50 has-[:checked]:border-amber-400 has-[:checked]:ring-1 has-[:checked]:ring-amber-400 transition-all">
+                      <input type="radio" name="nfce_option" value="none" class="hidden" checked>
+                      <span class="font-semibold text-gray-700">Não preciso de identificação</span>
+                      <p class="text-xs text-gray-500 mt-1">A nota será emitida sem CPF/CNPJ.</p>
+                  </label>
+    
+                  <label class="block p-4 border border-gray-200 rounded-xl cursor-pointer has-[:checked]:bg-amber-50 has-[:checked]:border-amber-400 has-[:checked]:ring-1 has-[:checked]:ring-amber-400 transition-all">
+                      <input type="radio" name="nfce_option" value="cpf" class="hidden">
+                      <span class="font-semibold text-gray-700">Informar CPF</span>
+                       <div id="nfce-cpf-fields" class="hidden mt-3 space-y-2 animate-fade-in">
+                          <label for="nfce-document-cpf" class="block text-xs font-medium text-gray-600">CPF</label>
+                          <input type="text" id="nfce-document-cpf" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#D4AF37] focus:border-[#D4AF37] outline-none transition-all" placeholder="Digite os 11 dígitos do CPF">
+                      </div>
+                  </label>
+    
+                  <label class="block p-4 border border-gray-200 rounded-xl cursor-pointer has-[:checked]:bg-amber-50 has-[:checked]:border-amber-400 has-[:checked]:ring-1 has-[:checked]:ring-amber-400 transition-all">
+                      <input type="radio" name="nfce_option" value="cnpj" class="hidden">
+                      <span class="font-semibold text-gray-700">Informar CNPJ</span>
+                      <div id="nfce-cnpj-fields" class="hidden mt-3 space-y-4 animate-fade-in">
+                          <div>
+                              <label for="nfce-document-cnpj" class="block text-xs font-medium text-gray-600">CNPJ</label>
+                              <input type="text" id="nfce-document-cnpj" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#D4AF37] focus:border-[#D4AF37] outline-none transition-all" placeholder="Digite os 14 dígitos do CNPJ">
+                          </div>
+                          <div>
+                              <label for="nfce-company-name" class="block text-xs font-medium text-gray-600">Nome Fantasia / Razão Social</label>
+                              <input type="text" id="nfce-company-name" class="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#D4AF37] focus:border-[#D4AF37] outline-none transition-all">
+                          </div>
+                          <div>
+                              <div class="flex items-center justify-between">
+                                  <label for="nfce-company-address" class="block text-xs font-medium text-gray-600">Endereço da Empresa</label>
+                                  <button type="button" id="use-delivery-address-btn" class="text-xs text-[#D4AF37] font-bold hover:underline">Utilizar endereço de entrega</button>
+                              </div>
+                              <input type="text" id="nfce-company-address" class="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#D4AF37] focus:border-[#D4AF37] outline-none transition-all">
+                          </div>
+                      </div>
+                  </label>
+              </div>
+    
+              <div class="mt-6">
+                  <button id="nfce-confirm-btn" class="w-full bg-[#D4AF37] text-white font-bold py-3 rounded-xl hover:bg-[#b5952f] shadow-lg transition-transform active:scale-95">
+                      Confirmar e Enviar Pedido
+                  </button>
+              </div>
             </div>
-            
-            <div>
-               <div class="flex items-center justify-between mb-1">
-                  <label for="nfce-company-address" class="block text-sm font-medium text-gray-700">Endereço da Empresa</label>
-                  <button type="button" id="use-delivery-address-btn" class="text-xs text-[#D4AF37] font-bold hover:underline">Utilizar endereço de entrega</button>
-               </div>
-               <input type="text" id="nfce-company-address" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#D4AF37] focus:border-[#D4AF37] outline-none transition-all">
-            </div>
           </div>
-
-          <button id="nfce-confirm-btn" class="w-full bg-[#D4AF37] text-white font-bold py-3 rounded-xl hover:bg-[#b5952f] mt-4 shadow-md transition-transform active:scale-95">
-            Confirmar e Enviar Pedido
-          </button>
-        </div>
-      </div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="main.js" defer></script>
     <script>

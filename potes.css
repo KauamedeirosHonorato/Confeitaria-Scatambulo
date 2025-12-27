@@ -38,3 +38,231 @@
 .overlay-item.active {
   opacity: 1;
 }
+
+/* --- Otimização e Estilo Premium para Modal de Potes (v2) --- */
+
+/* Container Flexível para evitar scroll da página inteira e travamentos */
+.pote-modal-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 80vh; /* Altura base ajustada */
+  overflow: hidden; /* O scroll será interno */
+}
+
+/* Imagem Hero Otimizada */
+.pote-modal-hero {
+  width: 100%;
+  height: 180px; /* Altura fixa para evitar reflow */
+  object-fit: cover;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  flex-shrink: 0;
+  background-color: #f3f4f6; /* Placeholder visual */
+}
+
+/* Área de Scroll para Opções (Performance) */
+.pote-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+  margin-bottom: 0.5rem;
+  -webkit-overflow-scrolling: touch; /* Scroll nativo suave no iOS */
+  min-height: 0; /* Estabilidade para Flexbox no Firefox/Mobile */
+  min-height: 200px; /* Garante que a área exista mesmo se as imagens demorarem */
+}
+
+/* Títulos das Seções */
+.potes-options-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.potes-options-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: #f3f4f6;
+}
+
+/* Chips de Sabor (Grid Layout Otimizado) */
+.flavor-chip-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Limite de 3 imagens por linha */
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.flavor-chip-input {
+  display: none;
+}
+
+.flavor-chip-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.75rem 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  font-size: 0.85rem;
+  color: #4b5563;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  height: 100%;
+  font-weight: 500;
+  touch-action: manipulation; /* Melhora resposta ao toque */
+}
+
+/* --- Fix para Cards de Categorias (Empresarial, Casamento, etc) --- */
+/* Estilo genérico para imagens dentro da área de scroll que não são chips */
+.pote-scroll-area img {
+  width: 100%;
+  height: auto;
+  min-height: 150px; /* Altura maior para destaque das categorias */
+  object-fit: cover;
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+  background-color: #e5e7eb;
+  opacity: 1 !important;
+  display: block;
+}
+
+/* Estilo para garantir que a imagem apareça corretamente dentro do card */
+.flavor-chip-label img {
+  width: 100%;
+  height: auto;
+  min-height: 60px; /* Garante altura mínima mesmo se a imagem falhar */
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+  border-radius: 0.375rem;
+  background-color: #f3f4f6; /* Fundo cinza para visualizar a área da imagem */
+  display: block; /* Garante que a imagem se comporte como bloco */
+}
+
+/* Estado Selecionado Otimizado */
+.flavor-chip-input:checked + .flavor-chip-label {
+  background-color: #fffbf0;
+  color: #b45309;
+  border-color: #d4af37;
+  box-shadow: 0 0 0 1px #d4af37, 0 2px 4px rgba(212, 175, 55, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Footer com Preço e Ação (Sticky Bottom) */
+.pote-modal-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Controle de Quantidade Compacto */
+.potes-quantity-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+  border: 1px solid #e5e7eb;
+}
+
+.qty-btn-pote {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  color: #d4af37;
+  font-size: 1.1rem;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.2s;
+}
+
+.qty-btn-pote:active {
+  background-color: #f3f4f6;
+}
+
+.qty-display-pote {
+  width: 2.5rem;
+  text-align: center;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Display de Total Elegante */
+.pote-total-display {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.pote-total-label {
+  font-size: 0.7rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.pote-total-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #d4af37;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums; /* Evita pulos visuais nos números */
+}
+
+/* Animação de "Pop" para atualização de preço */
+@keyframes price-pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); color: #b45309; } /* Aumenta e escurece levemente */
+  100% { transform: scale(1); }
+}
+
+.price-anim {
+  animation: price-pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efeito elástico */
+}
+
+/* --- Otimização de Imagens (Lazy Load) --- */
+.lazy-load-image {
+  opacity: 1 !important; /* Força visibilidade sobrepondo qualquer JS inline */
+  transition: opacity 0.5s ease-in-out;
+}
+.lazy-load-image.loaded {
+  opacity: 1;
+}
+
+/* --- Ajustes Específicos para Mobile (Correções) --- */
+@media (max-width: 640px) {
+  .pote-modal-wrapper {
+    max-height: 85vh; /* Aproveita mais a tela no mobile */
+  }
+  .pote-modal-hero {
+    height: 130px; /* Reduz imagem para sobrar espaço pro conteúdo */
+    margin-bottom: 0.75rem;
+  }
+  .flavor-chip-group {
+    gap: 0.35rem; /* Gap menor para garantir 3 colunas sem quebrar */
+  }
+  .flavor-chip-label {
+    padding: 0.5rem 0.25rem;
+    font-size: 0.75rem; /* Fonte menor para caber nos chips */
+  }
+}

@@ -124,4 +124,33 @@ body {
   footer {
     padding-bottom: 0.5rem !important;
   }
+
+  /* --- Melhorias de UX para Mobile --- */
+
+  /* Remove texto decorativo lateral para ganhar espaço */
+  .side-name-right {
+    display: none;
+  }
+
+  /* Aumenta a área de toque dos botões e selects para facilitar o clique */
+  .btn-gold-metallic,
+  .cake-size-select {
+    min-height: 48px;
+    font-size: 16px; /* Evita zoom automático no iOS ao focar */
+  }
+
+  /* Garante que o último item da lista não fique escondido atrás do carrinho flutuante */
+  body {
+    padding-bottom: 120px;
+  }
+
+  /* Remove efeito de zoom na imagem ao tocar (melhor para scroll) */
+  .group:hover .cake-card-image {
+    transform: none;
+  }
+
+  /* Otimiza espaço interno dos modais em telas pequenas */
+  .modal-content {
+    padding: 1rem;
+  }
 }

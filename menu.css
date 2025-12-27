@@ -153,6 +153,11 @@ section {
   object-position: center 20%; /* Move o foco da imagem para cima (mostra mais da parte de cima) */
 }
 
+/* Ajuste específico para a imagem do Bolo Uva Crocante */
+#uva-crocante-img {
+  object-position: center 30%; /* Move o foco da imagem para cima */
+}
+
 .best-seller-badge {
   position: absolute;
   top: 12px;

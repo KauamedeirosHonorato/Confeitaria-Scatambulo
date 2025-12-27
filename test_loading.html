@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Loading</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="potes.css">
+    <style>
+        .flavor-card {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Modal de Pedido de Potinho -->
+    <div id="potinho-order-modal" class="fixed inset-0 bg-black bg-opacity-60 z-[100] flex items-center justify-center p-4" role="dialog" aria-modal="true">
+        <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl max-w-2xl w-full relative mx-4 max-h-[90vh] flex flex-col">
+            <div class="text-center mb-4">
+                <h3 class="text-3xl font-bold text-gray-900 font-['Playfair_Display'] mt-1">Bolo no Potinho</h3>
+            </div>
+            <form id="potinho-order-form" class="flex-grow overflow-y-auto custom-scrollbar -mr-4 pr-4">
+                <div id="flavor-step">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Escolha o Sabor:</label>
+                            <div id="potinho-flavors-list" class="grid grid-cols-2 sm:grid-cols-3 gap-3 p-1">
+                                <!-- Sabores serão inseridos via JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            initPotinhoOrderModal();
+        });
+
+        function convertImageToWebP(imgElement) {
+            // Mock function for testing
+            console.log('convertImageToWebP called for:', imgElement.src);
+        }
+
+        function initPotinhoOrderModal() {
+            const flavorsContainer = document.getElementById('potinho-flavors-list');
+
+            const flavorData = [
+                { name: "Nuvem de Morango", img: "sabores/NuvemDeMorango.jpg" },
+                { name: "Doce de Leite Trufado", img: "sabores/DoceDeLeite.jpg" },
+                { name: "Strogonoff de Nozes", img: "sabores/StrogonoffDeNozes.jpg" },
+                { name: "Uva Crocante", img: "sabores/UvaCrocante.jpg" },
+                { name: "Brigadeiro de Café", img: "sabores/BoloDeCafe.jpg" },
+                { name: "Morango com Suspiro", img: "sabores/MorangoComSuspiro.jpg" },
+            ];
+
+            const populateUI = () => {
+                if (flavorsContainer.children.length === 0) {
+                    flavorData.forEach(flavor => {
+                        const el = document.createElement('div');
+                        el.className = 'flavor-card relative aspect-square rounded-lg cursor-pointer group overflow-hidden border-2 border-gray-200 bg-gray-50 hover:border-primary transition-all';
+                        el.dataset.flavorName = flavor.name;
+                        el.innerHTML = `
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="relative w-8 h-8">
+                                    <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+                                    <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+                                </div>
+                            </div>
+                            <img src="${flavor.img}" alt="${flavor.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300 opacity-0" onload="this.classList.remove('opacity-0'); this.previousElementSibling.style.display='none'; convertImageToWebP(this)">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <span class="absolute bottom-1 left-0 right-0 text-center text-white text-xs font-semibold p-1">${flavor.name}</span>
+                            <div class="absolute inset-0 bg-primary/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                                <div class="w-10 h-10 bg-white/90 rounded-full flex items-center justify-center text-primary transform scale-75 group-hover:scale-100 transition-transform">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                            </div>`;
+                        flavorsContainer.appendChild(el);
+                    });
+                }
+            };
+
+            populateUI();
+        }
+    </script>
+</body>
+</html>

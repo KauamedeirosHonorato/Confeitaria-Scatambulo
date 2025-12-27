@@ -72,10 +72,32 @@
   function initImageOptimization() {
     const images = document.querySelectorAll("img");
     images.forEach((img, index) => {
-      if (img.hasAttribute("loading")) return;
-      // Pula as 3 primeiras imagens (Logo/Banner) para não prejudicar o LCP (Largest Contentful Paint)
-      // Aplica lazy loading em todas as outras para economizar dados e acelerar o carregamento inicial
-      if (index > 2) img.setAttribute("loading", "lazy");
+      // Handle lazy loading
+      if (index > 2 && !img.hasAttribute("loading")) {
+        img.setAttribute("loading", "lazy");
+      }
+
+      // Handle opacity transition on load
+      if (img.classList.contains('opacity-0')) {
+        const removeOpacity = () => img.classList.remove('opacity-0');
+
+        if (img.complete) {
+            removeOpacity();
+        } else {
+            img.addEventListener('load', removeOpacity, { once: true });
+            img.addEventListener('error', () => {
+                console.error('Image failed to load:', img.src);
+                // Optionally show a placeholder or error icon
+                const parent = img.parentElement;
+                if (parent) {
+                    const spinner = parent.querySelector('.absolute.inset-0.flex.items-center.justify-center');
+                    if (spinner) {
+                        spinner.innerHTML = '<svg class="w-12 h-12 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+                    }
+                }
+            }, { once: true });
+        }
+      }
     });
   }
 
@@ -263,11 +285,36 @@
         if (e.target === tutorialModal) closeTutorial();
       });
 
+    const closePolicy = () => {
+      if (policyModal) {
+        policyModal.classList.add("hidden");
+      }
+    };
+
     const closePolicyModal = document.getElementById("close-policy-modal");
     if (closePolicyModal)
-      closePolicyModal.addEventListener("click", () =>
-        policyModal.classList.add("hidden")
-      );
+      closePolicyModal.addEventListener("click", closePolicy);
+
+    const closePolicyFooter = document.getElementById("close-policy-modal-footer");
+    if (closePolicyFooter)
+      closePolicyFooter.addEventListener("click", closePolicy);
+
+    if (policyModal)
+      policyModal.addEventListener("click", (e) => {
+        if (e.target === policyModal) {
+          closePolicy();
+        }
+      });
+  }
+
+function initOpenEmbalagensModalButtons() {
+    const buttons = document.querySelectorAll('.btn-open-embalagens');
+    buttons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        openEmbalagensModal();
+      });
+    });
   }
 
   function initPackagingModal() {
@@ -1731,19 +1778,39 @@
 
   function initNfceModal() {
       const modal = document.getElementById('nfce-modal');
-      const btnYes = document.getElementById('nfce-yes-btn');
-      const btnNo = document.getElementById('nfce-no-btn');
-      const detailsDiv = document.getElementById('nfce-details');
-      const docInput = document.getElementById('nfce-document');
-      const cnpjFields = document.getElementById('cnpj-fields');
+      if (!modal) return;
+
+      const radioOptions = document.querySelectorAll('input[name="nfce_option"]');
+      const cpfFields = document.getElementById('nfce-cpf-fields');
+      const cnpjFields = document.getElementById('nfce-cnpj-fields');
+      const cpfInput = document.getElementById('nfce-document-cpf');
+      const cnpjInput = document.getElementById('nfce-document-cnpj');
       const companyNameInput = document.getElementById('nfce-company-name');
       const companyAddressInput = document.getElementById('nfce-company-address');
       const useAddressBtn = document.getElementById('use-delivery-address-btn');
       const confirmBtn = document.getElementById('nfce-confirm-btn');
+      const closeBtn = document.getElementById('nfce-close-btn');
 
-      if (!modal) return;
+      const toggleFields = () => {
+          const selected = document.querySelector('input[name="nfce_option"]:checked').value;
+          
+          cpfFields.classList.toggle('hidden', selected !== 'cpf');
+          if (selected === 'cpf') cpfInput.focus();
 
-      // Funções de Validação
+          cnpjFields.classList.toggle('hidden', selected !== 'cnpj');
+          if (selected === 'cnpj') cnpjInput.focus();
+      };
+
+      radioOptions.forEach(radio => radio.addEventListener('change', toggleFields));
+
+      const closeModal = () => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+      // --- Funções de Validação ---
       const validateCPF = (cpf) => {
         cpf = cpf.replace(/[^\d]+/g, '');
         if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
@@ -1787,50 +1854,34 @@
         return true;
       };
 
-      btnNo.addEventListener('click', () => {
-          if (pendingOrderDetails) {
-              finalizeOrder(pendingOrderDetails, { nfce: 'nao' });
-          }
-          modal.classList.add('hidden');
-          modal.classList.remove('flex');
-      });
-
-      btnYes.addEventListener('click', () => {
-          detailsDiv.classList.remove('hidden');
-          docInput.focus();
-      });
-
-      docInput.addEventListener('input', (e) => {
+      // --- Máscaras ---
+      cpfInput.addEventListener('input', (e) => {
           let v = e.target.value.replace(/\D/g, '');
-          if (v.length > 14) v = v.slice(0, 14);
-
-          if (v.length > 11) {
-              cnpjFields.classList.remove('hidden');
-          } else {
-              cnpjFields.classList.add('hidden');
-          }
-
-          // Máscara CPF/CNPJ
-          if (v.length <= 11) {
-              v = v.replace(/(\d{3})(\d)/, "$1.$2");
-              v = v.replace(/(\d{3})(\d)/, "$1.$2");
-              v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-          } else {
-              v = v.replace(/^(\d{2})(\d)/, "$1.$2");
-              v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
-              v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
-              v = v.replace(/(\d{4})(\d)/, "$1-$2");
-          }
+          if (v.length > 11) v = v.slice(0, 11);
+          v = v.replace(/(\d{3})(\d)/, "$1.$2");
+          v = v.replace(/(\d{3})(\d)/, "$1.$2");
+          v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
           e.target.value = v;
       });
 
+      cnpjInput.addEventListener('input', (e) => {
+          let v = e.target.value.replace(/\D/g, '');
+          if (v.length > 14) v = v.slice(0, 14);
+          v = v.replace(/^(\d{2})(\d)/, "$1.$2");
+          v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+          v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
+          v = v.replace(/(\d{4})(\d)/, "$1-$2");
+          e.target.value = v;
+      });
+
+      // --- Persistência (LocalStorage) ---
       try {
           const savedNfce = localStorage.getItem('userNfceData');
           if (savedNfce) {
               const data = JSON.parse(savedNfce);
               if (data.documento) {
-                  docInput.value = data.documento;
-                  docInput.dispatchEvent(new Event('input'));
+                if(data.tipo === 'CPF') cpfInput.value = data.documento;
+                if(data.tipo === 'CNPJ') cnpjInput.value = data.documento;
               }
               if (data.razaoSocial) companyNameInput.value = data.razaoSocial;
               if (data.enderecoEmpresa) companyAddressInput.value = data.enderecoEmpresa;
@@ -1845,53 +1896,54 @@
       });
 
       confirmBtn.addEventListener('click', () => {
-          const rawDoc = docInput.value.replace(/\D/g, '');
-          if (!rawDoc) {
-              window.showCustomAlert('Por favor, informe o CPF ou CNPJ.', 'Aviso');
-              return;
-          }
-          
-          let isValid = false;
+          const selectedOption = document.querySelector('input[name="nfce_option"]:checked').value;
+          let nfceData = { nfce: 'nao' };
+          let isValid = true;
+          let doc = '';
           let type = '';
 
-          if (rawDoc.length <= 11) {
+          if (selectedOption === 'cpf') {
+              doc = cpfInput.value;
               type = 'CPF';
-              isValid = validateCPF(rawDoc);
-          } else {
+              isValid = validateCPF(doc);
+              if (doc && !isValid) {
+                  window.showCustomAlert(`O CPF informado é inválido.`, 'Erro');
+                  return;
+              }
+              nfceData = { nfce: 'sim', documento: doc, tipo: type };
+          } else if (selectedOption === 'cnpj') {
+              doc = cnpjInput.value;
               type = 'CNPJ';
-              isValid = validateCNPJ(rawDoc);
-          }
-
-          if (!isValid) {
-              window.showCustomAlert(`O ${type} informado é inválido.`, 'Erro');
-              return;
-          }
-
-          try {
-              const dataToSave = {
-                  documento: docInput.value,
+              isValid = validateCNPJ(doc);
+              if (doc && !isValid) {
+                  window.showCustomAlert(`O CNPJ informado é inválido.`, 'Erro');
+                  return;
+              }
+              nfceData = { 
+                  nfce: 'sim', 
+                  documento: doc, 
+                  tipo: type,
                   razaoSocial: companyNameInput.value,
                   enderecoEmpresa: companyAddressInput.value
               };
-              localStorage.setItem('userNfceData', JSON.stringify(dataToSave));
-          } catch (e) {}
-
-          const nfceData = {
-              nfce: 'sim',
-              documento: docInput.value,
-              tipo: type
-          };
-
-          if (nfceData.tipo === 'CNPJ') {
-              nfceData.razaoSocial = companyNameInput.value;
-              nfceData.enderecoEmpresa = companyAddressInput.value;
           }
+
+          try {
+              if (doc) {
+                const dataToSave = {
+                    documento: doc,
+                    tipo: type,
+                    razaoSocial: companyNameInput.value,
+                    enderecoEmpresa: companyAddressInput.value
+                };
+                localStorage.setItem('userNfceData', JSON.stringify(dataToSave));
+              }
+          } catch (e) {}
 
           if (pendingOrderDetails) {
               finalizeOrder(pendingOrderDetails, nfceData);
           }
-          modal.classList.add('hidden');
-          modal.classList.remove('flex');
+          closeModal();
       });
   }
 
@@ -2168,6 +2220,7 @@
 
     initMobileMenu();
     initModals();
+    initOpenEmbalagensModalButtons();
     initPackagingModal();
     initSaberMaisModal();
     initCartPanel();
@@ -2225,6 +2278,7 @@
   window.addPackagingToCart = addPackagingToCart;
   window.showToast = showToast;
   window.openCartPanelAndCloseToast = openCartPanelAndCloseToast;
+  window.formatCurrency = formatCurrency;
 
   window.carrinhoInitialized = true;
 })();
