@@ -8,7 +8,7 @@
     const modalIds = [
       "info-modal", "policy-modal", "tutorial-modal", "embalagens-modal", 
       "saber-mais-modal", "checkout-modal", "novidade-modal", 
-      "packaging-selection-modal", "custom-alert-modal", "natal-popup-overlay", 
+      "packaging-selection-modal", "custom-alert-modal", 
       "cart-panel-overlay", "success-modal"
     ];
 
@@ -19,11 +19,6 @@
         modal.classList.remove("flex", "active", "block");
       }
     });
-
-    const natalPopup = document.getElementById("natal-popup-overlay");
-    if (natalPopup) {
-        natalPopup.classList.remove("active");
-    }
 
     const cartPanel = document.getElementById("cart-panel");
     if (cartPanel) {

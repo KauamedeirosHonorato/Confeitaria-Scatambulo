@@ -144,10 +144,6 @@ document.addEventListener("DOMContentLoaded", function () {
         ],
       },
     },
-    disable: [
-      "2025-12-25",
-      "2026-01-01"
-    ],
     onChange: function (selectedDates, dateStr, instance) {
       const selectedDate = selectedDates[0];
       if (!selectedDate) return;

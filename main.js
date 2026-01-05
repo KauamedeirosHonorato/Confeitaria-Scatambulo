@@ -8,7 +8,7 @@
     const modalIds = [
       "info-modal", "policy-modal", "tutorial-modal", "embalagens-modal", 
       "saber-mais-modal", "checkout-modal", "novidade-modal", 
-      "packaging-selection-modal", "custom-alert-modal", "natal-popup-overlay", 
+      "packaging-selection-modal", "custom-alert-modal", 
       "cart-panel-overlay", "success-modal", "nfce-modal"
     ];
 
@@ -19,11 +19,6 @@
         modal.classList.remove("flex", "active", "block");
       }
     });
-
-    const natalPopup = document.getElementById("natal-popup-overlay");
-    if (natalPopup) {
-        natalPopup.classList.remove("active");
-    }
 
     const cartPanel = document.getElementById("cart-panel");
     if (cartPanel) {
@@ -1781,9 +1776,7 @@ function initOpenEmbalagensModalButtons() {
       if (!modal) return;
 
       const radioOptions = document.querySelectorAll('input[name="nfce_option"]');
-      const cpfFields = document.getElementById('nfce-cpf-fields');
       const cnpjFields = document.getElementById('nfce-cnpj-fields');
-      const cpfInput = document.getElementById('nfce-document-cpf');
       const cnpjInput = document.getElementById('nfce-document-cnpj');
       const companyNameInput = document.getElementById('nfce-company-name');
       const companyAddressInput = document.getElementById('nfce-company-address');
@@ -1794,39 +1787,36 @@ function initOpenEmbalagensModalButtons() {
       const toggleFields = () => {
           const selected = document.querySelector('input[name="nfce_option"]:checked').value;
           
-          cpfFields.classList.toggle('hidden', selected !== 'cpf');
-          if (selected === 'cpf') cpfInput.focus();
-
           cnpjFields.classList.toggle('hidden', selected !== 'cnpj');
           if (selected === 'cnpj') cnpjInput.focus();
       };
 
       radioOptions.forEach(radio => radio.addEventListener('change', toggleFields));
 
-      const closeModal = () => {
+      const closeModal = (reopenCheckout = false) => {
         modal.classList.add('hidden');
         modal.classList.remove('flex');
+
+        if (reopenCheckout) {
+            const checkoutModal = document.getElementById("checkout-modal");
+            if (checkoutModal) {
+                checkoutModal.classList.remove("hidden");
+                checkoutModal.classList.add("flex");
+            }
+        }
       }
 
-      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (closeBtn) closeBtn.addEventListener('click', () => closeModal(true));
+      
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal(true);
+            }
+        });
+      }
 
       // --- Funções de Validação ---
-      const validateCPF = (cpf) => {
-        cpf = cpf.replace(/[^\d]+/g, '');
-        if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
-        let sum = 0, remainder;
-        for (let i = 1; i <= 9; i++) sum += parseInt(cpf.substring(i - 1, i)) * (11 - i);
-        remainder = (sum * 10) % 11;
-        if (remainder === 10 || remainder === 11) remainder = 0;
-        if (remainder !== parseInt(cpf.substring(9, 10))) return false;
-        sum = 0;
-        for (let i = 1; i <= 10; i++) sum += parseInt(cpf.substring(i - 1, i)) * (12 - i);
-        remainder = (sum * 10) % 11;
-        if (remainder === 10 || remainder === 11) remainder = 0;
-        if (remainder !== parseInt(cpf.substring(10, 11))) return false;
-        return true;
-      };
-
       const validateCNPJ = (cnpj) => {
         cnpj = cnpj.replace(/[^\d]+/g, '');
         if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false;
@@ -1855,15 +1845,6 @@ function initOpenEmbalagensModalButtons() {
       };
 
       // --- Máscaras ---
-      cpfInput.addEventListener('input', (e) => {
-          let v = e.target.value.replace(/\D/g, '');
-          if (v.length > 11) v = v.slice(0, 11);
-          v = v.replace(/(\d{3})(\d)/, "$1.$2");
-          v = v.replace(/(\d{3})(\d)/, "$1.$2");
-          v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-          e.target.value = v;
-      });
-
       cnpjInput.addEventListener('input', (e) => {
           let v = e.target.value.replace(/\D/g, '');
           if (v.length > 14) v = v.slice(0, 14);
@@ -1880,7 +1861,6 @@ function initOpenEmbalagensModalButtons() {
           if (savedNfce) {
               const data = JSON.parse(savedNfce);
               if (data.documento) {
-                if(data.tipo === 'CPF') cpfInput.value = data.documento;
                 if(data.tipo === 'CNPJ') cnpjInput.value = data.documento;
               }
               if (data.razaoSocial) companyNameInput.value = data.razaoSocial;
@@ -1902,16 +1882,7 @@ function initOpenEmbalagensModalButtons() {
           let doc = '';
           let type = '';
 
-          if (selectedOption === 'cpf') {
-              doc = cpfInput.value;
-              type = 'CPF';
-              isValid = validateCPF(doc);
-              if (doc && !isValid) {
-                  window.showCustomAlert(`O CPF informado é inválido.`, 'Erro');
-                  return;
-              }
-              nfceData = { nfce: 'sim', documento: doc, tipo: type };
-          } else if (selectedOption === 'cnpj') {
+          if (selectedOption === 'cnpj') {
               doc = cnpjInput.value;
               type = 'CNPJ';
               isValid = validateCNPJ(doc);
@@ -1943,7 +1914,7 @@ function initOpenEmbalagensModalButtons() {
           if (pendingOrderDetails) {
               finalizeOrder(pendingOrderDetails, nfceData);
           }
-          closeModal();
+          closeModal(false);
       });
   }
 
