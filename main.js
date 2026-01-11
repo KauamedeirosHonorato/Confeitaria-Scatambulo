@@ -34,6 +34,43 @@
   }
   window.closeAllModals = closeAllModals; // Expose for menu.html
 
+  // --- CONTROLE DE FÉRIAS ---
+  function isVacationPeriod() {
+    const now = new Date();
+    // Ano, Mês (0-11), Dia
+    const vacationStart = new Date(2026, 0, 10); // 10 de Janeiro de 2026
+    const vacationEnd = new Date(2026, 0, 26);   // Retorno no dia 26, então bloqueia até o fim do dia 25
+    return now >= vacationStart && now < vacationEnd;
+  }
+
+  function showVacationNotice() {
+    closeAllModals(); // Fecha outros modais abertos
+    const vacationOverlay = document.getElementById('vacation-overlay');
+    if (vacationOverlay) {
+      vacationOverlay.classList.remove('hidden');
+      vacationOverlay.classList.add('flex');
+      // Força a animação de opacidade
+      requestAnimationFrame(() => {
+        vacationOverlay.classList.remove('opacity-0');
+      });
+    }
+  }
+
+  function hideVacationNotice() {
+      const vacationOverlay = document.getElementById('vacation-overlay');
+      if (vacationOverlay) {
+          vacationOverlay.classList.add('opacity-0');
+          // Espera a transição terminar para esconder o elemento
+          setTimeout(() => {
+              vacationOverlay.classList.add('hidden');
+              vacationOverlay.classList.remove('flex');
+          }, 700);
+      }
+  }
+
+  // --- FIM DO CONTROLE DE FÉRIAS ---
+
+
   // --- OTIMIZAÇÃO: Constantes Regex e Formatador para evitar recriação ---
   const WEIGHT_REGEX = /(\d+[.,]\d+|\d+)\s*(k?g)/i;
   const PRICE_REGEX = /\+\s*R\$\s*(\d+[.,]\d+)/;
@@ -698,6 +735,10 @@ function initOpenEmbalagensModalButtons() {
   }
 
   function addStrogonoffToCart(buttonElement) {
+    if (isVacationPeriod()) {
+      showVacationNotice();
+      return;
+    }
     const card = buttonElement.closest('.relative, [class*="bg-[#FAF8F0]"]');
     const cocoSelect = card.querySelector(".coco-select");
     const selectedCocoOption =
@@ -707,6 +748,10 @@ function initOpenEmbalagensModalButtons() {
   }
 
   function addToCart(cakeName, buttonElement) {
+    if (isVacationPeriod()) {
+      showVacationNotice();
+      return;
+    }
     if (!buttonElement) return; // Verificação de segurança
 
     const card = buttonElement.closest('.carousel-slide') || buttonElement.closest('.group');
@@ -1038,7 +1083,11 @@ function initOpenEmbalagensModalButtons() {
       },
       disable: [
         "2025-12-25",
-        "2026-01-01"
+        "2026-01-01",
+        {
+            from: "2026-01-10",
+            to: "2026-01-25"
+        }
       ],
       onChange: function (selectedDates, dateStr, instance) {
         const selectedDate = selectedDates[0];
@@ -2175,6 +2224,25 @@ function initOpenEmbalagensModalButtons() {
   };
 
   document.addEventListener("DOMContentLoaded", () => {
+    // Adicionado para controle de férias
+    if (isVacationPeriod() && !sessionStorage.getItem('vacationNoticeShown')) {
+        showVacationNotice();
+        sessionStorage.setItem('vacationNoticeShown', 'true');
+    }
+    const closeVacationButton = document.getElementById('close-vacation-overlay');
+    if (closeVacationButton) {
+      closeVacationButton.addEventListener('click', hideVacationNotice);
+    }
+    const vacationOverlay = document.getElementById('vacation-overlay');
+    if (vacationOverlay) {
+        vacationOverlay.addEventListener('click', (e) => {
+            if (e.target === vacationOverlay) {
+                hideVacationNotice();
+            }
+        });
+    }
+    // Fim da adição
+
     const customAlertModal = document.getElementById("custom-alert-modal");
     if (customAlertModal) {
       const closeBtn = document.getElementById("custom-alert-close");
