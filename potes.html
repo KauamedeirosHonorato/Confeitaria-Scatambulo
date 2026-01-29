@@ -629,7 +629,41 @@
           window.addEventListener('load', hideLoader);
           setTimeout(hideLoader, 4000); // Fallback de segurança
 
+          function isVacationPeriod() {
+            const now = new Date();
+            const vacationStart = new Date('2026-01-10T00:00:00');
+            const vacationEnd = new Date('2026-01-25T23:59:59');
+            return now >= vacationStart && now <= vacationEnd;
+          }
+
+                    function showVacationNotice() {
+            const vacationOverlay = document.getElementById('vacation-overlay');
+            if (vacationOverlay) {
+                vacationOverlay.classList.remove('hidden');
+                vacationOverlay.classList.add('flex');
+                setTimeout(() => {
+                    vacationOverlay.classList.remove('opacity-0');
+                }, 10);
+
+                const closeButton = document.getElementById('close-vacation-overlay');
+                if (closeButton) {
+                    closeButton.addEventListener('click', () => {
+                        vacationOverlay.classList.add('opacity-0');
+                        setTimeout(() => {
+                            vacationOverlay.classList.add('hidden');
+                            vacationOverlay.classList.remove('flex');
+                        }, 700);
+                    }, { once: true });
+                }
+            } else {
+                alert("Estamos de férias do dia 10/01/2026 até 25/01/2026. As encomendas para o período estarão suspensas.");
+            }
+          }
+
           document.addEventListener("DOMContentLoaded", () => {
+            if (isVacationPeriod()) {
+                showVacationNotice();
+            }
             initBackToTop();
             initPotinhoOrderModal();
           });
