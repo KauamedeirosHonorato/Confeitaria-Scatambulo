@@ -6,9 +6,9 @@
   // --- GLOBAL MODAL MANAGEMENT ---
   function closeAllModals() {
     const modalIds = [
-      "info-modal", "policy-modal", "tutorial-modal", "embalagens-modal", 
-      "saber-mais-modal", "checkout-modal", "novidade-modal", 
-      "packaging-selection-modal", "custom-alert-modal", 
+      "info-modal", "policy-modal", "tutorial-modal", "embalagens-modal",
+      "saber-mais-modal", "checkout-modal", "novidade-modal",
+      "packaging-selection-modal", "custom-alert-modal",
       "cart-panel-overlay", "success-modal"
     ];
 
@@ -22,7 +22,7 @@
 
     const cartPanel = document.getElementById("cart-panel");
     if (cartPanel) {
-        cartPanel.classList.add("translate-x-full");
+      cartPanel.classList.add("translate-x-full");
     }
 
     // Pause any videos that might be playing in modals
@@ -98,7 +98,7 @@
 
         poteCards.forEach((card) => {
           const cardCategory = card.getAttribute("data-category");
-          
+
           // Reset da animação para garantir que ela ocorra novamente
           card.classList.remove("animate-fade-in-up");
           void card.offsetWidth; // Força o reflow
@@ -234,9 +234,9 @@
     if (tutorialModal)
       tutorialModal.addEventListener("click", (e) => {
         if (e.target === tutorialModal) {
-            tutorialModal.classList.add("hidden");
-            const video = document.getElementById("video-tutorial");
-            if (video) video.pause();
+          tutorialModal.classList.add("hidden");
+          const video = document.getElementById("video-tutorial");
+          if (video) video.pause();
         }
       });
 
@@ -517,7 +517,7 @@
       // Anima a barra de progresso para 0%
       const progressBar = toast.lastElementChild;
       if (progressBar) {
-          progressBar.style.width = "0%";
+        progressBar.style.width = "0%";
       }
     });
 
@@ -529,9 +529,10 @@
 
   function addStrogonoffToCart(buttonElement) {
     const card = buttonElement.closest('.relative, [class*="bg-[#FAF8F0]"]');
-    const cocoSelect = card.querySelector(".coco-select");
-    const selectedCocoOption =
-      cocoSelect.options[cocoSelect.selectedIndex].value;
+    const cocoSelect = card ? card.querySelector(".coco-select") : null;
+    const selectedCocoOption = cocoSelect
+      ? cocoSelect.options[cocoSelect.selectedIndex].value
+      : "(sem coco)";
     const cakeName = "Strogonoff de Nozes " + selectedCocoOption;
     addToCart(cakeName, buttonElement);
   }
@@ -543,22 +544,22 @@
     const size = selectedOption.text;
 
     const uniqueId = `${cakeName}-${size}`.replace(/\s+/g, "-");
-    
+
     // Se o item já existe, garante o feedback visual e retorna
     if (cart.some((item) => item.id === uniqueId)) {
-        buttonElement.textContent = "Adicionado";
-        buttonElement.classList.add("bg-green-500", "cursor-not-allowed");
-        buttonElement.classList.remove("btn-gold-metallic");
-        return;
+      buttonElement.textContent = "Adicionado";
+      buttonElement.classList.add("bg-green-500", "cursor-not-allowed");
+      buttonElement.classList.remove("btn-gold-metallic");
+      return;
     }
 
     const { weightInKg, packagingCost } = parseSizeAndPrice(size);
-    
+
     let cakePricePerKg = cakePrices[cakeName];
     if (cakePricePerKg === undefined) {
-        cakePricePerKg = 150;
+      cakePricePerKg = 150;
     }
-    
+
     // Arredonda para 2 casas decimais para evitar erros de ponto flutuante
     const itemPrice = Math.round((weightInKg * cakePricePerKg + packagingCost) * 100) / 100;
 
@@ -621,12 +622,10 @@
         itemElement.innerHTML = `
           <div>
             <p class="font-semibold text-gray-800">${item.name}</p>
-            <p class="text-sm text-gray-600">${ 
-              item.type === "packaging" ? item.size : item.size 
-            } - ${formatCurrency(item.price)}</p>
+            <p class="text-sm text-gray-600">${item.type === "packaging" ? item.size : item.size
+          } - ${formatCurrency(item.price)}</p>
           </div>
-          <button onclick="removeFromCart('${
-            item.id
+          <button onclick="removeFromCart('${item.id
           }')" class="text-red-500 hover:text-red-700">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -684,19 +683,16 @@
         itemCard.innerHTML = `
           <div class="bg-white p-4 rounded-lg shadow-md h-full flex flex-col justify-between">
             <div>
-              <h2 class="text-xl font-bold font-playfair text-gray-800">${ 
-                item.name
-              }</h2>
-              <p class="text-gray-600">${ 
-                item.type === "packaging" ? item.size : item.size
-              }</p>
+              <h2 class="text-xl font-bold font-playfair text-gray-800">${item.name
+          }</h2>
+              <p class="text-gray-600">${item.type === "packaging" ? item.size : item.size
+          }</p>
               <p class="font-semibold text-gray-800 mt-2">${formatCurrency(
-                item.price
-              )}</p>
+            item.price
+          )}</p>
             </div>
-            <button onclick="removeFromCart('${
-              item.id
-            }')" class="mt-4 text-red-500 hover:text-red-700 text-sm self-start">
+            <button onclick="removeFromCart('${item.id
+          }')" class="mt-4 text-red-500 hover:text-red-700 text-sm self-start">
               Remover
             </button>
           </div>`;
@@ -754,7 +750,7 @@
           if (['cep', 'endereco', 'num', 'bairro', 'cidade'].includes(id)) {
             field.required = !shouldDisable;
           }
-          
+
           if (shouldDisable) {
             field.classList.add("bg-gray-100", "cursor-not-allowed");
             field.value = ''; // Limpa o valor ao desabilitar
@@ -767,8 +763,8 @@
       if (shouldDisable) {
         const cepNotice = document.getElementById("cep-notice");
         if (cepNotice) {
-            cepNotice.classList.add("hidden");
-            cepNotice.textContent = "";
+          cepNotice.classList.add("hidden");
+          cepNotice.textContent = "";
         }
       }
     }
@@ -789,7 +785,7 @@
       maringa: { id: "20", taxa: 25.0 },
       sarandi: { id: "30", taxa: 25.0 },
     };
-    
+
     function updateCheckoutTotal() {
       // IMPORTANTE: Os IDs (10, 20, 30) devem estar sincronizados com os values do <select> no HTML
       const subtotalElement = document.getElementById("checkout-subtotal");
@@ -809,7 +805,7 @@
       }
 
       const itemsSubtotal = cart.reduce((sum, item) => sum + item.price, 0);
-      
+
       const isRetirada = document.querySelector('input[name="retirada"]:checked')?.value === 'sim';
       const selectedDeliveryId = isRetirada ? "0" : valorEntregaSelect.value;
       const deliveryCity = Object.values(CIDADES_ATENDIDAS).find(c => c.id === selectedDeliveryId);
@@ -917,16 +913,16 @@
       const [h, m] = timeStr.split(":").map(Number);
       return h * 60 + m;
     };
-    
+
     const getClosingTime = () => {
       // Prioriza a data do objeto flatpickr para evitar erros de fuso/string
       if (dataInput._flatpickr && dataInput._flatpickr.selectedDates.length > 0) {
-          const sel = dataInput._flatpickr.selectedDates[0];
-          if (sel.getDay() === 0) return { minutes: 12 * 60, str: "12:00" };
+        const sel = dataInput._flatpickr.selectedDates[0];
+        if (sel.getDay() === 0) return { minutes: 12 * 60, str: "12:00" };
       } else if (dataInput.value) {
-          const [y, m, d] = dataInput.value.split("-");
-          const sel = new Date(y, m - 1, d);
-          if (sel.getDay() === 0) return { minutes: 12 * 60, str: "12:00" };
+        const [y, m, d] = dataInput.value.split("-");
+        const sel = new Date(y, m - 1, d);
+        if (sel.getDay() === 0) return { minutes: 12 * 60, str: "12:00" };
       }
       return { minutes: 18 * 60, str: "18:00" };
     };
@@ -952,8 +948,8 @@
       // Atualiza texto informativo sobre horário
       const deliveryInfo = document.getElementById("delivery-time-info");
       if (deliveryInfo) {
-          const { str } = getClosingTime();
-          deliveryInfo.innerHTML = `
+        const { str } = getClosingTime();
+        deliveryInfo.innerHTML = `
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
@@ -964,17 +960,17 @@
       // Lógica para Domingo: Preencher 08:00 - 12:00
       const { minutes: closingMinutes } = getClosingTime();
       let isSunday = false;
-      
+
       if (closingMinutes === 12 * 60) { // Se o fechamento for 12:00, é domingo
         isSunday = true;
         // Apenas define o padrão se os campos estiverem vazios ou fora do limite
         const currentStart = timeToMinutes(inicioInput.value);
         if (currentStart === 0 || currentStart > closingMinutes) {
-           if (inicioInput._flatpickr) inicioInput._flatpickr.setDate("08:00", false);
-           else inicioInput.value = "08:00";
-           
-           if (fimInput._flatpickr) fimInput._flatpickr.setDate("12:00", false);
-           else fimInput.value = "12:00";
+          if (inicioInput._flatpickr) inicioInput._flatpickr.setDate("08:00", false);
+          else inicioInput.value = "08:00";
+
+          if (fimInput._flatpickr) fimInput._flatpickr.setDate("12:00", false);
+          else fimInput.value = "12:00";
         }
       }
 
@@ -983,7 +979,7 @@
         // Se for domingo e NÃO for hoje, não dispara o change para manter o 08:00 - 12:00
         // Se for hoje, dispara para validar se 08:00 já passou
         if (!isSunday || isToday()) {
-            inicioInput.dispatchEvent(new Event("change"));
+          inicioInput.dispatchEvent(new Event("change"));
         }
       }
 
@@ -1048,29 +1044,29 @@
           const now = new Date();
           // Calcula o horário mínimo permitido (agora + 2 horas)
           const minDeliveryTime = new Date(now.getTime() + 2 * 60 * 60 * 1000);
-          
+
           // Verifica se virou o dia (passou da meia-noite no cálculo) ou se passou do fechamento
           if (minDeliveryTime.getDate() !== now.getDate()) {
-             errorMsg = "Infelizmente já encerramos os pedidos para entrega hoje.";
-             adjustedTime = FECHAMENTO_STR;
-             const [hClose, mClose] = FECHAMENTO_STR.split(":").map(Number);
-             hora = hClose;
-             minuto = mClose;
+            errorMsg = "Infelizmente já encerramos os pedidos para entrega hoje.";
+            adjustedTime = FECHAMENTO_STR;
+            const [hClose, mClose] = FECHAMENTO_STR.split(":").map(Number);
+            hora = hClose;
+            minuto = mClose;
           } else {
-              const minDeliveryMinutes = minDeliveryTime.getHours() * 60 + minDeliveryTime.getMinutes();
-              
-              if (minDeliveryMinutes > FECHAMENTO) {
-                 errorMsg = `Infelizmente já encerramos os pedidos para entrega hoje (necessário 2h de antecedência até às ${FECHAMENTO_STR}).`;
-                 adjustedTime = FECHAMENTO_STR;
-                 const [hClose, mClose] = FECHAMENTO_STR.split(":").map(Number);
-                 hora = hClose;
-                 minuto = mClose;
-              } else if (currentMinutes < minDeliveryMinutes) {
-                 errorMsg = `Para hoje, precisamos de no mínimo 2h de antecedência.`;
-                 hora = minDeliveryTime.getHours();
-                 minuto = minDeliveryTime.getMinutes();
-                 adjustedTime = `${String(hora).padStart(2, "0")}:${String(minuto).padStart(2, "0")}`;
-              }
+            const minDeliveryMinutes = minDeliveryTime.getHours() * 60 + minDeliveryTime.getMinutes();
+
+            if (minDeliveryMinutes > FECHAMENTO) {
+              errorMsg = `Infelizmente já encerramos os pedidos para entrega hoje (necessário 2h de antecedência até às ${FECHAMENTO_STR}).`;
+              adjustedTime = FECHAMENTO_STR;
+              const [hClose, mClose] = FECHAMENTO_STR.split(":").map(Number);
+              hora = hClose;
+              minuto = mClose;
+            } else if (currentMinutes < minDeliveryMinutes) {
+              errorMsg = `Para hoje, precisamos de no mínimo 2h de antecedência.`;
+              hora = minDeliveryTime.getHours();
+              minuto = minDeliveryTime.getMinutes();
+              adjustedTime = `${String(hora).padStart(2, "0")}:${String(minuto).padStart(2, "0")}`;
+            }
           }
         }
 
@@ -1096,14 +1092,14 @@
         // Auto-preencher horário final (+ 2 horas)
         let horaFinal = hora + 2;
         let minutoFinal = minuto;
-        
+
         // Verifica teto de FECHAMENTO
         if (horaFinal * 60 + minutoFinal > FECHAMENTO) {
-            const [hClose, mClose] = FECHAMENTO_STR.split(":").map(Number);
-            horaFinal = hClose;
-            minutoFinal = mClose;
+          const [hClose, mClose] = FECHAMENTO_STR.split(":").map(Number);
+          horaFinal = hClose;
+          minutoFinal = mClose;
         }
-        
+
         const finalStr = String(horaFinal).padStart(2, "0") + ":" + String(minutoFinal).padStart(2, "0");
         if (fimInput._flatpickr) fimInput._flatpickr.setDate(finalStr, false);
         else fimInput.value = finalStr;
@@ -1138,7 +1134,7 @@
             timeNotice.classList.remove("hidden");
           }
           if (this._flatpickr) this._flatpickr.clear();
-          else this.value = ""; 
+          else this.value = "";
           return;
         }
 
@@ -1349,14 +1345,14 @@
         message += isRetirada ? "--- DADOS PARA RETIRADA ---\\n" : "--- DADOS PARA ENTREGA ---\\n";
         message += `Nome: ${details.nome}\n`;
         message += `Vela de brinde?: ${details.vela}\n`;
-        
+
         const dateLabel = isRetirada ? "Data de retirada" : "Data de entrega";
         const dataValue = (dataInput && dataInput.value) ? dataInput.value : (details.data_entrega || "");
         message += `${dateLabel}: ${dataValue
           .split("-")
           .reverse()
           .join("/")}\n`;
-        
+
         const timeLabel = isRetirada ? "Horário para retirada" : "Horário para entrega";
         const inicioValue = (inicioInput && inicioInput.value) ? inicioInput.value : (details.horario_inicio || "");
         const fimValue = (fimInput && fimInput.value) ? fimInput.value : (details.horario_fim || "");
@@ -1520,9 +1516,9 @@
     // Add/remove a class for styling based on the title
     if (modalContent) {
       if (title === 'Debug') {
-          modalContent.classList.add('debug-alert');
+        modalContent.classList.add('debug-alert');
       } else {
-          modalContent.classList.remove('debug-alert');
+        modalContent.classList.remove('debug-alert');
       }
     }
 

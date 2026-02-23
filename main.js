@@ -734,15 +734,25 @@ function initOpenEmbalagensModalButtons() {
       }
   }
 
+  function initiateOrder(cakeName, buttonElement, hasOptions = false) {
+    if (hasOptions) {
+      addStrogonoffToCart(buttonElement);
+    } else {
+      addToCart(cakeName, buttonElement);
+    }
+  }
+  window.initiateOrder = initiateOrder;
+
   function addStrogonoffToCart(buttonElement) {
     if (isVacationPeriod()) {
       showVacationNotice();
       return;
     }
     const card = buttonElement.closest('.relative, [class*="bg-[#FAF8F0]"]');
-    const cocoSelect = card.querySelector(".coco-select");
-    const selectedCocoOption =
-      cocoSelect.options[cocoSelect.selectedIndex].value;
+    const cocoSelect = card ? card.querySelector(".coco-select") : null;
+    const selectedCocoOption = cocoSelect
+      ? cocoSelect.options[cocoSelect.selectedIndex].value
+      : "(sem coco)";
     const cakeName = "Strogonoff de Nozes " + selectedCocoOption;
     addToCart(cakeName, buttonElement);
   }
