@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carrinho - Scatambulo Confeitaria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background-image: url("./Avatar/AvatarCarrinho.png");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+      }
+      .backdrop-blur-sm {
+        backdrop-filter: blur(4px);
+      }
+    </style>
+  </head>
+  <body class="bg-stone-50">
+    <div class="container mx-auto mt-10 p-4 min-h-screen flex flex-col">
+      <h1
+        class="text-3xl md:text-4xl font-bold mb-8 text-center text-[#D4AF37]"
+      >
+        Meu Carrinho
+      </h1>
+      <div id="cart-items" class="flex flex-wrap -mx-2">
+        <!-- Itens do carrinho serão inseridos aqui -->
+      </div>
+      <div
+        class="mt-6 text-sm text-red-800 bg-red-100/80 border border-red-300/80 p-3 rounded-lg max-w-2xl mx-auto text-center"
+      >
+        <strong class="font-bold">Aviso:</strong> Nossos bolos podem variar de 100 g a 300 g para mais, devido à montagem artesanal. O valor exibido no site corresponde ao peso base de 1 kg. Após a pesagem final, o ajuste de valor é enviado via WhatsApp para pagamento da diferença (se houver).
+      </div>
+      <div class="mt-8 pt-8 border-t border-gray-200/50">
+        <div class="text-right text-2xl font-bold text-gray-800 mb-6">
+            <span>Total: </span><span id="cart-page-total">R$ 0,00</span>
+        </div>
+        <div class="text-center">
+        <a
+          id="checkout-button"
+          href="#"
+          class="bg-[#D4AF37] text-black font-semibold py-3 px-8 rounded-lg text-lg hover:bg-[#f5e6b3] transition-transform transform hover:scale-105"
+          style="display: none"
+          >Encomendar</a
+        >
+        <a
+          href="menu.html"
+          class="mt-4 inline-block text-gray-600 hover:text-[#D4AF37]"
+          >Voltar ao Menu</a
+        >
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="success-modal"
+      class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="success-modal-title"
+    >
+      <div
+        class="bg-white p-8 rounded-2xl shadow-xl max-w-sm w-full relative mx-4 text-center"
+      >
+        <button
+          id="close-success-modal"
+          class="absolute -top-3 -right-3 bg-white rounded-full p-1 shadow-lg text-gray-500 hover:text-gray-800 transition-colors"
+          aria-label="Fechar modal de sucesso"
+        >
+          <svg
+            class="w-7 h-7"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+        </button>
+        <div class="text-green-500 mb-4">
+          <svg
+            class="w-16 h-16 mx-auto"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+        </div>
+        <h3 id="success-modal-title" class="text-2xl font-bold text-black mb-3">
+          Pedido Enviado!
+        </h3>
+        <p class="text-black mb-6">
+          Obrigado pelo seu pedido! Entraremos em contato via WhatsApp para
+          confirmar os detalhes.
+        </p>
+        <a
+          href="menu.html"
+          class="inline-block bg-[#D4AF37] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#f5e6b3] transition-colors"
+          >Voltar ao Menu</a
+        >
+      </div>
+    </div>
+
+    <script src="main.js" defer></script>
+  </body>
+</html>

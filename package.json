@@ -1,0 +1,25 @@
+{
+  "name": "scatambulo",
+  "version": "1.0.0",
+  "description": "Este é o repositório do site para a Scatambulo Confeitaria, um projeto web estático que funciona como uma página \"link na bio\" e um menu digital interativo. O sistema permite que os clientes visualizem os produtos, montem um carrinho de compras e finalizem o pedido diretamente pelo WhatsApp.",
+  "main": "carrinho.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-css": "tailwindcss -i ./input.css -o ./style.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KauamedeirosHonorato/Confeitaria-Scatambulo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/KauamedeirosHonorato/Confeitaria-Scatambulo/issues"
+  },
+  "homepage": "https://github.com/KauamedeirosHonorato/Confeitaria-Scatambulo#readme",
+  "devDependencies": {
+    "tailwindcss": "^4.1.17"
+  }
+}
