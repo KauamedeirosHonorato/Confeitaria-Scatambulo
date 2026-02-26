@@ -1,731 +1,904 @@
 <!DOCTYPE html>
 <html lang="pt-BR" class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Bolos no potinho personalizados e deliciosos para todos os tipos de eventos na Scatambulo Confeitaria."
-    />
-    <link rel="icon" type="image/png" href="./Logo/logoSc.png" />
-    <title>Bolos no Potinho - Scatambulo Confeitaria</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Bolos no potinho personalizados e deliciosos para todos os tipos de eventos na Scatambulo Confeitaria." />
+  <link rel="icon" type="image/png" href="./Logo/logoSc.png" />
+  <title>Bolos no Potinho - Scatambulo Confeitaria</title>
 
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
-    />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+    rel="stylesheet" />
 
-    <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ["Poppins", "sans-serif"],
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Poppins", "sans-serif"],
+          },
+          colors: {
+            primary: "#D4AF37",
+            background: "#FFFFFF",
+            text: "#1A1A1A",
+            "text-light": "#6B7280",
+            gold: "#D4AF37",
+          },
+          boxShadow: {
+            custom: "0 4px 15px rgba(0, 0, 0, 0.05)",
+            "hover-custom": "0 8px 25px rgba(0, 0, 0, 0.1)",
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
             },
-            colors: {
-              primary: "#D4AF37",
-              background: "#FFFFFF",
-              text: "#1A1A1A",
-              "text-light": "#6B7280",
-              gold: "#D4AF37",
+            fadeInDown: {
+              '0%': { opacity: '0', transform: 'translateY(-20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
             },
-            boxShadow: {
-              custom: "0 4px 15px rgba(0, 0, 0, 0.05)",
-              "hover-custom": "0 8px 25px rgba(0, 0, 0, 0.1)",
-            },
-            keyframes: {
-              fadeInUp: {
-                '0%': { opacity: '0', transform: 'translateY(20px)' },
-                '100%': { opacity: '1', transform: 'translateY(0)' },
-              },
-              fadeInDown: {
-                '0%': { opacity: '0', transform: 'translateY(-20px)' },
-                '100%': { opacity: '1', transform: 'translateY(0)' },
-              },
-              shimmer: {
-                '0%': { transform: 'translateX(-100%)' },
-                '100%': { transform: 'translateX(100%)' },
-              }
-            },
-            animation: {
-              'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
-              'fade-in-down': 'fadeInDown 0.8s ease-out forwards',
-              'shimmer': 'shimmer 1.5s ease-in-out',
+            shimmer: {
+              '0%': { transform: 'translateX(-100%)' },
+              '100%': { transform: 'translateX(100%)' },
             }
           },
+          animation: {
+            'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
+            'fade-in-down': 'fadeInDown 0.8s ease-out forwards',
+            'shimmer': 'shimmer 1.5s ease-in-out',
+          }
         },
-      };
-    </script>
-    <style>
-      @keyframes shimmer-effect {
-        0% { transform: translateX(-100%) skewX(-15deg); }
-        100% { transform: translateX(100%) skewX(-15deg); }
+      },
+    };
+  </script>
+  <style>
+    @keyframes shimmer-effect {
+      0% {
+        transform: translateX(-100%) skewX(-15deg);
       }
 
-      /* Aplica o brilho apenas na área da imagem (primeira div relativa) */
-      .pote-card.is-shimmering > div.relative::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        /* Brilho mais sutil e elegante */
-        background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.0) 30%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0.0) 70%, transparent 100%);
-        animation: shimmer-effect 1.2s ease-in-out;
-        pointer-events: none;
-        z-index: 20;
+      100% {
+        transform: translateX(100%) skewX(-15deg);
       }
+    }
 
-      /* Custom Flatpickr Styles */
-      .flatpickr-day.disabled,
-      .flatpickr-day.disabled:hover {
-        background: #f8fafc !important; /* Fundo mais claro (slate-50) */
-        color: #cbd5e1 !important; /* Texto mais apagado (slate-300) */
-        cursor: not-allowed;
-        border-color: #f1f5f9 !important; /* Borda sutil (slate-100) */
-        text-decoration: line-through; /* Adiciona um risco para indicar bloqueio */
-        text-decoration-color: #e2e8f0; /* Cor do risco (slate-200) */
-      }
+    /* Aplica o brilho apenas na área da imagem (primeira div relativa) */
+    .pote-card.is-shimmering>div.relative::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      /* Brilho mais sutil e elegante */
+      background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.0) 30%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0.0) 70%, transparent 100%);
+      animation: shimmer-effect 1.2s ease-in-out;
+      pointer-events: none;
+      z-index: 20;
+    }
 
-      /* --- Flatpickr Custom Theme --- */
-      .flatpickr-calendar {
-        font-family: 'Poppins', sans-serif;
-        background-color: #ffffff;
-        border-radius: 12px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        border: 1px solid #f0f0f0;
-        width: 320px;
-      }
-      .flatpickr-current-month {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: #1A1A1A;
-        padding-top: 12px;
-      }
-      .flatpickr-prev-month, .flatpickr-next-month {
-        color: #D4AF37;
-        fill: #D4AF37;
-        top: 14px;
-        padding: 4px;
-        transition: background-color 0.2s;
-        border-radius: 8px;
-      }
-      .flatpickr-prev-month:hover, .flatpickr-next-month:hover {
-        color: #b89a31;
-        fill: #b89a31;
-        background-color: #f5e6b3;
-      }
-      .flatpickr-weekdays {
-        margin-top: 8px;
-      }
-      .flatpickr-weekday {
-        font-family: 'Poppins', sans-serif;
-        font-weight: 500;
-        color: #b89a31;
-        text-transform: uppercase;
-        font-size: 0.65rem;
-      }
-      .flatpickr-day {
-        color: #333;
-        border-radius: 8px;
-        transition: all 0.2s ease;
-        font-weight: 500;
-      }
-      .flatpickr-day:hover {
-        background-color: #fdf8e6;
-        color: #1A1A1A;
-      }
-      .flatpickr-day.today {
-        border-color: #D4AF37;
-        color: #b89a31;
-      }
-      .flatpickr-day.today:hover {
-          background-color: #f5e6b3;
-          border-color: #D4AF37;
-          color: #1A1A1A;
-      }
-      .flatpickr-day.selected,
-      .flatpickr-day.startRange,
-      .flatpickr-day.endRange {
-        background-color: #D4AF37;
-        border-color: #D4AF37;
-        color: #1A1A1A; /* Dark text for contrast */
-        font-weight: bold;
-      }
-      .flatpickr-day.selected:hover {
-        background-color: #b89a31;
-      }
+    /* Custom Flatpickr Styles */
+    .flatpickr-day.disabled,
+    .flatpickr-day.disabled:hover {
+      background: #f8fafc !important;
+      /* Fundo mais claro (slate-50) */
+      color: #cbd5e1 !important;
+      /* Texto mais apagado (slate-300) */
+      cursor: not-allowed;
+      border-color: #f1f5f9 !important;
+      /* Borda sutil (slate-100) */
+      text-decoration: line-through;
+      /* Adiciona um risco para indicar bloqueio */
+      text-decoration-color: #e2e8f0;
+      /* Cor do risco (slate-200) */
+    }
 
-      /* --- iOS/Safari Compatibility Fixes --- */
-      #potinho-order-modal input[type="text"],
-      #potinho-order-modal input[type="number"],
-      #potinho-order-modal select {
-        -webkit-appearance: none;
-        appearance: none;
-      }
-    </style>
-  </head>
-  <body class="bg-stone-50 text-text font-sans selection:bg-primary selection:text-white">
-    <!-- Page Loader -->
-    <div id="page-loader" class="fixed inset-0 bg-stone-50 z-[9999] flex items-center justify-center transition-opacity duration-700 ease-out">
-      <div class="relative w-20 h-20">
-        <!-- The static part of the circle -->
-        <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
-        <!-- The spinning part -->
-        <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
-        <!-- The SC logo -->
-        <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-3xl font-bold text-[#D4AF37]">
-          SC
-        </div>
-      </div>
-    </div>
-    <header class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-30 border-b border-stone-100">
+    /* --- Flatpickr Custom Theme --- */
+    .flatpickr-calendar {
+      font-family: 'Poppins', sans-serif;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      border: 1px solid #f0f0f0;
+      width: 320px;
+    }
+
+    .flatpickr-current-month {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1A1A1A;
+      padding-top: 12px;
+    }
+
+    .flatpickr-prev-month,
+    .flatpickr-next-month {
+      color: #D4AF37;
+      fill: #D4AF37;
+      top: 14px;
+      padding: 4px;
+      transition: background-color 0.2s;
+      border-radius: 8px;
+    }
+
+    .flatpickr-prev-month:hover,
+    .flatpickr-next-month:hover {
+      color: #b89a31;
+      fill: #b89a31;
+      background-color: #f5e6b3;
+    }
+
+    .flatpickr-weekdays {
+      margin-top: 8px;
+    }
+
+    .flatpickr-weekday {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      color: #b89a31;
+      text-transform: uppercase;
+      font-size: 0.65rem;
+    }
+
+    .flatpickr-day {
+      color: #333;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+
+    .flatpickr-day:hover {
+      background-color: #fdf8e6;
+      color: #1A1A1A;
+    }
+
+    .flatpickr-day.today {
+      border-color: #D4AF37;
+      color: #b89a31;
+    }
+
+    .flatpickr-day.today:hover {
+      background-color: #f5e6b3;
+      border-color: #D4AF37;
+      color: #1A1A1A;
+    }
+
+    .flatpickr-day.selected,
+    .flatpickr-day.startRange,
+    .flatpickr-day.endRange {
+      background-color: #D4AF37;
+      border-color: #D4AF37;
+      color: #1A1A1A;
+      /* Dark text for contrast */
+      font-weight: bold;
+    }
+
+    .flatpickr-day.selected:hover {
+      background-color: #b89a31;
+    }
+
+    /* --- iOS/Safari Compatibility Fixes --- */
+    #potinho-order-modal input[type="text"],
+    #potinho-order-modal input[type="number"],
+    #potinho-order-modal select {
+      -webkit-appearance: none;
+      appearance: none;
+    }
+  </style>
+</head>
+
+<body class="bg-stone-50 text-text font-sans selection:bg-primary selection:text-white">
+  <!-- Page Loader -->
+  <div id="page-loader"
+    class="fixed inset-0 bg-stone-50 z-[9999] flex items-center justify-center transition-opacity duration-700 ease-out">
+    <div class="relative w-20 h-20">
+      <!-- The static part of the circle -->
+      <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+      <!-- The spinning part -->
+      <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
+      <!-- The SC logo -->
       <div
-        class="container mx-auto px-6 py-4 flex justify-between items-center"
-      >
-        <h1 class="text-2xl font-bold text-primary font-['Playfair_Display']">
-          <a href="./menu.html" class="tracking-wide hover:opacity-80 transition-opacity">Scatambulo</a>
-        </h1>
-        <nav
-          class="flex items-center space-x-8 text-base font-medium text-text-light"
-        >
-          <a
-            href="./menu.html"
-            class="font-semibold text-primary hover:text-amber-600 transition-colors duration-200"
-            >
-            <span class="md:hidden">&larr; Voltar</span>
-            <span class="hidden md:inline">&larr; Voltar ao Menu Principal</span>
-          </a
-          >
-        </nav>
-      </div>
-    </header>
-
-    <!-- Overlay de Férias -->
-    <div id="vacation-overlay" class="fixed inset-0 z-[110] hidden items-center justify-center bg-black/90 backdrop-blur-md transition-opacity duration-700 opacity-0">
-      <div class="text-center p-6 relative z-10 animate-fade-in-down">
-        <h2 class="text-5xl md:text-7xl font-bold text-[#D4AF37] mb-6 drop-shadow-[0_0_15px_rgba(212,175,55,0.5)]">
-          Estamos de Férias!
-        </h2>
-        <p class="text-white text-lg md:text-2xl max-w-lg mx-auto leading-relaxed font-light">
-          Estaremos de férias do dia 10/01/2026 até 25/01/2026. As encomendas para o período estarão suspensas. Retornaremos no dia 26/01/2026.
-        </p>
-        <button id="close-vacation-overlay" class="mt-10 px-10 py-3 bg-transparent border-2 border-[#D4AF37] text-[#D4AF37] rounded-full text-lg font-semibold hover:bg-[#D4AF37] hover:text-black transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:shadow-[0_0_30px_rgba(212,175,55,0.6)]">
-          Entendido
-        </button>
-      </div>
-      <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#D4AF37]/20 via-transparent to-transparent pointer-events-none"></div>
-    </div>
-
-    <main class="container mx-auto px-4 py-12 md:py-16 max-w-7xl">
-      <!-- Hero Section -->
-      <section class="text-center mb-12 md:mb-16 animate-fade-in-down">
-        <span class="text-primary font-semibold tracking-widest uppercase text-sm mb-2 block">Lembrancinhas Exclusivas</span>
-        <h2 class="text-4xl md:text-6xl font-bold mb-6 text-gray-900 font-['Playfair_Display']">
-          Bolos no Potinho
-        </h2>
-        <p class="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed mb-8">
-          Transforme seus momentos especiais em memórias doces. Personalize cada detalhe para combinar perfeitamente com sua celebração.
-        </p>
-        
-        <div class="flex flex-col items-center gap-2">
-          <div class="inline-flex items-center gap-2 bg-white px-6 py-3 rounded-full shadow-sm border border-gray-100">
-            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-            <p class="text-sm font-medium text-gray-700">
-              A partir de <span class="text-primary font-bold">R$ 25,00</span> a unidade
-            </p>
-          </div>
-          <p class="text-xs text-gray-500">(Exceto Pistache)</p>
-        </div>
-      </section>
-
-      <!-- Filtros -->
-      <div class="flex flex-wrap justify-center gap-3 mb-12 sticky top-24 z-20 py-4 bg-stone-50/95 backdrop-blur-sm rounded-xl">
-        <button class="filter-btn px-6 py-2 rounded-full border transition-all duration-300 bg-stone-900 text-[#D4AF37] border-stone-900 shadow-lg scale-105" data-filter="all">Todos</button>
-        <button class="filter-btn px-6 py-2 rounded-full border border-gray-200 transition-all duration-300 bg-white text-gray-600 hover:bg-gray-50 hover:border-[#D4AF37] hover:text-[#D4AF37]" data-filter="batizado">Batizado</button>
-        <button class="filter-btn px-6 py-2 rounded-full border border-gray-200 transition-all duration-300 bg-white text-gray-600 hover:bg-gray-50 hover:border-[#D4AF37] hover:text-[#D4AF37]" data-filter="aniversario">Aniversário</button>
-        <button class="filter-btn px-6 py-2 rounded-full border border-gray-200 transition-all duration-300 bg-white text-gray-600 hover:bg-gray-50 hover:border-[#D4AF37] hover:text-[#D4AF37]" data-filter="casamento">Casamento</button>
-        <button class="filter-btn px-6 py-2 rounded-full border border-gray-200 transition-all duration-300 bg-white text-gray-600 hover:bg-gray-50 hover:border-[#D4AF37] hover:text-[#D4AF37]" data-filter="corporativo">Corporativo</button>
-        <button class="filter-btn px-6 py-2 rounded-full border border-gray-200 transition-all duration-300 bg-white text-gray-600 hover:bg-gray-50 hover:border-[#D4AF37] hover:text-[#D4AF37]" data-filter="natal">Natal</button>
-      </div>
-
-      <!-- Grid de Cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-
-        <!-- Card Batizado -->
-        <div class="pote-card animate-fade-in-up group relative bg-white rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden" data-category="batizado">
-          <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
-            <div class="absolute inset-0 flex items-center justify-center">
-                <div class="relative w-12 h-12">
-                    <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
-                    <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
-                    <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
-                </div>
-            </div>
-            <img src="potes/Batizado2.jpg" alt="Batizado" loading="lazy" class="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 gallery-item cursor-pointer opacity-0" onload="this.classList.remove('opacity-0');">
-            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none"></div>
-            <button class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-primary p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 gallery-trigger" aria-label="Ver detalhes">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>
-            </button>
-          </div>
-          <div class="p-6 flex flex-col flex-grow">
-            <div class="mb-4">
-              <span class="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">Ocasião</span>
-              <h3 class="font-['Playfair_Display'] text-2xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">Batizado</h3>
-              <p class="text-sm text-gray-500 leading-relaxed">Delicadeza em cada detalhe para celebrar este momento sagrado.</p>
-            </div>
-            <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
-              <button onclick="openPotinhoModal('Batizado')" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
-                Encomendar Agora
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card Confraternização -->
-        <div class="pote-card animate-fade-in-up group relative bg-white rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden" data-category="corporativo">
-          <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
-            <div class="absolute inset-0 flex items-center justify-center">
-                <div class="relative w-12 h-12">
-                    <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
-                    <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
-                    <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
-                </div>
-            </div>
-            <img src="potes/Confraternizacao.jpg" alt="Confraternização" loading="lazy" class="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 gallery-item cursor-pointer opacity-0" onload="this.classList.remove('opacity-0');">
-            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none"></div>
-            <button class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-primary p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 gallery-trigger">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>
-            </button>
-          </div>
-          <div class="p-6 flex flex-col flex-grow">
-            <div class="mb-4">
-              <span class="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">Evento</span>
-              <h3 class="font-['Playfair_Display'] text-2xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">Confraternização</h3>
-              <p class="text-sm text-gray-500 leading-relaxed">Adoce o final de ano da sua equipe com elegância.</p>
-            </div>
-            <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
-              <button onclick="openPotinhoModal('Confraternização')" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
-                Encomendar Agora
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card Corporativo -->
-        <div class="pote-card animate-fade-in-up group relative bg-white rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden" data-category="corporativo">
-          <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
-            <div class="absolute inset-0 flex items-center justify-center">
-                <div class="relative w-12 h-12">
-                    <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
-                    <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
-                    <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
-                </div>
-            </div>
-            <img src="potes/corporativo.jpg" alt="Corporativo" loading="lazy" class="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 gallery-item cursor-pointer opacity-0" onload="this.classList.remove('opacity-0');">
-            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none"></div>
-            <button class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-primary p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 gallery-trigger">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>
-            </button>
-          </div>
-          <div class="p-6 flex flex-col flex-grow">
-            <div class="mb-4">
-              <span class="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">Empresarial</span>
-              <h3 class="font-['Playfair_Display'] text-2xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">Corporativo</h3>
-              <p class="text-sm text-gray-500 leading-relaxed">Brindes personalizados que marcam presença.</p>
-            </div>
-            <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
-              <button onclick="openPotinhoModal('Corporativo')" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
-                Encomendar Agora
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card Casamento -->
-        <div class="pote-card animate-fade-in-up group relative bg-white rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden" data-category="casamento">
-          <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
-            <div class="absolute inset-0 flex items-center justify-center">
-                <div class="relative w-12 h-12">
-                    <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
-                    <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
-                    <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
-                </div>
-            </div>
-            <img src="potes/casamento.jpg" alt="Casamento" loading="lazy" class="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 gallery-item cursor-pointer opacity-0" onload="this.classList.remove('opacity-0');">
-            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none"></div>
-            <button class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-primary p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 gallery-trigger">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>
-            </button>
-          </div>
-          <div class="p-6 flex flex-col flex-grow">
-            <div class="mb-4">
-              <span class="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">Cerimônia</span>
-              <h3 class="font-['Playfair_Display'] text-2xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">Casamento</h3>
-              <p class="text-sm text-gray-500 leading-relaxed">Lembrança sofisticada para o dia mais importante.</p>
-            </div>
-            <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
-              <button onclick="openPotinhoModal('Casamento')" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
-                Encomendar Agora
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card Aniversário -->
-        <div class="pote-card animate-fade-in-up group relative bg-white rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden" data-category="aniversario">
-          <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
-            <div class="absolute inset-0 flex items-center justify-center">
-                <div class="relative w-12 h-12">
-                    <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
-                    <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
-                    <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
-                </div>
-            </div>
-            <img src="potes/Aniversario.jpg" alt="Aniversário" loading="lazy" class="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 gallery-item cursor-pointer opacity-0" onload="this.classList.remove('opacity-0');">
-            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none"></div>
-            <button class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-primary p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 gallery-trigger">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>
-            </button>
-          </div>
-          <div class="p-6 flex flex-col flex-grow">
-            <div class="mb-4">
-              <span class="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">Festa</span>
-              <h3 class="font-['Playfair_Display'] text-2xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">Aniversário</h3>
-              <p class="text-sm text-gray-500 leading-relaxed">A alegria da festa continua em casa.</p>
-            </div>
-            <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
-              <button onclick="openPotinhoModal('Aniversário')" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
-                Encomendar Agora
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card Natal -->
-        <div class="pote-card animate-fade-in-up group relative bg-white rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden" data-category="natal">
-          <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
-            <div class="absolute inset-0 flex items-center justify-center">
-                <div class="relative w-12 h-12">
-                    <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
-                    <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
-                    <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
-                </div>
-            </div>
-            <img src="potes/Natal.jpg" alt="Natal" loading="lazy" class="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 gallery-item cursor-pointer opacity-0" onload="this.classList.remove('opacity-0');">
-            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none"></div>
-            <button class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-primary p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 gallery-trigger">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>
-            </button>
-          </div>
-          <div class="p-6 flex flex-col flex-grow">
-            <div class="mb-4">
-              <span class="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">Datas Comemorativas</span>
-              <h3 class="font-['Playfair_Display'] text-2xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">Natal</h3>
-              <p class="text-sm text-gray-500 leading-relaxed">O presente perfeito para quem você ama.</p>
-            </div>
-            <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
-              <button onclick="openPotinhoModal('Natal')" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
-                Encomendar Agora
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card Lembrancinha -->
-        <div class="pote-card animate-fade-in-up group relative bg-white rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden">
-          <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
-            <div class="absolute inset-0 flex items-center justify-center">
-                <div class="relative w-12 h-12">
-                    <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
-                    <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin"></div>
-                    <div class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">SC</div>
-                </div>
-            </div>
-            <img src="potes/Lembrancinha.jpg" alt="Lembrancinha" loading="lazy" class="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 gallery-item cursor-pointer opacity-0" onload="this.classList.remove('opacity-0');">
-            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none"></div>
-            <button class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-primary p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 gallery-trigger">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>
-            </button>
-          </div>
-          <div class="p-6 flex flex-col flex-grow">
-            <div class="mb-4">
-              <span class="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">Geral</span>
-              <h3 class="font-['Playfair_Display'] text-2xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">Lembrancinhas</h3>
-              <p class="text-sm text-gray-500 leading-relaxed">Pequenos gestos que deixam grandes marcas.</p>
-            </div>
-            <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
-              <button onclick="openPotinhoModal('Lembrancinhas')" class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
-                Encomendar Agora
-              </button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </main>
-
-    <footer class="bg-background mt-12 py-8 border-t border-gray-100">
-      <div class="container mx-auto text-center text-text-light text-sm">
-        <p>&copy; 2024 Scatambulo Confeitaria. Todos os direitos reservados.</p>
-      </div>
-    </footer>
-
-    <!-- Botão Voltar ao Topo -->
-    <button
-      id="back-to-top"
-      class="fixed bottom-8 right-8 bg-primary text-background p-3 rounded-full shadow-lg z-40 opacity-0 invisible translate-y-4 transition-all duration-300 hover:bg-amber-600 focus:outline-none"
-      aria-label="Voltar ao topo"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-6 w-6"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-      </svg>
-    </button>
-
-    
-
-    <!-- Modal de Pedido de Potinho -->
-    <div id="potinho-order-modal" class="fixed inset-0 bg-black bg-opacity-60 z-[100] hidden items-center justify-center p-4 animate-fade-in" role="dialog" aria-modal="true">
-      <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl max-w-2xl w-full relative mx-4 max-h-[90vh] flex flex-col">
-        <button id="close-potinho-modal" class="absolute top-4 right-4 bg-gray-100 rounded-full p-1 text-gray-500 hover:text-gray-800 hover:bg-gray-200 transition-colors" aria-label="Fechar modal">
-          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-        
-        <div class="text-center mb-4">
-            <span class="text-sm font-semibold text-primary tracking-widest uppercase">Encomenda</span>
-            <h3 class="text-3xl font-bold text-gray-900 font-['Playfair_Display'] mt-1">Bolo no Potinho</h3>
-            <p id="potinho-step-indicator" class="text-sm text-gray-500 mt-2 font-medium">Passo 1 de 3: Sabor e Quantidade</p>
-        </div>
-
-        <form id="potinho-order-form" class="flex-grow overflow-y-auto custom-scrollbar -mr-4 pr-4">
-            <!-- Passo 1: Sabor e Quantidade -->
-            <div id="flavor-step" class="animate-fade-in">
-                <div class="space-y-4">
-                    <div>
-                        <label for="potinho-name" class="block text-sm font-medium text-gray-700">Tema da Ocasião:</label>
-                        <input type="text" id="potinho-name" name="potinho-name" readonly class="mt-1 block w-full p-3 border border-gray-200 bg-gray-50 rounded-lg shadow-sm text-lg font-semibold text-gray-800">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">1. Escolha o Sabor:</label>
-                        <div class="relative mb-2">
-                           <input type="text" id="potinho-flavor-search" class="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none text-sm transition" placeholder="Buscar sabor...">
-                           <svg class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                        </div>
-                        <div id="potinho-flavors-list" class="grid grid-cols-2 sm:grid-cols-3 gap-3 p-1">
-                            <!-- Sabores serão inseridos via JavaScript -->
-                        </div>
-                        <p id="potinho-flavor-error" class="text-xs text-red-600 mt-1 h-3"></p>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 items-center pt-2">
-                        <div>
-                            <label for="potinho-quantity" class="block text-sm font-medium text-gray-700">2. Quantidade:</label>
-                            <input type="number" id="potinho-quantity" name="quantity" min="10" value="10" required class="mt-1 block w-full p-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary" placeholder="Mín. 10">
-                        </div>
-                        <div id="potinho-price-display" class="text-right">
-                            <span class="block text-sm font-medium text-gray-700">Total Estimado:</span>
-                            <p class="text-2xl font-bold text-gray-900">R$ 250,00</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Passo 2: Personalização -->
-            <div id="personalization-step" class="hidden animate-fade-in">
-                <div class="space-y-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">3. Formato do Adesivo:</label>
-                        <div id="sticker-shape-options" class="mt-2 grid grid-cols-3 gap-3">
-                            <!-- Sticker shapes will be inserted here -->
-                        </div>
-                    </div>
-                    <div>
-                        <label for="sticker-text" class="block text-sm font-medium text-gray-700">4. Texto do Adesivo Personalizado:</label>
-                        <input type="text" id="sticker-text" name="sticker-text" class="mt-1 block w-full p-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary" placeholder="Ex: Chá da Maria, Níver do João">
-                        <p class="text-xs text-gray-500 mt-1">Opcional. Deixe em branco se não desejar.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Passo 3: Detalhes da Entrega -->
-            <div id="details-step" class="hidden animate-fade-in">
-                <div class="space-y-4">
-                    <div>
-                        <label for="potinho-date" class="block text-sm font-medium text-gray-700 mb-1">5. Data Entrega:</label>
-                        <input type="text" id="potinho-date" name="date" required class="block w-full p-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary" placeholder="Selecione a data">
-                        <p id="potinho-date-error" class="text-xs text-red-600 mt-1 h-3"></p>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">6. Período de Entrega:</label>
-                        <div id="potinho-time-slots" class="grid grid-cols-2 gap-2">
-                            <!-- Botões de período serão inseridos via JS -->
-                        </div>
-                        <p id="potinho-time-error" class="text-xs text-red-600 mt-1 h-3"></p>
-                    </div>
-                     <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label for="potinho-payment" class="block text-sm font-medium text-gray-700">7. Pagamento:</label>
-                            <select id="potinho-payment" name="payment" required class="mt-1 block w-full p-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary">
-                                <option value="" disabled selected>Selecione...</option>
-                                <option value="Pix">Pix</option>
-                                <option value="Cartão Débito/Crédito">Cartão</option>
-                                <option value="Link de Pagamento">Link</option>
-                            </select>
-                        </div>
-                         <div>
-                            <label for="potinho-customer-name" class="block text-sm font-medium text-gray-700">8. Seu Nome:</label>
-                            <input type="text" id="potinho-customer-name" name="customer-name" required class="mt-1 block w-full p-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary" placeholder="Nome e Sobrenome">
-                        </div>
-                    </div>
-                     <p id="potinho-name-error" class="text-xs text-red-600 -mt-2 h-3"></p>
-                </div>
-            </div>
-        </form>
-
-        <!-- Navegação e Ações -->
-        <div id="potinho-modal-footer" class="mt-6 pt-4 border-t border-gray-200 flex items-center justify-between">
-            <button id="potinho-prev-btn" class="text-sm font-medium text-gray-600 hover:text-black transition-colors px-4 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed">
-                Anterior
-            </button>
-            <button id="potinho-next-btn" class="text-base font-bold bg-primary text-white px-8 py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
-                Próximo
-            </button>
-            <button id="potinho-submit-btn" class="hidden text-base font-bold bg-green-600 text-white px-8 py-3 rounded-xl hover:bg-green-700 transition-colors shadow-md hover:shadow-lg">
-                Enviar Pedido
-            </button>
-        </div>
+        class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-3xl font-bold text-[#D4AF37]">
+        SC
       </div>
     </div>
+  </div>
+  <header class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-30 border-b border-stone-100">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-primary font-['Playfair_Display']">
+        <a href="./menu.html" class="tracking-wide hover:opacity-80 transition-opacity">Scatambulo</a>
+      </h1>
+      <nav class="flex items-center space-x-8 text-base font-medium text-text-light">
+        <a href="./menu.html" class="font-semibold text-primary hover:text-amber-600 transition-colors duration-200">
+          <span class="md:hidden">&larr; Voltar</span>
+          <span class="hidden md:inline">&larr; Voltar ao Menu Principal</span>
+        </a>
+      </nav>
+    </div>
+  </header>
 
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script>
-          // --- Page Loader Logic ---
-          const hideLoader = () => {
-            const loader = document.getElementById('page-loader');
-            if (loader && !loader.classList.contains('opacity-0')) {
-              loader.classList.add('opacity-0');
-              setTimeout(() => {
-                loader.style.display = 'none';
-              }, 700); // Match CSS transition duration
-            }
-          };
+  <!-- Overlay de Férias -->
+  <div id="vacation-overlay"
+    class="fixed inset-0 z-[110] hidden items-center justify-center bg-black/90 backdrop-blur-md transition-opacity duration-700 opacity-0">
+    <div class="text-center p-6 relative z-10 animate-fade-in-down">
+      <h2 class="text-5xl md:text-7xl font-bold text-[#D4AF37] mb-6 drop-shadow-[0_0_15px_rgba(212,175,55,0.5)]">
+        Estamos de Férias!
+      </h2>
+      <p class="text-white text-lg md:text-2xl max-w-lg mx-auto leading-relaxed font-light">
+        Estaremos de férias do dia 10/01/2026 até 25/01/2026. As encomendas para o período estarão suspensas.
+        Retornaremos no dia 26/01/2026.
+      </p>
+      <button id="close-vacation-overlay"
+        class="mt-10 px-10 py-3 bg-transparent border-2 border-[#D4AF37] text-[#D4AF37] rounded-full text-lg font-semibold hover:bg-[#D4AF37] hover:text-black transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:shadow-[0_0_30px_rgba(212,175,55,0.6)]">
+        Entendido
+      </button>
+    </div>
+    <div
+      class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#D4AF37]/20 via-transparent to-transparent pointer-events-none">
+    </div>
+  </div>
 
-          window.addEventListener('load', hideLoader);
-          setTimeout(hideLoader, 4000); // Fallback de segurança
+  <main class="container mx-auto px-4 py-12 md:py-16 max-w-7xl">
+    <!-- Hero Section -->
+    <section class="text-center mb-12 md:mb-16 animate-fade-in-down">
+      <span class="text-primary font-semibold tracking-widest uppercase text-sm mb-2 block">Lembrancinhas
+        Exclusivas</span>
+      <h2 class="text-4xl md:text-6xl font-bold mb-6 text-gray-900 font-['Playfair_Display']">
+        Bolos no Potinho
+      </h2>
+      <p class="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed mb-8">
+        Transforme seus momentos especiais em memórias doces. Personalize cada detalhe para combinar perfeitamente com
+        sua celebração.
+      </p>
 
-          function isVacationPeriod() {
-            const now = new Date();
-            const vacationStart = new Date('2026-01-10T00:00:00');
-            const vacationEnd = new Date('2026-01-25T23:59:59');
-            return now >= vacationStart && now <= vacationEnd;
-          }
+      <div class="flex flex-col items-center gap-2">
+        <div class="inline-flex items-center gap-2 bg-white px-6 py-3 rounded-full shadow-sm border border-gray-100">
+          <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+          <p class="text-sm font-medium text-gray-700">
+            A partir de <span class="text-primary font-bold">R$ 25,00</span> a unidade
+          </p>
+        </div>
+        <p class="text-xs text-gray-500">(Exceto Pistache)</p>
+      </div>
+    </section>
 
-                    function showVacationNotice() {
-            const vacationOverlay = document.getElementById('vacation-overlay');
-            if (vacationOverlay) {
-                vacationOverlay.classList.remove('hidden');
-                vacationOverlay.classList.add('flex');
-                setTimeout(() => {
-                    vacationOverlay.classList.remove('opacity-0');
-                }, 10);
+    <!-- Filtros -->
+    <div
+      class="flex flex-wrap justify-center gap-3 mb-12 sticky top-24 z-20 py-4 bg-stone-50/95 backdrop-blur-sm rounded-xl">
+      <button
+        class="filter-btn px-6 py-2 rounded-full border transition-all duration-300 bg-stone-900 text-[#D4AF37] border-stone-900 shadow-lg scale-105"
+        data-filter="all">Todos</button>
+      <button
+        class="filter-btn px-6 py-2 rounded-full border border-gray-200 transition-all duration-300 bg-white text-gray-600 hover:bg-gray-50 hover:border-[#D4AF37] hover:text-[#D4AF37]"
+        data-filter="batizado">Batizado</button>
+      <button
+        class="filter-btn px-6 py-2 rounded-full border border-gray-200 transition-all duration-300 bg-white text-gray-600 hover:bg-gray-50 hover:border-[#D4AF37] hover:text-[#D4AF37]"
+        data-filter="aniversario">Aniversário</button>
+      <button
+        class="filter-btn px-6 py-2 rounded-full border border-gray-200 transition-all duration-300 bg-white text-gray-600 hover:bg-gray-50 hover:border-[#D4AF37] hover:text-[#D4AF37]"
+        data-filter="casamento">Casamento</button>
+      <button
+        class="filter-btn px-6 py-2 rounded-full border border-gray-200 transition-all duration-300 bg-white text-gray-600 hover:bg-gray-50 hover:border-[#D4AF37] hover:text-[#D4AF37]"
+        data-filter="corporativo">Corporativo</button>
+      <button
+        class="filter-btn px-6 py-2 rounded-full border border-gray-200 transition-all duration-300 bg-white text-gray-600 hover:bg-gray-50 hover:border-[#D4AF37] hover:text-[#D4AF37]"
+        data-filter="natal">Natal</button>
+    </div>
 
-                const closeButton = document.getElementById('close-vacation-overlay');
-                if (closeButton) {
-                    closeButton.addEventListener('click', () => {
-                        vacationOverlay.classList.add('opacity-0');
-                        setTimeout(() => {
-                            vacationOverlay.classList.add('hidden');
-                            vacationOverlay.classList.remove('flex');
-                        }, 700);
-                    }, { once: true });
-                }
-            } else {
-                alert("Estamos de férias do dia 10/01/2026 até 25/01/2026. As encomendas para o período estarão suspensas.");
-            }
-          }
+    <!-- Grid de Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
-          document.addEventListener("DOMContentLoaded", () => {
-            if (isVacationPeriod()) {
-                showVacationNotice();
-            }
-            initBackToTop();
-            initPotinhoOrderModal();
-          });
+      <!-- Card Batizado -->
+      <div
+        class="pote-card animate-fade-in-up group relative bg-white rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden"
+        data-category="batizado">
+        <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="relative w-12 h-12">
+              <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+              <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin">
+              </div>
+              <div
+                class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">
+                SC</div>
+            </div>
+          </div>
+          <img src="potes/Batizado2.jpeg" alt="Batizado" loading="lazy"
+            class="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 gallery-item cursor-pointer opacity-0"
+            onload="this.classList.remove('opacity-0');">
+          <div
+            class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none">
+          </div>
+          <button
+            class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-primary p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 gallery-trigger"
+            aria-label="Ver detalhes">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+            </svg>
+          </button>
+        </div>
+        <div class="p-6 flex flex-col flex-grow">
+          <div class="mb-4">
+            <span class="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">Ocasião</span>
+            <h3
+              class="font-['Playfair_Display'] text-2xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">
+              Batizado</h3>
+            <p class="text-sm text-gray-500 leading-relaxed">Delicadeza em cada detalhe para celebrar este momento
+              sagrado.</p>
+          </div>
+          <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+            <button onclick="openPotinhoModal('Batizado')"
+              class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
+              Encomendar Agora
+            </button>
+          </div>
+        </div>
+      </div>
 
-          function initPotinhoOrderModal() {
-              const modal = document.getElementById('potinho-order-modal');
-              if (!modal) return;
+      <!-- Card Confraternização -->
+      <div
+        class="pote-card animate-fade-in-up group relative bg-white rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden"
+        data-category="corporativo">
+        <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="relative w-12 h-12">
+              <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+              <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin">
+              </div>
+              <div
+                class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">
+                SC</div>
+            </div>
+          </div>
+          <img src="potes/Confraternizacao.jpg" alt="Confraternização" loading="lazy"
+            class="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 gallery-item cursor-pointer opacity-0"
+            onload="this.classList.remove('opacity-0');">
+          <div
+            class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none">
+          </div>
+          <button
+            class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-primary p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 gallery-trigger">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+            </svg>
+          </button>
+        </div>
+        <div class="p-6 flex flex-col flex-grow">
+          <div class="mb-4">
+            <span class="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">Evento</span>
+            <h3
+              class="font-['Playfair_Display'] text-2xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">
+              Confraternização</h3>
+            <p class="text-sm text-gray-500 leading-relaxed">Adoce o final de ano da sua equipe com elegância.</p>
+          </div>
+          <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+            <button onclick="openPotinhoModal('Confraternização')"
+              class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
+              Encomendar Agora
+            </button>
+          </div>
+        </div>
+      </div>
 
-              const storageKey = 'potinhoOrderProgress';
-              let currentStep = 1;
-              let potinhoState = {};
+      <!-- Card Corporativo -->
+      <div
+        class="pote-card animate-fade-in-up group relative bg-white rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden"
+        data-category="corporativo">
+        <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="relative w-12 h-12">
+              <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+              <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin">
+              </div>
+              <div
+                class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">
+                SC</div>
+            </div>
+          </div>
+          <img src="potes/corporativo.jpg" alt="Corporativo" loading="lazy"
+            class="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 gallery-item cursor-pointer opacity-0"
+            onload="this.classList.remove('opacity-0');">
+          <div
+            class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none">
+          </div>
+          <button
+            class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-primary p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 gallery-trigger">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+            </svg>
+          </button>
+        </div>
+        <div class="p-6 flex flex-col flex-grow">
+          <div class="mb-4">
+            <span class="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">Empresarial</span>
+            <h3
+              class="font-['Playfair_Display'] text-2xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">
+              Corporativo</h3>
+            <p class="text-sm text-gray-500 leading-relaxed">Brindes personalizados que marcam presença.</p>
+          </div>
+          <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+            <button onclick="openPotinhoModal('Corporativo')"
+              class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
+              Encomendar Agora
+            </button>
+          </div>
+        </div>
+      </div>
 
-              const form = document.getElementById('potinho-order-form');
-              const closeBtn = document.getElementById('close-potinho-modal');
-              const nameInput = document.getElementById('potinho-name');
-              const quantityInput = document.getElementById('potinho-quantity');
-              const customerNameInput = document.getElementById('potinho-customer-name');
-              const flavorsContainer = document.getElementById('potinho-flavors-list');
-              const dateInput = document.getElementById('potinho-date');
-              const timeSlotsContainer = document.getElementById('potinho-time-slots');
-              const paymentSelect = document.getElementById('potinho-payment');
-              const stickerInput = document.getElementById('sticker-text');
-              const stickerShapeOptionsContainer = document.getElementById('sticker-shape-options');
-              
-              const priceDisplay = document.getElementById('potinho-price-display').querySelector('p');
-              const steps = { 1: document.getElementById('flavor-step'), 2: document.getElementById('personalization-step'), 3: document.getElementById('details-step') };
-              const prevBtn = document.getElementById('potinho-prev-btn');
-              const nextBtn = document.getElementById('potinho-next-btn');
-              const submitBtn = document.getElementById('potinho-submit-btn');
-              const stepIndicator = document.getElementById('potinho-step-indicator');
+      <!-- Card Casamento -->
+      <div
+        class="pote-card animate-fade-in-up group relative bg-white rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden"
+        data-category="casamento">
+        <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="relative w-12 h-12">
+              <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+              <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin">
+              </div>
+              <div
+                class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">
+                SC</div>
+            </div>
+          </div>
+          <img src="potes/casamento.jpg" alt="Casamento" loading="lazy"
+            class="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 gallery-item cursor-pointer opacity-0"
+            onload="this.classList.remove('opacity-0');">
+          <div
+            class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none">
+          </div>
+          <button
+            class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-primary p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 gallery-trigger">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+            </svg>
+          </button>
+        </div>
+        <div class="p-6 flex flex-col flex-grow">
+          <div class="mb-4">
+            <span class="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">Cerimônia</span>
+            <h3
+              class="font-['Playfair_Display'] text-2xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">
+              Casamento</h3>
+            <p class="text-sm text-gray-500 leading-relaxed">Lembrança sofisticada para o dia mais importante.</p>
+          </div>
+          <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+            <button onclick="openPotinhoModal('Casamento')"
+              class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
+              Encomendar Agora
+            </button>
+          </div>
+        </div>
+      </div>
 
-              const errorPlaceholders = {
-                  flavor: flavorsContainer.nextElementSibling,
-                  date: document.getElementById('potinho-date-error'),
-                  time: document.getElementById('potinho-time-error'),
-                  name: document.getElementById('potinho-name-error'),
-              };
+      <!-- Card Aniversário -->
+      <div
+        class="pote-card animate-fade-in-up group relative bg-white rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden"
+        data-category="aniversario">
+        <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="relative w-12 h-12">
+              <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+              <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin">
+              </div>
+              <div
+                class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">
+                SC</div>
+            </div>
+          </div>
+          <img src="potes/Aniversario.jpg" alt="Aniversário" loading="lazy"
+            class="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 gallery-item cursor-pointer opacity-0"
+            onload="this.classList.remove('opacity-0');">
+          <div
+            class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none">
+          </div>
+          <button
+            class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-primary p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 gallery-trigger">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+            </svg>
+          </button>
+        </div>
+        <div class="p-6 flex flex-col flex-grow">
+          <div class="mb-4">
+            <span class="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">Festa</span>
+            <h3
+              class="font-['Playfair_Display'] text-2xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">
+              Aniversário</h3>
+            <p class="text-sm text-gray-500 leading-relaxed">A alegria da festa continua em casa.</p>
+          </div>
+          <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+            <button onclick="openPotinhoModal('Aniversário')"
+              class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
+              Encomendar Agora
+            </button>
+          </div>
+        </div>
+      </div>
 
-              const BRL_FORMATTER = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+      <!-- Card Natal -->
+      <div
+        class="pote-card animate-fade-in-up group relative bg-white rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden"
+        data-category="natal">
+        <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="relative w-12 h-12">
+              <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+              <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin">
+              </div>
+              <div
+                class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">
+                SC</div>
+            </div>
+          </div>
+          <img src="potes/Natal.jpg" alt="Natal" loading="lazy"
+            class="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 gallery-item cursor-pointer opacity-0"
+            onload="this.classList.remove('opacity-0');">
+          <div
+            class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none">
+          </div>
+          <button
+            class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-primary p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 gallery-trigger">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+            </svg>
+          </button>
+        </div>
+        <div class="p-6 flex flex-col flex-grow">
+          <div class="mb-4">
+            <span class="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">Datas Comemorativas</span>
+            <h3
+              class="font-['Playfair_Display'] text-2xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">
+              Natal</h3>
+            <p class="text-sm text-gray-500 leading-relaxed">O presente perfeito para quem você ama.</p>
+          </div>
+          <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+            <button onclick="openPotinhoModal('Natal')"
+              class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
+              Encomendar Agora
+            </button>
+          </div>
+        </div>
+      </div>
 
-              const flavorData = [
-                { name: "Nuvem de Morango", price: 25 }, { name: "Doce de Leite Trufado", price: 25 },
-                { name: "Strogonoff de Nozes", price: 25 }, { name: "Uva Crocante", price: 25 },
-                { name: "Brigadeiro de Café", price: 25 }, { name: "Morango com Suspiro", price: 25 },
-                { name: "Sensação", price: 25 }, { name: "Abacaxi com Coco", price: 25 },
-                { name: "Olho de Sogra", price: 25 }, { name: "Casadinho", price: 25 },
-                { name: "Brigadeiro", price: 25 }, { name: "Trufa de Nutella", price: 25 },
-                { name: "Pistache c/ Frutas Vermelhas", price: 35 }, { name: "Floresta Branca", price: 25 }
-              ];
-              const stickerShapes = [
-                  { name: 'Redondo', icon: '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle></svg>' },
-                  { name: 'Quadrado', icon: '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect></svg>' },
-                  { name: 'Triangular', icon: '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z"></path></svg>' }
-              ];
+      <!-- Card Lembrancinha -->
+      <div
+        class="pote-card animate-fade-in-up group relative bg-white rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 border border-gray-100 flex flex-col overflow-hidden">
+        <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="relative w-12 h-12">
+              <div class="absolute inset-0 border-2 border-[#D4AF37]/20 rounded-full"></div>
+              <div class="absolute inset-0 border-2 border-t-[#D4AF37] border-transparent rounded-full animate-spin">
+              </div>
+              <div
+                class="absolute inset-0 flex items-center justify-center font-['Playfair_Display'] text-lg font-bold text-[#D4AF37]">
+                SC</div>
+            </div>
+          </div>
+          <img src="potes/Lembrancinha.jpg" alt="Lembrancinha" loading="lazy"
+            class="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 gallery-item cursor-pointer opacity-0"
+            onload="this.classList.remove('opacity-0');">
+          <div
+            class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none">
+          </div>
+          <button
+            class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-primary p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 gallery-trigger">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+            </svg>
+          </button>
+        </div>
+        <div class="p-6 flex flex-col flex-grow">
+          <div class="mb-4">
+            <span class="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">Geral</span>
+            <h3
+              class="font-['Playfair_Display'] text-2xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">
+              Lembrancinhas</h3>
+            <p class="text-sm text-gray-500 leading-relaxed">Pequenos gestos que deixam grandes marcas.</p>
+          </div>
+          <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+            <button onclick="openPotinhoModal('Lembrancinhas')"
+              class="w-full text-center bg-primary text-white font-medium py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-sm hover:shadow-md">
+              Encomendar Agora
+            </button>
+          </div>
+        </div>
+      </div>
 
-              const populateUI = () => {
-                  if (flavorsContainer.children.length === 0) {
-                     flavorData.forEach(flavor => {
-                         const el = document.createElement('div');
-                          el.className = 'flavor-card relative aspect-square rounded-lg cursor-pointer group overflow-hidden border-2 border-gray-200 bg-gray-50 hover:border-primary transition-all';
-                          el.dataset.flavorName = flavor.name;
-                          el.innerHTML = `
+    </div>
+  </main>
+
+  <footer class="bg-background mt-12 py-8 border-t border-gray-100">
+    <div class="container mx-auto text-center text-text-light text-sm">
+      <p>&copy; 2024 Scatambulo Confeitaria. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Botão Voltar ao Topo -->
+  <button id="back-to-top"
+    class="fixed bottom-8 right-8 bg-primary text-background p-3 rounded-full shadow-lg z-40 opacity-0 invisible translate-y-4 transition-all duration-300 hover:bg-amber-600 focus:outline-none"
+    aria-label="Voltar ao topo">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+    </svg>
+  </button>
+
+
+
+  <!-- Modal de Pedido de Potinho -->
+  <div id="potinho-order-modal"
+    class="fixed inset-0 bg-black bg-opacity-60 z-[100] hidden items-center justify-center p-4 animate-fade-in"
+    role="dialog" aria-modal="true">
+    <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl max-w-2xl w-full relative mx-4 max-h-[90vh] flex flex-col">
+      <button id="close-potinho-modal"
+        class="absolute top-4 right-4 bg-gray-100 rounded-full p-1 text-gray-500 hover:text-gray-800 hover:bg-gray-200 transition-colors"
+        aria-label="Fechar modal">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+
+      <div class="text-center mb-4">
+        <span class="text-sm font-semibold text-primary tracking-widest uppercase">Encomenda</span>
+        <h3 class="text-3xl font-bold text-gray-900 font-['Playfair_Display'] mt-1">Bolo no Potinho</h3>
+        <p id="potinho-step-indicator" class="text-sm text-gray-500 mt-2 font-medium">Passo 1 de 3: Sabor e Quantidade
+        </p>
+      </div>
+
+      <form id="potinho-order-form" class="flex-grow overflow-y-auto custom-scrollbar -mr-4 pr-4">
+        <!-- Passo 1: Sabor e Quantidade -->
+        <div id="flavor-step" class="animate-fade-in">
+          <div class="space-y-4">
+            <div>
+              <label for="potinho-name" class="block text-sm font-medium text-gray-700">Tema da Ocasião:</label>
+              <input type="text" id="potinho-name" name="potinho-name" readonly
+                class="mt-1 block w-full p-3 border border-gray-200 bg-gray-50 rounded-lg shadow-sm text-lg font-semibold text-gray-800">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">1. Escolha o Sabor:</label>
+              <div class="relative mb-2">
+                <input type="text" id="potinho-flavor-search"
+                  class="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none text-sm transition"
+                  placeholder="Buscar sabor...">
+                <svg class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none"
+                  stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+              </div>
+              <div id="potinho-flavors-list" class="grid grid-cols-2 sm:grid-cols-3 gap-3 p-1">
+                <!-- Sabores serão inseridos via JavaScript -->
+              </div>
+              <p id="potinho-flavor-error" class="text-xs text-red-600 mt-1 h-3"></p>
+            </div>
+            <div class="grid grid-cols-2 gap-4 items-center pt-2">
+              <div>
+                <label for="potinho-quantity" class="block text-sm font-medium text-gray-700">2. Quantidade:</label>
+                <input type="number" id="potinho-quantity" name="quantity" min="10" value="10" required
+                  class="mt-1 block w-full p-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary"
+                  placeholder="Mín. 10">
+              </div>
+              <div id="potinho-price-display" class="text-right">
+                <span class="block text-sm font-medium text-gray-700">Total Estimado:</span>
+                <p class="text-2xl font-bold text-gray-900">R$ 250,00</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Passo 2: Personalização -->
+        <div id="personalization-step" class="hidden animate-fade-in">
+          <div class="space-y-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">3. Formato do Adesivo:</label>
+              <div id="sticker-shape-options" class="mt-2 grid grid-cols-3 gap-3">
+                <!-- Sticker shapes will be inserted here -->
+              </div>
+            </div>
+            <div>
+              <label for="sticker-text" class="block text-sm font-medium text-gray-700">4. Texto do Adesivo
+                Personalizado:</label>
+              <input type="text" id="sticker-text" name="sticker-text"
+                class="mt-1 block w-full p-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary"
+                placeholder="Ex: Chá da Maria, Níver do João">
+              <p class="text-xs text-gray-500 mt-1">Opcional. Deixe em branco se não desejar.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Passo 3: Detalhes da Entrega -->
+        <div id="details-step" class="hidden animate-fade-in">
+          <div class="space-y-4">
+            <div>
+              <label for="potinho-date" class="block text-sm font-medium text-gray-700 mb-1">5. Data Entrega:</label>
+              <input type="text" id="potinho-date" name="date" required
+                class="block w-full p-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary"
+                placeholder="Selecione a data">
+              <p id="potinho-date-error" class="text-xs text-red-600 mt-1 h-3"></p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">6. Período de Entrega:</label>
+              <div id="potinho-time-slots" class="grid grid-cols-2 gap-2">
+                <!-- Botões de período serão inseridos via JS -->
+              </div>
+              <p id="potinho-time-error" class="text-xs text-red-600 mt-1 h-3"></p>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="potinho-payment" class="block text-sm font-medium text-gray-700">7. Pagamento:</label>
+                <select id="potinho-payment" name="payment" required
+                  class="mt-1 block w-full p-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary">
+                  <option value="" disabled selected>Selecione...</option>
+                  <option value="Pix">Pix</option>
+                  <option value="Cartão Débito/Crédito">Cartão</option>
+                  <option value="Link de Pagamento">Link</option>
+                </select>
+              </div>
+              <div>
+                <label for="potinho-customer-name" class="block text-sm font-medium text-gray-700">8. Seu Nome:</label>
+                <input type="text" id="potinho-customer-name" name="customer-name" required
+                  class="mt-1 block w-full p-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary"
+                  placeholder="Nome e Sobrenome">
+              </div>
+            </div>
+            <p id="potinho-name-error" class="text-xs text-red-600 -mt-2 h-3"></p>
+          </div>
+        </div>
+      </form>
+
+      <!-- Navegação e Ações -->
+      <div id="potinho-modal-footer" class="mt-6 pt-4 border-t border-gray-200 flex items-center justify-between">
+        <button id="potinho-prev-btn"
+          class="text-sm font-medium text-gray-600 hover:text-black transition-colors px-4 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed">
+          Anterior
+        </button>
+        <button id="potinho-next-btn"
+          class="text-base font-bold bg-primary text-white px-8 py-3 rounded-xl hover:bg-amber-600 transition-colors shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+          Próximo
+        </button>
+        <button id="potinho-submit-btn"
+          class="hidden text-base font-bold bg-green-600 text-white px-8 py-3 rounded-xl hover:bg-green-700 transition-colors shadow-md hover:shadow-lg">
+          Enviar Pedido
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+    // --- Page Loader Logic ---
+    const hideLoader = () => {
+      const loader = document.getElementById('page-loader');
+      if (loader && !loader.classList.contains('opacity-0')) {
+        loader.classList.add('opacity-0');
+        setTimeout(() => {
+          loader.style.display = 'none';
+        }, 700); // Match CSS transition duration
+      }
+    };
+
+    window.addEventListener('load', hideLoader);
+    setTimeout(hideLoader, 4000); // Fallback de segurança
+
+    function isVacationPeriod() {
+      const now = new Date();
+      const vacationStart = new Date('2026-01-10T00:00:00');
+      const vacationEnd = new Date('2026-01-25T23:59:59');
+      return now >= vacationStart && now <= vacationEnd;
+    }
+
+    function showVacationNotice() {
+      const vacationOverlay = document.getElementById('vacation-overlay');
+      if (vacationOverlay) {
+        vacationOverlay.classList.remove('hidden');
+        vacationOverlay.classList.add('flex');
+        setTimeout(() => {
+          vacationOverlay.classList.remove('opacity-0');
+        }, 10);
+
+        const closeButton = document.getElementById('close-vacation-overlay');
+        if (closeButton) {
+          closeButton.addEventListener('click', () => {
+            vacationOverlay.classList.add('opacity-0');
+            setTimeout(() => {
+              vacationOverlay.classList.add('hidden');
+              vacationOverlay.classList.remove('flex');
+            }, 700);
+          }, { once: true });
+        }
+      } else {
+        alert("Estamos de férias do dia 10/01/2026 até 25/01/2026. As encomendas para o período estarão suspensas.");
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      if (isVacationPeriod()) {
+        showVacationNotice();
+      }
+      initBackToTop();
+      initPotinhoOrderModal();
+    });
+
+    function initPotinhoOrderModal() {
+      const modal = document.getElementById('potinho-order-modal');
+      if (!modal) return;
+
+      const storageKey = 'potinhoOrderProgress';
+      let currentStep = 1;
+      let potinhoState = {};
+
+      const form = document.getElementById('potinho-order-form');
+      const closeBtn = document.getElementById('close-potinho-modal');
+      const nameInput = document.getElementById('potinho-name');
+      const quantityInput = document.getElementById('potinho-quantity');
+      const customerNameInput = document.getElementById('potinho-customer-name');
+      const flavorsContainer = document.getElementById('potinho-flavors-list');
+      const dateInput = document.getElementById('potinho-date');
+      const timeSlotsContainer = document.getElementById('potinho-time-slots');
+      const paymentSelect = document.getElementById('potinho-payment');
+      const stickerInput = document.getElementById('sticker-text');
+      const stickerShapeOptionsContainer = document.getElementById('sticker-shape-options');
+
+      const priceDisplay = document.getElementById('potinho-price-display').querySelector('p');
+      const steps = { 1: document.getElementById('flavor-step'), 2: document.getElementById('personalization-step'), 3: document.getElementById('details-step') };
+      const prevBtn = document.getElementById('potinho-prev-btn');
+      const nextBtn = document.getElementById('potinho-next-btn');
+      const submitBtn = document.getElementById('potinho-submit-btn');
+      const stepIndicator = document.getElementById('potinho-step-indicator');
+
+      const errorPlaceholders = {
+        flavor: flavorsContainer.nextElementSibling,
+        date: document.getElementById('potinho-date-error'),
+        time: document.getElementById('potinho-time-error'),
+        name: document.getElementById('potinho-name-error'),
+      };
+
+      const BRL_FORMATTER = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+
+      const flavorData = [
+        { name: "Nuvem de Morango", price: 25 }, { name: "Doce de Leite Trufado", price: 25 },
+        { name: "Strogonoff de Nozes", price: 25 }, { name: "Uva Crocante", price: 25 },
+        { name: "Brigadeiro de Café", price: 25 }, { name: "Morango com Suspiro", price: 25 },
+        { name: "Sensação", price: 25 }, { name: "Abacaxi com Coco", price: 25 },
+        { name: "Olho de Sogra", price: 25 }, { name: "Casadinho", price: 25 },
+        { name: "Brigadeiro", price: 25 }, { name: "Trufa de Nutella", price: 25 },
+        { name: "Pistache c/ Frutas Vermelhas", price: 35 }, { name: "Floresta Branca", price: 25 }
+      ];
+      const stickerShapes = [
+        { name: 'Redondo', icon: '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle></svg>' },
+        { name: 'Quadrado', icon: '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect></svg>' },
+        { name: 'Triangular', icon: '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z"></path></svg>' }
+      ];
+
+      const populateUI = () => {
+        if (flavorsContainer.children.length === 0) {
+          flavorData.forEach(flavor => {
+            const el = document.createElement('div');
+            el.className = 'flavor-card relative aspect-square rounded-lg cursor-pointer group overflow-hidden border-2 border-gray-200 bg-gray-50 hover:border-primary transition-all';
+            el.dataset.flavorName = flavor.name;
+            el.innerHTML = `
                               <div class="absolute inset-0 flex items-center justify-center">
                                 <span class="text-center text-gray-800 text-sm font-semibold p-1">${flavor.name}</span>
                               </div>
@@ -734,243 +907,245 @@
                                       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                                   </div>
                               </div>`;
-                         flavorsContainer.appendChild(el);
-                     });
-                  }
-                  if (timeSlotsContainer.children.length === 0) {
-                      [{ label: "Manhã", value: "08:00 - 12:00" }, { label: "Tarde", value: "13:00 - 18:00" }].forEach(slot => {
-                          const el = document.createElement('button');
-                          el.type = 'button';
-                          el.className = 'time-slot-btn w-full text-center p-3 border border-gray-300 rounded-lg shadow-sm text-sm transition-colors bg-white text-gray-700 hover:border-primary';
-                          el.dataset.value = slot.value;
-                          el.innerHTML = `<span class="font-semibold">${slot.label}</span><br><span class="text-xs">${slot.value}</span>`;
-                          timeSlotsContainer.appendChild(el);
-                      });
-                  }
-                  if (stickerShapeOptionsContainer.children.length === 0) {
-                      stickerShapes.forEach(shape => {
-                          const el = document.createElement('button');
-                          el.type = 'button';
-                          el.className = 'sticker-shape-btn flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-lg transition-all duration-200 hover:border-primary hover:bg-primary/5';
-                          el.dataset.shapeName = shape.name;
-                          el.innerHTML = `
+            flavorsContainer.appendChild(el);
+          });
+        }
+        if (timeSlotsContainer.children.length === 0) {
+          [{ label: "Manhã", value: "08:00 - 12:00" }, { label: "Tarde", value: "13:00 - 18:00" }].forEach(slot => {
+            const el = document.createElement('button');
+            el.type = 'button';
+            el.className = 'time-slot-btn w-full text-center p-3 border border-gray-300 rounded-lg shadow-sm text-sm transition-colors bg-white text-gray-700 hover:border-primary';
+            el.dataset.value = slot.value;
+            el.innerHTML = `<span class="font-semibold">${slot.label}</span><br><span class="text-xs">${slot.value}</span>`;
+            timeSlotsContainer.appendChild(el);
+          });
+        }
+        if (stickerShapeOptionsContainer.children.length === 0) {
+          stickerShapes.forEach(shape => {
+            const el = document.createElement('button');
+            el.type = 'button';
+            el.className = 'sticker-shape-btn flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-lg transition-all duration-200 hover:border-primary hover:bg-primary/5';
+            el.dataset.shapeName = shape.name;
+            el.innerHTML = `
                               ${shape.icon}
                               <span class="mt-2 text-sm font-medium text-gray-700">${shape.name}</span>
                           `;
-                          stickerShapeOptionsContainer.appendChild(el);
-                      });
-                  }
-              };
+            stickerShapeOptionsContainer.appendChild(el);
+          });
+        }
+      };
 
-              const saveState = () => {
-                  potinhoState.quantity = quantityInput.value;
-                  potinhoState.stickerText = stickerInput.value;
-                  potinhoState.stickerShape = potinhoState.stickerShape;
-                  potinhoState.date = dateInput.value;
-                  potinhoState.payment = paymentSelect.value;
-                  potinhoState.name = customerNameInput.value;
-                  localStorage.setItem(storageKey, JSON.stringify(potinhoState));
-              };
+      const saveState = () => {
+        potinhoState.quantity = quantityInput.value;
+        potinhoState.stickerText = stickerInput.value;
+        potinhoState.stickerShape = potinhoState.stickerShape;
+        potinhoState.date = dateInput.value;
+        potinhoState.payment = paymentSelect.value;
+        potinhoState.name = customerNameInput.value;
+        localStorage.setItem(storageKey, JSON.stringify(potinhoState));
+      };
 
-              const loadState = () => {
-                  const savedState = JSON.parse(localStorage.getItem(storageKey)) || {};
-                      potinhoState = savedState;
-                      quantityInput.value = savedState.quantity || 10;
-                      stickerInput.value = savedState.stickerText || '';
-                      dateInput.value = savedState.date || '';
-                      paymentSelect.value = savedState.payment || '';
-                      customerNameInput.value = savedState.name || '';
+      const loadState = () => {
+        const savedState = JSON.parse(localStorage.getItem(storageKey)) || {};
+        potinhoState = savedState;
+        quantityInput.value = savedState.quantity || 10;
+        stickerInput.value = savedState.stickerText || '';
+        dateInput.value = savedState.date || '';
+        paymentSelect.value = savedState.payment || '';
+        customerNameInput.value = savedState.name || '';
 
-                      if (savedState.flavor) {
-                          const el = flavorsContainer.querySelector(`[data-flavor-name="${savedState.flavor}"]`);
-                          if (el) {
-                            flavorsContainer.querySelectorAll('.flavor-card').forEach(c => c.classList.replace('border-primary', 'border-gray-200'));
-                            el.classList.replace('border-gray-200', 'border-primary');
-                          }
-                      }
-                      if (savedState.time) {
-                          const el = timeSlotsContainer.querySelector(`[data-value="${savedState.time}"]`);
-                           if (el) {
-                               timeSlotsContainer.querySelectorAll('.time-slot-btn').forEach(b => b.classList.remove('bg-primary', 'text-black', 'border-primary', 'ring-2', 'ring-primary'));
-                               el.classList.add('bg-primary', 'text-black', 'border-primary', 'ring-2', 'ring-primary');
-                           }
-                      }
-                      if (savedState.stickerShape) {
-                          const el = stickerShapeOptionsContainer.querySelector(`[data-shape-name="${savedState.stickerShape}"]`);
-                          if (el) {
-                            stickerShapeOptionsContainer.querySelectorAll('.sticker-shape-btn').forEach(b => b.classList.remove('border-primary', 'bg-primary/10', 'ring-2', 'ring-primary'));
-                            el.classList.add('border-primary', 'bg-primary/10', 'ring-2', 'ring-primary');
-                          }
-                      }
-                      updatePrice();
-              };
-
-              const updatePrice = () => {
-                  const quantity = parseInt(quantityInput.value, 10) || 0;
-                  const flavor = flavorData.find(f => f.name === potinhoState.flavor);
-                  const total = quantity * (flavor ? flavor.price : 25);
-                  priceDisplay.textContent = BRL_FORMATTER.format(total);
-              };
-
-              const goToStep = (step) => {
-                  currentStep = step;
-                  Object.values(steps).forEach(s => s.classList.add('hidden'));
-                  steps[step].classList.remove('hidden');
-                  prevBtn.disabled = step === 1;
-                  nextBtn.classList.toggle('hidden', step === 3);
-                  submitBtn.classList.toggle('hidden', step !== 3);
-                  stepIndicator.textContent = ["Passo 1 de 3: Sabor e Quantidade", "Passo 2 de 3: Personalização", "Passo 3 de 3: Entrega e Pagamento"][step - 1];
-              };
-
-              const showError = (field, message) => { if (errorPlaceholders[field]) errorPlaceholders[field].textContent = message; };
-              const clearErrors = () => Object.values(errorPlaceholders).forEach(el => { if(el) el.textContent = ''; });
-
-              const validateStep = (step) => {
-                  clearErrors();
-                  if (step === 1) {
-                      if (!potinhoState.flavor) { showError('flavor', 'Por favor, selecione um sabor.'); return false; }
-                      if (parseInt(quantityInput.value, 10) < 10) { quantityInput.focus(); showError('flavor', 'A quantidade mínima é de 10 unidades.'); return false; }
-                  }
-                  if (step === 3) {
-                      if (!dateInput.value) { showError('date', 'A data de entrega é obrigatória.'); return false; }
-                      if (!potinhoState.time) { showError('time', 'O período de entrega é obrigatório.'); return false; }
-                      if (!customerNameInput.value.trim()) { showError('name', 'Seu nome completo é obrigatório.'); return false; }
-                  }
-                  return true;
-              };
-              
-              prevBtn.addEventListener('click', () => { if (currentStep > 1) goToStep(currentStep - 1); });
-              nextBtn.addEventListener('click', () => { if (validateStep(currentStep)) goToStep(currentStep + 1); });
-              
-              flavorsContainer.addEventListener('click', (e) => {
-                  const card = e.target.closest('.flavor-card');
-                  if (!card) return;
-                  flavorsContainer.querySelectorAll('.flavor-card').forEach(c => c.classList.replace('border-primary', 'border-gray-200'));
-                  card.classList.replace('border-gray-200', 'border-primary');
-                  potinhoState.flavor = card.dataset.flavorName;
-                  clearErrors(); updatePrice(); saveState();
-              });
-    
-              timeSlotsContainer.addEventListener('click', (e) => {
-                  const btn = e.target.closest('.time-slot-btn');
-                  if (!btn || btn.disabled) return;
-                  timeSlotsContainer.querySelectorAll('.time-slot-btn').forEach(b => b.classList.remove('bg-primary', 'text-black', 'border-primary', 'ring-2', 'ring-primary'));
-                  btn.classList.add('bg-primary', 'text-black', 'border-primary', 'ring-2', 'ring-primary');
-                  potinhoState.time = btn.dataset.value;
-                  clearErrors(); saveState();
-              });
-
-              stickerShapeOptionsContainer.addEventListener('click', (e) => {
-                  const btn = e.target.closest('.sticker-shape-btn');
-                  if (!btn) return;
-                  stickerShapeOptionsContainer.querySelectorAll('.sticker-shape-btn').forEach(b => b.classList.remove('border-primary', 'bg-primary/10', 'ring-2', 'ring-primary'));
-                  btn.classList.add('border-primary', 'bg-primary/10', 'ring-2', 'ring-primary');
-                  potinhoState.stickerShape = btn.dataset.shapeName;
-                  saveState();
-              });
-              
-              quantityInput.addEventListener('input', updatePrice);
-              
-              populateUI();
-              form.addEventListener('input', saveState);
-              closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
-
-              if (dateInput && window.flatpickr) {
-                const dateNotice = document.getElementById('potinho-date-notice');
-                flatpickr(dateInput, {
-                    dateFormat: "d/m/Y", minDate: new Date().fp_incr(7),
-                    locale: { firstDayOfWeek: 0, weekdays: { shorthand: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"], longhand: ["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"]}, months: { shorthand: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], longhand: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"] }},
-                    disable: [
-                        "2025-12-25", 
-                        "2026-01-01",
-                        {
-                            from: "2026-01-10",
-                            to: "2026-01-25"
-                        }
-                    ],
-                    onChange: function(selectedDates) {
-                        if (!selectedDates[0]) return;
-                        potinhoState.date = dateInput.value; saveState();
-                        const dayOfWeek = selectedDates[0].getDay();
-                        const tardeButton = Array.from(timeSlotsContainer.querySelectorAll('button')).find(btn => btn.dataset.value.includes('13:00'));
-                        const deliveryNotice = document.getElementById('potinho-delivery-notice');
-                        if (deliveryNotice) deliveryNotice.textContent = '';
-                        if (tardeButton) {
-                          tardeButton.disabled = false;
-                          tardeButton.classList.remove('opacity-50', 'cursor-not-allowed', 'line-through');
-                        }
-                        if (dayOfWeek === 0) {
-                            if (tardeButton) {
-                                tardeButton.disabled = true;
-                                tardeButton.classList.add('opacity-50', 'cursor-not-allowed', 'line-through');
-                            }
-                            if (deliveryNotice) deliveryNotice.textContent = 'Aos domingos, apenas período da manhã.';
-                            if (potinhoState.time === tardeButton.dataset.value) {
-                                tardeButton.classList.remove('bg-primary', 'text-black', 'border-primary', 'ring-2', 'ring-primary');
-                                potinhoState.time = null;
-                            }
-                        }
-                    }
-                });
-                if(dateNotice) dateNotice.textContent = `Antecedência mínima de 7 dias.`;
-              }
-
-              window.openPotinhoModal = (theme) => {
-                  if (isVacationPeriod()) {
-                    showVacationNotice();
-                    return;
-                  }
-                  nameInput.value = theme;
-                  potinhoState = { theme: theme };
-                  localStorage.setItem(storageKey, JSON.stringify(potinhoState));
-                  loadState();
-                  goToStep(1);
-                  modal.classList.remove('hidden');
-                  modal.classList.add('flex');
-              };
-              
-              form.addEventListener('submit', (e) => {
-                  e.preventDefault();
-                  if (!validateStep(3)) return;
-                  
-                  const { flavor, quantity, stickerShape, stickerText, date, time, payment, name } = potinhoState;
-                  let message = `Olá, Angela! 👋\nGostaria de fazer uma encomenda de *Bolo no Pote*.\n\n`;
-                  message += `📋 *RESUMO DO PEDIDO*\n───────────────────\n`;
-                  message += `✨ *Tema:* ${nameInput.value}\n🍰 *Sabor:* ${flavor}\n🔢 *Quantidade:* ${quantity} unidades\n`;
-                  if (stickerShape) message += `💠 *Formato do Adesivo:* ${stickerShape}\n`;
-                  if (stickerText) message += `📝 *Texto do Adesivo:* "${stickerText}"\n`;
-                  message += `\n📅 *ENTREGA E PAGAMENTO*\n───────────────────\n`;
-                  message += `🗓️ *Data:* ${date}\n⏰ *Período:* ${time}\n💳 *Pagamento:* ${payment}\n👤 *Nome:* ${name}\n\n`;
-                  message += `💰 *Total Estimado:* ${priceDisplay.textContent}\n\nAguardo a confirmação! Obrigada!`;
-
-                  window.open(`https://wa.me/554499024212?text=${encodeURIComponent(message)}`, "_blank");
-                  localStorage.removeItem(storageKey);
-                  modal.classList.add('hidden');
-              });
-              
-              submitBtn.addEventListener('click', () => form.requestSubmit());
+        if (savedState.flavor) {
+          const el = flavorsContainer.querySelector(`[data-flavor-name="${savedState.flavor}"]`);
+          if (el) {
+            flavorsContainer.querySelectorAll('.flavor-card').forEach(c => c.classList.replace('border-primary', 'border-gray-200'));
+            el.classList.replace('border-gray-200', 'border-primary');
           }
-
-          function initBackToTop() {
-            const backToTopBtn = document.getElementById("back-to-top");
-            if (!backToTopBtn) return;
-            window.addEventListener("scroll", () => {
-              if (window.scrollY > 300) {
-                backToTopBtn.classList.remove("opacity-0", "invisible", "translate-y-4");
-              } else {
-                backToTopBtn.classList.add("opacity-0", "invisible", "translate-y-4");
-              }
-            });
-            backToTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+        }
+        if (savedState.time) {
+          const el = timeSlotsContainer.querySelector(`[data-value="${savedState.time}"]`);
+          if (el) {
+            timeSlotsContainer.querySelectorAll('.time-slot-btn').forEach(b => b.classList.remove('bg-primary', 'text-black', 'border-primary', 'ring-2', 'ring-primary'));
+            el.classList.add('bg-primary', 'text-black', 'border-primary', 'ring-2', 'ring-primary');
           }
-        </script>
-    <script src="main.js" defer></script>
-    <div id="loading-overlay" class="fixed inset-0 bg-background bg-opacity-80 z-50 flex items-center justify-center hidden">
-      <div class="flex flex-col items-center space-y-4">
-        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary"></div>
-        <p class="text-text text-lg font-semibold">Abrindo WhatsApp...</p>
-      </div>
+        }
+        if (savedState.stickerShape) {
+          const el = stickerShapeOptionsContainer.querySelector(`[data-shape-name="${savedState.stickerShape}"]`);
+          if (el) {
+            stickerShapeOptionsContainer.querySelectorAll('.sticker-shape-btn').forEach(b => b.classList.remove('border-primary', 'bg-primary/10', 'ring-2', 'ring-primary'));
+            el.classList.add('border-primary', 'bg-primary/10', 'ring-2', 'ring-primary');
+          }
+        }
+        updatePrice();
+      };
+
+      const updatePrice = () => {
+        const quantity = parseInt(quantityInput.value, 10) || 0;
+        const flavor = flavorData.find(f => f.name === potinhoState.flavor);
+        const total = quantity * (flavor ? flavor.price : 25);
+        priceDisplay.textContent = BRL_FORMATTER.format(total);
+      };
+
+      const goToStep = (step) => {
+        currentStep = step;
+        Object.values(steps).forEach(s => s.classList.add('hidden'));
+        steps[step].classList.remove('hidden');
+        prevBtn.disabled = step === 1;
+        nextBtn.classList.toggle('hidden', step === 3);
+        submitBtn.classList.toggle('hidden', step !== 3);
+        stepIndicator.textContent = ["Passo 1 de 3: Sabor e Quantidade", "Passo 2 de 3: Personalização", "Passo 3 de 3: Entrega e Pagamento"][step - 1];
+      };
+
+      const showError = (field, message) => { if (errorPlaceholders[field]) errorPlaceholders[field].textContent = message; };
+      const clearErrors = () => Object.values(errorPlaceholders).forEach(el => { if (el) el.textContent = ''; });
+
+      const validateStep = (step) => {
+        clearErrors();
+        if (step === 1) {
+          if (!potinhoState.flavor) { showError('flavor', 'Por favor, selecione um sabor.'); return false; }
+          if (parseInt(quantityInput.value, 10) < 10) { quantityInput.focus(); showError('flavor', 'A quantidade mínima é de 10 unidades.'); return false; }
+        }
+        if (step === 3) {
+          if (!dateInput.value) { showError('date', 'A data de entrega é obrigatória.'); return false; }
+          if (!potinhoState.time) { showError('time', 'O período de entrega é obrigatório.'); return false; }
+          if (!customerNameInput.value.trim()) { showError('name', 'Seu nome completo é obrigatório.'); return false; }
+        }
+        return true;
+      };
+
+      prevBtn.addEventListener('click', () => { if (currentStep > 1) goToStep(currentStep - 1); });
+      nextBtn.addEventListener('click', () => { if (validateStep(currentStep)) goToStep(currentStep + 1); });
+
+      flavorsContainer.addEventListener('click', (e) => {
+        const card = e.target.closest('.flavor-card');
+        if (!card) return;
+        flavorsContainer.querySelectorAll('.flavor-card').forEach(c => c.classList.replace('border-primary', 'border-gray-200'));
+        card.classList.replace('border-gray-200', 'border-primary');
+        potinhoState.flavor = card.dataset.flavorName;
+        clearErrors(); updatePrice(); saveState();
+      });
+
+      timeSlotsContainer.addEventListener('click', (e) => {
+        const btn = e.target.closest('.time-slot-btn');
+        if (!btn || btn.disabled) return;
+        timeSlotsContainer.querySelectorAll('.time-slot-btn').forEach(b => b.classList.remove('bg-primary', 'text-black', 'border-primary', 'ring-2', 'ring-primary'));
+        btn.classList.add('bg-primary', 'text-black', 'border-primary', 'ring-2', 'ring-primary');
+        potinhoState.time = btn.dataset.value;
+        clearErrors(); saveState();
+      });
+
+      stickerShapeOptionsContainer.addEventListener('click', (e) => {
+        const btn = e.target.closest('.sticker-shape-btn');
+        if (!btn) return;
+        stickerShapeOptionsContainer.querySelectorAll('.sticker-shape-btn').forEach(b => b.classList.remove('border-primary', 'bg-primary/10', 'ring-2', 'ring-primary'));
+        btn.classList.add('border-primary', 'bg-primary/10', 'ring-2', 'ring-primary');
+        potinhoState.stickerShape = btn.dataset.shapeName;
+        saveState();
+      });
+
+      quantityInput.addEventListener('input', updatePrice);
+
+      populateUI();
+      form.addEventListener('input', saveState);
+      closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+
+      if (dateInput && window.flatpickr) {
+        const dateNotice = document.getElementById('potinho-date-notice');
+        flatpickr(dateInput, {
+          dateFormat: "d/m/Y", minDate: new Date().fp_incr(7),
+          locale: { firstDayOfWeek: 0, weekdays: { shorthand: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"], longhand: ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"] }, months: { shorthand: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], longhand: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"] } },
+          disable: [
+            "2025-12-25",
+            "2026-01-01",
+            {
+              from: "2026-01-10",
+              to: "2026-01-25"
+            }
+          ],
+          onChange: function (selectedDates) {
+            if (!selectedDates[0]) return;
+            potinhoState.date = dateInput.value; saveState();
+            const dayOfWeek = selectedDates[0].getDay();
+            const tardeButton = Array.from(timeSlotsContainer.querySelectorAll('button')).find(btn => btn.dataset.value.includes('13:00'));
+            const deliveryNotice = document.getElementById('potinho-delivery-notice');
+            if (deliveryNotice) deliveryNotice.textContent = '';
+            if (tardeButton) {
+              tardeButton.disabled = false;
+              tardeButton.classList.remove('opacity-50', 'cursor-not-allowed', 'line-through');
+            }
+            if (dayOfWeek === 0) {
+              if (tardeButton) {
+                tardeButton.disabled = true;
+                tardeButton.classList.add('opacity-50', 'cursor-not-allowed', 'line-through');
+              }
+              if (deliveryNotice) deliveryNotice.textContent = 'Aos domingos, apenas período da manhã.';
+              if (potinhoState.time === tardeButton.dataset.value) {
+                tardeButton.classList.remove('bg-primary', 'text-black', 'border-primary', 'ring-2', 'ring-primary');
+                potinhoState.time = null;
+              }
+            }
+          }
+        });
+        if (dateNotice) dateNotice.textContent = `Antecedência mínima de 7 dias.`;
+      }
+
+      window.openPotinhoModal = (theme) => {
+        if (isVacationPeriod()) {
+          showVacationNotice();
+          return;
+        }
+        nameInput.value = theme;
+        potinhoState = { theme: theme };
+        localStorage.setItem(storageKey, JSON.stringify(potinhoState));
+        loadState();
+        goToStep(1);
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      };
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!validateStep(3)) return;
+
+        const { flavor, quantity, stickerShape, stickerText, date, time, payment, name } = potinhoState;
+        let message = `Olá, Angela! 👋\nGostaria de fazer uma encomenda de *Bolo no Pote*.\n\n`;
+        message += `📋 *RESUMO DO PEDIDO*\n───────────────────\n`;
+        message += `✨ *Tema:* ${nameInput.value}\n🍰 *Sabor:* ${flavor}\n🔢 *Quantidade:* ${quantity} unidades\n`;
+        if (stickerShape) message += `💠 *Formato do Adesivo:* ${stickerShape}\n`;
+        if (stickerText) message += `📝 *Texto do Adesivo:* "${stickerText}"\n`;
+        message += `\n📅 *ENTREGA E PAGAMENTO*\n───────────────────\n`;
+        message += `🗓️ *Data:* ${date}\n⏰ *Período:* ${time}\n💳 *Pagamento:* ${payment}\n👤 *Nome:* ${name}\n\n`;
+        message += `💰 *Total Estimado:* ${priceDisplay.textContent}\n\nAguardo a confirmação! Obrigada!`;
+
+        window.open(`https://wa.me/554499024212?text=${encodeURIComponent(message)}`, "_blank");
+        localStorage.removeItem(storageKey);
+        modal.classList.add('hidden');
+      });
+
+      submitBtn.addEventListener('click', () => form.requestSubmit());
+    }
+
+    function initBackToTop() {
+      const backToTopBtn = document.getElementById("back-to-top");
+      if (!backToTopBtn) return;
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) {
+          backToTopBtn.classList.remove("opacity-0", "invisible", "translate-y-4");
+        } else {
+          backToTopBtn.classList.add("opacity-0", "invisible", "translate-y-4");
+        }
+      });
+      backToTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+    }
+  </script>
+  <script src="main.js" defer></script>
+  <div id="loading-overlay"
+    class="fixed inset-0 bg-background bg-opacity-80 z-50 flex items-center justify-center hidden">
+    <div class="flex flex-col items-center space-y-4">
+      <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary"></div>
+      <p class="text-text text-lg font-semibold">Abrindo WhatsApp...</p>
     </div>
+  </div>
 
-  </body>
+</body>
+
 </html>
