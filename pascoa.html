@@ -502,18 +502,18 @@
     <script>
         // Configuração dos 12 Sabores
         const easterFlavors = [
-            { name: "Beijinho", img: "Beijinho.JPEG", desc: "Casca de chocolate ao leite recheada com cremoso beijinho de coco artesanal." },
-            { name: "Brigadeiro", img: "Brigadeiro.JPEG", desc: "Clássico irresistível: O verdadeiro brigadeiro Scatambulo numa casca ao leite." },
-            { name: "Caramelo Crocante", img: "CarameloCrocante.JPEG", desc: "Caramelo salgado perfeitamente equilibrado com crocante de nozes e amendoim." },
-            { name: "Casadinho", img: "Casadinho.JPEG", desc: "A harmonia perfeita entre o brigadeiro tradicional e o brigadeiro de ninho." },
-            { name: "Cereja", img: "Cereja.JPEG", desc: "Sofisticação em cada mordida com nosso exclusivo recheio trufado de cereja." },
-            { name: "Dois Amores", img: "DoisAmores.JPEG", desc: "Metade chocolate branco, metade chocolate ao leite, unindo dois amores texturados." },
-            { name: "Ninho com Morango", img: "NinhoComMorango.JPEG", desc: "O frescor do morango combinado com a doçura cremosa do Leite Ninho." },
-            { name: "Ninho com Nutella", img: "NinhoComNutella.JPEG", desc: "O sucesso definitivo: O casamento impecável entre creme Ninho e autêntica Nutella." },
-            { name: "Nozes Crocante", img: "NozesCrocante.JPEG", desc: "Crocância e sabor sofisticado com nozes premium em um recheio aveludado." },
-            { name: "Ovomaltine", img: "Ovomaltine.JPEG", desc: "Muito sabor e crocância do autêntico creme de Ovomaltine." },
-            { name: "Pistache c/ Frutas Vermelhas", img: "PistacheComFrutasVermelhas.JPEG", desc: "O contraste fino do pistache importado com a acidez das frutas vermelhas." },
-            { name: "Uva Crocante", img: "UvaCrocante.JPEG", desc: "Inovador e surpreendente, a leveza da uva coberta com casquinha crocante secreta." }
+            { name: "Brigadeiro", img: "Brigadeiro.JPEG", price: "140,00", desc: "Brigadeiro cremoso de cacau 50% Nestlé. Decorado com docinhos de brigadeiro." },
+            { name: "Casadinho", img: "Casadinho.JPEG", price: "140,00", desc: "Brigadeiro de cacau 50% Nestlé e brigadeiro de beijinho com coco. Finalizado com docinhos de brigadeiro e beijinho." },
+            { name: "Beijinho", img: "Beijinho.JPEG", price: "140,00", desc: "Brigadeiro com coco cremoso. Finalizado com docinhos de beijinho." },
+            { name: "Caramelo Crocante", img: "CarameloCrocante.JPEG", price: "140,00", desc: "Brigadeiro de caramelo com crocante de caramelo artesanal." },
+            { name: "Ovomaltine", img: "Ovomaltine.JPEG", price: "145,00", desc: "Brigadeiro de Ovomaltine cremoso com Rocks de Ovomaltine." },
+            { name: "Dois Amores", img: "DoisAmores.JPEG", price: "145,00", desc: "Brigadeiro cremoso branco e preto, com morangos frescos. Finalizado com docinhos tradicionais, de ninho e morangos." },
+            { name: "Ninho com Morango", img: "NinhoComMorango.JPEG", price: "140,00", desc: "Brigadeiro de ninho cremoso com morangos frescos. Finalizado com docinhos de ninho e morangos." },
+            { name: "Ninho com Nutella", img: "NinhoComNutella.JPEG", price: "145,00", desc: "Ganache de Nutella e brigadeiro de ninho. Finalizado com docinhos de ninho com Nutella." },
+            { name: "Uva Crocante", img: "UvaCrocante.JPEG", price: "145,00", desc: "Brigadeiro cremoso de caramelo com uvas verdes. Finalizado com crocante e uvas." },
+            { name: "Nozes Crocante", img: "NozesCrocante.JPEG", price: "150,00", desc: "Brigadeiro cremoso com nozes e camada de crocante de caramelo. Finalizado com nozes inteiras." },
+            { name: "Cereja", img: "Cereja.JPEG", price: "150,00", desc: "Brigadeiro cremoso branco com cerejas inteiras. Finalizado com chocolate branco e cerejas." },
+            { name: "Pistache c/ Frutas Vermelhas", img: "PistacheComFrutasVermelhas.JPEG", price: "155,00", desc: "Brigadeiro de pistache e geleia artesanal de frutas vermelhas. Finalizado com morangos frescos e docinhos de pistache." }
         ];
 
         const grid = document.getElementById("pascoa-grid");
@@ -529,9 +529,10 @@
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
         </div>
         <div class="p-10 flex flex-col flex-grow text-center">
-            <h3 class="font-['Playfair_Display'] text-3xl md:text-4xl font-bold text-[#3E2723] mb-4 leading-tight">${flavor.name}</h3>
+            <h3 class="font-['Playfair_Display'] text-3xl md:text-4xl font-bold text-[#3E2723] mb-2 leading-tight">${flavor.name}</h3>
+            <p class="text-xl text-[#D4AF37] font-bold mb-4">R$ ${flavor.price}</p>
             <p class="text-sm text-stone-500 font-light mb-10 flex-grow leading-relaxed italic px-4">${flavor.desc}</p>
-            <button onclick="openEasterModal('${flavor.name}')" class="btn-artisan">
+            <button onclick="openEasterModal('${flavor.name}', '${flavor.price}')" class="btn-artisan">
                 <span>Encomendar Agora</span>
             </button>
         </div>
@@ -555,10 +556,12 @@
         const citySelect = document.getElementById('order-city');
 
         let currentSelectedFlavor = "";
+        let currentSelectedPrice = "";
 
-        function openEasterModal(flavorName) {
+        function openEasterModal(flavorName, flavorPrice) {
             currentSelectedFlavor = flavorName;
-            flavorTitle.textContent = "Ovo " + flavorName;
+            currentSelectedPrice = flavorPrice;
+            flavorTitle.textContent = "Ovo " + flavorName + " - R$ " + flavorPrice;
             modal.classList.remove('hidden');
             modal.classList.add('flex');
             document.body.style.overflow = 'hidden';
@@ -732,6 +735,7 @@
 
             let message = `🐣 *PEDIDO DE PÁSCOA - SCATAMBULO*\n\n`;
             message += `🍰 *Sabor:* ${currentSelectedFlavor} (*350g a 500g*)\n`;
+            message += `💰 *Valor Estimado:* R$ ${currentSelectedPrice}\n`;
             message += `👤 *Cliente:* ${name}\n`;
             message += `📅 *Data:* ${date}\n`;
             message += `⏰ *Horário:* ${time}\n`;
