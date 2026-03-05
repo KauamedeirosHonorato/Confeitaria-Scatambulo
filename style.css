@@ -1,14 +1,34 @@
 body {
   font-family: "Poppins", sans-serif;
-  background-color: #faf8f0; /* Branco Perolado */
-  color: #1c1c1c; /* Cinza Carvão */
+  color: #1c1c1c;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  background-color: #faf8f0;
+  /* Fallback */
 }
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #faf8f0 0%, #f5f0e6 40%, #faf8f0 100%);
+  z-index: -1;
+  pointer-events: none;
+  display: block;
+}
+
 h2 {
-  color: #d4af37;
+  /* Gold only for legacy h2 not using .section-title-premium */
+  color: inherit;
 }
+
 section {
   scroll-margin-top: 80px;
 }
+
 .side-name-right {
   position: fixed;
   right: 0;
@@ -17,7 +37,8 @@ section {
   transform: rotate(-90deg) translateY(50%) translateX(50%);
   -webkit-transform-origin: right center;
   transform-origin: right center;
-  color: #d4af37; /* Dourado Metálico */
+  color: #d4af37;
+  /* Dourado Metálico */
   font-size: 48px;
   z-index: 30;
   letter-spacing: 1px;
@@ -34,12 +55,15 @@ section {
   transition: all 0.3s ease;
   border: 1px solid #d4af37;
 }
+
 .btn-gold-metallic:hover {
-  background-color: #f5e6b3; /* Champagne Claro */
+  background-color: #f5e6b3;
+  /* Champagne Claro */
   border-color: #f5e6b3;
   -webkit-transform: translateY(-2px);
   transform: translateY(-2px);
 }
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -52,8 +76,10 @@ section {
   align-items: center;
   justify-content: center;
 }
+
 .modal-content {
-  background: #faf8f0; /* Branco Perolado */
+  background: #faf8f0;
+  /* Branco Perolado */
   padding: 2rem;
   border-radius: 0.5rem;
   max-width: 500px;
@@ -68,10 +94,12 @@ section {
 .embalagens-modal-content .video-container {
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%; /* 16:9 Aspect Ratio (9 / 16 * 100) */
+  padding-bottom: 56.25%;
+  /* 16:9 Aspect Ratio (9 / 16 * 100) */
   height: 0;
   overflow: hidden;
-  margin-bottom: 1rem; /* Add some space below the video */
+  margin-bottom: 1rem;
+  /* Add some space below the video */
 }
 
 .embalagens-modal-content .video-container video {
@@ -80,7 +108,8 @@ section {
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain; /* Ensure the whole video is visible */
+  object-fit: contain;
+  /* Ensure the whole video is visible */
 }
 
 
@@ -95,6 +124,7 @@ section {
   cursor: pointer;
   color: #888;
 }
+
 #floating-cart.jump {
   animation: jump 0.5s;
 }
@@ -104,80 +134,98 @@ section {
     -webkit-transform: translateY(0);
     transform: translateY(0);
   }
+
   50% {
     -webkit-transform: translateY(-15px);
     transform: translateY(-15px);
   }
+
   100% {
     -webkit-transform: translateY(0);
     transform: translateY(0);
   }
 }
+
 .cake-size-select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  background-color: #faf8f0;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D4AF37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
-  background-position: right 0.75rem center;
+  background-position: right 0.85rem center;
   background-size: 1.2em;
-  padding-right: 2.5rem; /* Espaço para a seta */
-  border-color: #d4af37; /* Borda dourada */
-  -webkit-transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  padding: 0.6rem 2.5rem 0.6rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: #4a4a4a;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .cake-size-select:focus {
   outline: none;
-  border-color: #f5e6b3; /* Dourado mais claro ao focar */
-  -webkit-box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25);
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25); /* Sombra de foco suave */
+  border-color: #D4AF37;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
 }
 
 .cake-card-image {
   width: 100%;
-  object-fit: cover; /* Garante que a imagem preencha o espaço no mobile */
-  background-color: #f0ede5; /* Um fundo suave para preencher o espaço vazio */
-  transition: transform 0.3s ease-in-out; /* Adiciona transição suave para o zoom */
+  object-fit: cover;
+  /* Garante que a imagem preencha o espaço no mobile */
+  background-color: #f0ede5;
+  /* Um fundo suave para preencher o espaço vazio */
+  transition: transform 0.3s ease-in-out;
+  /* Adiciona transição suave para o zoom */
 }
 
 
 
 /* Efeito de zoom na imagem ao passar o mouse sobre o card pai */
 .group:hover .cake-card-image {
-  transform: scale(1.05); /* Aumenta a imagem em 5% */
+  transform: scale(1.05);
+  /* Aumenta a imagem em 5% */
 }
 
 /* Ajuste específico para a imagem do Bolo Nuvem de Morango */
 #nuvem-de-morango-img {
-  object-position: center 20%; /* Move o foco da imagem para cima (mostra mais da parte de cima) */
+  object-position: center 20%;
+  /* Move o foco da imagem para cima (mostra mais da parte de cima) */
 }
 
-.best-seller-badge {
+.best-seller-badge,
+.badge-premium {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  background-color: #d4af37; /* Dourado */
-  color: #000000;
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 600;
+  top: 16px;
+  right: 16px;
+  background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+  color: #D4AF37;
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   z-index: 10;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.3);
 }
 
 /* Responsive styles for modals */
 
 /* General mobile and iOS optimizations */
 body {
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
+  /* Smooth scrolling on iOS */
 }
 
 /* Make the modal background cover the entire screen */
 .modal-overlay {
   padding: 1rem;
-  -webkit-transform: translate3d(0, 0, 0); /* Promote to a hardware layer */
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  /* Promote to a hardware layer */
   perspective: 1000px;
 }
 
@@ -195,7 +243,8 @@ body {
 
 /* Make the video container responsive */
 .embalagens-modal-content .video-container {
-  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  padding-bottom: 56.25%;
+  /* 16:9 Aspect Ratio */
 }
 
 /* Make the Christmas popup responsive */
@@ -217,6 +266,7 @@ body {
   from {
     transform: rotateY(90deg);
   }
+
   to {
     transform: rotateY(0deg);
   }
@@ -224,9 +274,11 @@ body {
 
 /* Specific styles for mobile devices */
 @media (max-width: 768px) {
+
   /* Make the side tabs responsive */
   #side-tabs-container {
-    display: none; /* Hide side tabs on mobile */
+    display: none !important;
+    /* Hide side tabs on mobile */
   }
 
   /* Make the main header responsive */
@@ -256,7 +308,8 @@ body {
   /* Modal Principal ocupa 100% no mobile */
   #christmas-modal .modal-panel {
     width: 100% !important;
-    height: 90vh !important; /* Altura ajustada */
+    height: 90vh !important;
+    /* Altura ajustada */
     max-height: none !important;
     border-radius: 1.5rem !important;
     margin: 0 !important;
@@ -267,7 +320,8 @@ body {
   #modal-entrega .modal-panel,
   #modal-horarios .modal-panel {
     width: 92% !important;
-    max-height: 90vh !important; /* Mais altura disponível */
+    max-height: 90vh !important;
+    /* Mais altura disponível */
     border-radius: 1rem !important;
   }
 
@@ -279,17 +333,21 @@ body {
     width: 8rem !important;
     height: 8rem !important;
   }
+
   h1 {
     font-size: 2.2rem !important;
     margin-bottom: 0.2rem !important;
   }
+
   p.desc-text {
     margin-bottom: 1rem !important;
     font-size: 0.9rem !important;
   }
+
   .countdown-wrapper {
     margin-bottom: 1.5rem !important;
   }
+
   footer {
     padding-bottom: 0.5rem !important;
   }
@@ -304,25 +362,31 @@ body {
 .video-container {
   position: relative;
   width: 100%;
-  max-width: 800px; /* Adjust as needed */
+  max-width: 800px;
+  /* Adjust as needed */
   margin: 0 auto;
 }
+
 .video-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none; /* Allow clicks to pass through by default */
+  pointer-events: none;
+  /* Allow clicks to pass through by default */
 }
+
 .overlay-item {
   position: absolute;
-  background-color: rgba(212, 175, 55, 0.8); /* Gold metallic with transparency */
+  background-color: rgba(212, 175, 55, 0.8);
+  /* Gold metallic with transparency */
   color: white;
   padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;
-  pointer-events: auto; /* Make this item clickable */
+  pointer-events: auto;
+  /* Make this item clickable */
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
   font-weight: bold;
@@ -332,6 +396,7 @@ body {
   justify-content: center;
   font-family: 'Poppins', sans-serif;
 }
+
 .overlay-item.active {
   opacity: 1;
 }
@@ -351,10 +416,12 @@ body {
 }
 
 @keyframes float {
+
   0%,
   100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-10px);
   }
@@ -368,29 +435,39 @@ body {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(5px); /* Efeito de desfoque no fundo */
-  z-index: 9999; /* Garante que fique acima de tudo */
-  display: flex; /* Always display flex, but control visibility/opacity */
+  backdrop-filter: blur(5px);
+  /* Efeito de desfoque no fundo */
+  z-index: 9999;
+  /* Garante que fique acima de tudo */
+  display: flex;
+  /* Always display flex, but control visibility/opacity */
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  visibility: hidden; /* Initial state for transition */
-  opacity: 0; /* Initial state for transition */
-  transition: opacity 0.3s ease, visibility 0.3s ease; /* Transition properties */
+  visibility: hidden;
+  /* Initial state for transition */
+  opacity: 0;
+  /* Initial state for transition */
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  /* Transition properties */
 }
 
 #natal-popup-overlay.active {
-  visibility: visible; /* Show when active */
-  opacity: 1; /* Fade in when active */
+  visibility: visible;
+  /* Show when active */
+  opacity: 1;
+  /* Fade in when active */
 }
 
 #natal-popup-content {
   position: relative;
   width: 100%;
-  max-width: 1024px; /* Aumentado para caber o site de natal */
+  max-width: 1024px;
+  /* Aumentado para caber o site de natal */
   height: 100%;
   max-height: 96vh;
-  background: transparent; /* Fundo transparente para o iframe brilhar */
+  background: transparent;
+  /* Fundo transparente para o iframe brilhar */
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
@@ -409,11 +486,14 @@ body {
 /* Ajustes para dispositivos móveis para o modal de Natal */
 @media (max-width: 768px) {
   #natal-popup-content {
-    height: 88vh; /* Altura reduzida para melhor visualização */
-    max-height: 88vh; /* Garante que não ultrapasse a altura */
+    height: 88vh;
+    /* Altura reduzida para melhor visualização */
+    max-height: 88vh;
+    /* Garante que não ultrapasse a altura */
     width: 100%;
     max-width: none;
-    border-radius: 1.5rem; /* Bordas mais arredondadas para um look moderno */
+    border-radius: 1.5rem;
+    /* Bordas mais arredondadas para um look moderno */
   }
 }
 
@@ -429,6 +509,7 @@ body {
       transform: translateY(-40px) translateX(-50%);
       opacity: 0;
     }
+
     to {
       transform: translateY(0) translateX(-50%);
       opacity: 1;
@@ -438,16 +519,20 @@ body {
 
 /* --- Tema de Natal Elegante (Ativado via JS) --- */
 body.christmas-theme {
-  background-color: #fffbf7; /* Creme muito suave */
+  background-color: #fffbf7;
+  /* Creme muito suave */
   background-image: radial-gradient(#d4af37 0.5px, transparent 0.5px);
-  background-size: 40px 40px; /* Textura de pontos dourados sutis */
+  background-size: 40px 40px;
+  /* Textura de pontos dourados sutis */
 }
 
-body.christmas-theme h1, 
-body.christmas-theme h2, 
+body.christmas-theme h1,
+body.christmas-theme h2,
 body.christmas-theme h3 {
-  font-family: 'Playfair Display', serif; /* Fonte serifada elegante */
-  /* color: #7f1d1d; */ /* Cor de Natal desativada para usar o padrão do site */
+  font-family: 'Playfair Display', serif;
+  /* Fonte serifada elegante */
+  /* color: #7f1d1d; */
+  /* Cor de Natal desativada para usar o padrão do site */
 }
 
 body.christmas-theme header {
@@ -473,7 +558,8 @@ body.christmas-theme .btn-gold-metallic:hover {
   z-index: 9999;
   user-select: none;
   pointer-events: none;
-  color: #d4af37; /* Neve dourada/creme */
+  color: #d4af37;
+  /* Neve dourada/creme */
   opacity: 0.3;
   font-size: 1em;
   animation: fall linear forwards;
@@ -487,18 +573,36 @@ body.christmas-theme .btn-gold-metallic:hover {
 
 /* --- Animação de Pulsação Suave --- */
 @keyframes gentle-pulse {
-  0%, 100% { transform: scale(1); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-  50% { transform: scale(1.05); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); }
+
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+  }
 }
+
 .animate-gentle-pulse {
   animation: gentle-pulse 2s infinite ease-in-out;
 }
 
 /* --- Animação de Pulso para o Carrinho --- */
 @keyframes cart-pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
 }
+
 .animate-cart-pulse {
   /* Usa uma curva de easing que "estica" um pouco para um efeito mais vivo */
   animation: cart-pulse 0.5s cubic-bezier(0.22, 1, 0.36, 1);
@@ -506,16 +610,21 @@ body.christmas-theme .btn-gold-metallic:hover {
 
 /* --- Debug Alert Styling --- */
 .debug-alert {
-  border: 4px dashed #ef4444; /* red-500 */
-  background-color: #fef2f2; /* red-50 */
+  border: 4px dashed #ef4444;
+  /* red-500 */
+  background-color: #fef2f2;
+  /* red-50 */
 }
+
 .debug-alert #custom-alert-title {
-  color: #991b1b; /* red-800 */
+  color: #991b1b;
+  /* red-800 */
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
 }
+
 .debug-alert #custom-alert-title::before {
   content: '🐞';
   font-size: 1.5rem;
@@ -523,27 +632,50 @@ body.christmas-theme .btn-gold-metallic:hover {
 
 /* Animação do Modal de Embalagens */
 @keyframes modalSlideUp {
-  from { opacity: 0; transform: translateY(100px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
 .animate-modal-entry {
   animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
+
 .animate-fade-in {
   animation: fadeIn 0.3s ease-out forwards;
 }
 
 /* Animação de Pulsação para Aba Lateral */
 @keyframes pulse-attention {
-  0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
-  70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7);
+  }
+
+  70% {
+    box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+  }
 }
+
 .animate-pulse-attention {
   animation: pulse-attention 2s infinite;
 }
@@ -569,7 +701,7 @@ body.christmas-theme .btn-gold-metallic:hover {
   border: 1px solid #b5952f;
   border-left: 0;
   border-radius: 0 1rem 1rem 0;
-  box-shadow: 4px 4px 15px rgba(0,0,0,0.15);
+  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.15);
   cursor: pointer;
   transition: all 0.3s;
   font-weight: 700;
@@ -581,9 +713,12 @@ body.christmas-theme .btn-gold-metallic:hover {
   font-size: 0.9rem;
   letter-spacing: 0.05em;
   pointer-events: auto;
-  position: relative; /* Necessário para posicionar o tooltip */
-  margin-bottom: 0.5rem; /* Adiciona pequena margem entre os botões */
+  position: relative;
+  /* Necessário para posicionar o tooltip */
+  margin-bottom: 0.5rem;
+  /* Adiciona pequena margem entre os botões */
 }
+
 .side-tab:hover {
   background: #f5e6b3;
   color: black;
@@ -593,7 +728,8 @@ body.christmas-theme .btn-gold-metallic:hover {
 
 /* Ícones dentro das abas */
 .side-tab svg {
-  transform: rotate(-90deg); /* Ajusta a orientação do ícone */
+  transform: rotate(-90deg);
+  /* Ajusta a orientação do ícone */
   width: 1.25rem;
   height: 1.25rem;
 }
@@ -604,6 +740,7 @@ body.christmas-theme .btn-gold-metallic:hover {
     padding: 1rem 0.5rem;
     font-size: 0.8rem;
   }
+
   .side-tab svg {
     width: 1rem;
     height: 1rem;
@@ -612,12 +749,30 @@ body.christmas-theme .btn-gold-metallic:hover {
 
 /* Animação de Shake para Erro */
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
-  20%, 40%, 60%, 80% { transform: translateX(4px); }
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-4px);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(4px);
+  }
 }
+
 .animate-shake {
-  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+  animation: shake 0.4s cubic-bezier(.36, .07, .19, .97) both;
 }
 
 /* styles for loading overlay */
@@ -629,25 +784,31 @@ body.christmas-theme .btn-gold-metallic:hover {
 .video-container {
   position: relative;
   width: 100%;
-  max-width: 800px; /* Adjust as needed */
+  max-width: 800px;
+  /* Adjust as needed */
   margin: 0 auto;
 }
+
 .video-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none; /* Allow clicks to pass through by default */
+  pointer-events: none;
+  /* Allow clicks to pass through by default */
 }
+
 .overlay-item {
   position: absolute;
-  background-color: rgba(212, 175, 55, 0.8); /* Gold metallic with transparency */
+  background-color: rgba(212, 175, 55, 0.8);
+  /* Gold metallic with transparency */
   color: white;
   padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;
-  pointer-events: auto; /* Make this item clickable */
+  pointer-events: auto;
+  /* Make this item clickable */
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
   font-weight: bold;
@@ -657,6 +818,7 @@ body.christmas-theme .btn-gold-metallic:hover {
   justify-content: center;
   font-family: 'Poppins', sans-serif;
 }
+
 .overlay-item.active {
   opacity: 1;
 }
@@ -665,13 +827,16 @@ body.christmas-theme .btn-gold-metallic:hover {
 
 /* General mobile and iOS optimizations */
 body {
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
+  /* Smooth scrolling on iOS */
 }
 
 /* Make the modal background cover the entire screen */
 .modal-overlay {
   padding: 1rem;
-  -webkit-transform: translate3d(0, 0, 0); /* Promote to a hardware layer */
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  /* Promote to a hardware layer */
   perspective: 1000px;
 }
 
@@ -689,7 +854,8 @@ body {
 
 /* Make the video container responsive */
 .embalagens-modal-content .video-container {
-  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  padding-bottom: 56.25%;
+  /* 16:9 Aspect Ratio */
 }
 
 /* Make the Christmas popup responsive */
@@ -711,6 +877,7 @@ body {
   from {
     transform: rotateY(90deg);
   }
+
   to {
     transform: rotateY(0deg);
   }
@@ -718,9 +885,12 @@ body {
 
 /* Specific styles for mobile devices */
 @media (max-width: 768px) {
+
   /* Make the side tabs responsive */
   #side-tabs-container {
-    display: none; /* Hide side tabs on mobile */
+    display: none !important;
+    z-index: 50;
+    /* Lower z-index on mobile so it doesn't overlap everything */
   }
 
   /* Make the main header responsive */
@@ -750,7 +920,8 @@ body {
   /* Modal Principal ocupa 100% no mobile */
   #christmas-modal .modal-panel {
     width: 100% !important;
-    height: 90vh !important; /* Altura ajustada */
+    height: 90vh !important;
+    /* Altura ajustada */
     max-height: none !important;
     border-radius: 1.5rem !important;
     margin: 0 !important;
@@ -761,7 +932,8 @@ body {
   #modal-entrega .modal-panel,
   #modal-horarios .modal-panel {
     width: 92% !important;
-    max-height: 90vh !important; /* Mais altura disponível */
+    max-height: 90vh !important;
+    /* Mais altura disponível */
     border-radius: 1rem !important;
   }
 
@@ -773,18 +945,1184 @@ body {
     width: 8rem !important;
     height: 8rem !important;
   }
+
   h1 {
     font-size: 2.2rem !important;
     margin-bottom: 0.2rem !important;
   }
+
   p.desc-text {
     margin-bottom: 1rem !important;
     font-size: 0.9rem !important;
   }
+
   .countdown-wrapper {
     margin-bottom: 1.5rem !important;
   }
+
   footer {
     padding-bottom: 0.5rem !important;
   }
+}
+
+/* ============================================================
+   SCATAMBULO — PREMIUM REDESIGN 2026
+   ============================================================ */
+
+/* --- HERO ANGELA (perfil) --- */
+.angela-hero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1c1c1c 0%, #2d2410 50%, #1c1c1c 100%);
+  border-radius: 24px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(212, 175, 55, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.angela-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 80% 50%, rgba(212, 175, 55, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 80%, rgba(212, 175, 55, 0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.angela-hero-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem 2.5rem;
+  flex-wrap: wrap;
+}
+
+.angela-hero-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(212, 175, 55, 0.5);
+  box-shadow: 0 0 0 6px rgba(212, 175, 55, 0.08), 0 8px 30px rgba(0, 0, 0, 0.4);
+  flex-shrink: 0;
+}
+
+.angela-hero-text {
+  flex: 1;
+  min-width: 200px;
+}
+
+.angela-hero-eyebrow {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(212, 175, 55, 0.65);
+  margin-bottom: 0.35rem;
+}
+
+.angela-hero-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 0;
+}
+
+.angela-hero-divider {
+  width: 36px;
+  height: 2px;
+  background: linear-gradient(90deg, #D4AF37, transparent);
+  border-radius: 2px;
+  margin: 0.65rem 0;
+}
+
+.angela-hero-desc {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.875rem;
+  line-height: 1.7;
+  font-weight: 300;
+  max-width: 520px;
+}
+
+.angela-hero-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.angela-hero-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: rgba(212, 175, 55, 0.85);
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.18);
+  padding: 0.25rem 0.7rem;
+  border-radius: 99px;
+  letter-spacing: 0.05em;
+}
+
+/* --- SECTION HEADERS PREMIUM --- */
+.section-eyebrow-gold {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #D4AF37;
+  margin-bottom: 0.5rem;
+}
+
+.section-title-premium {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.9rem, 4vw, 2.75rem);
+  font-weight: 700;
+  color: #1c1c1c;
+  line-height: 1.15;
+}
+
+.section-title-premium em {
+  font-style: italic;
+  color: #D4AF37;
+}
+
+/* Divisor decorativo */
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.75rem auto 2.5rem;
+  max-width: 140px;
+}
+
+.section-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
+}
+
+.section-divider-diamond {
+  width: 7px;
+  height: 7px;
+  background: #D4AF37;
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* --- PREMIUM CAKE CARD --- */
+.cake-card-premium {
+  position: relative;
+  background: #ffffff;
+  border-radius: 24px;
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.cake-card-premium:hover {
+  transform: translateY(-8px);
+  box-shadow:
+    0 30px 60px -12px rgba(212, 175, 55, 0.18),
+    0 18px 36px -18px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(212, 175, 55, 0.3);
+}
+
+.cake-card-premium .card-img-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: #f5f0e8;
+}
+
+.cake-card-premium .card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.cake-card-premium:hover .card-img-wrap img {
+  transform: scale(1.07);
+}
+
+.cake-card-premium .card-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(28, 28, 28, 0.45) 0%, transparent 55%);
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+
+.cake-card-premium:hover .card-img-overlay {
+  opacity: 1;
+}
+
+.cake-card-premium .card-body {
+  padding: 1.25rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.cake-card-premium .card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1c1c1c;
+  margin-bottom: 0.35rem;
+  line-height: 1.25;
+}
+
+.cake-card-premium .card-desc {
+  font-size: 0.8rem;
+  color: #7a6b55;
+  line-height: 1.6;
+  flex: 1;
+  margin-bottom: 0.85rem;
+}
+
+.cake-card-premium .card-price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1c1c1c;
+  margin-bottom: 0.85rem;
+}
+
+.cake-card-premium .card-price small {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: #aaa;
+  display: block;
+  line-height: 1;
+}
+
+.cake-card-premium .card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.card-actions .btn-info-premium {
+  width: 100%;
+  white-space: normal;
+  text-align: center;
+}
+
+.card-actions .btn-encomendar-premium {
+  width: 100%;
+}
+
+/* --- BOTÃO ENCOMENDAR PREMIUM (Boutique Gold - User Model) --- */
+.btn-encomendar-premium {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+  color: #D4AF37;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.75rem 1.2rem;
+  border-radius: 99px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+.btn-encomendar-premium:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(135deg, #000000, #1a1a1a);
+  color: #f5e6b3;
+  border-color: rgba(212, 175, 55, 0.5);
+}
+
+.btn-encomendar-premium:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* --- BOTÃO INFO PREMIUM (Boutique Outlined - User Model) --- */
+.btn-info-premium {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  color: #D4AF37;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  border-radius: 99px;
+  border: 1px solid #D4AF37;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.btn-info-premium:hover {
+  background: rgba(212, 175, 55, 0.08);
+  transform: translateY(-2px);
+  border-color: #D4AF37;
+  color: #D4AF37;
+  box-shadow: 0 6px 15px rgba(212, 175, 55, 0.15);
+}
+
+.btn-info-premium:active {
+  transform: translateY(0) scale(0.98);
+}
+
+
+/* --- SEARCH PREMIUM --- */
+.search-wrap-premium {
+  position: relative;
+  max-width: 500px;
+  margin: 0 auto 2.5rem;
+}
+
+.search-wrap-premium input {
+  width: 100%;
+  padding: 0.85rem 1.25rem 0.85rem 3rem;
+  border-radius: 99px;
+  border: 1.5px solid rgba(212, 175, 55, 0.2);
+  background: #fff;
+  font-size: 0.875rem;
+  color: #1c1c1c;
+  outline: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s;
+  font-family: 'Poppins', sans-serif;
+}
+
+.search-wrap-premium input:focus {
+  border-color: #D4AF37;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.12), 0 0 0 3px rgba(212, 175, 55, 0.07);
+}
+
+.search-wrap-premium svg {
+  position: absolute;
+  left: 1.1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #D4AF37;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+/* --- COCO SELECT PREMIUM --- */
+.coco-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  border-radius: 10px;
+  border: 1.5px solid rgba(212, 175, 55, 0.25);
+  background-color: #fff;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D4AF37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1em;
+  font-size: 0.8rem;
+  color: #1c1c1c;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  margin-bottom: 0.75rem;
+}
+
+/* --- SCROLL REVEAL --- */
+.sr-item {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+.sr-item.sr-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .sr-item {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+.sr-delay-1 {
+  transition-delay: 0.08s;
+}
+
+.sr-delay-2 {
+  transition-delay: 0.16s;
+}
+
+.sr-delay-3 {
+  transition-delay: 0.24s;
+}
+
+.sr-delay-4 {
+  transition-delay: 0.32s;
+}
+
+/* ============================================================
+   MOBILE UX + COLOR SYSTEM — 2026
+   ============================================================ */
+
+/* --- SAFE AREAS (iOS notch / Dynamic Island) --- */
+:root {
+  --sat: env(safe-area-inset-top, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+
+  /* Second accent: rich burgundy */
+  --clr-burgundy: #8B1A3A;
+  --clr-burgundy-light: rgba(139, 26, 58, 0.08);
+  --clr-terracotta: #C1683B;
+}
+
+/* --- HEADER — gold underline + safe-area padding --- */
+header {
+  padding-top: var(--sat);
+  border-bottom: 2px solid transparent;
+  background:
+    linear-gradient(white, white) padding-box,
+    linear-gradient(90deg, transparent, #D4AF37, transparent) border-box;
+}
+
+header.scrolled {
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.97), rgba(255, 255, 255, 0.97)) padding-box,
+    linear-gradient(90deg, transparent, #D4AF37, transparent) border-box;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* --- iOS FONT SIZE FIX (prevents auto-zoom on input focus) --- */
+input,
+select,
+textarea {
+  font-size: max(16px, 1em) !important;
+}
+
+/* Override for very small labels that should stay small */
+.text-xs,
+.text-\[0\.6rem\],
+.text-\[0\.65rem\],
+.text-\[0\.7rem\] {
+  font-size: inherit;
+}
+
+/* --- TOUCH TARGETS — minimum 44px on all interactive elements --- */
+button,
+a[onclick],
+.btn-encomendar-premium,
+.btn-info-premium,
+.btn-gold-metallic,
+.btn-open-embalagens,
+.side-tab {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.btn-encomendar-premium,
+.btn-info-premium {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- ACTIVE TAP FEEDBACK (tactile feel on mobile) --- */
+.btn-encomendar-premium:active {
+  transform: scale(0.96);
+  transition: transform 0.1s;
+  opacity: 0.92;
+}
+
+.btn-info-premium:active {
+  transform: scale(0.96);
+  transition: transform 0.1s;
+}
+
+.btn-gold-metallic:active,
+.btn-open-embalagens:active {
+  transform: scale(0.96);
+  opacity: 0.88;
+  transition: transform 0.1s, opacity 0.1s;
+}
+
+/* --- CAROUSEL — touch zone (wider tap areas) --- */
+#prev-slide,
+#next-slide {
+  min-width: 52px;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- MODAL — overscroll-behavior to prevent body scroll leak --- */
+[role="dialog"],
+#packaging-selection-modal,
+#saber-mais-modal,
+#info-modal {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.modal-content-inner {
+  overscroll-behavior: contain;
+}
+
+/* --- STICKY MOBILE BOTTOM BAR --- */
+#mobile-bottom-bar {
+  display: none;
+  /* hidden on desktop */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 90;
+  padding: 0.75rem 1rem calc(0.75rem + var(--sab));
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.mobile-bar-encomendar {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: linear-gradient(135deg, #D4AF37, #c49b28);
+  color: #000;
+  font-size: 0.875rem;
+  font-weight: 700;
+  padding: 0.8rem 1.25rem;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
+  transition: all 0.2s;
+  min-height: 48px;
+}
+
+.mobile-bar-encomendar:active {
+  transform: scale(0.97);
+  transition: transform 0.1s;
+}
+
+.mobile-bar-cart {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1.5px solid rgba(212, 175, 55, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #1c1c1c;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.mobile-bar-cart:active {
+  transform: scale(0.94);
+  background: rgba(212, 175, 55, 0.2);
+}
+
+.mobile-bar-cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #D4AF37;
+  color: #000;
+  font-size: 0.6rem;
+  font-weight: 800;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 99px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border: 2px solid #fff;
+}
+
+/* Show bottom bar on mobile only */
+@media (max-width: 768px) {
+  #mobile-bottom-bar {
+    display: flex;
+  }
+
+  /* Push page content up so it doesn't hide behind the bar */
+  main.container {
+    padding-bottom: calc(4.5rem + var(--sab));
+  }
+}
+
+/* --- HORIZONTAL CATEGORY PILL NAV (mobile) --- */
+#category-pill-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  #category-pill-nav {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+    position: sticky;
+    top: 57px;
+    /* below header */
+    z-index: 19;
+  }
+
+  #category-pill-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .category-pill {
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.4rem 1rem;
+    border-radius: 99px;
+    border: 1.5px solid rgba(212, 175, 55, 0.3);
+    background: #fff;
+    color: #6b5b3e;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+  }
+
+  .category-pill.active,
+  .category-pill:active {
+    background: linear-gradient(135deg, #D4AF37, #c49b28);
+    color: #000;
+    border-color: #D4AF37;
+    font-weight: 700;
+  }
+}
+
+/* --- ALTERNATING SECTION BACKGROUNDS --- */
+#destaques-semana {
+  background: linear-gradient(180deg, #fff 0%, #faf8f0 100%);
+  border-radius: 24px;
+  padding: 2.5rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+#sabores {
+  background: #fff;
+  border-radius: 24px;
+  padding: 2.5rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* --- PRODUCT GRID — better gap on mobile --- */
+@media (max-width: 640px) {
+  .grid.grid-cols-1 {
+    gap: 1.25rem;
+  }
+
+  .cake-card-premium {
+    border-radius: 16px;
+  }
+
+  .cake-card-premium .card-img-wrap {
+    aspect-ratio: 16/9;
+  }
+}
+
+/* --- ANGELA HERO — mobile padding fix --- */
+@media (max-width: 640px) {
+  .angela-hero-inner {
+    padding: 1.5rem;
+    gap: 1.25rem;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .angela-hero-tags {
+    justify-content: center;
+  }
+
+  .angela-hero-divider {
+    margin: 0.5rem auto;
+  }
+}
+
+/* --- HAMBURGER BUTTON — larger touch target --- */
+#mobile-menu-button {
+  min-height: 44px;
+  min-width: 44px;
+  border-radius: 10px;
+}
+
+/* --- CAROUSEL SLIDES — smooth GPU scroll on mobile --- */
+.carousel-container {
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+/* --- SECTION TITLES on mobile --- */
+@media (max-width: 640px) {
+  .section-title-premium {
+    font-size: 1.75rem;
+  }
+}
+
+/* ============================================================
+   LUXURY PATISSERIE — PREMIUM VISUAL OVERHAUL 2026
+   Design: Dark Chocolate · Gold · Cream White
+   "A interface que vende sozinha"
+   ============================================================ */
+
+/* --- 1. PAGE BACKGROUND — deep dark luxury --- */
+body {
+  background: #0f0d0a !important;
+  background-attachment: fixed !important;
+}
+
+/* --- 2. MAIN CONTAINER — warm ivory island --- */
+main.container {
+  background: transparent;
+}
+
+/* --- 3. LUXURY HEADER — dark glass --- */
+header {
+  background: rgba(15, 13, 10, 0.92) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.18) !important;
+  box-shadow: 0 1px 0 rgba(212, 175, 55, 0.08), 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* ============================================================
+   FASE 6: CLEAN BOUTIQUE REDESIGN (Elegance & Performance)
+   ============================================================ */
+
+/* --- 1. BASE CLEAN (Pearl White) --- */
+body {
+  background-color: #FDFBF7 !important;
+  color: #1A1A1A !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- 2. HEADER TRANSLÚCIDO E MINIMALISTA --- */
+header,
+header.scrolled {
+  background: rgba(253, 251, 247, 0.85) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.15) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03) !important;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+header h1 {
+  color: #1A1A1A !important;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+header nav a {
+  color: #4A4A4A !important;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  position: relative;
+  transition: color 0.3s;
+}
+
+header nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #D4AF37;
+  transition: width 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+header nav a:hover {
+  color: #1A1A1A !important;
+}
+
+header nav a:hover::after {
+  width: 100%;
+}
+
+#mobile-menu-button {
+  color: #1A1A1A !important;
+  background: transparent !important;
+}
+
+/* --- 3. ANGELA HERO (Soft Elegance) --- */
+.angela-hero {
+  background: linear-gradient(135deg, #FFFFFF 0%, #FDFBF7 100%) !important;
+  border: 1px solid rgba(212, 175, 55, 0.1) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.04) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Glow sutíl de fundo (champagne leak) */
+.angela-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  background: radial-gradient(circle at 70% 30%, rgba(221, 184, 146, 0.08) 0%, transparent 40%);
+  pointer-events: none;
+  animation: slowPan 15s linear infinite alternate;
+}
+
+@keyframes slowPan {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+
+  100% {
+    transform: translateY(5%) scale(1.05);
+  }
+}
+
+.angela-hero-avatar {
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15) !important;
+  border: 1px solid rgba(212, 175, 55, 0.2) !important;
+}
+
+/* --- 4. TÍTULOS E TIPOGRAFIA ESCULPIDA --- */
+.section-eyebrow-gold {
+  color: #c49b28 !important;
+  letter-spacing: 0.25em !important;
+  font-weight: 600 !important;
+  font-size: 0.75rem !important;
+}
+
+.section-title-premium {
+  color: #1A1A1A !important;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700 !important;
+  line-height: 1.15;
+}
+
+.section-title-premium em {
+  color: #c49b28 !important;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.section-divider-line {
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent) !important;
+}
+
+.section-divider-diamond {
+  background: #c49b28 !important;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.2) !important;
+}
+
+/* --- 5. CAROUSEL (Cinematic Minimalism) --- */
+.carousel-slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.carousel-slide-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding: 2.5rem;
+}
+
+.carousel-slide-caption h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.1;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  margin-bottom: 0.5rem;
+}
+
+.carousel-slide-caption p {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+}
+
+.carousel-slide-caption .carousel-cta {
+  display: inline-flex;
+  background: #fff;
+  color: #1A1A1A;
+  padding: 0.8rem 2rem;
+  font-weight: 600;
+  border-radius: 99px;
+  text-decoration: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.carousel-slide-caption .carousel-cta:hover {
+  transform: translateY(-3px);
+}
+
+.carousel-price-pill {
+  background: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: #fff !important;
+}
+
+/* --- 6. SABORES E CARDS (Float Effect) --- */
+#sabores {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+
+.cake-card-premium {
+  background: #FFFFFF !important;
+  border-radius: 24px !important;
+  border: 1px solid rgba(0, 0, 0, 0.04) !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03) !important;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  will-change: transform;
+}
+
+.cake-card-premium:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(212, 175, 55, 0.15) !important;
+}
+
+.cake-card-premium .card-img-wrap {
+  aspect-ratio: 4/3 !important;
+  border-radius: 24px 24px 0 0 !important;
+  overflow: hidden;
+}
+
+.cake-card-premium .card-img-wrap img {
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.cake-card-premium:hover .card-img-wrap img {
+  transform: scale(1.05);
+}
+
+.cake-card-premium .card-body {
+  padding: 1.5rem !important;
+}
+
+.cake-card-premium .card-title {
+  color: #1A1A1A !important;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+}
+
+.cake-card-premium .card-desc {
+  color: #666 !important;
+  font-size: 0.85rem !important;
+  line-height: 1.6 !important;
+}
+
+.cake-card-premium .card-price {
+  color: #c49b28 !important;
+  font-weight: 700 !important;
+  font-size: 1.1rem !important;
+  text-shadow: none !important;
+}
+
+.cake-card-premium .card-price small {
+  color: #999 !important;
+}
+
+.badge-premium {
+  background: #fff !important;
+  color: #c49b28 !important;
+  border: 1px solid rgba(212, 175, 55, 0.2) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+/* --- 7. BOTÕES DE ENCOMENDAR --- */
+/* Estilo boutique: Dourado elegante sem gradientes agressivos */
+.btn-primary-scatambulo {
+  background: #D4AF37 !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25) !important;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.3s !important;
+  border: none !important;
+}
+
+.btn-primary-scatambulo:hover {
+  background: #c49b28 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.35) !important;
+}
+
+.btn-secondary-scatambulo {
+  background: rgba(212, 175, 55, 0.05) !important;
+  color: #c49b28 !important;
+  font-weight: 600 !important;
+  border: 1px solid rgba(212, 175, 55, 0.2) !important;
+}
+
+.btn-secondary-scatambulo:hover {
+  background: rgba(212, 175, 55, 0.1) !important;
+}
+
+/* --- 8. UI MOBILE ULTRA CLEAN --- */
+#category-pill-nav {
+  background: transparent !important;
+  border-bottom: none !important;
+  backdrop-filter: none !important;
+  position: relative !important;
+  top: auto !important;
+  padding: 0.5rem 1rem 1rem !important;
+  /* Respiro */
+}
+
+.category-pill {
+  background: #fff !important;
+  color: #666 !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02) !important;
+  font-weight: 500 !important;
+  padding: 0.4rem 1rem !important;
+  border-radius: 99px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  white-space: nowrap !important;
+  transition: all 0.2s !important;
+}
+
+.category-pill.active {
+  background: #1A1A1A !important;
+  color: #fff !important;
+  border-color: #1A1A1A !important;
+}
+
+/* Esconder barra inferior intrusiva no mobile */
+#mobile-bottom-bar {
+  display: none !important;
+}
+
+/* Menu Burger Gaveta */
+#mobile-menu {
+  background: #FDFBF7 !important;
+  border-left: 1px solid rgba(0, 0, 0, 0.05) !important;
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.05) !important;
+}
+
+#mobile-menu nav a {
+  color: #1A1A1A !important;
+  font-weight: 500 !important;
+}
+
+#mobile-menu nav a:hover {
+  background: rgba(212, 175, 55, 0.05) !important;
+  color: #c49b28 !important;
+}
+
+#mobile-menu .border-b {
+  border-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+
+/* --- 10. BOTÃO BACK TO TOP --- */
+button[aria-label="Voltar ao topo"] {
+  background: #fff !important;
+  color: #1A1A1A !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+/* --- 11. ANIMAÇÕES SCROLL REVEAL (Butter Smooth) --- */
+.sr-item {
+  opacity: 0;
+  transform: translateY(40px);
+  will-change: opacity, transform;
+  transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.sr-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Input Search Clean */
+.search-wrap-premium input {
+  background: #fff !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  color: #1A1A1A !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.02) !important;
+}
+
+.search-wrap-premium input:focus {
+  border-color: #D4AF37 !important;
+  box-shadow: 0 5px 20px rgba(212, 175, 55, 0.1) !important;
+}
+
+.search-wrap-premium svg {
+  color: #999;
+}
+
+/* Loader background */
+#page-loader {
+  background: #FDFBF7 !important;
+}
+
+.cake-card-premium .card-actions {
+  position: relative;
+  z-index: 10;
 }

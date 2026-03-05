@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="icon" type="image/png" href="./Logo/logoSc.png" />
+    <title>Páscoa 2026 - Scatambulo Confeitaria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --chocolate: #3E2723;
+            --gold: #D4AF37;
+            --cream: #FAF9F6;
+            --glass: rgba(255, 255, 255, 0.85);
+        }
+
+        body {
+            background-color: var(--cream);
+            color: var(--chocolate);
+            overflow-x: hidden;
+        }
+
+        .glass-morphism {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .artisan-card {
+            background: white;
+            border-radius: 1.5rem;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(62, 39, 35, 0.05);
+            overflow: hidden;
+        }
+
+        .artisan-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(62, 39, 35, 0.08);
+        }
+
+        .btn-artisan {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 1.25rem;
+            background: var(--chocolate);
+            color: white;
+            border-radius: 1.25rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            transition: all 0.3s ease;
+        }
+
+        .btn-artisan:hover {
+            background: #2D1B18;
+            box-shadow: 0 8px 20px rgba(62, 39, 35, 0.2);
+        }
+
+        .nav-pill {
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .nav-pill:hover {
+            background: rgba(62, 39, 35, 0.05);
+        }
+
+        .nav-pill.active {
+            background: var(--chocolate);
+            color: white !important;
+        }
+
+        .weight-badge {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: var(--chocolate);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 800;
+            z-index: 10;
+        }
+
+        .input-premium {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            border: 1px solid #E5E7EB;
+            background: white;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-premium:focus {
+            border-color: var(--gold);
+        }
+
+        .label-premium {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            color: var(--chocolate);
+            opacity: 0.6;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .modal-glass-overlay {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E5E7EB;
+            border-radius: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+
+        /* Custom Notifications */
+        #notification-container {
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+            max-width: 400px;
+            pointer-events: none;
+        }
+
+        .notification {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-left: 4px solid var(--gold-premium);
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(62, 39, 35, 0.1);
+            color: var(--chocolate-dark);
+            font-size: 0.875rem;
+            font-weight: 500;
+            pointer-events: auto;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            animation: notificationSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes notificationSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .notification.hide {
+            animation: notificationSlideOut 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes notificationSlideOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+    </style>
+</head>
+
+<body class="font-['Poppins'] bg-[#FAF9F6] text-[#3E2723]">
+    <div id="notification-container"></div>
+
+    <header class="bg-white/70 backdrop-blur-md shadow-sm sticky top-0 z-20">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="./menu.html" class="flex items-center gap-2">
+                <h1 class="font-bold text-2xl text-[#D4AF37]">Scatambulo</h1>
+            </a>
+            <style>
+                @media (max-width: 768px) {
+                    #desktop-nav {
+                        display: none !important;
+                    }
+                }
+            </style>
+            <nav id="desktop-nav" class="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-700">
+                <a href="./menu.html#sabores" class="hover:text-[#D4AF37] transition-colors">Sabores</a>
+                <a href="./potes.html" class="hover:text-[#D4AF37] transition-colors">Potinhos</a>
+                <a href="./index.html" class="hover:text-[#D4AF37] transition-colors">Voltar à Bio</a>
+                <a href="./pascoa.html"
+                    class="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-[#BF953F] via-[#FCF6BA] to-[#B38728] text-[#3E2723] rounded-full text-xs font-bold tracking-widest uppercase shadow-lg shadow-amber-900/20 hover:scale-105 transition-all">
+                    <span>Páscoa 2026</span>
+                </a>
+            </nav>
+            <button id="mobile-menu-button"
+                class="md:hidden text-gray-700 p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                aria-label="Abrir menu principal">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                    </path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Overlay do Menu Mobile -->
+    <div id="mobile-menu-overlay"
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[140] opacity-0 invisible transition-opacity duration-300">
+    </div>
+
+    <!-- Menu Lateral Mobile -->
+    <div id="mobile-menu"
+        class="md:hidden fixed top-0 right-0 h-full w-[80%] bg-white/95 backdrop-blur-md shadow-2xl z-[150] transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16, 1, 0.3, 1)] flex flex-col">
+        <div class="p-6 flex justify-between items-center border-b border-gray-100">
+            <div>
+                <h2 class="font-bold text-xl text-[#3E2723] font-['Playfair_Display']">Scatambulo</h2>
+                <span
+                    class="text-[8px] uppercase tracking-[0.2em] text-[#D4AF37] font-black mt-1 block">Confeitaria</span>
+            </div>
+            <button id="mobile-menu-close-button" class="p-2 text-gray-400">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
+        </div>
+        <nav class="flex-grow p-6 flex flex-col gap-4">
+            <a href="./menu.html#sabores" class="nav-pill !px-6 !py-4">Sabores</a>
+            <a href="./potes.html" class="nav-pill !px-6 !py-4">Potinhos</a>
+            <a href="./index.html" class="nav-pill !px-6 !py-4">Bio</a>
+            <a href="./pascoa.html" class="nav-pill active !px-6 !py-4"
+                style="background:linear-gradient(to right, #BF953F, #FCF6BA, #B38728); color:#3E2723 !important;">Páscoa
+                2026</a>
+        </nav>
+        <div class="p-8 border-t border-gray-100">
+            <a href="./index.html" class="btn-artisan !py-4">
+                <span>&larr; Voltar à Bio</span>
+            </a>
+        </div>
+    </div>
+
+    <main class="container mx-auto px-6 max-w-7xl">
+        <!-- Hero Section -->
+        <section class="text-center pt-52 pb-40 relative">
+            <div
+                class="inline-block px-8 py-3 glass-morphism rounded-full mb-16 animate-fade-in shadow-sm border-black/5">
+                <span class="text-[#D4AF37] font-black tracking-[0.4em] uppercase text-[9px]">Angela Scatambulo •
+                    Coleção de Páscoa</span>
+            </div>
+
+            <h2
+                class="text-6xl md:text-[11rem] font-bold mb-16 text-[#3E2723] font-['Playfair_Display'] tracking-tighter leading-none animate-fade-in">
+                Doce <span class="italic font-normal text-[#D4AF37]">Encanto</span>
+            </h2>
+
+            <p
+                class="text-xl md:text-3xl text-stone-500 max-w-4xl mx-auto leading-relaxed mb-24 font-light italic animate-fade-in opacity-80">
+                A arte da confeitaria artesanal em cada detalhe, envolta em sofisticação e o mais puro chocolate.
+            </p>
+
+            <div class="flex items-center justify-center gap-8 animate-fade-in">
+                <div class="h-[1px] w-24 bg-stone-200"></div>
+                <div class="flex gap-3">
+                    <div class="w-1.5 h-1.5 bg-[#D4AF37] rounded-full"></div>
+                    <div class="w-1.5 h-1.5 border border-[#D4AF37] rounded-full"></div>
+                </div>
+                <div class="h-[1px] w-24 bg-stone-200"></div>
+            </div>
+        </section>
+
+        <!-- Grid de Sabores de Páscoa -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" id="pascoa-grid">
+            <!-- Os cards serão injetados via script abaixo para melhor organização -->
+        </div>
+    </main>
+
+    <!-- Modal de Pedido -->
+    <div id="easter-order-modal"
+        class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] hidden items-center justify-center p-4">
+        <div
+            class="bg-white rounded-[2rem] shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden animate-fade-in">
+            <div class="p-8 border-b border-gray-100 flex justify-between items-center">
+                <div>
+                    <span class="text-[8px] uppercase tracking-[0.3em] text-[#D4AF37] font-black mb-1 block">Angela
+                        Scatambulo</span>
+                    <h3 id="modal-flavor-name" class="text-3xl font-bold font-['Playfair_Display'] text-[#3E2723]">Sabor
+                    </h3>
+                </div>
+                <button id="close-easter-modal" class="p-2 text-gray-400 hover:text-[#3E2723] transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+
+            <form id="easter-checkout-form" class="flex-grow overflow-y-auto p-8 space-y-8 custom-scrollbar">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="md:col-span-2">
+                        <label for="order-name" class="label-premium">Seu Nome</label>
+                        <input type="text" id="order-name" name="name" required class="input-premium"
+                            placeholder="Ex: Maria Oliveira">
+                    </div>
+
+                    <div>
+                        <label for="order-date" class="label-premium">Data de Retirada/Entrega</label>
+                        <input type="text" id="order-date" name="date" required class="input-premium cursor-pointer"
+                            placeholder="00/00/0000">
+                    </div>
+                    <div>
+                        <label for="order-time" class="label-premium">Horário</label>
+                        <input type="text" id="order-time" name="time" required class="input-premium cursor-pointer"
+                            placeholder="00:00">
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label for="order-payment" class="label-premium">Forma de Pagamento</label>
+                        <select id="order-payment" name="payment" required class="input-premium cursor-pointer">
+                            <option value="Pix">Pix (Recomendado)</option>
+                            <option value="Cartão de Crédito">Cartão de Crédito</option>
+                            <option value="Dinheiro">Dinheiro</option>
+                        </select>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="label-premium">Tipo de Pedido</label>
+                        <div class="grid grid-cols-2 gap-4">
+                            <label
+                                class="flex items-center justify-center p-4 border border-gray-100 rounded-xl cursor-pointer hover:bg-gray-50 transition-all has-[:checked]:bg-[#3E2723] has-[:checked]:text-white">
+                                <input type="radio" name="delivery_type" value="retirada" checked class="sr-only">
+                                <span class="text-xs font-bold uppercase tracking-widest">Retirada</span>
+                            </label>
+                            <label
+                                class="flex items-center justify-center p-4 border border-gray-100 rounded-xl cursor-pointer hover:bg-gray-50 transition-all has-[:checked]:bg-[#3E2723] has-[:checked]:text-white">
+                                <input type="radio" name="delivery_type" value="entrega" class="sr-only">
+                                <span class="text-xs font-bold uppercase tracking-widest">Entrega</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="delivery-details" class="hidden space-y-6 animate-fade-in pt-4 border-t border-gray-50">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="md:col-span-2 relative">
+                            <label for="order-cep" class="label-premium">CEP</label>
+                            <input type="text" id="order-cep" name="cep" class="input-premium" placeholder="00000-000">
+                            <div id="cep-loader" class="absolute right-4 bottom-4 hidden items-center gap-2">
+                                <div
+                                    class="w-4 h-4 border-2 border-[#D4AF37] border-t-transparent rounded-full animate-spin">
+                                </div>
+                                <span
+                                    class="text-[8px] text-[#D4AF37] font-bold uppercase tracking-wider">Buscando...</span>
+                            </div>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="order-address" class="label-premium">Rua e Bairro</label>
+                            <input type="text" id="order-address" name="address" class="input-premium"
+                                placeholder="Ex: Av. Brasil, Centro">
+                        </div>
+                        <div>
+                            <label for="order-number" class="label-premium">Número / Apt</label>
+                            <input type="text" id="order-number" name="number" class="input-premium"
+                                placeholder="Ex: 123, Bloco A">
+                        </div>
+                        <div>
+                            <label for="order-city" class="label-premium">Cidade</label>
+                            <select id="order-city" name="city" class="input-premium">
+                                <option value="Marialva">Marialva (Taxa R$ 10)</option>
+                                <option value="Maringá">Maringá (Taxa R$ 25)</option>
+                                <option value="Sarandi">Sarandi (Taxa R$ 25)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="order-obs" class="label-premium">Ponto de Referência</label>
+                            <input type="text" id="order-obs" name="observations" class="input-premium"
+                                placeholder="Opcional">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="retirada-details" class="p-6 bg-gray-50 rounded-2xl space-y-4">
+                    <p class="text-[9px] uppercase tracking-widest text-[#D4AF37] font-black">Local de Retirada</p>
+                    <p class="text-sm text-stone-600 italic">Rua Papa João XXIII, 234 - Centro, Marialva - PR</p>
+                    <div class="flex gap-4">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Rua+Papa+Joao+XXIII+234+Marialva"
+                            target="_blank"
+                            class="flex-1 py-3 text-center bg-white border border-gray-200 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-gray-50 transition-all">Google
+                            Maps</a>
+                        <a href="https://waze.com/ul?q=Rua+Papa+Joao+XXIII+234+Marialva" target="_blank"
+                            class="flex-1 py-3 text-center bg-white border border-gray-200 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-gray-50 transition-all">Waze</a>
+                    </div>
+                </div>
+
+                <div class="pt-8">
+                    <button type="submit" class="btn-artisan">
+                        <span>Finalizar Reserva via WhatsApp</span>
+                    </button>
+                    <p class="text-[9px] text-center text-stone-400 mt-4 uppercase tracking-[0.2em]">Angela Scatambulo •
+                        Artisan Easter 2026</p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Feedback Modal -->
+    <div id="success-modal" class="fixed inset-0 z-[200] hidden items-center justify-center p-4">
+        <div class="fixed inset-0 bg-black/60 backdrop-blur-md"></div>
+        <div
+            class="glass-morphism relative w-full max-w-md p-10 rounded-[2.5rem] text-center shadow-2xl animate-fade-in">
+            <div
+                class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <h2 class="font-['Playfair_Display'] text-3xl font-bold text-[#3E2723] mb-4">Pedido Enviado!</h2>
+            <p class="text-stone-500 mb-8 leading-relaxed">Obrigado pelo seu pedido. Estamos ansiosos para adocicar o
+                seu dia!</p>
+            <div class="space-y-4">
+                <div class="w-full bg-gray-100 h-1 rounded-full overflow-hidden">
+                    <div id="redirect-progress"
+                        class="bg-[#D4AF37] h-full w-full transition-all duration-[3000ms] ease-linear"></div>
+                </div>
+                <p class="text-[10px] uppercase tracking-widest text-[#D4AF37] font-black">Redirecionando em <span
+                        id="redirect-timer">3</span>s...</p>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="bg-white mt-12 py-8 border-t border-gray-100">
+        <div class="container mx-auto text-center text-gray-400 text-sm">
+            <p>&copy; 2026 Scatambulo Confeitaria. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/pt.js"></script>
+    <script>
+        // Configuração dos 12 Sabores
+        const easterFlavors = [
+            { name: "Beijinho", img: "Beijinho.JPEG", desc: "Casca de chocolate ao leite recheada com cremoso beijinho de coco artesanal." },
+            { name: "Brigadeiro", img: "Brigadeiro.JPEG", desc: "Clássico irresistível: O verdadeiro brigadeiro Scatambulo numa casca ao leite." },
+            { name: "Caramelo Crocante", img: "CarameloCrocante.JPEG", desc: "Caramelo salgado perfeitamente equilibrado com crocante de nozes e amendoim." },
+            { name: "Casadinho", img: "Casadinho.JPEG", desc: "A harmonia perfeita entre o brigadeiro tradicional e o brigadeiro de ninho." },
+            { name: "Cereja", img: "Cereja.JPEG", desc: "Sofisticação em cada mordida com nosso exclusivo recheio trufado de cereja." },
+            { name: "Dois Amores", img: "DoisAmores.JPEG", desc: "Metade chocolate branco, metade chocolate ao leite, unindo dois amores texturados." },
+            { name: "Ninho com Morango", img: "NinhoComMorango.JPEG", desc: "O frescor do morango combinado com a doçura cremosa do Leite Ninho." },
+            { name: "Ninho com Nutella", img: "NinhoComNutella.JPEG", desc: "O sucesso definitivo: O casamento impecável entre creme Ninho e autêntica Nutella." },
+            { name: "Nozes Crocante", img: "NozesCrocante.JPEG", desc: "Crocância e sabor sofisticado com nozes premium em um recheio aveludado." },
+            { name: "Ovomaltine", img: "Ovomaltine.JPEG", desc: "Muito sabor e crocância do autêntico creme de Ovomaltine." },
+            { name: "Pistache c/ Frutas Vermelhas", img: "PistacheComFrutasVermelhas.JPEG", desc: "O contraste fino do pistache importado com a acidez das frutas vermelhas." },
+            { name: "Uva Crocante", img: "UvaCrocante.JPEG", desc: "Inovador e surpreendente, a leveza da uva coberta com casquinha crocante secreta." }
+        ];
+
+        const grid = document.getElementById("pascoa-grid");
+
+        easterFlavors.forEach(flavor => {
+            const card = document.createElement("div");
+            card.className = "artisan-card group flex flex-col";
+
+            card.innerHTML = `
+        <div class="relative w-full aspect-square overflow-hidden bg-white">
+            <div class="weight-badge">de 350g a 500g</div>
+            <img loading="lazy" src="./saboresPascoa/${flavor.img}" alt="Ovo de Páscoa ${flavor.name}" 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+        </div>
+        <div class="p-10 flex flex-col flex-grow text-center">
+            <h3 class="font-['Playfair_Display'] text-3xl md:text-4xl font-bold text-[#3E2723] mb-4 leading-tight">${flavor.name}</h3>
+            <p class="text-sm text-stone-500 font-light mb-10 flex-grow leading-relaxed italic px-4">${flavor.desc}</p>
+            <button onclick="openEasterModal('${flavor.name}')" class="btn-artisan">
+                <span>Encomendar Agora</span>
+            </button>
+        </div>
+      `;
+
+            grid.appendChild(card);
+        });
+
+        // Modal elements
+        const modal = document.getElementById('easter-order-modal');
+        const closeBtn = document.getElementById('close-easter-modal');
+        const flavorTitle = document.getElementById('modal-flavor-name');
+        const checkoutForm = document.getElementById('easter-checkout-form');
+        const deliveryDetails = document.getElementById('delivery-details');
+        const retiradaDetails = document.getElementById('retirada-details');
+        const deliveryRadios = document.querySelectorAll('input[name="delivery_type"]');
+
+        const cepInput = document.getElementById('order-cep');
+        const cepLoader = document.getElementById('cep-loader');
+        const addressInput = document.getElementById('order-address');
+        const citySelect = document.getElementById('order-city');
+
+        let currentSelectedFlavor = "";
+
+        function openEasterModal(flavorName) {
+            currentSelectedFlavor = flavorName;
+            flavorTitle.textContent = "Ovo " + flavorName;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeEasterModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+
+        closeBtn.addEventListener('click', closeEasterModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeEasterModal();
+        });
+
+        deliveryRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                if (radio.value === 'entrega') {
+                    deliveryDetails.classList.remove('hidden');
+                    retiradaDetails.classList.add('hidden');
+                    addressInput.required = true;
+                    if (cepInput) cepInput.required = true;
+                } else {
+                    deliveryDetails.classList.add('hidden');
+                    retiradaDetails.classList.remove('hidden');
+                    addressInput.required = false;
+                    if (cepInput) cepInput.required = false;
+                }
+            });
+        });
+
+        // CEP Lookup Logic
+        if (cepInput) {
+            cepInput.addEventListener('input', async (e) => {
+                let cep = e.target.value.replace(/\D/g, "");
+
+                // Formatação em tempo real
+                if (cep.length > 5) e.target.value = cep.replace(/^(\d{5})(\d)/, "$1-$2");
+                else e.target.value = cep;
+
+                // Limpa campos se o CEP for apagado
+                if (cep.length < 8) {
+                    addressInput.value = "";
+                }
+
+                if (cep.length === 8) {
+                    cepLoader.classList.remove('hidden');
+                    cepLoader.classList.add('flex');
+                    try {
+                        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                        const data = await response.json();
+
+                        if (data.erro) {
+                            showNotification("CEP não encontrado. Por favor, preencha manualmente.", "error");
+                            addressInput.focus();
+                        } else {
+                            addressInput.value = `${data.logradouro}, ${data.bairro}`;
+
+                            const cityMap = { "Marialva": "Marialva", "Maringa": "Maringá", "Sarandi": "Sarandi" };
+                            const foundCity = cityMap[data.localidade] || null;
+                            if (foundCity) citySelect.value = foundCity;
+
+                            showNotification("Endereço localizado com sucesso!", "success");
+                        }
+                    } catch (err) {
+                        console.error(err);
+                        showNotification("Erro ao buscar o CEP. Tente preencher manualmente.", "error");
+                    } finally {
+                        cepLoader.classList.add('hidden');
+                        cepLoader.classList.remove('flex');
+                    }
+                }
+            });
+        }
+
+        // Notification System
+        function showNotification(message, type = "info") {
+            const container = document.getElementById('notification-container');
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+
+            const icon = type === "error" ? "⚠️" : "✨";
+            notification.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+
+            container.appendChild(notification);
+
+            setTimeout(() => {
+                notification.classList.add('hide');
+                setTimeout(() => notification.remove(), 500);
+            }, 5000);
+        }
+
+        // Time Validation Logic (2-hour lead time)
+        const timeInput = document.getElementById('order-time');
+        const dateInput = document.getElementById('order-date');
+
+        flatpickr("#order-date", {
+            dateFormat: "d/m/Y",
+            minDate: "today",
+            locale: "pt",
+            onChange: function () { validateTime(); }
+        });
+
+        flatpickr("#order-time", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            time_24hr: true,
+            onChange: function () { validateTime(); }
+        });
+
+        function validateTime() {
+            const selectedDate = dateInput.value;
+            const selectedTime = timeInput.value;
+            if (!selectedDate || !selectedTime) return true;
+
+            const now = new Date();
+            const [d, m, y] = selectedDate.split('/').map(Number);
+            const [h, min] = selectedTime.split(':').map(Number);
+            const deliveryDate = new Date(y, m - 1, d, h, min);
+
+            const twoHoursLater = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+
+            if (deliveryDate < now) {
+                showNotification("Atenção: Não é possível selecionar um horário no passado.", "error");
+                const adjustedH = String(twoHoursLater.getHours()).padStart(2, '0');
+                const adjustedM = String(twoHoursLater.getMinutes()).padStart(2, '0');
+                if (timeInput._flatpickr) timeInput._flatpickr.setDate(`${adjustedH}:${adjustedM}`);
+                return false;
+            }
+
+            if (deliveryDate.toDateString() === now.toDateString()) {
+                if (deliveryDate < twoHoursLater) {
+                    showNotification("O horário atual não tem 2 horas de antecedência, ajustamos para você", "error");
+
+                    const adjustedH = String(twoHoursLater.getHours()).padStart(2, '0');
+                    const adjustedM = String(twoHoursLater.getMinutes()).padStart(2, '0');
+
+                    if (timeInput._flatpickr) {
+                        timeInput._flatpickr.setDate(`${adjustedH}:${adjustedM}`);
+                        // Se o ajuste pulou para o dia seguinte (ex: pedido as 23h)
+                        if (twoHoursLater.toDateString() !== now.toDateString()) {
+                            if (dateInput._flatpickr) dateInput._flatpickr.setDate(twoHoursLater);
+                        }
+                    }
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        checkoutForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            if (!validateTime()) return;
+
+            const formData = new FormData(checkoutForm);
+            const name = formData.get('name');
+            const date = formData.get('date');
+            const time = formData.get('time');
+            const deliveryType = formData.get('delivery_type');
+            const address = formData.get('address');
+            const number = formData.get('number');
+            const residenceType = formData.get('residence_type');
+            const city = formData.get('city');
+            const payment = formData.get('payment');
+            const observations = formData.get('observations');
+
+            const phoneNumber = "5511942426914";
+
+            let message = `🐣 *PEDIDO DE PÁSCOA - SCATAMBULO*\n\n`;
+            message += `🍰 *Sabor:* ${currentSelectedFlavor} (*350g a 500g*)\n`;
+            message += `👤 *Cliente:* ${name}\n`;
+            message += `📅 *Data:* ${date}\n`;
+            message += `⏰ *Horário:* ${time}\n`;
+            message += `💳 *Pagamento:* ${payment}\n\n`;
+
+            if (deliveryType === 'retirada') {
+                message += `📍 *Tipo:* Vou retirar no local\n`;
+            } else {
+                message += `🚚 *Tipo:* Solicito entrega\n`;
+                message += `🏠 *Endereço:* ${address}, nº ${number}\n`;
+                message += `🏙️ *Cidade:* ${city}\n`;
+
+                // Add Google Maps link for easy navigation
+                const mapQuery = encodeURIComponent(`${address}, ${number}, ${city}`);
+                message += `📍 *Localização:* https://www.google.com/maps/search/?api=1&query=${mapQuery}\n`;
+            }
+
+            if (observations) {
+                message += `\n📝 *Observações:* ${observations}\n`;
+            }
+
+            message += `\n_Aguardamos sua confirmação de disponibilidade. Obrigado!_`;
+
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+
+            // Success Experience
+            closeEasterModal();
+            triggerSuccessExperience();
+        });
+
+        function triggerSuccessExperience() {
+            // Confetti effect
+            const duration = 3 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 300 };
+
+            const randomInRange = (min, max) => Math.random() * (max - min) + min;
+
+            const interval = setInterval(function () {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+
+                confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+                confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+            }, 250);
+
+            // Show Success Modal
+            const successModal = document.getElementById('success-modal');
+            const timerSpan = document.getElementById('redirect-timer');
+            const progress = document.getElementById('redirect-progress');
+
+            successModal.classList.remove('hidden');
+            successModal.classList.add('flex');
+
+            // Start progress bar animation (next frame)
+            setTimeout(() => {
+                progress.style.width = '0%';
+            }, 50);
+
+            let timeLeft = 3;
+            const timerInterval = setInterval(() => {
+                timeLeft--;
+                timerSpan.textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    window.location.href = './pascoa.html';
+                }
+            }, 1000);
+        }
+
+        // Mobile Menu logic (保持原有)
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenuCloseButton = document.getElementById('mobile-menu-close-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+
+        function openMobileMenu() {
+            mobileMenuOverlay.classList.remove('invisible', 'opacity-0');
+            mobileMenu.classList.remove('translate-x-full');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            mobileMenuOverlay.classList.add('opacity-0');
+            mobileMenu.classList.add('translate-x-full');
+            setTimeout(() => {
+                mobileMenuOverlay.classList.add('invisible');
+            }, 300);
+            document.body.style.overflow = '';
+        }
+
+        if (mobileMenuButton) mobileMenuButton.addEventListener('click', openMobileMenu);
+        if (mobileMenuCloseButton) mobileMenuCloseButton.addEventListener('click', closeMobileMenu);
+        if (mobileMenuOverlay) mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+    </script>
+</body>
+
+</html>

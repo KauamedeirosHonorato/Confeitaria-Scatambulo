@@ -6,9 +6,9 @@
   // --- GLOBAL MODAL MANAGEMENT ---
   function closeAllModals() {
     const modalIds = [
-      "info-modal", "policy-modal", "tutorial-modal", "embalagens-modal", 
-      "saber-mais-modal", "checkout-modal", "novidade-modal", 
-      "packaging-selection-modal", "custom-alert-modal", 
+      "info-modal", "policy-modal", "tutorial-modal", "embalagens-modal",
+      "saber-mais-modal", "checkout-modal", "novidade-modal",
+      "packaging-selection-modal", "custom-alert-modal",
       "cart-panel-overlay", "success-modal", "nfce-modal"
     ];
 
@@ -22,7 +22,7 @@
 
     const cartPanel = document.getElementById("cart-panel");
     if (cartPanel) {
-        cartPanel.classList.add("translate-x-full");
+      cartPanel.classList.add("translate-x-full");
     }
 
     // Pause any videos that might be playing in modals
@@ -57,15 +57,15 @@
   }
 
   function hideVacationNotice() {
-      const vacationOverlay = document.getElementById('vacation-overlay');
-      if (vacationOverlay) {
-          vacationOverlay.classList.add('opacity-0');
-          // Espera a transição terminar para esconder o elemento
-          setTimeout(() => {
-              vacationOverlay.classList.add('hidden');
-              vacationOverlay.classList.remove('flex');
-          }, 700);
-      }
+    const vacationOverlay = document.getElementById('vacation-overlay');
+    if (vacationOverlay) {
+      vacationOverlay.classList.add('opacity-0');
+      // Espera a transição terminar para esconder o elemento
+      setTimeout(() => {
+        vacationOverlay.classList.add('hidden');
+        vacationOverlay.classList.remove('flex');
+      }, 700);
+    }
   }
 
   // --- FIM DO CONTROLE DE FÉRIAS ---
@@ -114,20 +114,20 @@
         const removeOpacity = () => img.classList.remove('opacity-0');
 
         if (img.complete) {
-            removeOpacity();
+          removeOpacity();
         } else {
-            img.addEventListener('load', removeOpacity, { once: true });
-            img.addEventListener('error', () => {
-                console.error('Image failed to load:', img.src);
-                // Optionally show a placeholder or error icon
-                const parent = img.parentElement;
-                if (parent) {
-                    const spinner = parent.querySelector('.absolute.inset-0.flex.items-center.justify-center');
-                    if (spinner) {
-                        spinner.innerHTML = '<svg class="w-12 h-12 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
-                    }
-                }
-            }, { once: true });
+          img.addEventListener('load', removeOpacity, { once: true });
+          img.addEventListener('error', () => {
+            console.error('Image failed to load:', img.src);
+            // Optionally show a placeholder or error icon
+            const parent = img.parentElement;
+            if (parent) {
+              const spinner = parent.querySelector('.absolute.inset-0.flex.items-center.justify-center');
+              if (spinner) {
+                spinner.innerHTML = '<svg class="w-12 h-12 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+              }
+            }
+          }, { once: true });
         }
       }
     });
@@ -157,7 +157,7 @@
 
         poteCards.forEach((card) => {
           const cardCategory = card.getAttribute("data-category");
-          
+
           // Reset da animação para garantir que ela ocorra novamente
           card.classList.remove("animate-fade-in-up");
           void card.offsetWidth; // Força o reflow
@@ -228,6 +228,7 @@
       // Restore body scroll
       document.body.classList.remove('overflow-hidden');
     };
+    window.closeMobileMenu = closeMenu;
 
     if (menuButton) {
       menuButton.addEventListener("click", openMenu);
@@ -261,32 +262,42 @@
       });
 
     const tutorialTab = document.getElementById("tutorial-tab");
-    if (tutorialTab)
-      tutorialTab.addEventListener("click", () => {
-        closeAllModals();
-        tutorialModal.classList.remove("hidden");
-        tutorialModal.classList.add("flex");
-        const video = document.getElementById("video-tutorial");
-        if (video) {
-          video.muted = true;
-          // Evita erro 416: Só reseta o tempo se o vídeo já tiver metadados carregados
-          if (video.readyState >= 1) {
-            video.currentTime = 0;
-          }
-          video.play().catch(error => {
-            // O autoplay pode ser bloqueado por alguns navegadores, o mute geralmente resolve.
-            console.warn("A reprodução automática do vídeo foi bloqueada pelo navegador.", error);
-          });
+    const mobileTutorialTab = document.getElementById("mobile-tutorial-tab");
+
+    const openTutorial = () => {
+      closeAllModals();
+      tutorialModal.classList.remove("hidden");
+      tutorialModal.classList.add("flex");
+      const video = document.getElementById("video-tutorial");
+      if (video) {
+        video.muted = true;
+        if (video.readyState >= 1) {
+          video.currentTime = 0;
         }
-      });
+        video.play().catch(error => {
+          console.warn("A reprodução automática do vídeo foi bloqueada pelo navegador.", error);
+        });
+      }
+      // Se for acionado pelo mobile, fecha o menu mobile
+      if (typeof window.closeMobileMenu === "function") window.closeMobileMenu();
+    };
+
+    if (tutorialTab) tutorialTab.addEventListener("click", openTutorial);
+    if (mobileTutorialTab) mobileTutorialTab.addEventListener("click", openTutorial);
 
     const policyTab = document.getElementById("policy-tab");
-    if (policyTab)
-      policyTab.addEventListener("click", () => {
-        closeAllModals();
-        policyModal.classList.remove("hidden");
-        policyModal.classList.add("flex");
-      });
+    const mobilePolicyTab = document.getElementById("mobile-policy-tab");
+
+    const openPolicy = () => {
+      closeAllModals();
+      policyModal.classList.remove("hidden");
+      policyModal.classList.add("flex");
+      // Se for acionado pelo mobile, fecha o menu mobile
+      if (typeof window.closeMobileMenu === "function") window.closeMobileMenu();
+    };
+
+    if (policyTab) policyTab.addEventListener("click", openPolicy);
+    if (mobilePolicyTab) mobilePolicyTab.addEventListener("click", openPolicy);
 
     const closeInfoModal = document.getElementById("close-info-modal");
     if (closeInfoModal)
@@ -339,7 +350,7 @@
       });
   }
 
-function initOpenEmbalagensModalButtons() {
+  function initOpenEmbalagensModalButtons() {
     const buttons = document.querySelectorAll('.btn-open-embalagens');
     buttons.forEach(button => {
       button.addEventListener('click', (e) => {
@@ -566,18 +577,18 @@ function initOpenEmbalagensModalButtons() {
 
   // --- FUNÇÃO DE TOAST MELHORADA ---
   function injectToastStyles() {
-      const styleId = 'toast-styles';
-      if (document.getElementById(styleId)) return;
+    const styleId = 'toast-styles';
+    if (document.getElementById(styleId)) return;
 
-      const style = document.createElement('style');
-      style.id = styleId;
-      style.innerHTML = `
+    const style = document.createElement('style');
+    style.id = styleId;
+    style.innerHTML = `
           @keyframes progress-bar-shrink {
               from { transform: scaleX(1); }
               to { transform: scaleX(0); }
           }
       `;
-      document.head.appendChild(style);
+    document.head.appendChild(style);
   }
 
   // Som de notificação (Pop suave)
@@ -585,66 +596,66 @@ function initOpenEmbalagensModalButtons() {
   notificationSound.volume = 0.4; // Volume ajustado para não ser intrusivo
 
   function showToast(message, type = 'success') {
-      injectToastStyles();
+    injectToastStyles();
 
-      // Configuração dos tipos de toast (Cores, Ícones e Títulos)
-      const toastConfig = {
-          success: {
-              iconBg: 'bg-[#D4AF37]',
-              iconPath: 'M5 13l4 4L19 7',
-              title: 'Adicionado',
-              gradient: 'from-[#D4AF37] to-[#f5e6b3]',
-              btnColor: 'text-[#D4AF37]'
-          },
-          error: {
-              iconBg: 'bg-red-500',
-              iconPath: 'M6 18L18 6M6 6l12 12',
-              title: 'Erro',
-              gradient: 'from-red-500 to-red-300',
-              btnColor: 'text-red-500'
-          },
-          warning: {
-              iconBg: 'bg-amber-500',
-              iconPath: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z',
-              title: 'Atenção',
-              gradient: 'from-amber-500 to-amber-300',
-              btnColor: 'text-amber-500'
-          }
-      };
-
-      const config = toastConfig[type] || toastConfig.success;
-      const isSuccess = type === 'success';
-
-      let toastContainer = document.getElementById('toast-container');
-      if (!toastContainer) {
-          toastContainer = document.createElement('div');
-          toastContainer.id = 'toast-container';
-          // Centralizado no topo da tela
-          toastContainer.className = 'fixed top-6 left-1/2 -translate-x-1/2 z-[10000] flex flex-col items-center gap-3 pointer-events-none';
-          document.body.appendChild(toastContainer);
+    // Configuração dos tipos de toast (Cores, Ícones e Títulos)
+    const toastConfig = {
+      success: {
+        iconBg: 'bg-[#D4AF37]',
+        iconPath: 'M5 13l4 4L19 7',
+        title: 'Adicionado',
+        gradient: 'from-[#D4AF37] to-[#f5e6b3]',
+        btnColor: 'text-[#D4AF37]'
+      },
+      error: {
+        iconBg: 'bg-red-500',
+        iconPath: 'M6 18L18 6M6 6l12 12',
+        title: 'Erro',
+        gradient: 'from-red-500 to-red-300',
+        btnColor: 'text-red-500'
+      },
+      warning: {
+        iconBg: 'bg-amber-500',
+        iconPath: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z',
+        title: 'Atenção',
+        gradient: 'from-amber-500 to-amber-300',
+        btnColor: 'text-amber-500'
       }
+    };
 
-      // Toca o som
-      notificationSound.currentTime = 0;
-      notificationSound.play().catch(e => {
-          // Ignora erros de autoplay (comum se o usuário ainda não interagiu com a página)
-      });
+    const config = toastConfig[type] || toastConfig.success;
+    const isSuccess = type === 'success';
 
-      // Vibração para mobile (se suportado)
-      // Nota: A API de vibração não funciona em iPhones (iOS) devido a restrições da Apple.
-      if (typeof navigator.vibrate === "function") {
-          try {
-              navigator.vibrate([100, 50, 100]); // Aumentei a duração para ser mais perceptível
-          } catch (e) {
-              // Silencia erros caso a vibração seja bloqueada pelo dispositivo
-          }
+    let toastContainer = document.getElementById('toast-container');
+    if (!toastContainer) {
+      toastContainer = document.createElement('div');
+      toastContainer.id = 'toast-container';
+      // Centralizado no topo da tela
+      toastContainer.className = 'fixed top-6 left-1/2 -translate-x-1/2 z-[10000] flex flex-col items-center gap-3 pointer-events-none';
+      document.body.appendChild(toastContainer);
+    }
+
+    // Toca o som
+    notificationSound.currentTime = 0;
+    notificationSound.play().catch(e => {
+      // Ignora erros de autoplay (comum se o usuário ainda não interagiu com a página)
+    });
+
+    // Vibração para mobile (se suportado)
+    // Nota: A API de vibração não funciona em iPhones (iOS) devido a restrições da Apple.
+    if (typeof navigator.vibrate === "function") {
+      try {
+        navigator.vibrate([100, 50, 100]); // Aumentei a duração para ser mais perceptível
+      } catch (e) {
+        // Silencia erros caso a vibração seja bloqueada pelo dispositivo
       }
+    }
 
-      const toast = document.createElement("div");
-      // Estado Inicial: Ícone pequeno, redondo, invisível e deslocado para baixo
-      toast.className = "custom-toast pointer-events-auto flex items-center justify-start gap-0 p-1 bg-white/95 backdrop-blur-xl border border-gray-200/50 shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] opacity-0 translate-y-8 rounded-full w-12 h-12 overflow-hidden";
-      
-      toast.innerHTML = `
+    const toast = document.createElement("div");
+    // Estado Inicial: Ícone pequeno, redondo, invisível e deslocado para baixo
+    toast.className = "custom-toast pointer-events-auto flex items-center justify-start gap-0 p-1 bg-white/95 backdrop-blur-xl border border-gray-200/50 shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] opacity-0 translate-y-8 rounded-full w-12 h-12 overflow-hidden";
+
+    toast.innerHTML = `
           <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 ${config.iconBg} rounded-full shadow-sm z-10 relative">
               <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="${config.iconPath}"></path>
@@ -663,75 +674,75 @@ function initOpenEmbalagensModalButtons() {
           <div class="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r ${config.gradient} w-full origin-left opacity-0 transition-opacity duration-300" style="animation: progress-bar-shrink 3s linear forwards;"></div>
       `;
 
-      const DURATION = 3000;
-      let closeTimeout;
+    const DURATION = 3000;
+    let closeTimeout;
 
-      const removeToast = () => {
-          clearTimeout(closeTimeout);
-          toast.classList.add("opacity-0", "translate-y-[-10px]", "scale-95"); // Saída suave para cima
-          toast.addEventListener('transitionend', () => {
-              if (toast.parentElement) toast.remove();
-          }, { once: true });
-      };
+    const removeToast = () => {
+      clearTimeout(closeTimeout);
+      toast.classList.add("opacity-0", "translate-y-[-10px]", "scale-95"); // Saída suave para cima
+      toast.addEventListener('transitionend', () => {
+        if (toast.parentElement) toast.remove();
+      }, { once: true });
+    };
 
-      const startCloseTimer = () => {
-          clearTimeout(closeTimeout);
-          closeTimeout = setTimeout(removeToast, DURATION);
-          const progressBar = toast.querySelector('.absolute.bottom-0');
-          if (progressBar) progressBar.style.animationPlayState = 'running';
-      };
+    const startCloseTimer = () => {
+      clearTimeout(closeTimeout);
+      closeTimeout = setTimeout(removeToast, DURATION);
+      const progressBar = toast.querySelector('.absolute.bottom-0');
+      if (progressBar) progressBar.style.animationPlayState = 'running';
+    };
 
-      const pauseCloseTimer = () => {
-          clearTimeout(closeTimeout);
-          const progressBar = toast.querySelector('.absolute.bottom-0');
-          if (progressBar) progressBar.style.animationPlayState = 'paused';
-      };
+    const pauseCloseTimer = () => {
+      clearTimeout(closeTimeout);
+      const progressBar = toast.querySelector('.absolute.bottom-0');
+      if (progressBar) progressBar.style.animationPlayState = 'paused';
+    };
 
-      toast.addEventListener('mouseenter', pauseCloseTimer);
-      toast.addEventListener('mouseleave', startCloseTimer);
-      
-      const closeButton = toast.querySelector('.close-toast-btn');
-      if (closeButton) closeButton.addEventListener('click', removeToast);
+    toast.addEventListener('mouseenter', pauseCloseTimer);
+    toast.addEventListener('mouseleave', startCloseTimer);
 
-      toastContainer.prepend(toast);
+    const closeButton = toast.querySelector('.close-toast-btn');
+    if (closeButton) closeButton.addEventListener('click', removeToast);
 
-      // FIX: Força o reflow para garantir que a animação inicial ocorra sempre
-      void toast.offsetWidth;
+    toastContainer.prepend(toast);
 
-      requestAnimationFrame(() => {
-          // 1. Aparece o ícone (sobe e fica visível)
-          toast.classList.remove("opacity-0", "translate-y-8");
-          
-          // 2. Expande para mostrar o texto após breve delay
-          setTimeout(() => {
-              toast.classList.remove("w-12", "h-12", "rounded-full", "p-1", "gap-0");
-              toast.classList.add("w-auto", "max-w-sm", "rounded-2xl", "p-3", "gap-3", "pr-2");
-              
-              // Mostra conteúdo interno
-              const content = toast.querySelectorAll('.toast-content, .close-toast-btn, .absolute.bottom-0');
-              content.forEach(el => el.classList.remove('opacity-0'));
-          }, 300);
-      });
+    // FIX: Força o reflow para garantir que a animação inicial ocorra sempre
+    void toast.offsetWidth;
 
-      startCloseTimer();
+    requestAnimationFrame(() => {
+      // 1. Aparece o ícone (sobe e fica visível)
+      toast.classList.remove("opacity-0", "translate-y-8");
+
+      // 2. Expande para mostrar o texto após breve delay
+      setTimeout(() => {
+        toast.classList.remove("w-12", "h-12", "rounded-full", "p-1", "gap-0");
+        toast.classList.add("w-auto", "max-w-sm", "rounded-2xl", "p-3", "gap-3", "pr-2");
+
+        // Mostra conteúdo interno
+        const content = toast.querySelectorAll('.toast-content, .close-toast-btn, .absolute.bottom-0');
+        content.forEach(el => el.classList.remove('opacity-0'));
+      }, 300);
+    });
+
+    startCloseTimer();
   }
 
   function openCartPanelAndCloseToast(buttonElement) {
-      const toast = buttonElement.closest('.custom-toast');
-      if (toast) {
-          toast.classList.add("opacity-0", "translate-y-[-10px]");
-          toast.addEventListener('transitionend', () => {
-              if (toast.parentElement) toast.remove();
-          }, { once: true });
-      }
+    const toast = buttonElement.closest('.custom-toast');
+    if (toast) {
+      toast.classList.add("opacity-0", "translate-y-[-10px]");
+      toast.addEventListener('transitionend', () => {
+        if (toast.parentElement) toast.remove();
+      }, { once: true });
+    }
 
-      const cartPanel = document.getElementById("cart-panel");
-      const cartOverlay = document.getElementById("cart-panel-overlay");
-      if (cartPanel && cartOverlay) {
-          if (window.closeAllModals) closeAllModals();
-          cartPanel.classList.remove("translate-x-full");
-          cartOverlay.classList.remove("hidden");
-      }
+    const cartPanel = document.getElementById("cart-panel");
+    const cartOverlay = document.getElementById("cart-panel-overlay");
+    if (cartPanel && cartOverlay) {
+      if (window.closeAllModals) closeAllModals();
+      cartPanel.classList.remove("translate-x-full");
+      cartOverlay.classList.remove("hidden");
+    }
   }
 
   function initiateOrder(cakeName, buttonElement, hasOptions = false) {
@@ -764,28 +775,34 @@ function initOpenEmbalagensModalButtons() {
     }
     if (!buttonElement) return; // Verificação de segurança
 
-    const card = buttonElement.closest('.carousel-slide') || buttonElement.closest('.group');
-    const selectElement = card.querySelector(".cake-size-select");
+    const card = buttonElement.closest('.card-content') || buttonElement.closest('.carousel-slide') || buttonElement.closest('.group');
+    const selectElement = card ? card.querySelector(".cake-size-select") : null;
+
+    if (!selectElement) {
+      console.error("Select de tamanho não encontrado para verificar a variação.");
+      return;
+    }
+
     const selectedOption = selectElement.options[selectElement.selectedIndex];
     const size = selectedOption.text;
 
     const uniqueId = `${cakeName}-${size}`.replace(/\s+/g, "-");
-    
+
     // Se o item já existe, garante o feedback visual e retorna
     if (cart.some((item) => item.id === uniqueId)) {
-        buttonElement.textContent = "Adicionado";
-        buttonElement.classList.add("bg-green-500", "cursor-not-allowed");
-        buttonElement.classList.remove("btn-gold-metallic");
-        return;
+      buttonElement.textContent = "Adicionado";
+      buttonElement.classList.add("bg-green-500", "cursor-not-allowed");
+      buttonElement.classList.remove("btn-gold-metallic");
+      return;
     }
 
     const { weightInKg, packagingCost } = parseSizeAndPrice(size);
-    
+
     let cakePricePerKg = cakePrices[cakeName];
     if (cakePricePerKg === undefined) {
-        cakePricePerKg = 150;
+      cakePricePerKg = 150;
     }
-    
+
     // Arredonda para 2 casas decimais para evitar erros de ponto flutuante
     const itemPrice = Math.round((weightInKg * cakePricePerKg + packagingCost) * 100) / 100;
 
@@ -848,12 +865,10 @@ function initOpenEmbalagensModalButtons() {
         itemElement.innerHTML = `
           <div>
             <p class="font-semibold text-gray-800">${item.name}</p>
-            <p class="text-sm text-gray-600">${ 
-              item.type === "packaging" ? item.size : item.size 
-            } - ${formatCurrency(item.price)}</p>
+            <p class="text-sm text-gray-600">${item.type === "packaging" ? item.size : item.size
+          } - ${formatCurrency(item.price)}</p>
           </div>
-          <button onclick="removeFromCart('${
-            item.id
+          <button onclick="removeFromCart('${item.id
           }')" class="text-red-500 hover:text-red-700">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -912,19 +927,16 @@ function initOpenEmbalagensModalButtons() {
         itemCard.innerHTML = `
           <div class="bg-white p-4 rounded-lg shadow-md h-full flex flex-col justify-between">
             <div>
-              <h2 class="text-xl font-bold font-playfair text-gray-800">${ 
-                item.name
-              }</h2>
-              <p class="text-gray-600">${ 
-                item.type === "packaging" ? item.size : item.size
-              }</p>
+              <h2 class="text-xl font-bold font-playfair text-gray-800">${item.name
+          }</h2>
+              <p class="text-gray-600">${item.type === "packaging" ? item.size : item.size
+          }</p>
               <p class="font-semibold text-gray-800 mt-2">${formatCurrency(
-                item.price
-              )}</p>
+            item.price
+          )}</p>
             </div>
-            <button onclick="removeFromCart('${
-              item.id
-            }')" class="mt-4 text-red-500 hover:text-red-700 text-sm self-start">
+            <button onclick="removeFromCart('${item.id
+          }')" class="mt-4 text-red-500 hover:text-red-700 text-sm self-start">
               Remover
             </button>
           </div>`;
@@ -1095,8 +1107,8 @@ function initOpenEmbalagensModalButtons() {
         "2025-12-25",
         "2026-01-01",
         {
-            from: "2026-01-10",
-            to: "2026-01-25"
+          from: "2026-01-10",
+          to: "2026-01-25"
         }
       ],
       onChange: function (selectedDates, dateStr, instance) {
@@ -1168,7 +1180,7 @@ function initOpenEmbalagensModalButtons() {
     const closeButton = document.getElementById("close-checkout-modal");
     const form = document.getElementById("checkout-form");
     const retiradaRadios = document.querySelectorAll('input[name="retirada"]');
-    
+
     // Definição antecipada dos inputs para uso nas funções auxiliares
     const dataInput = document.getElementById("data_entrega");
     const inicioInput = document.getElementById("horario_inicio");
@@ -1196,16 +1208,16 @@ function initOpenEmbalagensModalButtons() {
       const [h, m] = timeStr.split(":").map(Number);
       return h * 60 + m;
     };
-    
+
     const getClosingTime = () => {
       // Prioriza a data do objeto flatpickr para evitar erros de fuso/string
       if (dataInput._flatpickr && dataInput._flatpickr.selectedDates.length > 0) {
-          const sel = dataInput._flatpickr.selectedDates[0];
-          if (sel.getDay() === 0) return { minutes: 12 * 60, str: "12:00" };
+        const sel = dataInput._flatpickr.selectedDates[0];
+        if (sel.getDay() === 0) return { minutes: 12 * 60, str: "12:00" };
       } else if (dataInput.value) {
-          const [y, m, d] = dataInput.value.split("-");
-          const sel = new Date(y, m - 1, d);
-          if (sel.getDay() === 0) return { minutes: 12 * 60, str: "12:00" };
+        const [y, m, d] = dataInput.value.split("-");
+        const sel = new Date(y, m - 1, d);
+        if (sel.getDay() === 0) return { minutes: 12 * 60, str: "12:00" };
       }
       return { minutes: 18 * 60, str: "18:00" };
     };
@@ -1228,8 +1240,8 @@ function initOpenEmbalagensModalButtons() {
       // Atualiza texto informativo sobre horário
       const deliveryInfo = document.getElementById("delivery-time-info");
       if (deliveryInfo) {
-          const { str } = getClosingTime();
-          deliveryInfo.innerHTML = `
+        const { str } = getClosingTime();
+        deliveryInfo.innerHTML = `
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
@@ -1239,44 +1251,44 @@ function initOpenEmbalagensModalButtons() {
 
       // Lógica para Domingo: Preencher 08:00 - 12:00
       const { minutes: closingMinutes } = getClosingTime();
-      
+
       // --- Ajuste automático para 2h de antecedência se for hoje ---
       if (isToday()) {
-          const now = new Date();
-          // Adiciona 2 horas e 5 minutos de margem
-          const minTime = new Date(now.getTime() + 2 * 60 * 60 * 1000 + 5 * 60 * 1000);
-          const minMinutes = minTime.getHours() * 60 + minTime.getMinutes();
-          const ABERTURA = 8 * 60;
+        const now = new Date();
+        // Adiciona 2 horas e 5 minutos de margem
+        const minTime = new Date(now.getTime() + 2 * 60 * 60 * 1000 + 5 * 60 * 1000);
+        const minMinutes = minTime.getHours() * 60 + minTime.getMinutes();
+        const ABERTURA = 8 * 60;
 
-          // Se o horário calculado estiver dentro do expediente
-          if (minMinutes > ABERTURA && minMinutes < closingMinutes) {
-              const h = String(minTime.getHours()).padStart(2, '0');
-              const m = String(minTime.getMinutes()).padStart(2, '0');
-              const newTime = `${h}:${m}`;
-              
-              if (inicioInput._flatpickr) inicioInput._flatpickr.setDate(newTime, false);
-              else inicioInput.value = newTime;
-              
-              // Ajusta o fim também (Início + 2h)
-              let hFim = minTime.getHours() + 2;
-              let mFim = minTime.getMinutes();
-              if (hFim * 60 + mFim > closingMinutes) {
-                  hFim = Math.floor(closingMinutes / 60);
-                  mFim = closingMinutes % 60;
-              }
-              const newTimeFim = `${String(hFim).padStart(2, '0')}:${String(mFim).padStart(2, '0')}`;
-              if (fimInput._flatpickr) fimInput._flatpickr.setDate(newTimeFim, false);
-              else fimInput.value = newTimeFim;
+        // Se o horário calculado estiver dentro do expediente
+        if (minMinutes > ABERTURA && minMinutes < closingMinutes) {
+          const h = String(minTime.getHours()).padStart(2, '0');
+          const m = String(minTime.getMinutes()).padStart(2, '0');
+          const newTime = `${h}:${m}`;
+
+          if (inicioInput._flatpickr) inicioInput._flatpickr.setDate(newTime, false);
+          else inicioInput.value = newTime;
+
+          // Ajusta o fim também (Início + 2h)
+          let hFim = minTime.getHours() + 2;
+          let mFim = minTime.getMinutes();
+          if (hFim * 60 + mFim > closingMinutes) {
+            hFim = Math.floor(closingMinutes / 60);
+            mFim = closingMinutes % 60;
           }
-          
-          // Trava o campo fim se for hoje
-          fimInput.setAttribute("readonly", true);
-          if (fimInput._flatpickr) fimInput._flatpickr._input.disabled = true;
-          fimInput.classList.add("bg-gray-100", "cursor-not-allowed");
+          const newTimeFim = `${String(hFim).padStart(2, '0')}:${String(mFim).padStart(2, '0')}`;
+          if (fimInput._flatpickr) fimInput._flatpickr.setDate(newTimeFim, false);
+          else fimInput.value = newTimeFim;
+        }
+
+        // Trava o campo fim se for hoje
+        fimInput.setAttribute("readonly", true);
+        if (fimInput._flatpickr) fimInput._flatpickr._input.disabled = true;
+        fimInput.classList.add("bg-gray-100", "cursor-not-allowed");
       } else {
-          fimInput.removeAttribute("readonly");
-          if (fimInput._flatpickr) fimInput._flatpickr._input.disabled = false;
-          fimInput.classList.remove("bg-gray-100", "cursor-not-allowed");
+        fimInput.removeAttribute("readonly");
+        if (fimInput._flatpickr) fimInput._flatpickr._input.disabled = false;
+        fimInput.classList.remove("bg-gray-100", "cursor-not-allowed");
       }
     };
     // ----------------------------------------
@@ -1310,7 +1322,7 @@ function initOpenEmbalagensModalButtons() {
           if (['cep', 'endereco', 'num', 'bairro', 'cidade'].includes(id)) {
             field.required = !shouldDisable;
           }
-          
+
           if (shouldDisable) {
             field.classList.add("bg-gray-100", "cursor-not-allowed");
             field.value = ''; // Limpa o valor ao desabilitar
@@ -1323,8 +1335,8 @@ function initOpenEmbalagensModalButtons() {
       if (shouldDisable) {
         const cepNotice = document.getElementById("cep-notice");
         if (cepNotice) {
-            cepNotice.classList.add("hidden");
-            cepNotice.textContent = "";
+          cepNotice.classList.add("hidden");
+          cepNotice.textContent = "";
         }
       }
     }
@@ -1335,11 +1347,11 @@ function initOpenEmbalagensModalButtons() {
       if (isRetirada && valorEntregaSelect) {
         valorEntregaSelect.value = "0"; // Define valor 0 para cálculo
       }
-      
+
       // Alterna os textos dos labels conforme a seleção
       if (labelData && labelHorario) {
-          labelData.textContent = isRetirada ? "Data da retirada:" : "Data de entrega:";
-          labelHorario.textContent = isRetirada ? "Horário de retirada:" : "Horário para entrega:";
+        labelData.textContent = isRetirada ? "Data da retirada:" : "Data de entrega:";
+        labelHorario.textContent = isRetirada ? "Horário de retirada:" : "Horário para entrega:";
       }
 
       updateCheckoutTotal();
@@ -1353,7 +1365,7 @@ function initOpenEmbalagensModalButtons() {
       maringa: { id: "20", taxa: 25.0 },
       sarandi: { id: "30", taxa: 25.0 },
     };
-    
+
     function updateCheckoutTotal() {
       // IMPORTANTE: Os IDs (10, 20, 30) devem estar sincronizados com os values do <select> no HTML
       const subtotalElement = document.getElementById("checkout-subtotal");
@@ -1373,7 +1385,7 @@ function initOpenEmbalagensModalButtons() {
       }
 
       const itemsSubtotal = cart.reduce((sum, item) => sum + item.price, 0);
-      
+
       const isRetirada = document.querySelector('input[name="retirada"]:checked')?.value === 'sim';
       const selectedDeliveryId = isRetirada ? "0" : valorEntregaSelect.value;
       const deliveryCity = Object.values(CIDADES_ATENDIDAS).find(c => c.id === selectedDeliveryId);
@@ -1505,29 +1517,29 @@ function initOpenEmbalagensModalButtons() {
           const now = new Date();
           // Calcula o horário mínimo permitido (agora + 2 horas)
           const minDeliveryTime = new Date(now.getTime() + 2 * 60 * 60 * 1000);
-          
+
           // Verifica se virou o dia (passou da meia-noite no cálculo) ou se passou do fechamento
           if (minDeliveryTime.getDate() !== now.getDate()) {
-             errorMsg = "Infelizmente já encerramos os pedidos para entrega hoje.";
-             adjustedTime = FECHAMENTO_STR;
-             const [hClose, mClose] = FECHAMENTO_STR.split(":").map(Number);
-             hora = hClose;
-             minuto = mClose;
+            errorMsg = "Infelizmente já encerramos os pedidos para entrega hoje.";
+            adjustedTime = FECHAMENTO_STR;
+            const [hClose, mClose] = FECHAMENTO_STR.split(":").map(Number);
+            hora = hClose;
+            minuto = mClose;
           } else {
-              const minDeliveryMinutes = minDeliveryTime.getHours() * 60 + minDeliveryTime.getMinutes();
-              
-              if (minDeliveryMinutes > FECHAMENTO) {
-                 errorMsg = `Infelizmente já encerramos os pedidos para entrega hoje (necessário 2h de antecedência até às ${FECHAMENTO_STR}).`;
-                 adjustedTime = FECHAMENTO_STR;
-                 const [hClose, mClose] = FECHAMENTO_STR.split(":").map(Number);
-                 hora = hClose;
-                 minuto = mClose;
-              } else if (currentMinutes < minDeliveryMinutes) {
-                 errorMsg = `Para hoje, precisamos de no mínimo 2h de antecedência.`;
-                 hora = minDeliveryTime.getHours();
-                 minuto = minDeliveryTime.getMinutes();
-                 adjustedTime = `${String(hora).padStart(2, "0")}:${String(minuto).padStart(2, "0")}`;
-              }
+            const minDeliveryMinutes = minDeliveryTime.getHours() * 60 + minDeliveryTime.getMinutes();
+
+            if (minDeliveryMinutes > FECHAMENTO) {
+              errorMsg = `Infelizmente já encerramos os pedidos para entrega hoje (necessário 2h de antecedência até às ${FECHAMENTO_STR}).`;
+              adjustedTime = FECHAMENTO_STR;
+              const [hClose, mClose] = FECHAMENTO_STR.split(":").map(Number);
+              hora = hClose;
+              minuto = mClose;
+            } else if (currentMinutes < minDeliveryMinutes) {
+              errorMsg = `Para hoje, precisamos de no mínimo 2h de antecedência.`;
+              hora = minDeliveryTime.getHours();
+              minuto = minDeliveryTime.getMinutes();
+              adjustedTime = `${String(hora).padStart(2, "0")}:${String(minuto).padStart(2, "0")}`;
+            }
           }
         }
 
@@ -1553,14 +1565,14 @@ function initOpenEmbalagensModalButtons() {
         // Auto-preencher horário final (+ 2 horas)
         let horaFinal = hora + 2;
         let minutoFinal = minuto;
-        
+
         // Verifica teto de FECHamento
         if (horaFinal * 60 + minutoFinal > FECHAMENTO) {
-            const [hClose, mClose] = FECHAMENTO_STR.split(":").map(Number);
-            horaFinal = hClose;
-            minutoFinal = mClose;
+          const [hClose, mClose] = FECHAMENTO_STR.split(":").map(Number);
+          horaFinal = hClose;
+          minutoFinal = mClose;
         }
-        
+
         const finalStr = String(horaFinal).padStart(2, "0") + ":" + String(minutoFinal).padStart(2, "0");
         if (fimInput._flatpickr) fimInput._flatpickr.setDate(finalStr, false);
         else fimInput.value = finalStr;
@@ -1580,7 +1592,7 @@ function initOpenEmbalagensModalButtons() {
 
         if (horaFimEmMinutos > FECHAMENTO) {
           if (timeNotice && timeNoticeMsg) {
-            timeNoticeMsg.textContent = 
+            timeNoticeMsg.textContent =
               "Nosso horário de entregas é das 08:00 às " + FECHAMENTO_STR;
             timeNotice.classList.remove("hidden");
           }
@@ -1596,7 +1608,7 @@ function initOpenEmbalagensModalButtons() {
             timeNotice.classList.remove("hidden");
           }
           if (this._flatpickr) this._flatpickr.clear();
-          else this.value = ""; 
+          else this.value = "";
           return;
         }
 
@@ -1770,24 +1782,24 @@ function initOpenEmbalagensModalButtons() {
         // Validação de Nome e Sobrenome
         const nomeInput = document.getElementById('nome');
         if (nomeInput) {
-            const nomeCompleto = nomeInput.value.trim();
-            const partesNome = nomeCompleto.split(' ').filter(part => part.length > 0);
-            if (partesNome.length < 2) {
-                showToast('Por favor, insira seu nome e sobrenome.', 'error');
-                nomeInput.focus();
-                
-                // Efeito Shake e Borda Vermelha
-                nomeInput.classList.add('animate-shake', 'border-red-500', 'ring-1', 'ring-red-500');
-                setTimeout(() => {
-                    nomeInput.classList.remove('animate-shake');
-                }, 500);
+          const nomeCompleto = nomeInput.value.trim();
+          const partesNome = nomeCompleto.split(' ').filter(part => part.length > 0);
+          if (partesNome.length < 2) {
+            showToast('Por favor, insira seu nome e sobrenome.', 'error');
+            nomeInput.focus();
 
-                nomeInput.addEventListener('input', () => {
-                    nomeInput.classList.remove('border-red-500', 'ring-1', 'ring-red-500');
-                }, { once: true });
+            // Efeito Shake e Borda Vermelha
+            nomeInput.classList.add('animate-shake', 'border-red-500', 'ring-1', 'ring-red-500');
+            setTimeout(() => {
+              nomeInput.classList.remove('animate-shake');
+            }, 500);
 
-                return;
-            }
+            nomeInput.addEventListener('input', () => {
+              nomeInput.classList.remove('border-red-500', 'ring-1', 'ring-red-500');
+            }, { once: true });
+
+            return;
+          }
         }
 
         const formData = new FormData(form);
@@ -1798,7 +1810,7 @@ function initOpenEmbalagensModalButtons() {
         // Armazena os detalhes e abre o modal de NFC-e
         pendingOrderDetails = details;
         closeModal();
-        
+
         const nfceModal = document.getElementById('nfce-modal');
         const nfceDetails = document.getElementById('nfce-details');
         const nfceDoc = document.getElementById('nfce-document');
@@ -1806,322 +1818,322 @@ function initOpenEmbalagensModalButtons() {
         const nfceAddress = document.getElementById('nfce-company-address');
         const cnpjFields = document.getElementById('cnpj-fields');
         const useAddressBtn = document.getElementById('use-delivery-address-btn');
-        
+
         // Reset modal state
         if (nfceDetails) nfceDetails.classList.add('hidden');
         if (cnpjFields) cnpjFields.classList.add('hidden');
         if (nfceDoc) nfceDoc.value = '';
         if (nfceCompany) nfceCompany.value = '';
         if (nfceAddress) nfceAddress.value = '';
-        
+
         if (useAddressBtn) {
-            if (details.retirada === 'sim') {
-                useAddressBtn.classList.add('hidden');
-            } else {
-                useAddressBtn.classList.remove('hidden');
-            }
+          if (details.retirada === 'sim') {
+            useAddressBtn.classList.add('hidden');
+          } else {
+            useAddressBtn.classList.remove('hidden');
+          }
         }
-        
+
         if (nfceModal) {
-            nfceModal.classList.remove('hidden');
-            nfceModal.classList.add('flex');
+          nfceModal.classList.remove('hidden');
+          nfceModal.classList.add('flex');
         }
       });
     }
   }
 
   function initNfceModal() {
-      const modal = document.getElementById('nfce-modal');
-      if (!modal) return;
+    const modal = document.getElementById('nfce-modal');
+    if (!modal) return;
 
-      const radioOptions = document.querySelectorAll('input[name="nfce_option"]');
-      const cnpjFields = document.getElementById('nfce-cnpj-fields');
-      const cnpjInput = document.getElementById('nfce-document-cnpj');
-      const companyNameInput = document.getElementById('nfce-company-name');
-      const companyAddressInput = document.getElementById('nfce-company-address');
-      const useAddressBtn = document.getElementById('use-delivery-address-btn');
-      const confirmBtn = document.getElementById('nfce-confirm-btn');
-      const closeBtn = document.getElementById('nfce-close-btn');
+    const radioOptions = document.querySelectorAll('input[name="nfce_option"]');
+    const cnpjFields = document.getElementById('nfce-cnpj-fields');
+    const cnpjInput = document.getElementById('nfce-document-cnpj');
+    const companyNameInput = document.getElementById('nfce-company-name');
+    const companyAddressInput = document.getElementById('nfce-company-address');
+    const useAddressBtn = document.getElementById('use-delivery-address-btn');
+    const confirmBtn = document.getElementById('nfce-confirm-btn');
+    const closeBtn = document.getElementById('nfce-close-btn');
 
-      const toggleFields = () => {
-          const selected = document.querySelector('input[name="nfce_option"]:checked').value;
-          
-          cnpjFields.classList.toggle('hidden', selected !== 'cnpj');
-          if (selected === 'cnpj') cnpjInput.focus();
-      };
+    const toggleFields = () => {
+      const selected = document.querySelector('input[name="nfce_option"]:checked').value;
 
-      radioOptions.forEach(radio => radio.addEventListener('change', toggleFields));
+      cnpjFields.classList.toggle('hidden', selected !== 'cnpj');
+      if (selected === 'cnpj') cnpjInput.focus();
+    };
 
-      const closeModal = (reopenCheckout = false) => {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
+    radioOptions.forEach(radio => radio.addEventListener('change', toggleFields));
 
-        if (reopenCheckout) {
-            const checkoutModal = document.getElementById("checkout-modal");
-            if (checkoutModal) {
-                checkoutModal.classList.remove("hidden");
-                checkoutModal.classList.add("flex");
-            }
+    const closeModal = (reopenCheckout = false) => {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+
+      if (reopenCheckout) {
+        const checkoutModal = document.getElementById("checkout-modal");
+        if (checkoutModal) {
+          checkoutModal.classList.remove("hidden");
+          checkoutModal.classList.add("flex");
         }
       }
+    }
 
-      if (closeBtn) closeBtn.addEventListener('click', () => closeModal(true));
-      
-      if (modal) {
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal(true);
-            }
-        });
-      }
+    if (closeBtn) closeBtn.addEventListener('click', () => closeModal(true));
 
-      // --- Funções de Validação ---
-      const validateCNPJ = (cnpj) => {
-        cnpj = cnpj.replace(/[^\d]+/g, '');
-        if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false;
-        let size = cnpj.length - 2;
-        let numbers = cnpj.substring(0, size);
-        let digits = cnpj.substring(size);
-        let sum = 0;
-        let pos = size - 7;
-        for (let i = size; i >= 1; i--) {
-          sum += numbers.charAt(size - i) * pos--;
-          if (pos < 2) pos = 9;
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeModal(true);
         }
-        let result = sum % 11 < 2 ? 0 : 11 - sum % 11;
-        if (result != digits.charAt(0)) return false;
-        size = size + 1;
-        numbers = cnpj.substring(0, size);
-        sum = 0;
-        pos = size - 7;
-        for (let i = size; i >= 1; i--) {
-          sum += numbers.charAt(size - i) * pos--;
-          if (pos < 2) pos = 9;
-        }
-        result = sum % 11 < 2 ? 0 : 11 - sum % 11;
-        if (result != digits.charAt(1)) return false;
-        return true;
-      };
-
-      // --- Máscaras ---
-      cnpjInput.addEventListener('input', (e) => {
-          let v = e.target.value.replace(/\D/g, '');
-          if (v.length > 14) v = v.slice(0, 14);
-          v = v.replace(/^(\d{2})(\d)/, "$1.$2");
-          v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
-          v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
-          v = v.replace(/(\d{4})(\d)/, "$1-$2");
-          e.target.value = v;
       });
+    }
 
-      // --- Persistência (LocalStorage) ---
+    // --- Funções de Validação ---
+    const validateCNPJ = (cnpj) => {
+      cnpj = cnpj.replace(/[^\d]+/g, '');
+      if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false;
+      let size = cnpj.length - 2;
+      let numbers = cnpj.substring(0, size);
+      let digits = cnpj.substring(size);
+      let sum = 0;
+      let pos = size - 7;
+      for (let i = size; i >= 1; i--) {
+        sum += numbers.charAt(size - i) * pos--;
+        if (pos < 2) pos = 9;
+      }
+      let result = sum % 11 < 2 ? 0 : 11 - sum % 11;
+      if (result != digits.charAt(0)) return false;
+      size = size + 1;
+      numbers = cnpj.substring(0, size);
+      sum = 0;
+      pos = size - 7;
+      for (let i = size; i >= 1; i--) {
+        sum += numbers.charAt(size - i) * pos--;
+        if (pos < 2) pos = 9;
+      }
+      result = sum % 11 < 2 ? 0 : 11 - sum % 11;
+      if (result != digits.charAt(1)) return false;
+      return true;
+    };
+
+    // --- Máscaras ---
+    cnpjInput.addEventListener('input', (e) => {
+      let v = e.target.value.replace(/\D/g, '');
+      if (v.length > 14) v = v.slice(0, 14);
+      v = v.replace(/^(\d{2})(\d)/, "$1.$2");
+      v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+      v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
+      v = v.replace(/(\d{4})(\d)/, "$1-$2");
+      e.target.value = v;
+    });
+
+    // --- Persistência (LocalStorage) ---
+    try {
+      const savedNfce = localStorage.getItem('userNfceData');
+      if (savedNfce) {
+        const data = JSON.parse(savedNfce);
+        if (data.documento) {
+          if (data.tipo === 'CNPJ') cnpjInput.value = data.documento;
+        }
+        if (data.razaoSocial) companyNameInput.value = data.razaoSocial;
+        if (data.enderecoEmpresa) companyAddressInput.value = data.enderecoEmpresa;
+      }
+    } catch (e) { }
+
+    useAddressBtn.addEventListener('click', () => {
+      if (pendingOrderDetails) {
+        const address = `${pendingOrderDetails.endereco}, ${pendingOrderDetails.num} - ${pendingOrderDetails.bairro}, ${pendingOrderDetails.cidade}`;
+        companyAddressInput.value = address;
+      }
+    });
+
+    confirmBtn.addEventListener('click', () => {
+      const selectedOption = document.querySelector('input[name="nfce_option"]:checked').value;
+      let nfceData = { nfce: 'nao' };
+      let isValid = true;
+      let doc = '';
+      let type = '';
+
+      if (selectedOption === 'cnpj') {
+        doc = cnpjInput.value;
+        type = 'CNPJ';
+        isValid = validateCNPJ(doc);
+        if (doc && !isValid) {
+          window.showCustomAlert(`O CNPJ informado é inválido.`, 'Erro');
+          return;
+        }
+        nfceData = {
+          nfce: 'sim',
+          documento: doc,
+          tipo: type,
+          razaoSocial: companyNameInput.value,
+          enderecoEmpresa: companyAddressInput.value
+        };
+      }
+
       try {
-          const savedNfce = localStorage.getItem('userNfceData');
-          if (savedNfce) {
-              const data = JSON.parse(savedNfce);
-              if (data.documento) {
-                if(data.tipo === 'CNPJ') cnpjInput.value = data.documento;
-              }
-              if (data.razaoSocial) companyNameInput.value = data.razaoSocial;
-              if (data.enderecoEmpresa) companyAddressInput.value = data.enderecoEmpresa;
-          }
-      } catch (e) {}
+        if (doc) {
+          const dataToSave = {
+            documento: doc,
+            tipo: type,
+            razaoSocial: companyNameInput.value,
+            enderecoEmpresa: companyAddressInput.value
+          };
+          localStorage.setItem('userNfceData', JSON.stringify(dataToSave));
+        }
+      } catch (e) { }
 
-      useAddressBtn.addEventListener('click', () => {
-          if (pendingOrderDetails) {
-              const address = `${pendingOrderDetails.endereco}, ${pendingOrderDetails.num} - ${pendingOrderDetails.bairro}, ${pendingOrderDetails.cidade}`;
-              companyAddressInput.value = address;
-          }
-      });
-
-      confirmBtn.addEventListener('click', () => {
-          const selectedOption = document.querySelector('input[name="nfce_option"]:checked').value;
-          let nfceData = { nfce: 'nao' };
-          let isValid = true;
-          let doc = '';
-          let type = '';
-
-          if (selectedOption === 'cnpj') {
-              doc = cnpjInput.value;
-              type = 'CNPJ';
-              isValid = validateCNPJ(doc);
-              if (doc && !isValid) {
-                  window.showCustomAlert(`O CNPJ informado é inválido.`, 'Erro');
-                  return;
-              }
-              nfceData = { 
-                  nfce: 'sim', 
-                  documento: doc, 
-                  tipo: type,
-                  razaoSocial: companyNameInput.value,
-                  enderecoEmpresa: companyAddressInput.value
-              };
-          }
-
-          try {
-              if (doc) {
-                const dataToSave = {
-                    documento: doc,
-                    tipo: type,
-                    razaoSocial: companyNameInput.value,
-                    enderecoEmpresa: companyAddressInput.value
-                };
-                localStorage.setItem('userNfceData', JSON.stringify(dataToSave));
-              }
-          } catch (e) {}
-
-          if (pendingOrderDetails) {
-              finalizeOrder(pendingOrderDetails, nfceData);
-          }
-          closeModal(false);
-      });
+      if (pendingOrderDetails) {
+        finalizeOrder(pendingOrderDetails, nfceData);
+      }
+      closeModal(false);
+    });
   }
 
   function finalizeOrder(details, nfceData) {
-        const now = new Date();
-        const dataPedido = now.toLocaleDateString("pt-BR");
-        const horaPedido = now.toLocaleTimeString("pt-BR", { hour: '2-digit', minute: '2-digit' });
+    const now = new Date();
+    const dataPedido = now.toLocaleDateString("pt-BR");
+    const horaPedido = now.toLocaleTimeString("pt-BR", { hour: '2-digit', minute: '2-digit' });
 
-        const numeroWhatsApp = "554499024212";
-        
-        // Header Elegante
-        let message = `✨ *NOVO PEDIDO - SCATAMBULO* ✨\n\n`;
-        message += `Olá, Angela! Tudo bem? 🥰\n`;
-        message += `Gostaria de confirmar a seguinte encomenda:\n\n`;
-        
-        // Itens
-        message += `🍰 *ITENS SELECIONADOS*\n`;
-        message += `───────────────────\n`;
+    const numeroWhatsApp = "554499024212";
 
-        let itemsTotalPrice = 0;
+    // Header Elegante
+    let message = `✨ *NOVO PEDIDO - SCATAMBULO* ✨\n\n`;
+    message += `Olá, Angela! Tudo bem? 🥰\n`;
+    message += `Gostaria de confirmar a seguinte encomenda:\n\n`;
 
-        cart.forEach((item) => {
-          message += `▪️ *${item.name}*\n`;
-          message += `   ╰ ${item.size}\n`;
-          message += `   ╰ ${formatCurrency(item.price)}\n`;
-          itemsTotalPrice += item.price;
-        });
-        message += `\n`;
+    // Itens
+    message += `🍰 *ITENS SELECIONADOS*\n`;
+    message += `───────────────────\n`;
 
-        const CIDADES_ATENDIDAS = {
-            marialva: { id: "10", taxa: 10.0 },
-            maringa: { id: "20", taxa: 25.0 },
-            sarandi: { id: "30", taxa: 25.0 },
-        };
+    let itemsTotalPrice = 0;
 
-        const deliveryCity = Object.values(CIDADES_ATENDIDAS).find(c => c.id === details.valor_entrega);
-        const deliveryFee = deliveryCity ? deliveryCity.taxa : 0;
-        const grandTotal = itemsTotalPrice + deliveryFee;
-        const isRetirada = details.retirada === 'sim';
+    cart.forEach((item) => {
+      message += `▪️ *${item.name}*\n`;
+      message += `   ╰ ${item.size}\n`;
+      message += `   ╰ ${formatCurrency(item.price)}\n`;
+      itemsTotalPrice += item.price;
+    });
+    message += `\n`;
 
-        // Resumo Financeiro
-        message += `💰 *VALORES*\n`;
-        message += `───────────────────\n`;
-        message += `🔸 Subtotal: ${formatCurrency(itemsTotalPrice)}\n`;
+    const CIDADES_ATENDIDAS = {
+      marialva: { id: "10", taxa: 10.0 },
+      maringa: { id: "20", taxa: 25.0 },
+      sarandi: { id: "30", taxa: 25.0 },
+    };
 
-        if (deliveryFee > 0) {
-          message += `🚚 Entrega: ${formatCurrency(deliveryFee)}\n`;
-        } else if (isRetirada) {
-           message += `🏃 Retirada: Grátis\n`;
-        }
+    const deliveryCity = Object.values(CIDADES_ATENDIDAS).find(c => c.id === details.valor_entrega);
+    const deliveryFee = deliveryCity ? deliveryCity.taxa : 0;
+    const grandTotal = itemsTotalPrice + deliveryFee;
+    const isRetirada = details.retirada === 'sim';
 
-        message += `\n💎 *TOTAL ESTIMADO: ${formatCurrency(grandTotal)}*\n\n`;
+    // Resumo Financeiro
+    message += `💰 *VALORES*\n`;
+    message += `───────────────────\n`;
+    message += `🔸 Subtotal: ${formatCurrency(itemsTotalPrice)}\n`;
 
-        // Dados do Pedido
-        message += `📋 *DADOS DO PEDIDO*\n`;
-        message += `───────────────────\n`;
-        
-        message += `👤 *Cliente:* ${details.nome}\n`;
-        message += `🕯️ *Vela:* ${details.vela}\n`;
-        
-        const dataInput = document.getElementById("data_entrega");
-        const inicioInput = document.getElementById("horario_inicio");
-        const fimInput = document.getElementById("horario_fim");
+    if (deliveryFee > 0) {
+      message += `🚚 Entrega: ${formatCurrency(deliveryFee)}\n`;
+    } else if (isRetirada) {
+      message += `🏃 Retirada: Grátis\n`;
+    }
 
-        const dateLabel = isRetirada ? "Retirada" : "Entrega";
-        const dataValue = (dataInput && dataInput.value) ? dataInput.value : (details.data_entrega || "");
-        const dataFormatada = dataValue.split("-").reverse().join("/");
-        
-        const inicioValue = (inicioInput && inicioInput.value) ? inicioInput.value : (details.horario_inicio || "");
-        const fimValue = (fimInput && fimInput.value) ? fimInput.value : (details.horario_fim || "");
-        
-        message += `📅 *Data:* ${dataFormatada}\n`;
-        message += `⏰ *Horário:* ${inicioValue}h - ${fimValue}h\n`;
+    message += `\n💎 *TOTAL ESTIMADO: ${formatCurrency(grandTotal)}*\n\n`;
 
-        // Endereço
-        if (!isRetirada) {
-          message += `\n📍 *ENDEREÇO DE ENTREGA*\n`;
-          message += `${details.endereco}, Nº ${details.num}\n`;
-          if (details.ap) message += `Apartamento: ${details.ap}\n`;
-          if (details.predio) message += `Prédio: ${details.predio}\n`;
-          message += `Bairro: ${details.bairro}\n`;
-          message += `Cidade: ${details.cidade}\n`;
+    // Dados do Pedido
+    message += `📋 *DADOS DO PEDIDO*\n`;
+    message += `───────────────────\n`;
 
-          const fullAddress = `${details.endereco}, ${details.num}, ${details.bairro}, ${details.cidade}, ${details.cep}`;
-          const encodedAddress = encodeURIComponent(fullAddress);
-          const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
-          
-          message += `\n🗺️ *Localização:* ${mapLink}\n`;
-        } else {
-          message += `\n📍 *MODALIDADE:* Retirada no local\n`;
-        }
+    message += `👤 *Cliente:* ${details.nome}\n`;
+    message += `🕯️ *Vela:* ${details.vela}\n`;
 
-        // NFC-e
-        if (nfceData && nfceData.nfce === 'sim') {
-            message += `\n📄 *NOTA FISCAL (NFC-e)*\n`;
-            message += `🔢 CPF/CNPJ: ${nfceData.documento}\n`;
-            if (nfceData.tipo === 'CNPJ') {
-                message += `🏢 Razão Social: ${nfceData.razaoSocial || 'N/A'}\n`;
-                message += `📍 End. Empresa: ${nfceData.enderecoEmpresa || 'N/A'}\n`;
-            }
-        }
+    const dataInput = document.getElementById("data_entrega");
+    const inicioInput = document.getElementById("horario_inicio");
+    const fimInput = document.getElementById("horario_fim");
 
-        // Footer
-        message += `\n───────────────────\n`;
-        message += `⚠️ *Observação Importante:*\n`;
-        message += `_Nossos bolos são artesanais e o peso pode variar (100g a 300g para mais). O valor final será ajustado após a pesagem, se necessário._\n\n`;
-        message += `Aguardo a confirmação! Obrigada! ❤️`;
+    const dateLabel = isRetirada ? "Retirada" : "Entrega";
+    const dataValue = (dataInput && dataInput.value) ? dataInput.value : (details.data_entrega || "");
+    const dataFormatada = dataValue.split("-").reverse().join("/");
 
-        const whatsappUrl = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(
-          message
-        )}`;
-        window.open(whatsappUrl, "_blank");
+    const inicioValue = (inicioInput && inicioInput.value) ? inicioInput.value : (details.horario_inicio || "");
+    const fimValue = (fimInput && fimInput.value) ? fimInput.value : (details.horario_fim || "");
 
-        cart = [];
-        saveCartToStorage();
-        updateCart();
+    message += `📅 *Data:* ${dataFormatada}\n`;
+    message += `⏰ *Horário:* ${inicioValue}h - ${fimValue}h\n`;
 
-        const successModal = document.getElementById("success-modal");
-        const closeSuccessModalButton = document.getElementById(
-          "close-success-modal"
+    // Endereço
+    if (!isRetirada) {
+      message += `\n📍 *ENDEREÇO DE ENTREGA*\n`;
+      message += `${details.endereco}, Nº ${details.num}\n`;
+      if (details.ap) message += `Apartamento: ${details.ap}\n`;
+      if (details.predio) message += `Prédio: ${details.predio}\n`;
+      message += `Bairro: ${details.bairro}\n`;
+      message += `Cidade: ${details.cidade}\n`;
+
+      const fullAddress = `${details.endereco}, ${details.num}, ${details.bairro}, ${details.cidade}, ${details.cep}`;
+      const encodedAddress = encodeURIComponent(fullAddress);
+      const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
+
+      message += `\n🗺️ *Localização:* ${mapLink}\n`;
+    } else {
+      message += `\n📍 *MODALIDADE:* Retirada no local\n`;
+    }
+
+    // NFC-e
+    if (nfceData && nfceData.nfce === 'sim') {
+      message += `\n📄 *NOTA FISCAL (NFC-e)*\n`;
+      message += `🔢 CPF/CNPJ: ${nfceData.documento}\n`;
+      if (nfceData.tipo === 'CNPJ') {
+        message += `🏢 Razão Social: ${nfceData.razaoSocial || 'N/A'}\n`;
+        message += `📍 End. Empresa: ${nfceData.enderecoEmpresa || 'N/A'}\n`;
+      }
+    }
+
+    // Footer
+    message += `\n───────────────────\n`;
+    message += `⚠️ *Observação Importante:*\n`;
+    message += `_Nossos bolos são artesanais e o peso pode variar (100g a 300g para mais). O valor final será ajustado após a pesagem, se necessário._\n\n`;
+    message += `Aguardo a confirmação! Obrigada! ❤️`;
+
+    const whatsappUrl = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(whatsappUrl, "_blank");
+
+    cart = [];
+    saveCartToStorage();
+    updateCart();
+
+    const successModal = document.getElementById("success-modal");
+    const closeSuccessModalButton = document.getElementById(
+      "close-success-modal"
+    );
+
+    if (successModal) {
+      successModal.classList.remove("hidden");
+      successModal.classList.add("flex");
+
+      if (closeSuccessModalButton) {
+        closeSuccessModalButton.addEventListener(
+          "click",
+          () => {
+            successModal.classList.add("hidden");
+            successModal.classList.remove("flex");
+          },
+          { once: true }
         );
+      }
 
-        if (successModal) {
-          successModal.classList.remove("hidden");
-          successModal.classList.add("flex");
-
-          if (closeSuccessModalButton) {
-            closeSuccessModalButton.addEventListener(
-              "click",
-              () => {
-                successModal.classList.add("hidden");
-                successModal.classList.remove("flex");
-              },
-              { once: true }
-            );
+      successModal.addEventListener(
+        "click",
+        (e) => {
+          if (e.target === successModal) {
+            successModal.classList.add("hidden");
+            successModal.classList.remove("flex");
           }
-
-          successModal.addEventListener(
-            "click",
-            (e) => {
-              if (e.target === successModal) {
-                successModal.classList.add("hidden");
-                successModal.classList.remove("flex");
-              }
-            },
-            { once: true }
-          );
-        }
+        },
+        { once: true }
+      );
+    }
   }
 
   function initNovidadeModal() {
@@ -2215,9 +2227,9 @@ function initOpenEmbalagensModalButtons() {
     // Add/remove a class for styling based on the title
     if (modalContent) {
       if (title === 'Debug') {
-          modalContent.classList.add('debug-alert');
+        modalContent.classList.add('debug-alert');
       } else {
-          modalContent.classList.remove('debug-alert');
+        modalContent.classList.remove('debug-alert');
       }
     }
 
@@ -2236,8 +2248,8 @@ function initOpenEmbalagensModalButtons() {
   document.addEventListener("DOMContentLoaded", () => {
     // Adicionado para controle de férias
     if (isVacationPeriod() && !sessionStorage.getItem('vacationNoticeShown')) {
-        showVacationNotice();
-        sessionStorage.setItem('vacationNoticeShown', 'true');
+      showVacationNotice();
+      sessionStorage.setItem('vacationNoticeShown', 'true');
     }
     const closeVacationButton = document.getElementById('close-vacation-overlay');
     if (closeVacationButton) {
@@ -2245,11 +2257,11 @@ function initOpenEmbalagensModalButtons() {
     }
     const vacationOverlay = document.getElementById('vacation-overlay');
     if (vacationOverlay) {
-        vacationOverlay.addEventListener('click', (e) => {
-            if (e.target === vacationOverlay) {
-                hideVacationNotice();
-            }
-        });
+      vacationOverlay.addEventListener('click', (e) => {
+        if (e.target === vacationOverlay) {
+          hideVacationNotice();
+        }
+      });
     }
     // Fim da adição
 
@@ -2321,6 +2333,108 @@ function initOpenEmbalagensModalButtons() {
     }
   }
 
+  // --- Lógica do Modal de Topos de Bolo ---
+  let currentTopo = '';
+
+  function openTopoModal(topoName) {
+    currentTopo = topoName;
+    const modal = document.getElementById('topo-order-modal');
+    if (!modal) return;
+
+    document.getElementById('topo-modal-type').textContent = topoName;
+
+    // Reset fields
+    const flavorSelect = document.getElementById('topo-cake-flavor');
+    const sizeSelect = document.getElementById('topo-cake-size');
+    flavorSelect.value = '';
+    sizeSelect.innerHTML = '<option value="" disabled selected>Primeiro, selecione um sabor acima...</option>';
+    sizeSelect.disabled = true;
+
+    document.getElementById('topo-flavor-error').classList.add('hidden');
+    document.getElementById('topo-size-error').classList.add('hidden');
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+
+  function initTopoModal() {
+    const modal = document.getElementById('topo-order-modal');
+    if (!modal) return;
+
+    const closeBtn = document.getElementById('close-topo-modal');
+    const cancelBtn = document.getElementById('topo-cancel-btn');
+    const confirmBtn = document.getElementById('topo-confirm-btn');
+    const flavorSelect = document.getElementById('topo-cake-flavor');
+    const sizeSelect = document.getElementById('topo-cake-size');
+
+    const closeModal = () => {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    };
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    flavorSelect.addEventListener('change', (e) => {
+      const selectedFlavor = e.target.value;
+      if (!selectedFlavor) return;
+
+      document.getElementById('topo-flavor-error').classList.add('hidden');
+
+      // Encontra as opções de tamanho do bolo selecionado no DOM
+      const cakeLink = document.querySelector(`a[data-cake-name="${selectedFlavor}"]`);
+      if (cakeLink) {
+        let container = cakeLink.closest('.card-content') || cakeLink.closest('.carousel-slide') || cakeLink.parentElement;
+        const cakeSelect = container ? container.querySelector('.cake-size-select') : null;
+
+        if (cakeSelect) {
+          sizeSelect.innerHTML = cakeSelect.innerHTML;
+          sizeSelect.disabled = false;
+        } else {
+          sizeSelect.innerHTML = '<option value="Tamanho Único">Tamanho Único</option>';
+          sizeSelect.disabled = false;
+        }
+      } else {
+        sizeSelect.innerHTML = '<option value="Tamanho Único">Tamanho Único (Consultar)</option>';
+        sizeSelect.disabled = false;
+      }
+    });
+
+    sizeSelect.addEventListener('change', () => {
+      document.getElementById('topo-size-error').classList.add('hidden');
+    });
+
+    confirmBtn.addEventListener('click', () => {
+      const flavor = flavorSelect.value;
+      const sizeStr = sizeSelect.options[sizeSelect.selectedIndex]?.text || '';
+
+      if (!flavor) {
+        document.getElementById('topo-flavor-error').classList.remove('hidden');
+        return;
+      }
+      if (!sizeSelect.value) {
+        document.getElementById('topo-size-error').classList.remove('hidden');
+        return;
+      }
+
+      // Direcionar para WhatsApp com a encomenda casada
+      const numeroWhatsApp = "554499024212";
+      let message = `✨ *ENCOMENDA DE TOPO + BOLO* ✨\n\n`;
+      message += `Olá, Angela! 👋\n`;
+      message += `Gostaria de encomendar um *${currentTopo}*.\n\n`;
+      message += `🍰 *Para acompanhar o topo:*\n`;
+      message += `Sabor: ${flavor}\n`;
+      message += `Tamanho/Embalagem: ${sizeStr}\n\n`;
+      message += `Aguardo seu retorno para combinarmos os detalhes e valores!`;
+
+      window.open(`https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(message)}`, '_blank');
+      closeModal();
+    });
+  }
+
   window.addToCart = addToCart;
   window.addStrogonoffToCart = addStrogonoffToCart;
   window.removeFromCart = removeFromCart;
@@ -2328,6 +2442,12 @@ function initOpenEmbalagensModalButtons() {
   window.showToast = showToast;
   window.openCartPanelAndCloseToast = openCartPanelAndCloseToast;
   window.formatCurrency = formatCurrency;
+  window.openTopoModal = openTopoModal; // Expôs a janela de topos globalmente
+
+  // Inicializa os eventos da janela de topos (adicionar no fluxo principal se necessário)
+  document.addEventListener("DOMContentLoaded", () => {
+    initTopoModal();
+  });
 
   window.carrinhoInitialized = true;
 })();
