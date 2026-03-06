@@ -437,10 +437,15 @@
                                     class="text-[8px] text-[#D4AF37] font-bold uppercase tracking-wider">Buscando...</span>
                             </div>
                         </div>
-                        <div class="md:col-span-2">
-                            <label for="order-address" class="label-premium">Rua e Bairro</label>
-                            <input type="text" id="order-address" name="address" class="input-premium"
-                                placeholder="Ex: Av. Brasil, Centro">
+                        <div>
+                            <label for="order-street" class="label-premium">Rua</label>
+                            <input type="text" id="order-street" name="street" class="input-premium"
+                                placeholder="Ex: Av. Brasil">
+                        </div>
+                        <div>
+                            <label for="order-neighborhood" class="label-premium">Bairro</label>
+                            <input type="text" id="order-neighborhood" name="neighborhood" class="input-premium"
+                                placeholder="Ex: Centro">
                         </div>
                         <div>
                             <label for="order-number" class="label-premium">Número / Apt</label>
@@ -577,7 +582,8 @@
 
         const cepInput = document.getElementById('order-cep');
         const cepLoader = document.getElementById('cep-loader');
-        const addressInput = document.getElementById('order-address');
+        const streetInput = document.getElementById('order-street');
+        const neighborhoodInput = document.getElementById('order-neighborhood');
         const citySelect = document.getElementById('order-city');
 
         let currentSelectedFlavor = "";
@@ -608,12 +614,14 @@
                 if (radio.value === 'entrega') {
                     deliveryDetails.classList.remove('hidden');
                     retiradaDetails.classList.add('hidden');
-                    addressInput.required = true;
+                    streetInput.required = true;
+                    neighborhoodInput.required = true;
                     if (cepInput) cepInput.required = true;
                 } else {
                     deliveryDetails.classList.add('hidden');
                     retiradaDetails.classList.remove('hidden');
-                    addressInput.required = false;
+                    streetInput.required = false;
+                    neighborhoodInput.required = false;
                     if (cepInput) cepInput.required = false;
                 }
             });
@@ -630,7 +638,8 @@
 
                 // Limpa campos se o CEP for apagado
                 if (cep.length < 8) {
-                    addressInput.value = "";
+                    streetInput.value = "";
+                    neighborhoodInput.value = "";
                 }
 
                 if (cep.length === 8) {
@@ -642,13 +651,17 @@
 
                         if (data.erro) {
                             showNotification("CEP não encontrado. Por favor, preencha manualmente.", "error");
-                            addressInput.focus();
+                            streetInput.focus();
                         } else {
-                            addressInput.value = `${data.logradouro}, ${data.bairro}`;
+                            streetInput.value = data.logradouro || "";
+                            neighborhoodInput.value = data.bairro || "";
 
-                            const cityMap = { "Marialva": "Marialva", "Maringa": "Maringá", "Sarandi": "Sarandi" };
-                            const foundCity = cityMap[data.localidade] || null;
-                            if (foundCity) citySelect.value = foundCity;
+                            // Mapeamento Robusto de Cidades
+                            const viaCepCity = data.localidade ? data.localidade.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() : "";
+
+                            if (viaCepCity.includes("marialva")) citySelect.value = "Marialva";
+                            else if (viaCepCity.includes("maringa")) citySelect.value = "Maringá";
+                            else if (viaCepCity.includes("sarandi")) citySelect.value = "Sarandi";
 
                             showNotification("Endereço localizado com sucesso!", "success");
                         }
@@ -791,9 +804,9 @@
             const date = formData.get('date');
             const time = formData.get('time');
             const deliveryType = formData.get('delivery_type');
-            const address = formData.get('address');
+            const street = formData.get('street');
+            const neighborhood = formData.get('neighborhood');
             const number = formData.get('number');
-            const residenceType = formData.get('residence_type');
             const city = formData.get('city');
             const payment = formData.get('payment');
             const observations = formData.get('observations');
@@ -811,12 +824,13 @@
             if (deliveryType === 'retirada') {
                 message += `📍 *Tipo:* Vou retirar no local\n`;
             } else {
+                const fullAddress = `${street}, ${neighborhood}`;
                 message += `🚚 *Tipo:* Solicito entrega\n`;
-                message += `🏠 *Endereço:* ${address}, nº ${number}\n`;
+                message += `🏠 *Endereço:* ${fullAddress}, nº ${number}\n`;
                 message += `🏙️ *Cidade:* ${city}\n`;
 
                 // Add Google Maps link for easy navigation
-                const mapQuery = encodeURIComponent(`${address}, ${number}, ${city}`);
+                const mapQuery = encodeURIComponent(`${fullAddress}, ${number}, ${city}`);
                 message += `📍 *Localização:* https://www.google.com/maps/search/?api=1&query=${mapQuery}\n`;
             }
 
