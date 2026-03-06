@@ -724,14 +724,27 @@
             }, 5000);
         }
 
-        // Time Validation Logic (2-hour lead time)
+        // Time Validation Logic (2-hour lead time & Business hours)
         const timeInput = document.getElementById('order-time');
         const dateInput = document.getElementById('order-date');
 
+        const now = new Date();
+        let minDateForPicker = "today";
+
+        // Se passar das 16h (pois fecha às 18h e pede 2h de antecedência), 
+        // força o pedido para o dia seguinte.
+        if (now.getHours() >= 16) {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(0, 0, 0, 0);
+            minDateForPicker = tomorrow;
+        }
+
         flatpickr("#order-date", {
             dateFormat: "d/m/Y",
-            minDate: "today",
+            minDate: minDateForPicker,
             locale: "pt",
+            disableMobile: "true", // Impede o teclado/picker nativo falho do smartphone
             onChange: function () { validateTime(); }
         });
 
@@ -742,49 +755,69 @@
             time_24hr: true,
             minTime: "08:00",
             maxTime: "18:00",
+            disableMobile: "true",
             onChange: function (selectedDates, dateStr, instance) {
                 if (dateStr) {
                     const [hours, minutes] = dateStr.split(':').map(Number);
-                    if (hours < 8) instance.setDate("08:00", false);
-                    if (hours > 18 || (hours === 18 && minutes > 0)) instance.setDate("18:00", false);
+                    if (hours < 8) {
+                        instance.setDate("08:00", false);
+                        showNotification("Nosso horário inicia às 08:00.", "error");
+                    }
+                    if (hours > 18 || (hours === 18 && minutes > 0)) {
+                        instance.setDate("18:00", false);
+                        showNotification("Nosso horário encerra às 18:00.", "error");
+                    }
                 }
                 validateTime();
             }
         });
 
         function validateTime() {
-            const selectedDate = dateInput.value;
-            const selectedTime = timeInput.value;
-            if (!selectedDate || !selectedTime) return true;
+            const selectedDateStr = dateInput.value;
+            const selectedTimeStr = timeInput.value;
+            if (!selectedDateStr || !selectedTimeStr) return true;
 
-            const now = new Date();
-            const [d, m, y] = selectedDate.split('/').map(Number);
-            const [h, min] = selectedTime.split(':').map(Number);
+            const currentDate = new Date();
+            const [d, m, y] = selectedDateStr.split('/').map(Number);
+            const [h, min] = selectedTimeStr.split(':').map(Number);
             const deliveryDate = new Date(y, m - 1, d, h, min);
 
-            const twoHoursLater = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+            const twoHoursLater = new Date(currentDate.getTime() + 2 * 60 * 60 * 1000);
 
-            if (deliveryDate < now) {
-                showNotification("Atenção: Não é possível selecionar um horário no passado.", "error");
-                const adjustedH = String(twoHoursLater.getHours()).padStart(2, '0');
-                const adjustedM = String(twoHoursLater.getMinutes()).padStart(2, '0');
-                if (timeInput._flatpickr) timeInput._flatpickr.setDate(`${adjustedH}:${adjustedM}`);
+            if (deliveryDate < currentDate && deliveryDate.toDateString() !== currentDate.toDateString()) {
+                showNotification("Atenção: Não é possível selecionar uma data no passado.", "error");
                 return false;
             }
 
-            if (deliveryDate.toDateString() === now.toDateString()) {
+            if (deliveryDate.toDateString() === currentDate.toDateString()) {
                 if (deliveryDate < twoHoursLater) {
-                    showNotification("O horário atual não tem 2 horas de antecedência, ajustamos para você", "error");
+                    let adjustedH = twoHoursLater.getHours();
+                    let adjustedM = twoHoursLater.getMinutes();
 
-                    const adjustedH = String(twoHoursLater.getHours()).padStart(2, '0');
-                    const adjustedM = String(twoHoursLater.getMinutes()).padStart(2, '0');
+                    // Trava de horário de fechamento
+                    if (adjustedH > 18 || (adjustedH === 18 && adjustedM > 0)) {
+                        adjustedH = 18;
+                        adjustedM = 0;
+                    }
+
+                    const tempAdjusted = new Date(y, m - 1, d, adjustedH, adjustedM);
+                    if (tempAdjusted <= currentDate) {
+                        showNotification("Expediente esgotado para hoje. Por favor, escolha amanhã.", "error");
+                        if (dateInput._flatpickr) {
+                            const tmr = new Date();
+                            tmr.setDate(tmr.getDate() + 1);
+                            dateInput._flatpickr.setDate(tmr);
+                        }
+                        return false;
+                    }
+
+                    showNotification("Necessário 2h de antecedência. Ajustamos o horário para você", "error");
+
+                    const strH = String(adjustedH).padStart(2, '0');
+                    const strM = String(adjustedM).padStart(2, '0');
 
                     if (timeInput._flatpickr) {
-                        timeInput._flatpickr.setDate(`${adjustedH}:${adjustedM}`);
-                        // Se o ajuste pulou para o dia seguinte (ex: pedido as 23h)
-                        if (twoHoursLater.toDateString() !== now.toDateString()) {
-                            if (dateInput._flatpickr) dateInput._flatpickr.setDate(twoHoursLater);
-                        }
+                        timeInput._flatpickr.setDate(`${strH}:${strM}`);
                     }
                     return false;
                 }
