@@ -226,48 +226,30 @@
             }
         }
 
-        /* Page Loader Styling */
-        #easter-page-loader {
-            position: fixed;
+        /* Card Image Skeleton Loader */
+        .image-skeleton {
+            position: absolute;
             inset: 0;
-            background-color: #FAF9F6;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite linear;
+            z-index: 10;
         }
 
-        #easter-page-loader.hide {
-            opacity: 0;
-            visibility: hidden;
-        }
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 200% 0;
+            }
 
-        .loader-spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(212, 175, 55, 0.2);
-            border-top-color: #D4AF37;
-            border-radius: 50%;
-            animation: loaderSpin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-        }
-
-        @keyframes loaderSpin {
-            to {
-                transform: rotate(360deg);
+            100% {
+                background-position: -200% 0;
             }
         }
     </style>
 </head>
 
 <body class="font-['Poppins'] bg-[#FAF9F6] text-[#3E2723]">
-    <!-- Easter Page Loader -->
-    <div id="easter-page-loader">
-        <h1 class="font-bold text-4xl text-[#D4AF37] font-['Playfair_Display'] mb-8 animate-pulse">Scatambulo</h1>
-        <div class="loader-spinner"></div>
-        <p class="text-stone-500 text-xs mt-6 font-bold tracking-[0.3em] uppercase">Preparando Doçuras...</p>
-    </div>
+
 
     <div id="notification-container"></div>
 
@@ -558,44 +540,18 @@
 
         const grid = document.getElementById("pascoa-grid");
 
-        let imagesLoadedCount = 0;
-        const totalEasterImages = easterFlavors.length;
-        const pageLoader = document.getElementById('easter-page-loader');
-
-        function imageLoaded() {
-            imagesLoadedCount++;
-            if (imagesLoadedCount >= totalEasterImages) {
-                // All images preloaded, fade out loader
-                setTimeout(() => {
-                    pageLoader.classList.add('hide');
-                    setTimeout(() => pageLoader.remove(), 800);
-                }, 800); // small delay for visual elegance
-            }
-        }
-
-        // Fallback safety timeout (hides loader after 8s anyway in case of network stall)
-        setTimeout(() => {
-            if (pageLoader && !pageLoader.classList.contains('hide')) {
-                pageLoader.classList.add('hide');
-                setTimeout(() => pageLoader.remove(), 800);
-            }
-        }, 8000);
-
-        easterFlavors.forEach(flavor => {
-            // Preload Image to track loading state
-            const imgEl = new Image();
-            imgEl.src = `./saboresPascoa/${flavor.img}`;
-            imgEl.onload = imageLoaded;
-            imgEl.onerror = imageLoaded; // Resolve on error so loader doesn't hang
+        easterFlavors.forEach((flavor, index) => {
 
             const card = document.createElement("div");
             card.className = "artisan-card group flex flex-col";
 
             card.innerHTML = `
         <div class="relative w-full aspect-square overflow-hidden bg-white">
-            <div class="weight-badge">de 350g a 500g</div>
+            <div class="weight-badge z-20">de 350g a 500g</div>
+            <div class="image-skeleton" id="skeleton-${index}"></div>
             <img loading="lazy" src="./saboresPascoa/${flavor.img}" alt="Ovo de Páscoa ${flavor.name}" 
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700 ease-out opacity-0"
+                onload="document.getElementById('skeleton-${index}').remove(); this.classList.remove('opacity-0');" />
         </div>
         <div class="p-10 flex flex-col flex-grow text-center">
             <h3 class="font-['Playfair_Display'] text-3xl md:text-4xl font-bold text-[#3E2723] mb-2 leading-tight">${flavor.name}</h3>
