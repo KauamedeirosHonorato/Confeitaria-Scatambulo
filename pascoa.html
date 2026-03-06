@@ -740,7 +740,16 @@
             noCalendar: true,
             dateFormat: "H:i",
             time_24hr: true,
-            onChange: function () { validateTime(); }
+            minTime: "08:00",
+            maxTime: "18:00",
+            onChange: function (selectedDates, dateStr, instance) {
+                if (dateStr) {
+                    const [hours, minutes] = dateStr.split(':').map(Number);
+                    if (hours < 8) instance.setDate("08:00", false);
+                    if (hours > 18 || (hours === 18 && minutes > 0)) instance.setDate("18:00", false);
+                }
+                validateTime();
+            }
         });
 
         function validateTime() {
