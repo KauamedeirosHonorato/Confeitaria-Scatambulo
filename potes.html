@@ -922,6 +922,7 @@
         const dateNotice = document.getElementById('potinho-date-notice');
         flatpickr(dateInput, {
           dateFormat: "d/m/Y", minDate: new Date().fp_incr(7),
+          static: true, // Mantém o calendário dentro do fluxo (melhor no mobile)
           locale: { firstDayOfWeek: 0, weekdays: { shorthand: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"], longhand: ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"] }, months: { shorthand: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], longhand: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"] } },
           disable: [
             "2025-12-25",

@@ -664,6 +664,10 @@
                             else if (viaCepCity.includes("sarandi")) citySelect.value = "Sarandi";
 
                             showNotification("Endereço localizado com sucesso!", "success");
+
+                            // Novo: Foca no número automaticamente
+                            const numInput = document.getElementById('order-number');
+                            if (numInput) numInput.focus();
                         }
                     } catch (err) {
                         console.error(err);
@@ -713,7 +717,8 @@
             dateFormat: "d/m/Y",
             minDate: minDateForPicker,
             locale: "pt",
-            disableMobile: "true", // Impede o teclado/picker nativo falho do smartphone
+            disableMobile: "true",
+            static: true, // Mantém o calendário dentro do fluxo do modal (melhor no mobile)
             onChange: function () { validateTime(); }
         });
 
@@ -725,6 +730,25 @@
             minTime: "08:00",
             maxTime: "18:00",
             disableMobile: "true",
+            static: true, // Evita que o seletor flutue e se perca no scroll do mobile
+            onOpen: function (selectedDates, dateStr, instance) {
+                // Adiciona um botão de "Fechar" no seletor de horários para facilitar no mobile
+                if (!instance.calendarContainer.querySelector('.flatpickr-close-btn')) {
+                    const closeBtn = document.createElement("div");
+                    closeBtn.className = "flatpickr-close-btn";
+                    closeBtn.innerHTML = "CONCLUIR";
+                    closeBtn.style.textAlign = "center";
+                    closeBtn.style.padding = "10px";
+                    closeBtn.style.background = "#3E2723";
+                    closeBtn.style.color = "#fff";
+                    closeBtn.style.cursor = "pointer";
+                    closeBtn.style.fontSize = "10px";
+                    closeBtn.style.fontWeight = "bold";
+                    closeBtn.style.letterSpacing = "1px";
+                    closeBtn.onclick = () => instance.close();
+                    instance.calendarContainer.appendChild(closeBtn);
+                }
+            },
             onChange: function (selectedDates, dateStr, instance) {
                 if (dateStr) {
                     const [hours, minutes] = dateStr.split(':').map(Number);
