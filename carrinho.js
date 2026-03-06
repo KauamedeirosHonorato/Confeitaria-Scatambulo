@@ -1314,7 +1314,7 @@
         const dataPedido = now.toLocaleDateString("pt-BR");
         const horaPedido = now.toLocaleTimeString("pt-BR", { hour: '2-digit', minute: '2-digit' });
 
-        const numeroWhatsApp = "554499024212";
+        const numeroWhatsApp = "5544999024212";
         let message = "Olá, Angela! Gostaria de encomendar:\n";
         message += `📅 Pedido realizado em: ${dataPedido} às ${horaPedido}\n\n`;
         message += "--- ITENS DO PEDIDO ---\\n\n";

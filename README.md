@@ -77,7 +77,7 @@ O número de telefone para onde os pedidos são enviados está no arquivo `carri
 
 ```javascript
 // Em c:\WIR GAMES\codigos\Codding\Nova pasta\carrinho.js, linha 95
-const phone = "554499024212";
+const phone = "5544999024212";
 ```
 
 ### Adicionar/Editar Produtos

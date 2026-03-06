@@ -1994,7 +1994,7 @@
     const dataPedido = now.toLocaleDateString("pt-BR");
     const horaPedido = now.toLocaleTimeString("pt-BR", { hour: '2-digit', minute: '2-digit' });
 
-    const numeroWhatsApp = "554499024212";
+    const numeroWhatsApp = "5544999024212";
 
     // Header Elegante
     let message = `✨ *NOVO PEDIDO - SCATAMBULO* ✨\n\n`;
@@ -2421,7 +2421,7 @@
       }
 
       // Direcionar para WhatsApp com a encomenda casada
-      const numeroWhatsApp = "554499024212";
+      const numeroWhatsApp = "5544999024212";
       let message = `✨ *ENCOMENDA DE TOPO + BOLO* ✨\n\n`;
       message += `Olá, Angela! 👋\n`;
       message += `Gostaria de encomendar um *${currentTopo}*.\n\n`;
